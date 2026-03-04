@@ -7,23 +7,247 @@ from streamlit_folium import folium_static
 import json
 import os
 
-# Konfigurasi halaman
+# Konfigurasi halaman - HARUS menjadi perintah Streamlit pertama
 st.set_page_config(
     page_title="WebGIS Tanaman TNBTS",
     page_icon="🌿",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Title dan deskripsi aplikasi
-st.title("🌿 WebGIS Sebaran Tanaman Herbal - Taman Nasional Bromo Tengger Semeru")
-st.markdown("---")
+# Inisialisasi session state untuk menyimpan status
+if 'menu_selected' not in st.session_state:
+    st.session_state.menu_selected = "Peta Sebaran"
 
-# Sidebar untuk navigasi dan filter
-with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Mount_Bromo_at_sunrise.jpg/800px-Mount_Bromo_at_sunrise.jpg", 
-             caption="Taman Nasional Bromo Tengger Semeru")
+# Custom CSS untuk memperbaiki tampilan
+st.markdown("""
+<style>
+    /* Memperbaiki header dan title */
+    .main-header {
+        background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        color: white;
+        text-align: center;
+    }
     
-    st.header("📋 Menu Navigasi")
+    .main-header h1 {
+        color: white;
+        margin: 0;
+        font-size: 2.2rem;
+    }
+    
+    .main-header p {
+        color: #E8F5E9;
+        margin: 0.5rem 0 0 0;
+        font-size: 1rem;
+    }
+    
+    /* Memperbaiki tampilan sidebar */
+    .css-1d391kg {
+        background-color: #f5f5f5;
+    }
+    
+    .sidebar-header {
+        background-color: #2E7D32;
+        padding: 1rem;
+        border-radius: 5px;
+        color: white;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    /* Memperbaiki tampilan metric cards */
+    .metric-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+        border-left: 4px solid #2E7D32;
+        margin-bottom: 1rem;
+    }
+    
+    .metric-card h3 {
+        color: #2E7D32;
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+    
+    .metric-card p {
+        color: #666;
+        margin: 0.2rem 0 0 0;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
+    
+    /* Memperbaiki tampilan tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 2rem;
+        background-color: #f5f5f5;
+        padding: 0.5rem;
+        border-radius: 10px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Memperbaiki tampilan expander */
+    .streamlit-expanderHeader {
+        background-color: #f5f5f5;
+        border-radius: 5px;
+    }
+    
+    /* Memperbaiki tampilan dataframe */
+    .dataframe-container {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 1rem;
+        background: white;
+    }
+    
+    /* Memperbaiki tampilan footer */
+    .footer {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 2rem;
+    }
+    
+    .footer a {
+        color: #FFD700;
+        text-decoration: none;
+    }
+    
+    .footer a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Memperbaiki tampilan badges */
+    .badge {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-right: 0.5rem;
+    }
+    
+    .badge-success {
+        background-color: #4CAF50;
+        color: white;
+    }
+    
+    .badge-warning {
+        background-color: #FFC107;
+        color: black;
+    }
+    
+    .badge-info {
+        background-color: #2196F3;
+        color: white;
+    }
+    
+    /* Memperbaiki tampilan divider */
+    .custom-divider {
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+        margin: 2rem 0;
+    }
+    
+    /* Memperbaiki tampilan image caption */
+    .image-caption {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+        margin-top: 0.3rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Memperbaiki tampilan button */
+    .stButton > button {
+        background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+        color: white;
+        border: none;
+        padding: 0.5rem 2rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    /* Memperbaiki tampilan download button */
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
+        color: white;
+        border: none;
+        padding: 0.5rem 2rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    
+    .stDownloadButton > button:hover {
+        background: linear-gradient(135deg, #0D47A1 0%, #1976D2 100%);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    /* Memperbaiki tampilan info boxes */
+    .info-box {
+        background-color: #E8F5E9;
+        border-left: 4px solid #4CAF50;
+        padding: 1rem;
+        border-radius: 5px;
+        margin: 1rem 0;
+    }
+    
+    /* Memperbaiki tampilan status badges di sidebar */
+    .status-badge {
+        background: white;
+        padding: 0.5rem;
+        border-radius: 5px;
+        margin: 0.3rem 0;
+        border-left: 3px solid #4CAF50;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Header dengan desain yang lebih menarik
+st.markdown("""
+<div class="main-header">
+    <h1>🌿 WebGIS Sebaran Tanaman Herbal</h1>
+    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • 86 Spesies Tanaman • 41 Desa</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Sidebar dengan desain yang lebih baik
+with st.sidebar:
+    st.markdown("""
+    <div class="sidebar-header">
+        <h3>🌋 TNBTS</h3>
+        <p>Bromo Tengger Semeru</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Gambar dengan caption
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Mount_Bromo_at_sunrise.jpg/800px-Mount_Bromo_at_sunrise.jpg",
+             use_container_width=True)
+    st.markdown('<p class="image-caption">Gunung Bromo saat sunrise</p>', unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # Menu navigasi dengan radio button yang lebih rapi
+    st.markdown("### 📋 Menu Navigasi")
     
     menu_options = ["Peta Sebaran", "Data Tanaman", "Statistik", "Informasi"]
     menu_icons = ["🗺️", "📋", "📊", "ℹ️"]
@@ -32,15 +256,17 @@ with st.sidebar:
         "Pilih Menu:",
         menu_options,
         format_func=lambda x: f"{menu_icons[menu_options.index(x)]} {x}",
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        key="menu_radio"
     )
     
     st.markdown("---")
-    st.header("🔍 Filter Data")
     
-    # Filter berdasarkan nama tanaman (86 spesies)
+    # Filter dengan desain yang lebih baik
+    st.markdown("### 🔍 Filter Data")
+    
+    # Data tanaman untuk filter
     semua_tanaman = [
-        # 50 spesies awal
         'Adas', 'Ajeran putih', 'Alang-alang', 'Andong', 'Awar-awar',
         'Bakung', 'Bawang merah', 'Bawang putih', 'Beluntas', 'Bidara laut',
         'Buah klandingan', 'Bunga hariang', 'Bunga Matahari', 'Calingan', 'Cemplukan',
@@ -51,48 +277,71 @@ with st.sidebar:
         'Lili-lilian liar', 'Lobak', 'Lombok terong', 'Lombok udel', 'Paitan',
         'Pakis', 'Pakis (fern)', 'Pakis/paku pedang', 'Paku rane/paku kawat', 'Paku sigung',
         'Parijoto', 'Pecut kuda', 'Pisang', 'Pulosari', 'Purwoceng',
-        # 10 spesies tambahan batch 1 (51-60)
         'Air kuncup kecubung gunung', 'Akar sempretan', 'Daun kancing-kancing/semanggi liar', 
         'Daun-daunan hutan mirip garutan', 'Ranti', 'Rumput asystasia', 'Rumput hutan',
         'Rumput karpet', 'Rumput teki-tekian (nutrush)', 'Tumbuhan herba bawah (Amischotolype)',
-        # 20 spesies tambahan batch 2 (61-80)
         'Sawi ireng', 'Semanggi', 'Sengganen/Senggani', 'Sirih', 'Snikir',
         'Stroberi tengger', 'Suplir', 'Suri pandak', 'Tapak liman', 'Teklan',
         'Tepung otot', 'Tirem', 'Trabasan', 'Vervain', 'Wedusan',
         'Ketumbar', 'Teh-tehan', 'Cemara besi', 'Simbaran', 'Kenikir',
-        # 5 spesies tambahan batch 3 (81-85)
         'Tumbuhan herba bawah (Commelina)', 'Rumput ilalang', 'Paku sarang burung', 'Anggrek tanah', 'Jahe merah',
-        # 1 spesies tambahan batch 4 (86)
         'Cemara gunung'
     ]
     
     selected_tanaman = st.multiselect(
         "Pilih Nama Tanaman", 
         options=["Semua"] + sorted(semua_tanaman),
-        default=["Semua"]
+        default=["Semua"],
+        help="Pilih satu atau lebih tanaman untuk ditampilkan di peta"
     )
     
     st.markdown("---")
-    st.header("🗂️ Layer Control")
     
-    # Pilihan layer yang akan ditampilkan
-    show_desa_geojson = st.checkbox("Tampilkan Batas Desa", value=True)
-    show_tanaman = st.checkbox("Tampilkan Sebaran Tanaman", value=True)
+    # Layer control dengan desain yang lebih baik
+    st.markdown("### 🗂️ Layer Control")
     
-    # Tampilkan informasi file
+    col1, col2 = st.columns(2)
+    with col1:
+        show_desa_geojson = st.checkbox("🏘️ Batas Desa", value=True)
+    with col2:
+        show_tanaman = st.checkbox("🌿 Tanaman", value=True)
+    
     st.markdown("---")
-    st.caption(f"File GeoJSON: Desa_TNBTS.geojson")
-    if os.path.exists('Desa_TNBTS.geojson'):
-        st.caption("✅ File ditemukan")
-    else:
-        st.caption("❌ File tidak ditemukan")
+    
+    # Status file dengan desain yang lebih baik
+    st.markdown("### 📁 Status File")
+    
+    status_container = st.container()
+    with status_container:
+        if os.path.exists('Desa_TNBTS.geojson'):
+            file_size = os.path.getsize('Desa_TNBTS.geojson') / 1024
+            st.markdown(f"""
+            <div class="status-badge">
+                ✅ <b>Desa_TNBTS.geojson</b><br>
+                <small>{file_size:.1f} KB • 41 desa</small>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div class="status-badge" style="border-left-color: #f44336;">
+                ❌ <b>Desa_TNBTS.geojson</b><br>
+                <small>File tidak ditemukan</small>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown(f"""
+        <div class="status-badge">
+            🌿 <b>Database Tanaman</b><br>
+            <small>86 spesies teridentifikasi</small>
+        </div>
+        """, unsafe_allow_html=True)
 
-# Data tanaman herbal TNBTS - 86 spesies
+# Load data
 @st.cache_data
 def load_tanaman_herbal_data():
+    # [SAME DATA LOADING FUNCTION AS ORIGINAL]
     # Daftar nama tanaman (86 spesies)
     nama_tanaman = [
-        # 50 spesies awal
         'Adas', 'Ajeran putih', 'Alang-alang', 'Andong', 'Awar-awar',
         'Bakung', 'Bawang merah', 'Bawang putih', 'Beluntas', 'Bidara laut',
         'Buah klandingan', 'Bunga hariang', 'Bunga Matahari', 'Calingan', 'Cemplukan',
@@ -103,24 +352,18 @@ def load_tanaman_herbal_data():
         'Lili-lilian liar', 'Lobak', 'Lombok terong', 'Lombok udel', 'Paitan',
         'Pakis', 'Pakis (fern)', 'Pakis/paku pedang', 'Paku rane/paku kawat', 'Paku sigung',
         'Parijoto', 'Pecut kuda', 'Pisang', 'Pulosari', 'Purwoceng',
-        # 10 spesies tambahan batch 1 (51-60)
         'Air kuncup kecubung gunung', 'Akar sempretan', 'Daun kancing-kancing/semanggi liar', 
         'Daun-daunan hutan mirip garutan', 'Ranti', 'Rumput asystasia', 'Rumput hutan',
         'Rumput karpet', 'Rumput teki-tekian (nutrush)', 'Tumbuhan herba bawah (Amischotolype)',
-        # 20 spesies tambahan batch 2 (61-80)
         'Sawi ireng', 'Semanggi', 'Sengganen/Senggani', 'Sirih', 'Snikir',
         'Stroberi tengger', 'Suplir', 'Suri pandak', 'Tapak liman', 'Teklan',
         'Tepung otot', 'Tirem', 'Trabasan', 'Vervain', 'Wedusan',
         'Ketumbar', 'Teh-tehan', 'Cemara besi', 'Simbaran', 'Kenikir',
-        # 5 spesies tambahan batch 3 (81-85)
         'Tumbuhan herba bawah (Commelina)', 'Rumput ilalang', 'Paku sarang burung', 'Anggrek tanah', 'Jahe merah',
-        # 1 spesies tambahan batch 4 (86)
         'Cemara gunung'
     ]
     
-    # Daftar nama latin (86 spesies)
     nama_latin = [
-        # 50 spesies awal
         'Foeniculum vulgare', 'Bidens pilosa L.', 'Imperata cylindrica L.', 'Cordyline fruticosa Linn', 'Ficus septica Burm.f.',
         'Crinum asiaticium L.', 'Allium cepa L.', 'Allium sativum', 'Pluchea indica', 'Strychnos lucida',
         'Lucas lavandulifolia', 'Begonia', 'Helianthus annuus', 'Centella asiatica L.', 'Physalis minima',
@@ -131,23 +374,17 @@ def load_tanaman_herbal_data():
         'Molineria sp.', 'Raphanus sativus L.', 'Solanum torvum Sw.', 'Capsicum frutescens L.', 'Tithonia diversifolia',
         'Davallia', 'Phegopteris', 'Nephrolepis sp.', 'Selaginella sp.', 'Didymochlaena',
         'Medinilla speciosa', 'Stachytarpheta sp.', 'Musa paradisiaca', 'Alyxia reinwardtii Blume.', 'Pimpinella pruatjan',
-        # 10 spesies tambahan batch 1 (51-60)
         'Brugmansia candida', 'Mikania cordata', 'Desmodium sp.', 'Stachyphrynium sp.', 'Tinospora crispa L. Miers',
         'Asystasia sp.', 'Oplismenus sp.', 'Axonopus sp.', 'Scleria sp.', 'Amischotolype sp.',
-        # 20 spesies tambahan batch 2 (61-80)
         'Brassica juncea', 'Marsilea crenata', 'Melastoma malabathricum L.', 'Piper betle Linn', 'C. Caudatus',
         'Rubus Idaeus L.', 'Adiantum', 'Plantago mayor Linn.', 'Elephantopus scaber L.', 'Eupatorium riparium',
         'Borreria laevis', 'Chromolaena odoratum', 'Ageratum conyzoides', 'Stachytarpheta mutabilis Vahl', 'Ageratum conyzoides',
         'Coriandrum sativum Linn.', 'Eclipta prostrata Linn.', 'Casuarina junghuhniana Miq.', 'Peperomia sp.', 'Cosmos caudatus Kunth',
-        # 5 spesies tambahan batch 3 (81-85)
         'Commelina sp.', 'Imperata cylindrica', 'Asplenium nidus', 'Spathoglottis plicata', 'Zingiber officinale var. rubrum',
-        # 1 spesies tambahan batch 4 (86)
         'Casuarina junghuhniana'
     ]
     
-    # Daftar fungsi utama (86 spesies)
     fungsi_utama = [
-        # 50 spesies awal
         'Pencernaan', 'Antiradang', 'Diuretik', 'Menghentikan pendarahan', 'Antiradang',
         'Mengurangi bengkak', 'Penurun demam', 'Menurunkan tekanan darah', 'Pencernaan', 'Pereda nyeri',
         'Batuk & pilek', 'Batuk', 'Penurun demam', 'Penyembuhan luka', 'Penurun demam',
@@ -158,23 +395,17 @@ def load_tanaman_herbal_data():
         'Obat luka', 'Pencernaan', 'Tekanan darah tinggi', 'Menghangatkan tubuh', 'Penurun demam',
         'Pencernaan', 'Pencernaan', 'Diuretik', 'Melancarkan peredaran darah', 'Penyembuhan luka',
         'Kesuburan', 'Penurun demam', 'Diare', 'Batuk & pilek', 'Kesuburan',
-        # 10 spesies tambahan batch 1 (51-60)
         'Pereda nyeri, asma', 'Antiradang, diuretik', 'Anti radang, batuk', 'Obat luka', 'Antimalaria',
         'Anti radang', 'Anti radang', 'Obat luka', 'Diuretik', 'Obat luka',
-        # 20 spesies tambahan batch 2 (61-80)
         'Pencernaan', 'Melancarkan peredaran darah', 'Obat diare', 'Antiseptik', 'Penyembuhan luka',
         'Kesehatan darah', 'Batuk, darah tinggi', 'Penyembuhan luka', 'Penurun demam', 'Obat demam',
         'Pereda nyeri otot', 'Sakit perut', 'Obat luka', 'Penurun demam', 'Obat luka',
         'Pencernaan', 'Kesehatan hati', 'Penyembuhan luka', 'Penyembuhan luka', 'Antioksidan',
-        # 5 spesies tambahan batch 3 (81-85)
         'Obat luka', 'Diuretik', 'Obat luka', 'Antioksidan', 'Antiradang',
-        # 1 spesies tambahan batch 4 (86)
         'Penyembuhan luka'
     ]
     
-    # Daftar jenis (86 spesies)
     jenis = [
-        # 50 spesies awal
         'Herba', 'Herba', 'Rumput', 'Pohon', 'Pohon',
         'Herba', 'Herba', 'Herba', 'Semak', 'Pohon',
         'Pohon', 'Bunga', 'Bunga', 'Herba', 'Herba',
@@ -185,23 +416,17 @@ def load_tanaman_herbal_data():
         'Herba', 'Herba', 'Herba', 'Herba', 'Herba',
         'Pakis', 'Pakis', 'Pakis', 'Pakis', 'Pakis',
         'Herba', 'Herba', 'Pohon', 'Herba', 'Herba',
-        # 10 spesies tambahan batch 1 (51-60)
         'Perdu', 'Herba', 'Herba', 'Herba', 'Herba',
         'Herba', 'Rumput', 'Rumput', 'Rumput', 'Herba',
-        # 20 spesies tambahan batch 2 (61-80)
         'Herba', 'Pakis', 'Semak', 'Semak', 'Herba',
         'Perdu', 'Pakis', 'Herba', 'Herba', 'Herba',
         'Herba', 'Semak', 'Herba', 'Herba', 'Herba',
         'Herba', 'Herba', 'Pohon', 'Herba', 'Herba',
-        # 5 spesies tambahan batch 3 (81-85)
         'Herba', 'Rumput', 'Pakis', 'Bunga', 'Herba',
-        # 1 spesies tambahan batch 4 (86)
         'Pohon'
     ]
     
-    # Daftar lokasi (86 spesies)
     lokasi = [
-        # 50 spesies awal
         'RPTN Jemplang, Senduro', 'Seluruh TNBTS', 'RPTN Patok Picis', 'RPTN Patok Picis', 'Desa Ngadas, Ranupani',
         'RPTN Patok Picis', 'Seluruh TNBTS', 'Seluruh TNBTS', 'RPTN Patok Picis', 'RPTN Senduro',
         'Desa Ngadas, Ranupani', 'RPTN Senduro', 'RPTN Patok Picis', 'Desa Argosari, Ngadas', 'Desa Argosari, Ngadas',
@@ -212,10 +437,8 @@ def load_tanaman_herbal_data():
         'RPTN Ranu Darungan', 'Seluruh TNBTS', 'Desa Ranupani, Argosari', 'Desa Ranupani, Argosari', 'RPTN Jemplang',
         'RPTN Senduro', 'RPTN Senduro', 'RPTN Ranu Darungan, Senduro', 'RPTN Ranu Darungan', 'RPTN Senduro',
         'RPTN Pasrujambe', 'RPTN Ranu Darungan', 'RPTN Jemplang', 'Desa Ngadas, Ranupani', 'RPTN Ranupani, Senduro',
-        # 10 spesies tambahan batch 1 (51-60)
         'Blok Ireng-ireng, RPTN Senduro', 'Desa Ngadas', 'RPTN Ranu Darungan', 'RPTN Ranu Darungan', 'Desa Ngadas, Ranupani',
         'RPTN Ranu Darungan', 'RPTN Ranu Darungan', 'RPTN Ranu Darungan', 'RPTN Ranu Darungan, Blok Ireng-ireng', 'RPTN Ranu Darungan',
-        # 20 spesies tambahan batch 2 (61-80)
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo',
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'RPTN Patok Picis', 
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo',
@@ -223,15 +446,11 @@ def load_tanaman_herbal_data():
         'Desa Ngadas, RPTN Jemplang', 'Desa Ngadas, RPTN Jemplang', 'Desa Ngadas, RPTN Jemplang', 'RPTN Patok Picis', 'RPTN Patok Picis, Desa Ngadas, RPTN Jemplang',
         'Seluruh TNBTS', 'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Desa Ngadas, Cemoro Lawang, Ranupani, Argosari', 
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Desa Ngadas, Desa Cemoro Lawang',
-        # 5 spesies tambahan batch 3 (81-85)
         'RPTN Ranu Darungan', 'Seluruh TNBTS', 'RPTN Patok Picis', 'Desa Ranupani, Argosari', 'Seluruh TNBTS',
-        # 1 spesies tambahan batch 4 (86)
         'Seluruh TNBTS'
     ]
     
-    # Daftar desa (86 spesies)
     desa = [
-        # 50 spesies awal
         'Argosari, Gubuklakah', 'Seluruh desa', 'Ngadas, Argosari', 'Tidak ada data', 'Ngadas, Ranupani',
         'Tidak ada data', 'Seluruh desa', 'Seluruh desa', 'Tidak ada data', 'Blok Ireng-ireng',
         'Ngadas, Ranupani', 'Blok Ireng-ireng', 'Tidak ada data', 'Argosari, Gubuklakah', 'Argosari, Gubuklakah',
@@ -242,10 +461,8 @@ def load_tanaman_herbal_data():
         'Tidak ada data', 'Seluruh desa', 'Ranupani, Argosari', 'Ranupani, Argosari', 'Ngadas',
         'Blok Ireng-ireng', 'Blok Ireng-ireng', 'Blok Ireng-ireng', 'Tidak ada data', 'Blok Ireng-ireng',
         'Tidak ada data', 'Tidak ada data', 'Ngadas', 'Ngadas, Ranupani', 'Tidak ada data',
-        # 10 spesies tambahan batch 1 (51-60)
         'Tidak ada data', 'Ngadas', 'Tidak ada data', 'Tidak ada data', 'Ngadas, Ranupani',
         'Tidak ada data', 'Tidak ada data', 'Tidak ada data', 'Tidak ada data', 'Tidak ada data',
-        # 20 spesies tambahan batch 2 (61-80)
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo',
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Tidak ada data',
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo',
@@ -253,15 +470,11 @@ def load_tanaman_herbal_data():
         'Ngadas', 'Ngadas', 'Ngadas', 'Tidak ada data', 'Tidak ada data',
         'Seluruh desa', 'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Ngadas, Cemoro Lawang, Ranupani, Argosari',
         'Argosari, Gubuklakah, Ngadas, Ngadisari, Wonokitri, Mororejo', 'Ngadas, Cemoro Lawang',
-        # 5 spesies tambahan batch 3 (81-85)
         'Tidak ada data', 'Seluruh desa', 'Tidak ada data', 'Ranupani, Argosari', 'Seluruh desa',
-        # 1 spesies tambahan batch 4 (86)
         'Seluruh desa'
     ]
     
-    # Daftar latitude (86 spesies)
     latitude = [
-        # 50 spesies awal
         -8.0333, -7.9500, -7.9167, -7.9167, -7.9400,
         -7.9167, -7.9500, -7.9500, -7.9167, -7.9250,
         -7.9400, -7.9250, -7.9167, -7.9400, -7.9400,
@@ -272,23 +485,17 @@ def load_tanaman_herbal_data():
         -8.0167, -7.9500, -7.9333, -7.9333, -8.0333,
         -7.9250, -7.9250, -8.0167, -8.0167, -7.9250,
         -8.0833, -8.0167, -8.0333, -7.9400, -7.9333,
-        # 10 spesies tambahan batch 1 (51-60)
         -7.9250, -7.9400, -8.0167, -8.0167, -7.9400,
         -8.0167, -8.0167, -8.0167, -8.0167, -8.0167,
-        # 20 spesies tambahan batch 2 (61-80)
         -7.9400, -7.9400, -7.9400, -7.9167, -7.9400,
         -7.9400, -7.9250, -7.9400, -7.9167, -7.9167,
         -8.0333, -8.0333, -8.0333, -7.9167, -7.9167,
         -7.9500, -7.9400, -7.9400, -7.9400, -7.9400,
-        # 5 spesies tambahan batch 3 (81-85)
         -8.0167, -7.9500, -7.9167, -7.9333, -7.9500,
-        # 1 spesies tambahan batch 4 (86)
         -7.9500
     ]
     
-    # Daftar longitude (86 spesies)
     longitude = [
-        # 50 spesies awal
         113.0167, 112.9750, 112.9167, 112.9167, 112.9500,
         112.9167, 112.9750, 112.9750, 112.9167, 112.9550,
         112.9500, 112.9550, 112.9167, 112.9650, 112.9650,
@@ -299,23 +506,17 @@ def load_tanaman_herbal_data():
         112.9833, 112.9750, 112.9500, 112.9500, 113.0000,
         112.9550, 112.9550, 112.9833, 112.9833, 112.9550,
         113.0333, 112.9833, 113.0000, 112.9750, 112.9500,
-        # 10 spesies tambahan batch 1 (51-60)
         112.9550, 112.9500, 112.9833, 112.9833, 112.9500,
         112.9833, 112.9833, 112.9833, 112.9833, 112.9833,
-        # 20 spesies tambahan batch 2 (61-80)
         112.9500, 112.9500, 112.9500, 112.9167, 112.9500,
         112.9500, 112.9550, 112.9500, 112.9167, 112.9167,
         113.0000, 113.0000, 113.0000, 112.9167, 112.9167,
         112.9750, 112.9500, 112.9500, 112.9500, 112.9500,
-        # 5 spesies tambahan batch 3 (81-85)
         112.9833, 112.9750, 112.9167, 112.9500, 112.9750,
-        # 1 spesies tambahan batch 4 (86)
         112.9750
     ]
     
-    # Daftar ketinggian (86 spesies)
     ketinggian = [
-        # 50 spesies awal
         1800, 2000, 1700, 1700, 2100,
         1700, 1900, 1900, 1700, 2000,
         2100, 2000, 1700, 2300, 2300,
@@ -326,30 +527,15 @@ def load_tanaman_herbal_data():
         1900, 2000, 2200, 2200, 1800,
         2000, 2000, 1900, 1900, 2000,
         1700, 1900, 1800, 2100, 2200,
-        # 10 spesies tambahan batch 1 (51-60)
         2000, 2100, 1900, 1900, 2100,
         1900, 1900, 1900, 1900, 1900,
-        # 20 spesies tambahan batch 2 (61-80)
         2300, 2300, 2300, 1700, 2300,
         2300, 2000, 2300, 1700, 1700,
         1800, 1800, 1800, 1700, 1700,
         2000, 2300, 2300, 2300, 2300,
-        # 5 spesies tambahan batch 3 (81-85)
         1900, 1700, 1700, 2200, 2000,
-        # 1 spesies tambahan batch 4 (86)
         2000
     ]
-    
-    # Verifikasi panjang semua list (debug)
-    print(f"Panjang list - nama_tanaman: {len(nama_tanaman)}")
-    print(f"Panjang list - nama_latin: {len(nama_latin)}")
-    print(f"Panjang list - fungsi_utama: {len(fungsi_utama)}")
-    print(f"Panjang list - jenis: {len(jenis)}")
-    print(f"Panjang list - lokasi: {len(lokasi)}")
-    print(f"Panjang list - desa: {len(desa)}")
-    print(f"Panjang list - latitude: {len(latitude)}")
-    print(f"Panjang list - longitude: {len(longitude)}")
-    print(f"Panjang list - ketinggian: {len(ketinggian)}")
     
     # Buat DataFrame
     df = pd.DataFrame({
@@ -380,40 +566,30 @@ def load_tanaman_herbal_data():
     
     return df
 
-# Fungsi untuk load data desa dari file GeoJSON lengkap
 @st.cache_data
 def load_desa_geojson():
     """
     Memuat data desa dari file GeoJSON Desa_TNBTS.geojson
-    File ini berisi 39 desa di sekitar TNBTS
     """
     try:
-        # Cek apakah file exists
         if not os.path.exists('Desa_TNBTS.geojson'):
-            st.error("File Desa_TNBTS.geojson tidak ditemukan!")
+            st.sidebar.error("❌ File Desa_TNBTS.geojson tidak ditemukan!")
             return gpd.GeoDataFrame()
         
-        # Baca file GeoJSON
         with open('Desa_TNBTS.geojson', 'r', encoding='utf-8') as f:
             geojson_data = json.load(f)
         
-        # Konversi ke GeoDataFrame
         gdf = gpd.GeoDataFrame.from_features(geojson_data["features"])
-        gdf.crs = "EPSG:4326"  # Set CRS ke WGS84
-        
-        # Tampilkan informasi jumlah desa
-        st.sidebar.success(f"✅ Loaded {len(gdf)} desa dari GeoJSON")
+        gdf.crs = "EPSG:4326"
         
         return gdf
         
     except Exception as e:
-        st.error(f"Error loading GeoJSON: {e}")
+        st.sidebar.error(f"❌ Error loading GeoJSON: {e}")
         return gpd.GeoDataFrame()
 
-# Load data tanaman herbal
+# Load data
 df_tanaman = load_tanaman_herbal_data()
-
-# Load data desa dari file GeoJSON
 gdf_desa = load_desa_geojson()
 
 # Filter data tanaman
@@ -422,19 +598,17 @@ if "Semua" not in selected_tanaman and selected_tanaman:
 else:
     df_tanaman_filtered = df_tanaman.copy()
 
-# Fungsi untuk membuat peta dengan semua layer
+# Fungsi untuk membuat peta
 def create_tnbts_map():
-    # Koordinat pusat TNBTS
     center_lat = -7.940
     center_lon = 112.950
     
-    # Buat peta dengan default tiles OpenStreetMap (hanya sekali)
     m = folium.Map(
         location=[center_lat, center_lon],
         zoom_start=11,
         tiles='OpenStreetMap',
         attr='OpenStreetMap contributors',
-        name='OpenStreetMap'  # Beri nama untuk layer control
+        name='OpenStreetMap'
     )
     
     # Tambahkan layer tile lainnya
@@ -450,11 +624,10 @@ def create_tnbts_map():
         name='Terrain'
     ).add_to(m)
     
-    # Layer Desa dari GeoJSON (SEMUA DESA) - TANPA MARKER CENTROID
+    # Layer Desa
     if show_desa_geojson and not gdf_desa.empty:
         desa_group = folium.FeatureGroup(name='🏘️ Batas Desa')
         
-        # Style untuk polygon desa
         def style_function(feature):
             return {
                 'fillColor': '#ffeda0',
@@ -463,7 +636,6 @@ def create_tnbts_map():
                 'fillOpacity': 0.3
             }
         
-        # Highlight function
         def highlight_function(feature):
             return {
                 'fillColor': '#ffffb3',
@@ -472,7 +644,6 @@ def create_tnbts_map():
                 'fillOpacity': 0.6
             }
         
-        # Tentukan fields untuk tooltip berdasarkan kolom yang tersedia
         available_fields = []
         field_aliases = []
         
@@ -489,7 +660,6 @@ def create_tnbts_map():
             available_fields.append('jumlah_pen')
             field_aliases.append('Penduduk:')
         
-        # Tambahkan GeoJSON ke peta
         folium.GeoJson(
             gdf_desa,
             name='Desa',
@@ -515,7 +685,6 @@ def create_tnbts_map():
     if show_tanaman and not df_tanaman_filtered.empty:
         tanaman_group = folium.FeatureGroup(name='🌿 Tanaman Herbal')
         
-        # Warna untuk setiap jenis
         warna = {
             'Pohon': 'green', 
             'Semak': 'lightgreen', 
@@ -559,17 +728,14 @@ def create_tnbts_map():
             ).add_to(tanaman_group)
         tanaman_group.add_to(m)
     
-    # Tambahkan layer control
     folium.LayerControl().add_to(m)
     
-    # Plugin Fullscreen
     try:
         from folium.plugins import Fullscreen
         Fullscreen().add_to(m)
     except:
         pass
     
-    # Tambahkan scale bar
     try:
         from folium.plugins import MeasureControl
         MeasureControl(
@@ -584,23 +750,61 @@ def create_tnbts_map():
 
 # Halaman Peta Sebaran
 if selected == "Peta Sebaran":
-    st.header("🗺️ Peta Interaktif Tanaman Herbal TNBTS")
-    st.caption("🌍 Default peta menggunakan mode **Terrain** (dapat diganti ke Satelit atau OpenStreetMap)")
+    st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
+    st.markdown("Visualisasi sebaran 86 spesies tanaman herbal di kawasan TNBTS")
     
-    # Tampilkan statistik dengan data yang diperbarui sesuai screenshot
+    # Metric cards dengan desain yang lebih baik
     col1, col2, col3, col4 = st.columns(4)
+    
     with col1:
-        st.metric("🏘️ Total Desa", f"{len(gdf_desa)} desa")
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>{len(gdf_desa)}</h3>
+            <p>🏘️ Total Desa</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.metric("🌿 Total Tanaman", f"{len(df_tanaman_filtered)} spesies")
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>{len(df_tanaman_filtered)}</h3>
+            <p>🌿 Total Tanaman</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col3:
         if not gdf_desa.empty and 'jumlah_pen' in gdf_desa.columns:
             total_penduduk = gdf_desa['jumlah_pen'].sum()
-            st.metric("👥 Total Penduduk", f"{total_penduduk:,}")
+            st.markdown(f"""
+            <div class="metric-card">
+                <h3>{total_penduduk:,}</h3>
+                <p>👥 Total Penduduk</p>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div class="metric-card">
+                <h3>0</h3>
+                <p>👥 Total Penduduk</p>
+            </div>
+            """, unsafe_allow_html=True)
+    
     with col4:
         if not gdf_desa.empty:
             total_kecamatan = gdf_desa['nama_kecam'].nunique() if 'nama_kecam' in gdf_desa.columns else 0
-            st.metric("🗺️ Kecamatan", f"{total_kecamatan} kecamatan")
+            st.markdown(f"""
+            <div class="metric-card">
+                <h3>{total_kecamatan}</h3>
+                <p>🗺️ Kecamatan</p>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div class="metric-card">
+                <h3>0</h3>
+                <p>🗺️ Kecamatan</p>
+            </div>
+            """, unsafe_allow_html=True)
     
     # Buat dan tampilkan peta
     try:
@@ -612,92 +816,143 @@ if selected == "Peta Sebaran":
         m = folium.Map(location=[-7.940, 112.950], zoom_start=10)
         folium_static(m)
     
-    with st.expander("📖 Legenda Peta"):
+    # Legenda dalam expander
+    with st.expander("📖 Legenda Peta", expanded=False):
         st.markdown("""
-        ### 🗺️ Legenda Peta
-        
-        **🏘️ Batas Desa:** Polygon kuning dengan garis batas merah
-        - Klik pada polygon untuk melihat informasi desa
-        
-        **🌿 Tanaman Herbal:** Marker berwarna berdasarkan jenis:
-        - 🟢 **Hijau**: Pohon
-        - 🟢 **Hijau muda**: Semak/Perdu  
-        - 🔵 **Biru muda**: Herba
-        - 💗 **Pink**: Bunga
-        - 🟤 **Hijau tua**: Pakis
-        - ⚪ **Abu-abu**: Lumut
-        - 🟡 **Kuning**: Rumput
-        
-        **🛠️ Tools Peta:**
-        - Gunakan layer control untuk memilih tampilan (Satelit, OpenStreetMap, Terrain)
-        - Klik Fullscreen untuk layar penuh
-        - Gunakan Measure Tool untuk mengukur jarak
-        """)
+        <div class="info-box">
+            <h4>🏘️ Batas Desa</h4>
+            <p>Polygon kuning dengan garis batas merah - Klik untuk melihat informasi desa</p>
+            
+            <h4>🌿 Tanaman Herbal</h4>
+            <p>Marker berwarna berdasarkan jenis:</p>
+            <ul>
+                <li><span class="badge badge-success">Pohon</span> <span class="badge badge-success">Semak/Perdu</span></li>
+                <li><span class="badge badge-info">Herba</span> <span class="badge badge-warning">Bunga</span></li>
+                <li><span class="badge badge-success">Pakis</span> <span class="badge" style="background-color: #lightgray;">Lumut</span></li>
+                <li><span class="badge" style="background-color: #FFD700;">Rumput</span></li>
+            </ul>
+            
+            <h4>🛠️ Tools Peta</h4>
+            <p>Layer control (pojok kanan atas) untuk ganti tampilan • Fullscreen • Measure Tool</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 # Halaman Data Tanaman
 elif selected == "Data Tanaman":
-    st.header("📋 Data Tanaman Herbal TNBTS")
+    st.markdown("## 📋 Data Tanaman Herbal TNBTS")
+    st.markdown("Database 86 spesies tanaman herbal yang teridentifikasi")
     
     tab1, tab2 = st.tabs(["🌿 Tanaman (86 Spesies)", "🏘️ Data Desa (GeoJSON)"])
     
     with tab1:
-        search = st.text_input("🔍 Cari tanaman:", key="search")
+        search = st.text_input("🔍 Cari tanaman:", key="search", placeholder="Masukkan nama tanaman, fungsi, atau nama latin...")
+        
         if search:
             df_search = df_tanaman_filtered[
                 df_tanaman_filtered['nama_tanaman'].str.contains(search, case=False) |
                 df_tanaman_filtered['fungsi_utama'].str.contains(search, case=False) |
                 df_tanaman_filtered['nama_latin'].str.contains(search, case=False)
             ]
+            st.info(f"Ditemukan {len(df_search)} hasil pencarian")
         else:
             df_search = df_tanaman_filtered
         
-        st.dataframe(df_search[['nama_tanaman', 'nama_latin', 'fungsi_utama', 'jenis', 'lokasi', 'status_konservasi']], 
-                    use_container_width=True, height=500)
+        st.markdown('<div class="dataframe-container">', unsafe_allow_html=True)
+        st.dataframe(
+            df_search[['nama_tanaman', 'nama_latin', 'fungsi_utama', 'jenis', 'lokasi', 'status_konservasi']], 
+            use_container_width=True, 
+            height=500,
+            column_config={
+                "nama_tanaman": "Nama Tanaman",
+                "nama_latin": "Nama Latin",
+                "fungsi_utama": "Fungsi Utama",
+                "jenis": "Jenis",
+                "lokasi": "Lokasi",
+                "status_konservasi": "Status"
+            }
+        )
+        st.markdown('</div>', unsafe_allow_html=True)
         
         csv = df_tanaman_filtered.to_csv(index=False)
-        st.download_button("📥 Download CSV Tanaman (86 Spesies)", data=csv, file_name="tanaman_herbal_tnbts_86.csv", mime="text/csv")
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.download_button(
+                "📥 Download CSV Tanaman (86 Spesies)", 
+                data=csv, 
+                file_name="tanaman_herbal_tnbts_86.csv", 
+                mime="text/csv",
+                use_container_width=True
+            )
     
     with tab2:
-        st.subheader("📊 Data Desa dari File GeoJSON")
+        st.markdown("### 📊 Data Desa dari File GeoJSON")
         
         if not gdf_desa.empty:
             st.success(f"✅ Total {len(gdf_desa)} desa berhasil dimuat")
             
-            # Tampilkan statistik desa
+            # Statistik desa
             col1, col2, col3, col4 = st.columns(4)
+            
             with col1:
-                st.metric("Total Desa", len(gdf_desa))
+                st.markdown(f"""
+                <div class="metric-card">
+                    <h3>{len(gdf_desa)}</h3>
+                    <p>Total Desa</p>
+                </div>
+                """, unsafe_allow_html=True)
+            
             with col2:
                 if 'jumlah_pen' in gdf_desa.columns:
-                    st.metric("Total Penduduk", f"{gdf_desa['jumlah_pen'].sum():,}")
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <h3>{gdf_desa['jumlah_pen'].sum():,}</h3>
+                        <p>Total Penduduk</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
             with col3:
                 if 'nama_kecam' in gdf_desa.columns:
-                    st.metric("Jumlah Kecamatan", gdf_desa['nama_kecam'].nunique())
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <h3>{gdf_desa['nama_kecam'].nunique()}</h3>
+                        <p>Jumlah Kecamatan</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
             with col4:
                 if 'nama_kabko' in gdf_desa.columns:
-                    st.metric("Jumlah Kabupaten", gdf_desa['nama_kabko'].nunique())
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <h3>{gdf_desa['nama_kabko'].nunique()}</h3>
+                        <p>Jumlah Kabupaten</p>
+                    </div>
+                    """, unsafe_allow_html=True)
             
-            # Tampilkan data desa dalam bentuk tabel
-            st.subheader("📋 Tabel Data Desa")
+            # Tabel data desa
+            st.markdown("### 📋 Tabel Data Desa")
             desa_df = gdf_desa.drop('geometry', axis=1) if 'geometry' in gdf_desa.columns else gdf_desa
             
-            # Format angka untuk tampilan
             if 'jumlah_pen' in desa_df.columns:
                 desa_df['jumlah_pen'] = desa_df['jumlah_pen'].apply(lambda x: f"{x:,}")
             
+            st.markdown('<div class="dataframe-container">', unsafe_allow_html=True)
             st.dataframe(desa_df, use_container_width=True, height=500)
+            st.markdown('</div>', unsafe_allow_html=True)
             
             # Download data desa
             csv_desa = desa_df.to_csv(index=False)
-            st.download_button(
-                "📥 Download Data Desa (CSV)", 
-                data=csv_desa, 
-                file_name="data_desa_tnbts.csv", 
-                mime="text/csv"
-            )
+            col1, col2, col3 = st.columns([1, 2, 1])
+            with col2:
+                st.download_button(
+                    "📥 Download Data Desa (CSV)", 
+                    data=csv_desa, 
+                    file_name="data_desa_tnbts.csv", 
+                    mime="text/csv",
+                    use_container_width=True
+                )
             
-            # Tampilkan informasi GeoJSON
-            with st.expander("ℹ️ Informasi File GeoJSON"):
+            # Informasi GeoJSON
+            with st.expander("ℹ️ Informasi File GeoJSON", expanded=False):
                 st.json({
                     "jumlah_fitur": len(gdf_desa),
                     "kolom_tersedia": list(gdf_desa.columns),
@@ -712,7 +967,6 @@ elif selected == "Data Tanaman":
         else:
             st.error("❌ Data desa tidak dapat dimuat. Pastikan file Desa_TNBTS.geojson tersedia.")
             
-            # Tampilkan daftar file di direktori untuk debugging
             st.info("📁 File dalam direktori saat ini:")
             files = os.listdir('.')
             for f in files:
@@ -721,60 +975,140 @@ elif selected == "Data Tanaman":
 
 # Halaman Statistik
 elif selected == "Statistik":
-    st.header("📊 Statistik Tanaman Herbal dan Desa")
+    st.markdown("## 📊 Statistik Tanaman Herbal dan Desa")
+    st.markdown("Analisis data sebaran tanaman herbal dan demografi desa")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("🌿 Statistik Tanaman (86 Spesies)")
+        st.markdown("### 🌿 Statistik Tanaman")
         if not df_tanaman_filtered.empty:
             # Fungsi tanaman
             st.markdown("**Fungsi Utama Tanaman (Top 10)**")
             fungsi_counts = df_tanaman_filtered['fungsi_utama'].value_counts().head(10)
-            st.bar_chart(fungsi_counts)
+            st.bar_chart(fungsi_counts, use_container_width=True)
             
             # Status konservasi
             st.markdown("**Status Konservasi**")
             status_counts = df_tanaman_filtered['status_konservasi'].value_counts()
-            st.dataframe(status_counts)
             
-            # Total tanaman
-            st.metric("Total Spesies", len(df_tanaman_filtered))
+            # Custom display untuk status
+            col_stat1, col_stat2 = st.columns(2)
+            with col_stat1:
+                dilindungi = status_counts.get('Dilindungi', 0)
+                st.markdown(f"""
+                <div class="metric-card">
+                    <h3>{dilindungi}</h3>
+                    <p>🔒 Dilindungi</p>
+                </div>
+                """, unsafe_allow_html=True)
+            with col_stat2:
+                umum = status_counts.get('Umum', 0)
+                st.markdown(f"""
+                <div class="metric-card">
+                    <h3>{umum}</h3>
+                    <p>🌿 Umum</p>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            # Total spesies
+            st.markdown("**Total Spesies**")
+            st.markdown(f"""
+            <div class="metric-card">
+                <h3>{len(df_tanaman_filtered)}</h3>
+                <p>Spesies Tanaman</p>
+            </div>
+            """, unsafe_allow_html=True)
     
     with col2:
-        st.subheader("📊 Statistik Desa")
+        st.markdown("### 📊 Statistik Desa")
         if not gdf_desa.empty:
             # Distribusi desa per kecamatan
             if 'nama_kecam' in gdf_desa.columns:
                 st.markdown("**Jumlah Desa per Kecamatan**")
                 kecamatan_counts = gdf_desa['nama_kecam'].value_counts()
-                st.bar_chart(kecamatan_counts)
+                st.bar_chart(kecamatan_counts, use_container_width=True)
             
             # Distribusi penduduk
             if 'jumlah_pen' in gdf_desa.columns:
                 st.markdown("**Statistik Penduduk**")
                 col_stats1, col_stats2, col_stats3 = st.columns(3)
                 with col_stats1:
-                    st.metric("Rata-rata", f"{gdf_desa['jumlah_pen'].mean():,.0f}")
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <h3>{gdf_desa['jumlah_pen'].mean():,.0f}</h3>
+                        <p>Rata-rata</p>
+                    </div>
+                    """, unsafe_allow_html=True)
                 with col_stats2:
-                    st.metric("Minimum", f"{gdf_desa['jumlah_pen'].min():,}")
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <h3>{gdf_desa['jumlah_pen'].min():,}</h3>
+                        <p>Minimum</p>
+                    </div>
+                    """, unsafe_allow_html=True)
                 with col_stats3:
-                    st.metric("Maximum", f"{gdf_desa['jumlah_pen'].max():,}")
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <h3>{gdf_desa['jumlah_pen'].max():,}</h3>
+                        <p>Maximum</p>
+                    </div>
+                    """, unsafe_allow_html=True)
     
     # Statistik jenis tanaman
-    st.subheader("📊 Jenis Tanaman")
+    st.markdown("### 📊 Jenis Tanaman")
     if not df_tanaman_filtered.empty:
         jenis_counts = df_tanaman_filtered['jenis'].value_counts()
-        st.dataframe(jenis_counts)
+        
+        # Tampilkan dalam bentuk bar chart
+        st.bar_chart(jenis_counts, use_container_width=True)
+        
+        # Tampilkan dalam tabel
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            jenis_df = pd.DataFrame({
+                'Jenis': jenis_counts.index,
+                'Jumlah': jenis_counts.values
+            })
+            st.dataframe(jenis_df, use_container_width=True, hide_index=True)
         
         # Statistik ketinggian
-        st.subheader("📊 Ketinggian Tanaman")
+        st.markdown("### 📊 Ketinggian Tanaman")
         ketinggian_stats = df_tanaman_filtered['ketinggian'].describe()
-        st.dataframe(ketinggian_stats)
+        
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.markdown(f"""
+            <div class="metric-card">
+                <h3>{ketinggian_stats['min']:.0f}</h3>
+                <p>Min (mdpl)</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            st.markdown(f"""
+            <div class="metric-card">
+                <h3>{ketinggian_stats['max']:.0f}</h3>
+                <p>Max (mdpl)</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with col3:
+            st.markdown(f"""
+            <div class="metric-card">
+                <h3>{ketinggian_stats['mean']:.0f}</h3>
+                <p>Rata-rata (mdpl)</p>
+            </div>
+            """, unsafe_allow_html=True)
+        with col4:
+            st.markdown(f"""
+            <div class="metric-card">
+                <h3>{ketinggian_stats['std']:.0f}</h3>
+                <p>Std Dev (mdpl)</p>
+            </div>
+            """, unsafe_allow_html=True)
 
 # Halaman Informasi
 else:
-    st.header("ℹ️ Informasi TNBTS")
+    st.markdown("## ℹ️ Informasi TNBTS")
     
     # Hitung statistik
     total_penduduk = gdf_desa['jumlah_pen'].sum() if not gdf_desa.empty and 'jumlah_pen' in gdf_desa.columns else 0
@@ -782,79 +1116,187 @@ else:
     total_kabupaten = gdf_desa['nama_kabko'].nunique() if not gdf_desa.empty and 'nama_kabko' in gdf_desa.columns else 0
     tanaman_dilindungi = len(df_tanaman[df_tanaman['status_konservasi'] == 'Dilindungi'])
     
-    st.markdown(f"""
-    ### 🌋 Taman Nasional Bromo Tengger Semeru
+    # Header informasi
+    st.markdown("""
+    <div class="info-box">
+        <h3>🌋 Taman Nasional Bromo Tengger Semeru</h3>
+        <p>Taman Nasional Bromo Tengger Semeru (TNBTS) adalah kawasan konservasi yang terletak di Jawa Timur, Indonesia. 
+        Kawasan ini memiliki keanekaragaman hayati yang tinggi, termasuk berbagai spesies tanaman herbal yang 
+        dimanfaatkan oleh masyarakat sekitar untuk pengobatan tradisional.</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    Taman Nasional Bromo Tengger Semeru (TNBTS) adalah kawasan konservasi yang terletak di Jawa Timur, Indonesia. 
-    Kawasan ini memiliki keanekaragaman hayati yang tinggi, termasuk berbagai spesies tanaman herbal yang 
-    dimanfaatkan oleh masyarakat sekitar untuk pengobatan tradisional.
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    ---
+    # Statistik dalam tabel yang lebih menarik
+    st.markdown("### 📊 Data dan Statistik")
     
-    ### 📊 Data dan Statistik
+    col1, col2 = st.columns(2)
     
-    | Kategori | Jumlah | Keterangan |
-    |----------|--------|------------|
-    | **🏘️ Desa** | {len(gdf_desa)} desa | Tersebar di {total_kecamatan} kecamatan, {total_kabupaten} kabupaten |
-    | **👥 Penduduk** | {total_penduduk:,} jiwa | Data dari BPS |
-    | **🌿 Tanaman Herbal** | {len(df_tanaman)} spesies | 86 spesies teridentifikasi |
-    | **🔒 Tanaman Dilindungi** | {tanaman_dilindungi} spesies | Purwoceng, Parijoto, Anggrek |
+    with col1:
+        st.markdown("""
+        <table style="width:100%; border-collapse: collapse;">
+            <tr style="background-color: #4CAF50; color: white;">
+                <th style="padding: 10px; border-radius: 5px 0 0 0;">Kategori</th>
+                <th style="padding: 10px; border-radius: 0 5px 0 0;">Jumlah</th>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">🏘️ Desa</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;"><b>{}</b> desa</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">🗺️ Kecamatan</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;"><b>{}</b> kecamatan</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">🗺️ Kabupaten</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;"><b>{}</b> kabupaten</td>
+            </tr>
+        </table>
+        """.format(len(gdf_desa), total_kecamatan, total_kabupaten), unsafe_allow_html=True)
     
-    ---
+    with col2:
+        st.markdown("""
+        <table style="width:100%; border-collapse: collapse;">
+            <tr style="background-color: #4CAF50; color: white;">
+                <th style="padding: 10px; border-radius: 5px 0 0 0;">Kategori</th>
+                <th style="padding: 10px; border-radius: 0 5px 0 0;">Jumlah</th>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">👥 Penduduk</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;"><b>{:,}</b> jiwa</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">🌿 Tanaman Herbal</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;"><b>{}</b> spesies</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">🔒 Tanaman Dilindungi</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;"><b>{}</b> spesies</td>
+            </tr>
+        </table>
+        """.format(total_penduduk, len(df_tanaman), tanaman_dilindungi), unsafe_allow_html=True)
     
-    ### 💊 Fungsi Utama Tanaman
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    Berdasarkan data yang terkumpul, tanaman herbal di TNBTS memiliki berbagai fungsi pengobatan:
+    # Fungsi utama tanaman
+    st.markdown("### 💊 Fungsi Utama Tanaman")
     
-    * **Pencernaan** - Adas, Jahe, Kunyit, Lobak, Ketumbar, dll
-    * **Antiradang** - Ajeran putih, Awar-awar, Kesimbukan, Trabasan, Jahe merah, dll
-    * **Penurun demam** - Bawang merah, Bunga Matahari, Paitan, Tapak liman, dll
-    * **Pereda nyeri** - Bidara laut, Daun dadap, Tepung otot, dll
-    * **Obat luka** - Ganjan, Jarak merah, Wedusan, Tirem, Paku sarang burung, Cemara gunung, dll
-    * **Batuk & pilek** - Buah klandingan, Kencur, Pulosari, Suplir, dll
-    * **Kesuburan** - Purwoceng, Parijoto
-    * **Diuretik** - Alang-alang, Pakis/paku pedang, Rumput teki-tekian, Rumput ilalang, dll
-    * **Antiseptik** - Sirih, Vervain, dll
+    # Kelompokkan fungsi
+    fungsi_pencernaan = ['Pencernaan', 'Diare', 'Sakit perut', 'Masuk angin']
+    fungsi_antiradang = ['Antiradang', 'Anti radang', 'Anti radang, batuk', 'Antiradang, diuretik']
+    fungsi_penurun_demam = ['Penurun demam', 'Obat demam']
+    fungsi_pereda_nyeri = ['Pereda nyeri', 'Pereda nyeri, asma', 'Pereda nyeri otot']
+    fungsi_obat_luka = ['Obat luka', 'Penyembuhan luka', 'Menghentikan pendarahan']
+    fungsi_batuk = ['Batuk & pilek', 'Batuk', 'Batuk, darah tinggi']
+    fungsi_lainnya = ['Diuretik', 'Antiseptik', 'Kesuburan', 'Antikanker', 'Antibakteri', 
+                     'Menurunkan tekanan darah', 'Tekanan darah tinggi', 'Penurun gula darah',
+                     'Melancarkan peredaran darah', 'Kesehatan darah', 'Kesehatan hati',
+                     'Menghangatkan tubuh', 'Mengurangi bengkak', 'Antimalaria', 'Antioksidan']
     
-    ---
+    col1, col2, col3 = st.columns(3)
     
-    ### 📍 Sumber Data
+    with col1:
+        st.markdown("**🫀 Pencernaan**")
+        for f in fungsi_pencernaan[:4]:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
+            st.markdown(f"- {f}: {count} spesies")
+        
+        st.markdown("**🔥 Antiradang**")
+        for f in fungsi_antiradang[:3]:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace(',', '|'), case=False, na=False)])
+            st.markdown(f"- Antiradang: {count} spesies")
     
-    * **Data Desa:** File GeoJSON dari BIG/BPS ({len(gdf_desa)} desa)
-    * **Data Tanaman:** Hasil penelitian Tim Peneliti UB (2026) - 86 spesies
-    * **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
+    with col2:
+        st.markdown("**🤒 Penurun Demam**")
+        for f in fungsi_penurun_demam:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
+            st.markdown(f"- {f}: {count} spesies")
+        
+        st.markdown("**💊 Pereda Nyeri**")
+        for f in fungsi_pereda_nyeri[:3]:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace(',', '|'), case=False, na=False)])
+            st.markdown(f"- Pereda nyeri: {count} spesies")
     
-    ---
+    with col3:
+        st.markdown("**🩹 Obat Luka**")
+        for f in fungsi_obat_luka:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
+            st.markdown(f"- {f}: {count} spesies")
+        
+        st.markdown("**🌡️ Batuk & Pilek**")
+        for f in fungsi_batuk:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace('&', '|'), case=False, na=False)])
+            st.markdown(f"- Batuk & pilek: {count} spesies")
     
-    ### 👥 Tim Peneliti
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-      * **Ketua Tim:** Dr Eng Turniningtyas Ayu R., ST., MT
-    * **Anggota:**
-      1.    Prof.Dr.Ir. Moch. Sasmito Djati, M.S. - (Pakar Tanaman Herbal)
-      2.    Adipandang Yudono, S.Si., M.U.R.P., Ph.D - (Pakar GIS dan WebGIS Analytics)
-      3.    Dr. Ir. Arief Andy Soebroto ST.,M.Kom. - (Pakar Pembangunan AI Platform)
-    * **Tahun:** 2026
-    """)
+    # Tim peneliti
+    st.markdown("### 👥 Tim Peneliti")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center; height: 150px;">
+            <h4 style="color: #2E7D32;">Dr Eng Turniningtyas Ayu R.</h4>
+            <p style="color: #666;">ST., MT</p>
+            <p style="color: #666;"><i>Ketua Tim</i></p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center; height: 150px;">
+            <h4 style="color: #2E7D32;">Prof.Dr.Ir. Moch. Sasmito Djati</h4>
+            <p style="color: #666;">M.S.</p>
+            <p style="color: #666;"><i>Pakar Tanaman Herbal</i></p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center; height: 150px;">
+            <h4 style="color: #2E7D32;">Adipandang Yudono</h4>
+            <p style="color: #666;">S.Si., M.U.R.P., Ph.D</p>
+            <p style="color: #666;"><i>Pakar GIS dan WebGIS Analytics</i></p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown("""
+        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center;">
+            <h4 style="color: #2E7D32;">Dr. Ir. Arief Andy Soebroto</h4>
+            <p style="color: #666;">ST.,M.Kom.</p>
+            <p style="color: #666;"><i>Pakar Pembangunan AI Platform</i></p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+    
+    # Sumber data
+    st.markdown("### 📍 Sumber Data")
+    st.markdown("""
+    <ul>
+        <li><b>Data Desa:</b> File GeoJSON dari BIG/BPS (41 desa)</li>
+        <li><b>Data Tanaman:</b> Hasil penelitian Tim Peneliti UB (2026) - 86 spesies</li>
+        <li><b>Peta Basemap:</b> OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap</li>
+    </ul>
+    """, unsafe_allow_html=True)
 
-# Footer
-st.markdown("---")
+# Footer yang lebih menarik
+st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+
 st.markdown("""
-<div style='text-align: center; color: gray; padding: 10px;'>
-    © 2026 Team Peneliti UB untuk Distribusi Spasial Tanaman Herbal di TNBTS<br>
-    Data: 86 spesies tanaman herbal | 41 desa di sekitar TNBTS
+<div class="footer">
+    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">🌿 WebGIS Sebaran Tanaman Herbal TNBTS</p>
+    <p style="margin-bottom: 0.5rem;">© 2026 Tim Peneliti Universitas Brawijaya</p>
+    <p style="font-size: 0.9rem; opacity: 0.9;">Distribusi Spasial Tanaman Herbal di TNBTS • 86 Spesies • 41 Desa</p>
+    <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">
+        <a href="#" style="color: #FFD700;">Tentang</a> • 
+        <a href="#" style="color: #FFD700;">Kontak</a> • 
+        <a href="#" style="color: #FFD700;">Dokumentasi</a>
+    </p>
 </div>
 """, unsafe_allow_html=True)
-
-# Tampilkan informasi di sidebar
-with st.sidebar:
-    st.markdown("---")
-    st.caption("📁 **Status File**")
-    if os.path.exists('Desa_TNBTS.geojson'):
-        file_size = os.path.getsize('Desa_TNBTS.geojson') / 1024  # KB
-        st.caption(f"✅ Desa_TNBTS.geojson ({file_size:.1f} KB)")
-        st.caption(f"📊 {len(gdf_desa)} desa dimuat")
-    else:
-        st.caption("❌ Desa_TNBTS.geojson tidak ditemukan")
-    
-    st.caption(f"🌿 {len(df_tanaman)} spesies tanaman (86 spesies)")
-    st.caption(f"🔍 Filter: {len(df_tanaman_filtered)} spesies")
