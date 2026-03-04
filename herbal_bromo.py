@@ -346,6 +346,50 @@ st.markdown("""
         margin-bottom: 10px;
         font-size: 16px;
     }
+    
+    /* Styling untuk fungsi tanaman */
+    .fungsi-container {
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #fafafa;
+    }
+    
+    .fungsi-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .fungsi-item:last-child {
+        border-bottom: none;
+    }
+    
+    .fungsi-header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    
+    .tanaman-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .tanaman-tag {
+        background-color: #e8f5e9;
+        color: #2E7D32;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        border: 1px solid #c8e6c9;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -376,8 +420,8 @@ with st.sidebar:
     # Menu navigasi dengan radio button yang lebih rapi
     st.markdown("### 📋 Menu Navigasi")
     
-    menu_options = ["Peta Sebaran", "Data Tanaman", "Statistik", "Informasi"]
-    menu_icons = ["🗺️", "📋", "📊", "ℹ️"]
+    menu_options = ["Peta Sebaran", "Data Tanaman", "Statistik", "Informasi", "Fungsi Tanaman"]
+    menu_icons = ["🗺️", "📋", "📊", "ℹ️", "💊"]
     
     selected = st.radio(
         "Pilih Menu:",
@@ -874,6 +918,45 @@ def create_tnbts_map():
     
     return m
 
+# Fungsi untuk mendapatkan tanaman berdasarkan fungsi
+@st.cache_data
+def get_tanaman_by_fungsi():
+    df = load_tanaman_herbal_data()
+    
+    # Kategorisasi fungsi
+    kategori_fungsi = {
+        'Pencernaan': ['Pencernaan', 'Diare', 'Sakit perut', 'Masuk angin', 'Pencahar'],
+        'Antiradang & Nyeri': ['Antiradang', 'Pereda nyeri', 'Pereda nyeri otot', 'Pereda nyeri, asma', 'Anti radang', 'Anti radang, batuk', 'Antiradang, diuretik'],
+        'Demam & Batuk': ['Penurun demam', 'Obat demam', 'Batuk & pilek', 'Batuk', 'Batuk, darah tinggi'],
+        'Luka & Pendarahan': ['Obat luka', 'Penyembuhan luka', 'Menghentikan pendarahan', 'Obat bisul'],
+        'Kardiovaskular & Darah': ['Menurunkan tekanan darah', 'Tekanan darah tinggi', 'Melancarkan peredaran darah', 'Kesehatan darah'],
+        'Lainnya': ['Diuretik', 'Antiseptik', 'Kesuburan', 'Antikanker', 'Antibakteri', 
+                   'Penurun gula darah', 'Kesehatan hati', 'Menghangatkan tubuh', 
+                   'Mengurangi bengkak', 'Antimalaria', 'Antioksidan']
+    }
+    
+    hasil = {}
+    
+    for kategori, keywords in kategori_fungsi.items():
+        tanaman_list = []
+        for keyword in keywords:
+            if '&' in keyword:
+                keyword_parts = keyword.replace('&', '|')
+                mask = df['fungsi_utama'].str.contains(keyword_parts, case=False, na=False)
+            else:
+                mask = df['fungsi_utama'].str.contains(keyword, case=False, na=False)
+            tanaman = df[mask]['nama_tanaman'].tolist()
+            tanaman_list.extend(tanaman)
+        
+        # Hapus duplikat
+        tanaman_list = list(dict.fromkeys(tanaman_list))
+        hasil[kategori] = {
+            'jumlah': len(tanaman_list),
+            'tanaman': sorted(tanaman_list)
+        }
+    
+    return hasil
+
 # Halaman Peta Sebaran
 if selected == "Peta Sebaran":
     st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
@@ -1254,7 +1337,7 @@ elif selected == "Statistik":
             """, unsafe_allow_html=True)
 
 # Halaman Informasi
-else:
+elif selected == "Informasi":
     st.markdown("## ℹ️ Informasi TNBTS")
     
     # Hitung statistik
@@ -1323,58 +1406,6 @@ else:
             </tr>
         </table>
         """.format(total_penduduk, len(df_tanaman), tanaman_dilindungi), unsafe_allow_html=True)
-    
-    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
-    
-    # Fungsi utama tanaman
-    st.markdown("### 💊 Fungsi Utama Tanaman")
-    
-    # Kelompokkan fungsi
-    fungsi_pencernaan = ['Pencernaan', 'Diare', 'Sakit perut', 'Masuk angin']
-    fungsi_antiradang = ['Antiradang', 'Anti radang', 'Anti radang, batuk', 'Antiradang, diuretik']
-    fungsi_penurun_demam = ['Penurun demam', 'Obat demam']
-    fungsi_pereda_nyeri = ['Pereda nyeri', 'Pereda nyeri, asma', 'Pereda nyeri otot']
-    fungsi_obat_luka = ['Obat luka', 'Penyembuhan luka', 'Menghentikan pendarahan']
-    fungsi_batuk = ['Batuk & pilek', 'Batuk', 'Batuk, darah tinggi']
-    fungsi_lainnya = ['Diuretik', 'Antiseptik', 'Kesuburan', 'Antikanker', 'Antibakteri', 
-                     'Menurunkan tekanan darah', 'Tekanan darah tinggi', 'Penurun gula darah',
-                     'Melancarkan peredaran darah', 'Kesehatan darah', 'Kesehatan hati',
-                     'Menghangatkan tubuh', 'Mengurangi bengkak', 'Antimalaria', 'Antioksidan']
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("**🫀 Pencernaan**")
-        for f in fungsi_pencernaan[:4]:
-            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
-            st.markdown(f"- {f}: {count} spesies")
-        
-        st.markdown("**🔥 Antiradang**")
-        for f in fungsi_antiradang[:3]:
-            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace(',', '|'), case=False, na=False)])
-            st.markdown(f"- Antiradang: {count} spesies")
-    
-    with col2:
-        st.markdown("**🤒 Penurun Demam**")
-        for f in fungsi_penurun_demam:
-            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
-            st.markdown(f"- {f}: {count} spesies")
-        
-        st.markdown("**💊 Pereda Nyeri**")
-        for f in fungsi_pereda_nyeri[:3]:
-            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace(',', '|'), case=False, na=False)])
-            st.markdown(f"- Pereda nyeri: {count} spesies")
-    
-    with col3:
-        st.markdown("**🩹 Obat Luka**")
-        for f in fungsi_obat_luka:
-            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
-            st.markdown(f"- {f}: {count} spesies")
-        
-        st.markdown("**🌡️ Batuk & Pilek**")
-        for f in fungsi_batuk:
-            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace('&', '|'), case=False, na=False)])
-            st.markdown(f"- Batuk & pilek: {count} spesies")
     
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
@@ -1449,6 +1480,189 @@ else:
         <li><b>Peta Basemap:</b> OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap</li>
     </ul>
     """, unsafe_allow_html=True)
+
+# Halaman Fungsi Tanaman (BARU)
+elif selected == "Fungsi Tanaman":
+    st.markdown("## 💊 Fungsi Utama Tanaman Herbal TNBTS")
+    st.markdown("Klasifikasi tanaman berdasarkan fungsi pengobatan tradisional")
+    
+    # Metric cards
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>86</h3>
+            <p>🌿 Total Spesies</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>6</h3>
+            <p>💊 Kategori Fungsi</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        tanaman_dilindungi = len(df_tanaman[df_tanaman['status_konservasi'] == 'Dilindungi'])
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>{tanaman_dilindungi}</h3>
+            <p>🔒 Dilindungi</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+    
+    # Dapatkan data tanaman berdasarkan fungsi
+    fungsi_data = get_tanaman_by_fungsi()
+    
+    # Tampilkan dalam tab
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "🫀 Pencernaan", 
+        "🔥 Antiradang & Nyeri", 
+        "🤒 Demam & Batuk",
+        "🩹 Luka & Pendarahan",
+        "❤️ Kardiovaskular",
+        "🌿 Lainnya"
+    ])
+    
+    with tab1:
+        data = fungsi_data['Pencernaan']
+        st.markdown(f"""
+        <div class="fungsi-header">
+            🫀 Fungsi Pencernaan - {data['jumlah']} Spesies
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("Tanaman yang berkhasiat untuk mengatasi masalah pencernaan seperti diare, sakit perut, masuk angin, dan melancarkan pencernaan.")
+        
+        # Tampilkan dalam grid
+        tanaman_list = data['tanaman']
+        cols = st.columns(3)
+        for i, tanaman in enumerate(tanaman_list):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div class="tanaman-tag" style="margin-bottom: 8px; text-align: center;">
+                    {tanaman}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    with tab2:
+        data = fungsi_data['Antiradang & Nyeri']
+        st.markdown(f"""
+        <div class="fungsi-header">
+            🔥 Fungsi Antiradang & Pereda Nyeri - {data['jumlah']} Spesies
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("Tanaman yang berkhasiat untuk mengatasi peradangan, mengurangi rasa nyeri, dan sakit otot.")
+        
+        # Tampilkan dalam grid
+        tanaman_list = data['tanaman']
+        cols = st.columns(3)
+        for i, tanaman in enumerate(tanaman_list):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div class="tanaman-tag" style="margin-bottom: 8px; text-align: center;">
+                    {tanaman}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    with tab3:
+        data = fungsi_data['Demam & Batuk']
+        st.markdown(f"""
+        <div class="fungsi-header">
+            🤒 Fungsi Penurun Demam & Batuk - {data['jumlah']} Spesies
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("Tanaman yang berkhasiat untuk menurunkan demam, mengatasi batuk, pilek, dan masalah pernapasan.")
+        
+        # Tampilkan dalam grid
+        tanaman_list = data['tanaman']
+        cols = st.columns(3)
+        for i, tanaman in enumerate(tanaman_list):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div class="tanaman-tag" style="margin-bottom: 8px; text-align: center;">
+                    {tanaman}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    with tab4:
+        data = fungsi_data['Luka & Pendarahan']
+        st.markdown(f"""
+        <div class="fungsi-header">
+            🩹 Fungsi Penyembuhan Luka & Menghentikan Pendarahan - {data['jumlah']} Spesies
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("Tanaman yang berkhasiat untuk menyembuhkan luka, menghentikan pendarahan, dan mengobati bisul.")
+        
+        # Tampilkan dalam grid
+        tanaman_list = data['tanaman']
+        cols = st.columns(3)
+        for i, tanaman in enumerate(tanaman_list):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div class="tanaman-tag" style="margin-bottom: 8px; text-align: center;">
+                    {tanaman}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    with tab5:
+        data = fungsi_data['Kardiovaskular & Darah']
+        st.markdown(f"""
+        <div class="fungsi-header">
+            ❤️ Fungsi Kardiovaskular & Kesehatan Darah - {data['jumlah']} Spesies
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("Tanaman yang berkhasiat untuk mengatur tekanan darah, melancarkan peredaran darah, dan menjaga kesehatan jantung.")
+        
+        # Tampilkan dalam grid
+        tanaman_list = data['tanaman']
+        cols = st.columns(3)
+        for i, tanaman in enumerate(tanaman_list):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div class="tanaman-tag" style="margin-bottom: 8px; text-align: center;">
+                    {tanaman}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    with tab6:
+        data = fungsi_data['Lainnya']
+        st.markdown(f"""
+        <div class="fungsi-header">
+            🌿 Fungsi Lainnya - {data['jumlah']} Spesies
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("Tanaman dengan berbagai fungsi lainnya seperti diuretik, antiseptik, kesuburan, antikanker, dan antioksidan.")
+        
+        # Tampilkan dalam grid
+        tanaman_list = data['tanaman']
+        cols = st.columns(3)
+        for i, tanaman in enumerate(tanaman_list):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div class="tanaman-tag" style="margin-bottom: 8px; text-align: center;">
+                    {tanaman}
+                </div>
+                """, unsafe_allow_html=True)
+    
+    # Ringkasan fungsi
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+    st.markdown("### 📊 Ringkasan Fungsi Tanaman")
+    
+    ringkasan_df = pd.DataFrame({
+        'Kategori Fungsi': list(fungsi_data.keys()),
+        'Jumlah Spesies': [data['jumlah'] for data in fungsi_data.values()]
+    })
+    
+    col1, col2 = st.columns([2, 1])
+    with col1:
+        st.bar_chart(ringkasan_df.set_index('Kategori Fungsi'), use_container_width=True)
+    with col2:
+        st.dataframe(ringkasan_df, use_container_width=True, hide_index=True)
 
 # Footer yang lebih menarik
 st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
