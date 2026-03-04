@@ -585,7 +585,7 @@ def create_tnbts_map():
 # Halaman Peta Sebaran
 if selected == "Peta Sebaran":
     st.header("🗺️ Peta Interaktif Tanaman Herbal TNBTS")
-    st.caption("🌍 Default peta menggunakan mode **OpenStreetMap** (dapat diganti ke Satelit atau Terrain)")
+    st.caption("🌍 Default peta menggunakan mode **Terrain** (dapat diganti ke Satelit atau OpenStreetMap)")
     
     # Tampilkan statistik dengan data yang diperbarui sesuai screenshot
     col1, col2, col3, col4 = st.columns(4)
