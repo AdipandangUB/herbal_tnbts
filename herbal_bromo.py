@@ -219,6 +219,55 @@ st.markdown("""
         margin: 0.3rem 0;
         border-left: 3px solid #4CAF50;
     }
+    
+    /* Styling untuk foto tim */
+    .team-card {
+        background: #f5f5f5;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        height: 420px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    
+    .team-photo {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #4CAF50;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .team-name {
+        color: #2E7D32;
+        margin: 0.5rem 0 0.2rem 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    .team-title {
+        color: #666;
+        margin: 0.2rem 0;
+        font-size: 0.95rem;
+    }
+    
+    .team-role {
+        color: #666;
+        font-style: italic;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        background: rgba(76, 175, 80, 0.1);
+        padding: 0.3rem;
+        border-radius: 20px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -240,7 +289,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     
     # Gambar dengan caption
-    st.image("https://www.journeyera.com/wp-content/uploads/2018/11/mount-bromo-without-a-tour-king-kong-hill-0600.jpg",
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Mount_Bromo_at_sunrise.jpg/800px-Mount_Bromo_at_sunrise.jpg",
              use_container_width=True)
     st.markdown('<p class="image-caption">Gunung Bromo saat sunrise</p>', unsafe_allow_html=True)
     
@@ -339,7 +388,6 @@ with st.sidebar:
 # Load data
 @st.cache_data
 def load_tanaman_herbal_data():
-    # [SAME DATA LOADING FUNCTION AS ORIGINAL]
     # Daftar nama tanaman (86 spesies)
     nama_tanaman = [
         'Adas', 'Ajeran putih', 'Alang-alang', 'Andong', 'Awar-awar',
@@ -1231,45 +1279,63 @@ else:
     
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    # Tim peneliti
+    # Tim peneliti dengan foto
     st.markdown("### 👥 Tim Peneliti")
     
+    # Baris pertama (3 orang)
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
-        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center; height: 150px;">
-            <h4 style="color: #2E7D32;">Dr Eng Turniningtyas Ayu R.</h4>
-            <p style="color: #666;">ST., MT</p>
-            <p style="color: #666;"><i>Ketua Tim</i></p>
+        <div class="team-card">
+            <img src="https://pwk.ub.ac.id/wp-content/uploads/2022/09/New-Project-43.jpg" 
+                 class="team-photo"
+                 alt="Dr Eng Turniningtyas Ayu R."
+                 onerror="this.src='https://via.placeholder.com/150?text=Dr.+Turniningtyas'">
+            <h4 class="team-name">Dr Eng Turniningtyas Ayu R.</h4>
+            <p class="team-title">ST., MT</p>
+            <p class="team-role">Ketua Tim</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
-        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center; height: 150px;">
-            <h4 style="color: #2E7D32;">Prof.Dr.Ir. Moch. Sasmito Djati</h4>
-            <p style="color: #666;">M.S.</p>
-            <p style="color: #666;"><i>Pakar Tanaman Herbal</i></p>
+        <div class="team-card">
+            <img src="https://img.inews.co.id/files/networks/2022/11/03/e9d8d_prof-sasmito-djati.jpg" 
+                 class="team-photo"
+                 alt="Prof.Dr.Ir. Moch. Sasmito Djati"
+                 onerror="this.src='https://via.placeholder.com/150?text=Prof.+Sasmito+Djati'">
+            <h4 class="team-name">Prof.Dr.Ir. Moch. Sasmito Djati</h4>
+            <p class="team-title">M.S.</p>
+            <p class="team-role">Pakar Tanaman Herbal</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown("""
-        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center; height: 150px;">
-            <h4 style="color: #2E7D32;">Adipandang Yudono</h4>
-            <p style="color: #666;">S.Si., M.U.R.P., Ph.D</p>
-            <p style="color: #666;"><i>Pakar GIS dan WebGIS Analytics</i></p>
+        <div class="team-card">
+            <img src="https://i1.rgstatic.net/ii/profile.image/296334033735682-1447662947469_Q512/Adipandang-Yudono.jpg" 
+                 class="team-photo"
+                 alt="Adipandang Yudono"
+                 onerror="this.src='https://via.placeholder.com/150?text=Adipandang+Yudono'">
+            <h4 class="team-name">Adipandang Yudono</h4>
+            <p class="team-title">S.Si., M.U.R.P., Ph.D</p>
+            <p class="team-role">Pakar GIS dan WebGIS Analytics</p>
         </div>
         """, unsafe_allow_html=True)
     
+    # Baris kedua (1 orang di tengah)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown("""
-        <div style="background: #f5f5f5; padding: 1rem; border-radius: 10px; text-align: center;">
-            <h4 style="color: #2E7D32;">Dr. Ir. Arief Andy Soebroto</h4>
-            <p style="color: #666;">ST.,M.Kom.</p>
-            <p style="color: #666;"><i>Pakar Pembangunan AI Platform</i></p>
+        <div class="team-card">
+            <img src="https://file-filkom.ub.ac.id/fileupload/assets/uploads/foto/crop/arief_andy_soebroto.jpg" 
+                 class="team-photo"
+                 alt="Dr. Ir. Arief Andy Soebroto"
+                 onerror="this.src='https://via.placeholder.com/150?text=Dr.+Arief+Andy'">
+            <h4 class="team-name">Dr. Ir. Arief Andy Soebroto</h4>
+            <p class="team-title">ST.,M.Kom.</p>
+            <p class="team-role">Pakar Pembangunan AI Platform</p>
         </div>
         """, unsafe_allow_html=True)
     
