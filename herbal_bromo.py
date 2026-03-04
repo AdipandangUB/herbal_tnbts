@@ -240,7 +240,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     
     # Gambar dengan caption
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Mount_Bromo_at_sunrise.jpg/800px-Mount_Bromo_at_sunrise.jpg",
+    st.image("https://www.journeyera.com/wp-content/uploads/2018/11/mount-bromo-without-a-tour-king-kong-hill-0600.jpg",
              use_container_width=True)
     st.markdown('<p class="image-caption">Gunung Bromo saat sunrise</p>', unsafe_allow_html=True)
     
