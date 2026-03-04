@@ -1418,7 +1418,7 @@ elif selected == "Informasi":
     with col1:
         st.markdown("""
         <div class="team-card">
-            <img src="https://pwk.ub.ac.id/wp-content/uploads/2022/09/New-Project-43.jpg" 
+            <img src="https://prasetya.ub.ac.id/wp-content/uploads/2023/10/BU-TYAS-405x270-1.jpg" 
                  class="team-photo"
                  alt="Dr Eng Turniningtyas Ayu R."
                  onerror="this.src='https://via.placeholder.com/150?text=Dr.+Turniningtyas'">
@@ -1465,7 +1465,7 @@ elif selected == "Informasi":
                  onerror="this.src='https://via.placeholder.com/150?text=Dr.+Arief+Andy'">
             <h4 class="team-name">Dr. Ir. Arief Andy Soebroto</h4>
             <p class="team-title">ST.,M.Kom.</p>
-            <p class="team-role">Pakar Pembangunan AI Platform</p>
+            <p class="team-role">Pakar Pembangunan Platform AI dan IoT</p>
         </div>
         """, unsafe_allow_html=True)
     
