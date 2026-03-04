@@ -1434,7 +1434,7 @@ else:
                  onerror="this.src='https://via.placeholder.com/150?text=Dr.+Arief+Andy'">
             <h4 class="team-name">Dr. Ir. Arief Andy Soebroto</h4>
             <p class="team-title">ST.,M.Kom.</p>
-            <p class="team-role">Pakar Pembangunan AI Platform</p>
+            <p class="team-role">Pakar Pembangunan Platform AI dan IoT</p>
         </div>
         """, unsafe_allow_html=True)
     
