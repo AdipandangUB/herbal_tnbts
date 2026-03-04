@@ -1614,10 +1614,5 @@ st.markdown("""
     <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">🌿 WebGIS Sebaran Tanaman Herbal TNBTS</p>
     <p style="margin-bottom: 0.5rem;">© 2026 Tim Peneliti Universitas Brawijaya</p>
     <p style="font-size: 0.9rem; opacity: 0.9;">Distribusi Spasial Tanaman Herbal di TNBTS • 86 Spesies • 41 Desa</p>
-    <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">
-        <a href="#" style="color: #FFD700;">Tentang</a> • 
-        <a href="#" style="color: #FFD700;">Kontak</a> • 
-        <a href="#" style="color: #FFD700;">Dokumentasi</a>
-    </p>
 </div>
 """, unsafe_allow_html=True)
