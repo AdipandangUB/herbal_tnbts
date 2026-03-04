@@ -802,21 +802,57 @@ else:
     
     ---
     
-    ### 💊 Fungsi Utama Tanaman
+   # Fungsi utama tanaman
+    st.markdown("### 💊 Fungsi Utama Tanaman")
     
-    Berdasarkan data yang terkumpul, tanaman herbal di TNBTS memiliki berbagai fungsi pengobatan:
+    # Kelompokkan fungsi
+    fungsi_pencernaan = ['Pencernaan', 'Diare', 'Sakit perut', 'Masuk angin']
+    fungsi_antiradang = ['Antiradang', 'Anti radang', 'Anti radang, batuk', 'Antiradang, diuretik']
+    fungsi_penurun_demam = ['Penurun demam', 'Obat demam']
+    fungsi_pereda_nyeri = ['Pereda nyeri', 'Pereda nyeri, asma', 'Pereda nyeri otot']
+    fungsi_obat_luka = ['Obat luka', 'Penyembuhan luka', 'Menghentikan pendarahan']
+    fungsi_batuk = ['Batuk & pilek', 'Batuk', 'Batuk, darah tinggi']
+    fungsi_lainnya = ['Diuretik', 'Antiseptik', 'Kesuburan', 'Antikanker', 'Antibakteri', 
+                     'Menurunkan tekanan darah', 'Tekanan darah tinggi', 'Penurun gula darah',
+                     'Melancarkan peredaran darah', 'Kesehatan darah', 'Kesehatan hati',
+                     'Menghangatkan tubuh', 'Mengurangi bengkak', 'Antimalaria', 'Antioksidan']
     
-    * **Pencernaan** - Adas, Jahe, Kunyit, Lobak, Ketumbar, dll
-    * **Antiradang** - Ajeran putih, Awar-awar, Kesimbukan, Trabasan, Jahe merah, dll
-    * **Penurun demam** - Bawang merah, Bunga Matahari, Paitan, Tapak liman, dll
-    * **Pereda nyeri** - Bidara laut, Daun dadap, Tepung otot, dll
-    * **Obat luka** - Ganjan, Jarak merah, Wedusan, Tirem, Paku sarang burung, Cemara gunung, dll
-    * **Batuk & pilek** - Buah klandingan, Kencur, Pulosari, Suplir, dll
-    * **Kesuburan** - Purwoceng, Parijoto
-    * **Diuretik** - Alang-alang, Pakis/paku pedang, Rumput teki-tekian, Rumput ilalang, dll
-    * **Antiseptik** - Sirih, Vervain, dll
+    col1, col2, col3 = st.columns(3)
     
-    ---
+    with col1:
+        st.markdown("**🫀 Pencernaan**")
+        for f in fungsi_pencernaan[:4]:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
+            st.markdown(f"- {f}: {count} spesies")
+        
+        st.markdown("**🔥 Antiradang**")
+        for f in fungsi_antiradang[:3]:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace(',', '|'), case=False, na=False)])
+            st.markdown(f"- Antiradang: {count} spesies")
+    
+    with col2:
+        st.markdown("**🤒 Penurun Demam**")
+        for f in fungsi_penurun_demam:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
+            st.markdown(f"- {f}: {count} spesies")
+        
+        st.markdown("**💊 Pereda Nyeri**")
+        for f in fungsi_pereda_nyeri[:3]:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace(',', '|'), case=False, na=False)])
+            st.markdown(f"- Pereda nyeri: {count} spesies")
+    
+    with col3:
+        st.markdown("**🩹 Obat Luka**")
+        for f in fungsi_obat_luka:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f, case=False, na=False)])
+            st.markdown(f"- {f}: {count} spesies")
+        
+        st.markdown("**🌡️ Batuk & Pilek**")
+        for f in fungsi_batuk:
+            count = len(df_tanaman[df_tanaman['fungsi_utama'].str.contains(f.replace('&', '|'), case=False, na=False)])
+            st.markdown(f"- Batuk & pilek: {count} spesies")
+    
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
     ### 📍 Sumber Data
     
@@ -826,15 +862,67 @@ else:
     
     ---
     
-    ### 👥 Tim Peneliti
+    # Tim peneliti dengan foto
+    st.markdown("### 👥 Tim Peneliti")
     
-      * **Ketua Tim:** Dr Eng Turniningtyas Ayu R., ST., MT
-    * **Anggota:**
-      1.    Prof.Dr.Ir. Moch. Sasmito Djati, M.S. - (Pakar Tanaman Herbal)
-      2.    Adipandang Yudono, S.Si., M.U.R.P., Ph.D - (Pakar GIS dan WebGIS Analytics)
-      3.    Dr. Ir. Arief Andy Soebroto ST.,M.Kom. - (Pakar Pembangunan AI Platform)
-    * **Tahun:** 2026
-    """)
+    # Baris pertama (3 orang)
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div class="team-card">
+            <img src="https://pwk.ub.ac.id/wp-content/uploads/2022/09/New-Project-43.jpg" 
+                 class="team-photo"
+                 alt="Dr Eng Turniningtyas Ayu R."
+                 onerror="this.src='https://via.placeholder.com/150?text=Dr.+Turniningtyas'">
+            <h4 class="team-name">Dr Eng Turniningtyas Ayu R.</h4>
+            <p class="team-title">ST., MT</p>
+            <p class="team-role">Ketua Tim</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="team-card">
+            <img src="https://img.inews.co.id/files/networks/2022/11/03/e9d8d_prof-sasmito-djati.jpg" 
+                 class="team-photo"
+                 alt="Prof.Dr.Ir. Moch. Sasmito Djati"
+                 onerror="this.src='https://via.placeholder.com/150?text=Prof.+Sasmito+Djati'">
+            <h4 class="team-name">Prof.Dr.Ir. Moch. Sasmito Djati</h4>
+            <p class="team-title">M.S.</p>
+            <p class="team-role">Pakar Tanaman Herbal</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="team-card">
+            <img src="https://i1.rgstatic.net/ii/profile.image/296334033735682-1447662947469_Q512/Adipandang-Yudono.jpg" 
+                 class="team-photo"
+                 alt="Adipandang Yudono"
+                 onerror="this.src='https://via.placeholder.com/150?text=Adipandang+Yudono'">
+            <h4 class="team-name">Adipandang Yudono</h4>
+            <p class="team-title">S.Si., M.U.R.P., Ph.D</p>
+            <p class="team-role">Pakar GIS dan WebGIS Analytics</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Baris kedua (1 orang di tengah)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown("""
+        <div class="team-card">
+            <img src="https://file-filkom.ub.ac.id/fileupload/assets/uploads/foto/crop/arief_andy_soebroto.jpg" 
+                 class="team-photo"
+                 alt="Dr. Ir. Arief Andy Soebroto"
+                 onerror="this.src='https://via.placeholder.com/150?text=Dr.+Arief+Andy'">
+            <h4 class="team-name">Dr. Ir. Arief Andy Soebroto</h4>
+            <p class="team-title">ST.,M.Kom.</p>
+            <p class="team-role">Pakar Pembangunan AI Platform</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
 # Footer
 st.markdown("---")
