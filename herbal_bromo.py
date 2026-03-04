@@ -6,7 +6,7 @@ import folium
 from streamlit_folium import folium_static
 import json
 import os
-import pydeck as pdk  # Untuk peta 3D
+import pydeck as pdk
 
 # Konfigurasi halaman - HARUS menjadi perintah Streamlit pertama
 st.set_page_config(
@@ -530,9 +530,9 @@ with st.sidebar:
     
     col3, col4 = st.columns(2)
     with col3:
-        map_height_3d = st.slider("Ketinggian Peta", 300, 800, 500, step=50)
+        map_height_3d = st.slider("Ketinggian Peta", 400, 800, 600, step=50)
     with col4:
-        terrain_exaggeration = st.slider("Eksagerasi Terrain", 1.0, 3.0, 1.5, step=0.1)
+        terrain_exaggeration = st.slider("Eksagerasi Terrain", 1.0, 5.0, 2.5, step=0.5)
     
     st.markdown("---")
     
@@ -975,163 +975,171 @@ def create_tnbts_map():
     
     return m
 
-# Fungsi untuk membuat peta 3D pegunungan
+# Fungsi untuk membuat peta 3D pegunungan - DIPERBAIKI
 def create_3d_mountain_map():
     """
     Membuat peta 3D interaktif pegunungan TNBTS yang dapat diputar 360 derajat
+    Menggunakan PyDeck dengan visualisasi yang lebih baik
     """
-    # Data titik-titik penting di TNBTS (gunung dan lokasi tanaman)
+    
+    # Data gunung-gunung di TNBTS
     mountain_data = pd.DataFrame({
-        'nama': ['Gunung Semeru', 'Gunung Bromo', 'Gunung Batok', 'Gunung Kursi', 'Gunung Widodaren',
-                 'Ranupani', 'Ranu Pane', 'Jemplang', 'Senduro', 'Pasrujambe'],
-        'latitude': [-8.1075, -7.9425, -7.9350, -7.9300, -7.9133,
-                     -7.9400, -7.9400, -8.0333, -7.9250, -8.0833],
-        'longitude': [112.9220, 112.9530, 112.9400, 112.9280, 112.9170,
-                      112.9500, 112.9500, 113.0000, 112.9550, 113.0333],
-        'ketinggian': [3676, 2329, 2470, 2351, 2250,
-                       2200, 2100, 1800, 1700, 1700],
-        'jenis': ['Gunung', 'Gunung', 'Gunung', 'Gunung', 'Gunung',
-                  'Desa', 'Desa', 'Pos RPTN', 'Pos RPTN', 'Pos RPTN'],
-        'warna': ['#8B4513', '#A0522D', '#8B4513', '#8B4513', '#8B4513',
-                  '#2E7D32', '#2E7D32', '#2196F3', '#2196F3', '#2196F3']
+        'nama': ['Gunung Semeru', 'Gunung Bromo', 'Gunung Batok', 'Gunung Kursi', 'Gunung Widodaren'],
+        'latitude': [-8.1075, -7.9425, -7.9350, -7.9300, -7.9133],
+        'longitude': [112.9220, 112.9530, 112.9400, 112.9280, 112.9170],
+        'elevasi': [3676, 2329, 2470, 2351, 2250],
+        'warna': [ [139, 69, 19, 255], [160, 82, 45, 255], [139, 90, 0, 255], [101, 67, 33, 255], [139, 69, 19, 255] ],
+        'jenis': 'Gunung',
+        'radius': 800
     })
     
-    # Gabungkan dengan data tanaman untuk visualisasi
+    # Data desa dan pos penting
+    desa_data = pd.DataFrame({
+        'nama': ['Ranupani', 'Ranu Pane', 'Jemplang', 'Senduro', 'Pasrujambe'],
+        'latitude': [-7.9400, -7.9400, -8.0333, -7.9250, -8.0833],
+        'longitude': [112.9500, 112.9500, 113.0000, 112.9550, 113.0333],
+        'elevasi': [2200, 2100, 1800, 1700, 1700],
+        'warna': [ [46, 125, 50, 255], [46, 125, 50, 255], [33, 150, 243, 255], [33, 150, 243, 255], [33, 150, 243, 255] ],
+        'jenis': 'Desa/Pos',
+        'radius': 400
+    })
+    
+    # Gabungkan data
+    all_points = pd.concat([mountain_data, desa_data], ignore_index=True)
+    
+    # Tambahkan data tanaman jika dipilih
     if show_tanaman and not df_tanaman_filtered.empty:
         tanaman_display = df_tanaman_filtered[['nama_tanaman', 'latitude', 'longitude', 'ketinggian', 'jenis']].copy()
-        tanaman_display = tanaman_display.rename(columns={'nama_tanaman': 'nama'})
-        tanaman_display['warna'] = tanaman_display['jenis'].map({
-            'Pohon': '#28a745',
-            'Semak': '#90EE90',
-            'Perdu': '#90EE90',
-            'Herba': '#5F9EA0',
-            'Bunga': '#FF69B4',
-            'Rumput': '#FFD700',
-            'Pakis': '#006400',
-            'Lumut': '#D3D3D3'
-        }).fillna('#2196F3')
+        tanaman_display = tanaman_display.rename(columns={'nama_tanaman': 'nama', 'ketinggian': 'elevasi'})
         
-        all_points = pd.concat([mountain_data, tanaman_display], ignore_index=True)
-    else:
-        all_points = mountain_data
+        # Mapping warna berdasarkan jenis tanaman
+        warna_tanaman = {
+            'Pohon': [40, 167, 69, 255],
+            'Semak': [144, 238, 144, 255],
+            'Perdu': [144, 238, 144, 255],
+            'Herba': [95, 158, 160, 255],
+            'Bunga': [255, 105, 180, 255],
+            'Rumput': [255, 215, 0, 255],
+            'Pakis': [0, 100, 0, 255],
+            'Lumut': [211, 211, 211, 255]
+        }
+        
+        tanaman_display['warna'] = tanaman_display['jenis'].map(warna_tanaman).fillna([33, 150, 243, 255])
+        tanaman_display['radius'] = 300
+        tanaman_display['jenis'] = 'Tanaman'
+        
+        all_points = pd.concat([all_points, tanaman_display], ignore_index=True)
     
-    # Buat grid untuk terrain (simulasi ketinggian pegunungan)
-    np.random.seed(42)
-    grid_size = 50
-    lat_range = np.linspace(-8.15, -7.85, grid_size)
-    lon_range = np.linspace(112.85, 113.10, grid_size)
-    
-    grid_lat, grid_lon = np.meshgrid(lat_range, lon_range)
-    
-    # Simulasi ketinggian dengan noise dan pola pegunungan
-    base_height = 1500
-    mountain_center_lat = [-8.1075, -7.9425, -7.9350, -7.9300, -7.9133]
-    mountain_center_lon = [112.9220, 112.9530, 112.9400, 112.9280, 112.9170]
-    mountain_heights = [3676, 2329, 2470, 2351, 2250]
-    
-    grid_height = np.ones((grid_size, grid_size)) * base_height
-    
-    for mlat, mlon, mheight in zip(mountain_center_lat, mountain_center_lon, mountain_heights):
-        # Gaussian bump untuk setiap gunung
-        dist = np.sqrt((grid_lat - mlat)**2 + (grid_lon - mlon)**2)
-        bump = mheight * np.exp(-dist * 100)
-        grid_height += bump
-    
-    # Tambahkan noise untuk variasi
-    grid_height += np.random.normal(0, 50, (grid_size, grid_size))
-    
-    # Flatten untuk PyDeck
-    terrain_data = pd.DataFrame({
-        'lat': grid_lat.flatten(),
-        'lon': grid_lon.flatten(),
-        'elevation': grid_height.flatten() * terrain_exaggeration
-    })
-    
-    # Filter data yang akan ditampilkan di peta 3D
-    if show_tanaman:
-        points_to_display = all_points
-    else:
-        points_to_display = mountain_data
-    
-    # Buat layer untuk terrain (heatmap)
-    terrain_layer = pdk.Layer(
-        "HeatmapLayer",
-        data=terrain_data,
-        get_position=["lon", "lat"],
-        get_weight="elevation",
-        aggregation="MEAN",
-        radius_pixels=50,
-        intensity=1,
-        threshold=0.05,
-        color_range=[
-            [65, 105, 225, 100],    # Biru tua (rendah)
-            [34, 139, 34, 150],      # Hijau
-            [107, 142, 35, 175],     # Hijau zaitun
-            [139, 69, 19, 200],       # Coklat
-            [139, 90, 0, 225],        # Coklat tua
-            [160, 82, 45, 255],       # Coklat sienna
-            [101, 67, 33, 255]        # Coklat gelap (tinggi)
-        ]
-    )
-    
-    # Layer untuk titik-titik (gunung dan tanaman)
+    # Buat layer untuk titik-titik dengan elevasi 3D
     point_layer = pdk.Layer(
         "ScatterplotLayer",
-        data=points_to_display,
+        data=all_points,
         get_position=["longitude", "latitude"],
-        get_color="warna",
-        get_radius=200,
-        radius_min_pixels=5,
-        radius_max_pixels=30,
+        get_fill_color="warna",
+        get_radius="radius",
+        elevation_scale=terrain_exaggeration * 10,
+        get_elevation="elevasi",
+        extruded=True,
         pickable=True,
-        auto_highlight=True
+        auto_highlight=True,
+        radius_min_pixels=3,
+        radius_max_pixels=30
     )
     
-    # Layer untuk label
-    text_layer = pdk.Layer(
+    # Layer untuk teks label
+    label_layer = pdk.Layer(
         "TextLayer",
-        data=points_to_display[points_to_display['jenis'].isin(['Gunung', 'Desa', 'Pos RPTN'])],
+        data=all_points[all_points['jenis'].isin(['Gunung', 'Desa/Pos'])],
         get_position=["longitude", "latitude"],
         get_text="nama",
         get_color=[255, 255, 255, 255],
-        get_size=16,
-        size_min_pixels=12,
+        get_size=14,
+        size_min_pixels=10,
         size_max_pixels=20,
-        get_pixel_offset=[0, 30],
-        pickable=True
+        get_pixel_offset=[0, 40],
+        get_alignment_baseline="'bottom'"
     )
     
-    # View state untuk peta 3D dengan sudut yang baik
+    # Buat layer polygon untuk area TNBTS (simulasi)
+    # Membuat grid polygon untuk efek terrain
+    grid_size = 30
+    lat_center = -7.98
+    lon_center = 112.96
+    lat_range = 0.3
+    lon_range = 0.3
+    
+    grid_data = []
+    for i in range(grid_size):
+        for j in range(grid_size):
+            lat = lat_center - lat_range/2 + (i/grid_size) * lat_range
+            lon = lon_center - lon_range/2 + (j/grid_size) * lon_range
+            
+            # Hitung elevasi berdasarkan jarak ke gunung
+            elev = 1500  # Base elevation
+            
+            # Tambahkan efek dari setiap gunung
+            for _, gunung in mountain_data.iterrows():
+                dist = np.sqrt((lat - gunung['latitude'])**2 + (lon - gunung['longitude'])**2)
+                if dist < 0.1:
+                    elev += gunung['elevasi'] * np.exp(-dist * 30) * 0.5
+            
+            # Tambahkan noise
+            elev += np.random.normal(0, 50)
+            
+            grid_data.append({
+                'lat': lat,
+                'lon': lon,
+                'elevasi': elev * terrain_exaggeration
+            })
+    
+    grid_df = pd.DataFrame(grid_data)
+    
+    # Layer polygon grid untuk efek terrain
+    polygon_layer = pdk.Layer(
+        "ColumnLayer",
+        data=grid_df,
+        get_position=["lon", "lat"],
+        get_elevation="elevasi",
+        elevation_scale=10,
+        radius=500,
+        extruded=True,
+        get_fill_color=[34, 139, 34, 150],
+        get_line_color=[0, 0, 0, 50],
+        wireframe=True,
+        coverage=0.8
+    )
+    
+    # View state untuk peta 3D
     view_state = pdk.ViewState(
         latitude=-7.98,
         longitude=112.96,
-        zoom=9.5,
-        pitch=60,  # Sudut kemiringan
-        bearing=0,  # Rotasi awal
+        zoom=9,
+        pitch=45,  # Sudut kemiringan
+        bearing=30,  # Rotasi awal
         elevation_scale=50,
-        min_zoom=8,
+        min_zoom=7,
         max_zoom=15
     )
     
     # Buat peta dengan multiple layers
     deck = pdk.Deck(
-        layers=[terrain_layer, point_layer, text_layer],
+        layers=[polygon_layer, point_layer, label_layer],
         initial_view_state=view_state,
         map_provider="mapbox",
-        map_style="mapbox://styles/mapbox/satellite-streets-v12",
+        map_style="mapbox://styles/mapbox/satellite-streets-v11",
         tooltip={
-            "html": "<b>{nama}</b><br>Jenis: {jenis}<br>Ketinggian: {ketinggian} mdpl",
+            "html": "<b>{nama}</b><br/>Jenis: {jenis}<br/>Elevasi: {elevasi} mdpl",
             "style": {
                 "backgroundColor": "rgba(50, 50, 50, 0.8)",
                 "color": "white",
-                "font-family": "Arial",
+                "fontFamily": "Arial",
                 "padding": "10px",
-                "border-radius": "5px"
+                "borderRadius": "5px"
             }
         }
     )
     
-    return deck, points_to_display
+    return deck, all_points
 
 # Halaman Peta Sebaran
 if selected == "Peta Sebaran":
@@ -1201,7 +1209,7 @@ if selected == "Peta Sebaran":
         m = folium.Map(location=[-7.940, 112.950], zoom_start=10)
         folium_static(m)
     
-    # Legenda dalam expander - SESUAI PERMINTAAN
+    # Legenda dalam expander
     with st.expander("📖 Legenda Peta"):
         st.markdown("""
         ### 🗺️ Legenda Peta
@@ -1224,7 +1232,7 @@ if selected == "Peta Sebaran":
         - Gunakan Measure Tool untuk mengukur jarak
         """)
 
-# Halaman Peta 3D Pegunungan
+# Halaman Peta 3D Pegunungan - DIPERBAIKI
 elif selected == "Peta 3D Pegunungan":
     st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS")
     st.markdown("Visualisasi 3D interaktif pegunungan Bromo Tengger Semeru - Putar 360° dengan mouse/touch")
@@ -1232,18 +1240,38 @@ elif selected == "Peta 3D Pegunungan":
     # Informasi singkat
     st.info("""
     **🖱️ Cara menggunakan:**
-    - **Putar**: Klik kiri + drag untuk memutar 360°
+    - **Putar 360°**: Klik kiri + drag ke segala arah
     - **Zoom**: Gulir mouse untuk zoom in/out
-    - **Kemiringan**: Klik kanan + drag untuk mengubah sudut pandang
-    - **Klik titik**: Untuk melihat informasi gunung/tanaman
+    - **Kemiringan**: Klik kanan + drag atau gunakan 2 jari di trackpad
+    - **Klik titik**: Untuk melihat informasi gunung/desa/tanaman
+    - **Rotasi otomatis**: Peta akan sedikit berputar untuk menunjukkan efek 3D
     """)
+    
+    # Pilihan tampilan
+    view_option = st.radio(
+        "Pilih Sudut Pandang:",
+        ["Umum (360°)", "Dari Timur", "Dari Barat", "Dari Utara", "Dari Selatan"],
+        horizontal=True
+    )
+    
+    # Mapping sudut pandang
+    view_angles = {
+        "Umum (360°)": 30,
+        "Dari Timur": 90,
+        "Dari Barat": 270,
+        "Dari Utara": 0,
+        "Dari Selatan": 180
+    }
     
     # Buat dan tampilkan peta 3D
     try:
-        with st.spinner("Memuat peta 3D..."):
+        with st.spinner("Memuat peta 3D pegunungan..."):
             deck_3d, points_data = create_3d_mountain_map()
             
-            # Tampilkan peta 3D dalam container dengan height yang bisa diatur
+            # Update bearing berdasarkan pilihan sudut pandang
+            deck_3d.initial_view_state.bearing = view_angles[view_option]
+            
+            # Tampilkan peta 3D
             st.markdown(f'<div class="map-3d-container">', unsafe_allow_html=True)
             st.pydeck_chart(deck_3d, height=map_height_3d, use_container_width=True)
             st.markdown(f'</div>', unsafe_allow_html=True)
@@ -1261,17 +1289,17 @@ elif selected == "Peta 3D Pegunungan":
                 """, unsafe_allow_html=True)
             
             with col2:
-                desa_count = len(points_data[points_data['jenis'] == 'Desa'])
+                desa_count = len(points_data[points_data['jenis'] == 'Desa/Pos'])
                 st.markdown(f"""
                 <div class="metric-card">
                     <h3>{desa_count}</h3>
-                    <p>🏘️ Desa</p>
+                    <p>🏘️ Desa/Pos</p>
                 </div>
                 """, unsafe_allow_html=True)
             
             with col3:
                 if show_tanaman:
-                    tanaman_count = len(points_data[points_data['jenia'] != 'Gunung']) - desa_count - len(points_data[points_data['jenis'] == 'Pos RPTN'])
+                    tanaman_count = len(points_data[points_data['jenis'] == 'Tanaman'])
                     st.markdown(f"""
                     <div class="metric-card">
                         <h3>{tanaman_count}</h3>
@@ -1287,43 +1315,73 @@ elif selected == "Peta 3D Pegunungan":
                     """, unsafe_allow_html=True)
             
             with col4:
-                tertinggi = points_data[points_data['jenis'] == 'Gunung']['ketinggian'].max() if gunung_count > 0 else 0
+                tertinggi = points_data[points_data['jenis'] == 'Gunung']['elevasi'].max() if gunung_count > 0 else 0
                 st.markdown(f"""
                 <div class="metric-card">
-                    <h3>{tertinggi:,}</h3>
+                    <h3>{tertinggi:,.0f}</h3>
                     <p>📏 Tertinggi (mdpl)</p>
                 </div>
                 """, unsafe_allow_html=True)
             
             # Tabel titik-titik penting
             with st.expander("📍 Titik-titik Penting di TNBTS", expanded=False):
-                important_points = points_data[points_data['jenis'].isin(['Gunung', 'Desa', 'Pos RPTN'])]
-                if 'nama_tanaman' in important_points.columns:
-                    important_points = important_points.rename(columns={'nama_tanaman': 'nama'})
+                important_points = points_data[points_data['jenis'].isin(['Gunung', 'Desa/Pos'])]
+                if 'nama' in important_points.columns:
+                    display_df = important_points[['nama', 'jenis', 'elevasi', 'latitude', 'longitude']].copy()
+                    display_df['elevasi'] = display_df['elevasi'].astype(int).astype(str) + ' mdpl'
+                    display_df = display_df.rename(columns={
+                        'nama': 'Nama',
+                        'jenis': 'Jenis',
+                        'elevasi': 'Ketinggian',
+                        'latitude': 'Latitude',
+                        'longitude': 'Longitude'
+                    })
+                    st.dataframe(display_df, use_container_width=True, hide_index=True)
+            
+            # Legenda peta 3D
+            with st.expander("🎨 Legenda Peta 3D", expanded=False):
+                st.markdown("""
+                ### 🏔️ Legenda Peta 3D
                 
-                display_cols = ['nama', 'jenis', 'ketinggian', 'latitude', 'longitude']
-                display_df = important_points[display_cols].copy()
-                display_df['ketinggian'] = display_df['ketinggian'].astype(int).astype(str) + ' mdpl'
+                **Warna Titik:**
+                - 🟫 **Coklat**: Gunung
+                - 🟢 **Hijau tua**: Desa/Pemukiman
+                - 🔵 **Biru**: Pos RPTN
+                - 🟢 **Hijau**: Tanaman Pohon
+                - 🟢 **Hijau muda**: Tanaman Semak/Perdu
+                - 🔵 **Biru muda**: Tanaman Herba
+                - 💗 **Pink**: Tanaman Bunga
+                - 🟡 **Kuning**: Tanaman Rumput
+                - 🟤 **Hijau tua**: Tanaman Pakis
+                - ⚪ **Abu-abu**: Tanaman Lumut
                 
-                st.dataframe(display_df, use_container_width=True, hide_index=True)
+                **Ketinggian:**
+                - Warna hijau pada grid menunjukkan elevasi tanah
+                - Semakin tinggi, warna semakin gelap
+                - Kolom 3D menunjukkan elevasi titik
+                """)
     
     except Exception as e:
         st.error(f"Error dalam memuat peta 3D: {e}")
         st.warning("""
-        **Tips:**
-        - Pastikan library `pydeck` sudah terinstall
-        - Coba refresh halaman
+        **Tips Perbaikan:**
+        - Pastikan library `pydeck` sudah terinstall dengan benar
+        - Coba jalankan: `pip install --upgrade pydeck`
+        - Refresh halaman dan coba lagi
         - Jika masih error, gunakan menu Peta Sebaran untuk visualisasi 2D
         """)
         
         # Tampilkan informasi alternatif
         st.info("### Data Gunung di TNBTS")
-        mountain_data = pd.DataFrame({
+        mountain_data_alt = pd.DataFrame({
             'Nama Gunung': ['Semeru', 'Bromo', 'Batok', 'Kursi', 'Widodaren'],
             'Ketinggian (mdpl)': [3676, 2329, 2470, 2351, 2250],
+            'Koordinat': ['8.1075°S, 112.9220°E', '7.9425°S, 112.9530°E', 
+                         '7.9350°S, 112.9400°E', '7.9300°S, 112.9280°E', 
+                         '7.9133°S, 112.9170°E'],
             'Status': ['Aktif', 'Aktif', 'Non-aktif', 'Non-aktif', 'Non-aktif']
         })
-        st.dataframe(mountain_data, use_container_width=True)
+        st.dataframe(mountain_data_alt, use_container_width=True)
 
 # Halaman Data Tanaman
 elif selected == "Data Tanaman":
@@ -1667,7 +1725,7 @@ else:
     
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    # Fungsi utama tanaman dengan nama tanamannya (SEMUA DITAMPILKAN)
+    # Fungsi utama tanaman dengan nama tanamannya
     st.markdown("### 💊 Fungsi Utama Tanaman")
     
     # Kelompokkan fungsi
