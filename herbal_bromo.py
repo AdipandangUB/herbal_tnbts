@@ -975,31 +975,31 @@ def create_tnbts_map():
     
     return m
 
-# Fungsi untuk membuat peta 3D pegunungan - DIPERBAIKI
+# FUNGSI PETA 3D YANG DIPERBAIKI - MENGGUNAKAN HEX COLOR
 def create_3d_mountain_map():
     """
     Membuat peta 3D interaktif pegunungan TNBTS yang dapat diputar 360 derajat
-    Menggunakan PyDeck dengan visualisasi yang lebih baik
+    Menggunakan PyDeck dengan format warna HEX untuk menghindari error
     """
     
-    # Data gunung-gunung di TNBTS
+    # Data gunung-gunung di TNBTS - menggunakan HEX color
     mountain_data = pd.DataFrame({
         'nama': ['Gunung Semeru', 'Gunung Bromo', 'Gunung Batok', 'Gunung Kursi', 'Gunung Widodaren'],
         'latitude': [-8.1075, -7.9425, -7.9350, -7.9300, -7.9133],
         'longitude': [112.9220, 112.9530, 112.9400, 112.9280, 112.9170],
         'elevasi': [3676, 2329, 2470, 2351, 2250],
-        'warna': [ [139, 69, 19, 255], [160, 82, 45, 255], [139, 90, 0, 255], [101, 67, 33, 255], [139, 69, 19, 255] ],
+        'warna': ['#8B4513', '#A0522D', '#8B4513', '#8B4513', '#8B4513'],  # HEX color
         'jenis': 'Gunung',
         'radius': 800
     })
     
-    # Data desa dan pos penting
+    # Data desa dan pos penting - menggunakan HEX color
     desa_data = pd.DataFrame({
         'nama': ['Ranupani', 'Ranu Pane', 'Jemplang', 'Senduro', 'Pasrujambe'],
         'latitude': [-7.9400, -7.9400, -8.0333, -7.9250, -8.0833],
         'longitude': [112.9500, 112.9500, 113.0000, 112.9550, 113.0333],
         'elevasi': [2200, 2100, 1800, 1700, 1700],
-        'warna': [ [46, 125, 50, 255], [46, 125, 50, 255], [33, 150, 243, 255], [33, 150, 243, 255], [33, 150, 243, 255] ],
+        'warna': ['#2E7D32', '#2E7D32', '#2196F3', '#2196F3', '#2196F3'],  # HEX color
         'jenis': 'Desa/Pos',
         'radius': 400
     })
@@ -1012,19 +1012,19 @@ def create_3d_mountain_map():
         tanaman_display = df_tanaman_filtered[['nama_tanaman', 'latitude', 'longitude', 'ketinggian', 'jenis']].copy()
         tanaman_display = tanaman_display.rename(columns={'nama_tanaman': 'nama', 'ketinggian': 'elevasi'})
         
-        # Mapping warna berdasarkan jenis tanaman
+        # Mapping warna berdasarkan jenis tanaman (dalam format HEX)
         warna_tanaman = {
-            'Pohon': [40, 167, 69, 255],
-            'Semak': [144, 238, 144, 255],
-            'Perdu': [144, 238, 144, 255],
-            'Herba': [95, 158, 160, 255],
-            'Bunga': [255, 105, 180, 255],
-            'Rumput': [255, 215, 0, 255],
-            'Pakis': [0, 100, 0, 255],
-            'Lumut': [211, 211, 211, 255]
+            'Pohon': '#28a745',
+            'Semak': '#90EE90',
+            'Perdu': '#90EE90',
+            'Herba': '#5F9EA0',
+            'Bunga': '#FF69B4',
+            'Rumput': '#FFD700',
+            'Pakis': '#006400',
+            'Lumut': '#D3D3D3'
         }
         
-        tanaman_display['warna'] = tanaman_display['jenis'].map(warna_tanaman).fillna([33, 150, 243, 255])
+        tanaman_display['warna'] = tanaman_display['jenis'].map(warna_tanaman).fillna('#2196F3')
         tanaman_display['radius'] = 300
         tanaman_display['jenis'] = 'Tanaman'
         
@@ -1035,7 +1035,7 @@ def create_3d_mountain_map():
         "ScatterplotLayer",
         data=all_points,
         get_position=["longitude", "latitude"],
-        get_fill_color="warna",
+        get_fill_color="warna",  # Referensi ke kolom dengan HEX color
         get_radius="radius",
         elevation_scale=terrain_exaggeration * 10,
         get_elevation="elevasi",
@@ -1043,7 +1043,8 @@ def create_3d_mountain_map():
         pickable=True,
         auto_highlight=True,
         radius_min_pixels=3,
-        radius_max_pixels=30
+        radius_max_pixels=30,
+        elevation_range=[0, 5000]
     )
     
     # Layer untuk teks label
@@ -1052,7 +1053,7 @@ def create_3d_mountain_map():
         data=all_points[all_points['jenis'].isin(['Gunung', 'Desa/Pos'])],
         get_position=["longitude", "latitude"],
         get_text="nama",
-        get_color=[255, 255, 255, 255],
+        get_color=[255, 255, 255, 255],  # RGB dengan alpha
         get_size=14,
         size_min_pixels=10,
         size_max_pixels=20,
@@ -1060,8 +1061,7 @@ def create_3d_mountain_map():
         get_alignment_baseline="'bottom'"
     )
     
-    # Buat layer polygon untuk area TNBTS (simulasi)
-    # Membuat grid polygon untuk efek terrain
+    # Buat grid untuk terrain
     grid_size = 30
     lat_center = -7.98
     lon_center = 112.96
@@ -1086,15 +1086,26 @@ def create_3d_mountain_map():
             # Tambahkan noise
             elev += np.random.normal(0, 50)
             
+            # Tentukan warna berdasarkan elevasi (HEX color)
+            if elev < 1800:
+                warna_grid = '#2E7D32'  # Hijau tua (rendah)
+            elif elev < 2200:
+                warna_grid = '#4CAF50'  # Hijau sedang
+            elif elev < 2600:
+                warna_grid = '#8B4513'  # Coklat (sedang)
+            else:
+                warna_grid = '#A0522D'  # Coklat muda (tinggi)
+            
             grid_data.append({
                 'lat': lat,
                 'lon': lon,
-                'elevasi': elev * terrain_exaggeration
+                'elevasi': elev * terrain_exaggeration,
+                'warna': warna_grid
             })
     
     grid_df = pd.DataFrame(grid_data)
     
-    # Layer polygon grid untuk efek terrain
+    # Layer polygon grid untuk efek terrain - menggunakan HEX color
     polygon_layer = pdk.Layer(
         "ColumnLayer",
         data=grid_df,
@@ -1103,10 +1114,11 @@ def create_3d_mountain_map():
         elevation_scale=10,
         radius=500,
         extruded=True,
-        get_fill_color=[34, 139, 34, 150],
-        get_line_color=[0, 0, 0, 50],
+        get_fill_color="warna",  # Referensi ke kolom dengan HEX color
+        get_line_color=[0, 0, 0, 30],  # Line color tetap pakai RGBA (diperbolehkan)
         wireframe=True,
-        coverage=0.8
+        coverage=0.8,
+        material=True
     )
     
     # View state untuk peta 3D
@@ -1114,8 +1126,8 @@ def create_3d_mountain_map():
         latitude=-7.98,
         longitude=112.96,
         zoom=9,
-        pitch=45,  # Sudut kemiringan
-        bearing=30,  # Rotasi awal
+        pitch=45,
+        bearing=30,
         elevation_scale=50,
         min_zoom=7,
         max_zoom=15
@@ -1244,7 +1256,6 @@ elif selected == "Peta 3D Pegunungan":
     - **Zoom**: Gulir mouse untuk zoom in/out
     - **Kemiringan**: Klik kanan + drag atau gunakan 2 jari di trackpad
     - **Klik titik**: Untuk melihat informasi gunung/desa/tanaman
-    - **Rotasi otomatis**: Peta akan sedikit berputar untuk menunjukkan efek 3D
     """)
     
     # Pilihan tampilan
@@ -1356,9 +1367,11 @@ elif selected == "Peta 3D Pegunungan":
                 - ⚪ **Abu-abu**: Tanaman Lumut
                 
                 **Ketinggian:**
-                - Warna hijau pada grid menunjukkan elevasi tanah
-                - Semakin tinggi, warna semakin gelap
-                - Kolom 3D menunjukkan elevasi titik
+                - Warna grid menunjukkan elevasi tanah:
+                  - Hijau tua: < 1800 mdpl
+                  - Hijau sedang: 1800-2200 mdpl
+                  - Coklat: 2200-2600 mdpl
+                  - Coklat muda: > 2600 mdpl
                 """)
     
     except Exception as e:
