@@ -129,9 +129,52 @@ st.markdown("""
         text-decoration: underline;
     }
     
-    /* Memperbaiki tampilan badges */
-    .badge {
+    /* Memperbaiki tampilan badges untuk legenda */
+    .legend-badge {
         display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+    
+    .legend-item {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    
+    .badge-pohon {
+        background-color: #28a745;
+    }
+    
+    .badge-semak {
+        background-color: #90EE90;
+    }
+    
+    .badge-herba {
+        background-color: #5F9EA0;
+    }
+    
+    .badge-bunga {
+        background-color: #FF69B4;
+    }
+    
+    .badge-rumput {
+        background-color: #FFD700;
+    }
+    
+    .badge-pakis {
+        background-color: #006400;
+    }
+    
+    .badge-lumut {
+        background-color: #D3D3D3;
+    }
+    
+    .badge-success {
+        background-color: #4CAF50;
+        color: white;
         padding: 0.3rem 0.8rem;
         border-radius: 20px;
         font-size: 0.8rem;
@@ -139,19 +182,24 @@ st.markdown("""
         margin-right: 0.5rem;
     }
     
-    .badge-success {
-        background-color: #4CAF50;
-        color: white;
-    }
-    
     .badge-warning {
         background-color: #FFC107;
         color: black;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-right: 0.5rem;
     }
     
     .badge-info {
         background-color: #2196F3;
         color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-right: 0.5rem;
     }
     
     /* Memperbaiki tampilan divider */
@@ -206,9 +254,19 @@ st.markdown("""
     .info-box {
         background-color: #E8F5E9;
         border-left: 4px solid #4CAF50;
-        padding: 1rem;
+        padding: 1.5rem;
         border-radius: 5px;
         margin: 1rem 0;
+    }
+    
+    .info-box h4 {
+        color: #2E7D32;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .info-box ul {
+        margin-bottom: 1rem;
     }
     
     /* Memperbaiki tampilan status badges di sidebar */
@@ -268,6 +326,26 @@ st.markdown("""
         padding: 0.3rem;
         border-radius: 20px;
     }
+    
+    /* Memperbaiki tampilan legenda */
+    .legend-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 15px;
+    }
+    
+    .legend-section {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .legend-title {
+        font-weight: bold;
+        color: #2E7D32;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -283,8 +361,8 @@ st.markdown("""
 with st.sidebar:
     st.markdown("""
     <div class="sidebar-header">
-        <h3>🌋 TNBTS</h3>
-        <p>Bromo Tengger Semeru</p>
+        <h3>🌋 Bromo Tengger Semeru</h3>
+        <p>Taman Nasional</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -864,7 +942,7 @@ if selected == "Peta Sebaran":
         m = folium.Map(location=[-7.940, 112.950], zoom_start=10)
         folium_static(m)
     
-    # Legenda dalam expander
+    # Legenda dalam expander - DIPERBAIKI
     with st.expander("📖 Legenda Peta", expanded=False):
         st.markdown("""
         <div class="info-box">
@@ -873,12 +951,33 @@ if selected == "Peta Sebaran":
             
             <h4>🌿 Tanaman Herbal</h4>
             <p>Marker berwarna berdasarkan jenis:</p>
-            <ul>
-                <li><span class="badge badge-success">Pohon</span> <span class="badge badge-success">Semak/Perdu</span></li>
-                <li><span class="badge badge-info">Herba</span> <span class="badge badge-warning">Bunga</span></li>
-                <li><span class="badge badge-success">Pakis</span> <span class="badge" style="background-color: #lightgray;">Lumut</span></li>
-                <li><span class="badge" style="background-color: #FFD700;">Rumput</span></li>
-            </ul>
+            <div class="legend-container">
+                <div class="legend-section">
+                    <div class="legend-item">
+                        <span class="legend-badge badge-pohon"></span> Pohon (Hijau Tua)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-badge badge-semak"></span> Semak/Perdu (Hijau Muda)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-badge badge-herba"></span> Herba (Biru)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-badge badge-bunga"></span> Bunga (Pink)
+                    </div>
+                </div>
+                <div class="legend-section">
+                    <div class="legend-item">
+                        <span class="legend-badge badge-rumput"></span> Rumput (Kuning)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-badge badge-pakis"></span> Pakis (Hijau Tua)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-badge badge-lumut"></span> Lumut (Abu-abu)
+                    </div>
+                </div>
+            </div>
             
             <h4>🛠️ Tools Peta</h4>
             <p>Layer control (pojok kanan atas) untuk ganti tampilan • Fullscreen • Measure Tool</p>
