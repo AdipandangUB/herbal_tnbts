@@ -1387,7 +1387,7 @@ else:
     with col1:
         st.markdown("""
         <div class="team-card">
-            <img src="https://pwk.ub.ac.id/wp-content/uploads/2022/09/New-Project-43.jpg" 
+            <img src="https://prasetya.ub.ac.id/wp-content/uploads/2023/10/BU-TYAS-405x270.jpg" 
                  class="team-photo"
                  alt="Dr Eng Turniningtyas Ayu R."
                  onerror="this.src='https://via.placeholder.com/150?text=Dr.+Turniningtyas'">
