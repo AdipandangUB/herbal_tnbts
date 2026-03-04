@@ -423,6 +423,12 @@ st.markdown("""
     .tanaman-list::-webkit-scrollbar-thumb:hover {
         background: #2E7D32;
     }
+    
+    /* Style untuk legenda */
+    .legend-item {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1019,47 +1025,28 @@ if selected == "Peta Sebaran":
         m = folium.Map(location=[-7.940, 112.950], zoom_start=10)
         folium_static(m)
     
-    # Legenda dalam expander - DIPERBAIKI
-    with st.expander("📖 Legenda Peta", expanded=False):
+    # Legenda dalam expander - SESUAI PERMINTAAN
+    with st.expander("📖 Legenda Peta"):
         st.markdown("""
-        <div class="info-box">
-            <h4>🏘️ Batas Desa</h4>
-            <p>Polygon kuning dengan garis batas merah - Klik untuk melihat informasi desa</p>
-            
-            <h4>🌿 Tanaman Herbal</h4>
-            <p>Marker berwarna berdasarkan jenis:</p>
-            <div class="legend-container">
-                <div class="legend-section">
-                    <div class="legend-item">
-                        <span class="legend-badge badge-pohon"></span> Pohon (Hijau Tua)
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge badge-semak"></span> Semak/Perdu (Hijau Muda)
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge badge-herba"></span> Herba (Biru)
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge badge-bunga"></span> Bunga (Pink)
-                    </div>
-                </div>
-                <div class="legend-section">
-                    <div class="legend-item">
-                        <span class="legend-badge badge-rumput"></span> Rumput (Kuning)
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge badge-pakis"></span> Pakis (Hijau Tua)
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-badge badge-lumut"></span> Lumut (Abu-abu)
-                    </div>
-                </div>
-            </div>
-            
-            <h4>🛠️ Tools Peta</h4>
-            <p>Layer control (pojok kanan atas) untuk ganti tampilan • Fullscreen • Measure Tool</p>
-        </div>
-        """, unsafe_allow_html=True)
+        ### 🗺️ Legenda Peta
+        
+        **🏘️ Batas Desa:** Polygon kuning dengan garis batas merah
+        - Klik pada polygon untuk melihat informasi desa
+        
+        **🌿 Tanaman Herbal:** Marker berwarna berdasarkan jenis:
+        - 🟢 **Hijau**: Pohon
+        - 🟢 **Hijau muda**: Semak/Perdu  
+        - 🔵 **Biru muda**: Herba
+        - 💗 **Pink**: Bunga
+        - 🟤 **Hijau tua**: Pakis
+        - ⚪ **Abu-abu**: Lumut
+        - 🟡 **Kuning**: Rumput
+        
+        **🛠️ Tools Peta:**
+        - Gunakan layer control untuk memilih tampilan (Satelit, OpenStreetMap, Terrain)
+        - Klik Fullscreen untuk layar penuh
+        - Gunakan Measure Tool untuk mengukur jarak
+        """)
 
 # Halaman Data Tanaman
 elif selected == "Data Tanaman":
