@@ -1372,7 +1372,7 @@ else:
     
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    # Fungsi utama tanaman dengan nama tanamannya (MODIFIKASI UTAMA)
+    # Fungsi utama tanaman dengan nama tanamannya (MODIFIKASI UTAMA - DIPERBAIKI)
     st.markdown("### 💊 Fungsi Utama Tanaman")
     
     # Kelompokkan fungsi
@@ -1407,36 +1407,45 @@ else:
     with col1:
         # Pencernaan
         tanaman_pencernaan = get_tanaman_by_fungsi(fungsi_pencernaan, df_tanaman)
+        tanaman_pencernaan_html = "".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_pencernaan[:15]])
+        if len(tanaman_pencernaan) > 15:
+            tanaman_pencernaan_html += f'<span class="tanaman-badge">... dan {len(tanaman_pencernaan)-15} lainnya</span>'
+        
         st.markdown(f"""
         <div class="fungsi-card">
             <div class="fungsi-title">🫀 Pencernaan ({len(tanaman_pencernaan)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_pencernaan[:15]])}
-                {f'<span class="tanaman-badge">... dan {len(tanaman_pencernaan)-15} lainnya</span>' if len(tanaman_pencernaan) > 15 else ''}
+                {tanaman_pencernaan_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
         
         # Antiradang
         tanaman_antiradang = get_tanaman_by_fungsi(fungsi_antiradang, df_tanaman)
+        tanaman_antiradang_html = "".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_antiradang[:15]])
+        if len(tanaman_antiradang) > 15:
+            tanaman_antiradang_html += f'<span class="tanaman-badge">... dan {len(tanaman_antiradang)-15} lainnya</span>'
+        
         st.markdown(f"""
         <div class="fungsi-card">
             <div class="fungsi-title">🔥 Antiradang ({len(tanaman_antiradang)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_antiradang[:15]])}
-                {f'<span class="tanaman-badge">... dan {len(tanaman_antiradang)-15} lainnya</span>' if len(tanaman_antiradang) > 15 else ''}
+                {tanaman_antiradang_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
         
         # Penurun Demam
         tanaman_demam = get_tanaman_by_fungsi(fungsi_penurun_demam, df_tanaman)
+        tanaman_demam_html = "".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_demam[:15]])
+        if len(tanaman_demam) > 15:
+            tanaman_demam_html += f'<span class="tanaman-badge">... dan {len(tanaman_demam)-15} lainnya</span>'
+        
         st.markdown(f"""
         <div class="fungsi-card">
             <div class="fungsi-title">🤒 Penurun Demam ({len(tanaman_demam)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_demam[:15]])}
-                {f'<span class="tanaman-badge">... dan {len(tanaman_demam)-15} lainnya</span>' if len(tanaman_demam) > 15 else ''}
+                {tanaman_demam_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1444,36 +1453,45 @@ else:
     with col2:
         # Pereda Nyeri
         tanaman_nyeri = get_tanaman_by_fungsi(fungsi_pereda_nyeri, df_tanaman)
+        tanaman_nyeri_html = "".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_nyeri[:15]])
+        if len(tanaman_nyeri) > 15:
+            tanaman_nyeri_html += f'<span class="tanaman-badge">... dan {len(tanaman_nyeri)-15} lainnya</span>'
+        
         st.markdown(f"""
         <div class="fungsi-card">
             <div class="fungsi-title">💊 Pereda Nyeri ({len(tanaman_nyeri)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_nyeri[:15]])}
-                {f'<span class="tanaman-badge">... dan {len(tanaman_nyeri)-15} lainnya</span>' if len(tanaman_nyeri) > 15 else ''}
+                {tanaman_nyeri_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
         
         # Obat Luka
         tanaman_luka = get_tanaman_by_fungsi(fungsi_obat_luka, df_tanaman)
+        tanaman_luka_html = "".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_luka[:15]])
+        if len(tanaman_luka) > 15:
+            tanaman_luka_html += f'<span class="tanaman-badge">... dan {len(tanaman_luka)-15} lainnya</span>'
+        
         st.markdown(f"""
         <div class="fungsi-card">
             <div class="fungsi-title">🩹 Obat Luka ({len(tanaman_luka)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_luka[:15]])}
-                {f'<span class="tanaman-badge">... dan {len(tanaman_luka)-15} lainnya</span>' if len(tanaman_luka) > 15 else ''}
+                {tanaman_luka_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
         
         # Batuk & Pilek
         tanaman_batuk = get_tanaman_by_fungsi(fungsi_batuk, df_tanaman)
+        tanaman_batuk_html = "".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_batuk[:15]])
+        if len(tanaman_batuk) > 15:
+            tanaman_batuk_html += f'<span class="tanaman-badge">... dan {len(tanaman_batuk)-15} lainnya</span>'
+        
         st.markdown(f"""
         <div class="fungsi-card">
             <div class="fungsi-title">🌡️ Batuk & Pilek ({len(tanaman_batuk)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_batuk[:15]])}
-                {f'<span class="tanaman-badge">... dan {len(tanaman_batuk)-15} lainnya</span>' if len(tanaman_batuk) > 15 else ''}
+                {tanaman_batuk_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1481,23 +1499,28 @@ else:
     with col3:
         # Fungsi Lainnya
         tanaman_lainnya = get_tanaman_by_fungsi(fungsi_lainnya, df_tanaman)
+        tanaman_lainnya_html = "".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_lainnya[:15]])
+        if len(tanaman_lainnya) > 15:
+            tanaman_lainnya_html += f'<span class="tanaman-badge">... dan {len(tanaman_lainnya)-15} lainnya</span>'
+        
         st.markdown(f"""
         <div class="fungsi-card">
             <div class="fungsi-title">🌿 Fungsi Lainnya ({len(tanaman_lainnya)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>' for t in tanaman_lainnya[:15]])}
-                {f'<span class="tanaman-badge">... dan {len(tanaman_lainnya)-15} lainnya</span>' if len(tanaman_lainnya) > 15 else ''}
+                {tanaman_lainnya_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
         
         # Tanaman Dilindungi
         tanaman_dilindungi_list = df_tanaman[df_tanaman['status_konservasi'] == 'Dilindungi']['nama_tanaman'].tolist()
+        tanaman_dilindungi_html = "".join([f'<span class="tanaman-badge" style="background: #FFEBEE; color: #c62828; border-color: #c62828;" title="Status Dilindungi">{t}</span>' for t in tanaman_dilindungi_list])
+        
         st.markdown(f"""
         <div class="fungsi-card" style="border-left-color: #f44336;">
             <div class="fungsi-title">🔒 Tanaman Dilindungi ({len(tanaman_dilindungi_list)} spesies)</div>
             <div class="tanaman-list">
-                {"".join([f'<span class="tanaman-badge" style="background: #FFEBEE; color: #c62828; border-color: #c62828;" title="Status Dilindungi">{t}</span>' for t in tanaman_dilindungi_list])}
+                {tanaman_dilindungi_html}
             </div>
         </div>
         """, unsafe_allow_html=True)
