@@ -124,30 +124,40 @@ st.markdown("""
         border-color: rgba(255, 255, 255, 0.3) !important;
     }
     
-    /* Sidebar header baru */
+    /* Sidebar header baru dengan background gambar */
     .sidebar-header-new {
-        background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
-        padding: 1.2rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 1.5rem 1rem;
         border-radius: 10px;
         color: white;
         text-align: center;
         margin-bottom: 1rem;
-        border: 2px solid #D2691E;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
     
     .sidebar-header-new h3 {
         color: #FFD700 !important;
         margin: 0;
-        font-size: 1.3rem;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        font-size: 1.4rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        font-weight: bold;
     }
     
     .sidebar-header-new p {
-        color: #FFE4B5 !important;
-        margin: 0.3rem 0 0 0;
-        font-size: 0.9rem;
+        color: #FFFFFF !important;
+        margin: 0.5rem 0 0 0;
+        font-size: 1rem;
         font-style: italic;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        background: rgba(0,0,0,0.3);
+        display: inline-block;
+        padding: 0.2rem 1rem;
+        border-radius: 20px;
+        backdrop-filter: blur(3px);
     }
     
     /* tampilan metric cards */
@@ -606,8 +616,8 @@ st.markdown("""
 with st.sidebar:
     st.markdown("""
     <div class="sidebar-header-new">
-        <h3> </h3>
-        <p>🏔️ Bromo - Tengger - Semeru saat Matahari terbit</p>
+        <h3>🏔️ Bromo - Tengger - Semeru</h3>
+        <p>Saat Matahari Terbit</p>
     </div>
     """, unsafe_allow_html=True)
     
