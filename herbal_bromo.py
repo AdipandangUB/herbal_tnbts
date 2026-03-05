@@ -8,7 +8,7 @@ import json
 import os
 import pydeck as pdk
 
-# Konfigurasi halaman - HARUS menjadi perintah Streamlit pertama
+# Konfigurasi halaman
 st.set_page_config(
     page_title="WebGIS Tanaman TNBTS",
     page_icon="🌿",
@@ -20,10 +20,10 @@ st.set_page_config(
 if 'menu_selected' not in st.session_state:
     st.session_state.menu_selected = "Peta Sebaran"
 
-# Custom CSS untuk memperbaiki tampilan
+# Custom CSS
 st.markdown("""
 <style>
-    /* Memperbaiki header dan title */
+    /* header dan title */
     .main-header {
         background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
         padding: 1.5rem;
@@ -45,7 +45,7 @@ st.markdown("""
         font-size: 1rem;
     }
     
-    /* Memperbaiki tampilan sidebar */
+    /* tampilan sidebar */
     .css-1d391kg {
         background-color: #f5f5f5;
     }
@@ -59,7 +59,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
-    /* Memperbaiki tampilan metric cards */
+    /* tampilan metric cards */
     .metric-card {
         background: white;
         padding: 1rem;
@@ -84,7 +84,7 @@ st.markdown("""
         text-transform: uppercase;
     }
     
-    /* Memperbaiki tampilan tabs */
+    /* tampilan tabs */
     .stTabs [data-baseweb="tab-list"] {
         gap: 2rem;
         background-color: #f5f5f5;
@@ -97,13 +97,13 @@ st.markdown("""
         padding: 0.5rem 1rem;
     }
     
-    /* Memperbaiki tampilan expander */
+    /* tampilan expander */
     .streamlit-expanderHeader {
         background-color: #f5f5f5;
         border-radius: 5px;
     }
     
-    /* Memperbaiki tampilan dataframe */
+    /* tampilan dataframe */
     .dataframe-container {
         border: 1px solid #ddd;
         border-radius: 10px;
@@ -111,7 +111,7 @@ st.markdown("""
         background: white;
     }
     
-    /* Memperbaiki tampilan footer */
+    /* tampilan footer */
     .footer {
         background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
         color: white;
@@ -130,7 +130,7 @@ st.markdown("""
         text-decoration: underline;
     }
     
-    /* Memperbaiki tampilan badges untuk legenda */
+    /* tampilan badges untuk legenda */
     .legend-badge {
         display: inline-block;
         width: 20px;
@@ -203,14 +203,14 @@ st.markdown("""
         margin-right: 0.5rem;
     }
     
-    /* Memperbaiki tampilan divider */
+    /* tampilan divider */
     .custom-divider {
         height: 3px;
         background: linear-gradient(90deg, transparent, #4CAF50, transparent);
         margin: 2rem 0;
     }
     
-    /* Memperbaiki tampilan image caption */
+    /* tampilan image caption */
     .image-caption {
         text-align: center;
         font-style: italic;
@@ -219,7 +219,7 @@ st.markdown("""
         font-size: 0.9rem;
     }
     
-    /* Memperbaiki tampilan button */
+    /* tampilan button */
     .stButton > button {
         background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
         color: white;
@@ -235,7 +235,7 @@ st.markdown("""
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     
-    /* Memperbaiki tampilan download button */
+    /* tampilan download button */
     .stDownloadButton > button {
         background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
         color: white;
@@ -251,7 +251,7 @@ st.markdown("""
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     
-    /* Memperbaiki tampilan info boxes */
+    /* tampilan info boxes */
     .info-box {
         background-color: #E8F5E9;
         border-left: 4px solid #4CAF50;
@@ -270,7 +270,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
-    /* Memperbaiki tampilan status badges di sidebar */
+    /* tampilan status badges di sidebar */
     .status-badge {
         background: white;
         padding: 0.5rem;
@@ -328,7 +328,7 @@ st.markdown("""
         border-radius: 20px;
     }
     
-    /* Memperbaiki tampilan legenda */
+    /* tampilan legenda */
     .legend-container {
         display: flex;
         flex-wrap: wrap;
@@ -480,15 +480,15 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Header dengan desain yang lebih menarik
+# Header
 st.markdown("""
 <div class="main-header">
-    <h1>🌿 WebGIS Sebaran Tanaman Herbal</h1>
+    <h1>🌿 WebGIS Ketahanan Kesehatan Terhadap Potensi Bencana Bromo - Tengger - Semeru Melalui Konsumsi Tanaman Herbal</h1>
     <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • 86 Spesies Tanaman • 41 Desa</p>
 </div>
 """, unsafe_allow_html=True)
 
-# Sidebar dengan desain yang lebih baik
+# Sidebar
 with st.sidebar:
     st.markdown("""
     <div class="sidebar-header">
@@ -504,7 +504,7 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # Menu navigasi dengan radio button yang lebih rapi
+    # Menu navigasi dengan radio button
     st.markdown("### 📋 Menu Navigasi")
     
     menu_options = ["Peta Sebaran", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
@@ -520,7 +520,7 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # Filter dengan desain yang lebih baik
+    # Filter
     st.markdown("### 🔍 Filter Data")
     
     # Data tanaman untuk filter
@@ -555,7 +555,7 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # Layer control dengan desain yang lebih baik
+    # Layer control
     st.markdown("### 🗂️ Layer Control")
     
     col1, col2 = st.columns(2)
@@ -571,7 +571,7 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # Status file dengan desain yang lebih baik
+    # Status file
     st.markdown("### 📁 Status File")
     
     status_container = st.container()
@@ -813,7 +813,7 @@ def load_tanaman_herbal_data():
         'ketinggian': ketinggian
     })
     
-    # Tambahkan kolom status konservasi
+    # kolom status konservasi
     df['status_konservasi'] = 'Umum'
     
     # Tanaman yang dilindungi
@@ -822,7 +822,7 @@ def load_tanaman_herbal_data():
         mask = df['nama_tanaman'].str.contains(tanaman, case=False, na=False)
         df.loc[mask, 'status_konservasi'] = 'Dilindungi'
     
-    # Tambahkan kolom jumlah (estimasi)
+    # kolom jumlah (estimasi)
     np.random.seed(42)
     df['jumlah'] = np.random.randint(10, 500, len(df))
     
@@ -1101,10 +1101,10 @@ if selected == "Peta Sebaran":
         - Gunakan Measure Tool untuk mengukur jarak
         """)
 
-# Halaman Peta 3D Pegunungan - MENGGUNAKAN EMBED SKETCHFAB
+# Halaman Peta 3D Pegunungan
 elif selected == "Peta 3D Pegunungan":
     st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS (Sketchfab)")
-    st.markdown("Visualisasi 3D interaktif pegunungan Bromo Tengger Semeru dari Sketchfab - Putar 360° dengan mouse/touch")
+    st.markdown("Visualisasi 3D interaktif pegunungan Bromo Tengger Semeru - Putar 360° dengan mouse/touch")
     
     # Informasi singkat
     st.info("""
@@ -1140,16 +1140,7 @@ elif selected == "Peta 3D Pegunungan":
             </div>
         </div>
         """, unsafe_allow_html=True)
-        
-        # Credit link
-        st.markdown("""
-        <div class="sketchfab-credit">
-            Model: <a href="https://sketchfab.com/3d-models/mount-bromo-bromo-tengger-semeru-national-park-72f1c983ba4040eab89d75eb2b0d3e32" target="_blank">Mount Bromo / Bromo Tengger Semeru National Park</a> 
-            by <a href="https://sketchfab.com/smartmAPPS" target="_blank">smartmAPPS</a> on 
-            <a href="https://sketchfab.com" target="_blank">Sketchfab</a>
-        </div>
-        """, unsafe_allow_html=True)
-    
+            
     # Statistik peta 3D
     st.markdown("### 📊 Statistik Kawasan TNBTS")
     
@@ -1200,10 +1191,6 @@ elif selected == "Peta 3D Pegunungan":
         - **Gunung Widodaren** (2.250 mdpl)
         - **Kaldera Tengger** - kawah raksasa dengan diameter 8-10 km
         - **Lautan Pasir** - hamparan pasir vulkanik seluas 5.250 hektar
-        
-        **Kredit:** Model dibuat oleh smartmAPPS dan dipublikasikan di Sketchfab.
-        
-        **Lisensi:** Model ini memiliki lisensi terpisah. Harap periksa halaman Sketchfab untuk detail lisensi.
         """)
     
     # Tips penggunaan
