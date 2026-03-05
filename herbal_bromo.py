@@ -1305,7 +1305,7 @@ elif selected == "Peta 3D Pegunungan":
     # Informasi tentang model
     with st.expander("ℹ️ Tentang Model 3D", expanded=False):
         st.markdown("""
-        ### Tentang Model 3D Sketchfab
+        ### Tentang Model 3D Taman Nasional Bromo-Tengger-Semeru
         
         Model 3D ini menampilkan **Gunung Bromo dan Kaldera Tengger** dengan detail:
         
