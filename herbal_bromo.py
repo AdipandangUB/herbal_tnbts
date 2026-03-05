@@ -18,7 +18,7 @@ st.set_page_config(
 if 'menu_selected' not in st.session_state:
     st.session_state.menu_selected = "Peta Sebaran"
 
-# Custom CSS dengan header dan footer background gambar
+# Custom CSS dengan header, sidebar, dan footer background gambar
 st.markdown("""
 <style>
     /* header dan title dengan background gambar */
@@ -56,18 +56,84 @@ st.markdown("""
         backdrop-filter: blur(5px);
     }
     
-    /* tampilan sidebar */
-    .css-1d391kg {
-        background-color: #f5f5f5;
+    /* tampilan sidebar dengan background gambar */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Museum_Tengger_Probolinggo.jpg/800px-Museum_Tengger_Probolinggo.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
     
-    .sidebar-header {
-        background-color: #2E7D32;
-        padding: 1rem;
-        border-radius: 5px;
+    [data-testid="stSidebar"] .stMarkdown {
+        color: white;
+    }
+    
+    [data-testid="stSidebar"] .stRadio > div {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 10px;
+        backdrop-filter: blur(5px);
+    }
+    
+    [data-testid="stSidebar"] .stRadio label {
+        color: white !important;
+        font-weight: 500;
+    }
+    
+    [data-testid="stSidebar"] .stRadio div[role="radiogroup"] {
+        background-color: transparent;
+    }
+    
+    [data-testid="stSidebar"] .stRadio div[data-testid="stMarkdownContainer"] {
+        color: white;
+    }
+    
+    [data-testid="stSidebar"] .stSlider label {
+        color: white !important;
+    }
+    
+    [data-testid="stSidebar"] .stMultiSelect label {
+        color: white !important;
+    }
+    
+    [data-testid="stSidebar"] .stCheckbox label {
+        color: white !important;
+    }
+    
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    [data-testid="stSidebar"] p {
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+    
+    /* Sidebar header baru */
+    .sidebar-header-new {
+        background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+        padding: 1.2rem;
+        border-radius: 10px;
         color: white;
         text-align: center;
         margin-bottom: 1rem;
+        border: 2px solid #D2691E;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    
+    .sidebar-header-new h3 {
+        color: #FFD700 !important;
+        margin: 0;
+        font-size: 1.3rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .sidebar-header-new p {
+        color: #FFE4B5 !important;
+        margin: 0.3rem 0 0 0;
+        font-size: 0.9rem;
+        font-style: italic;
     }
     
     /* tampilan metric cards */
@@ -300,11 +366,17 @@ st.markdown("""
     
     /* tampilan status badges di sidebar */
     .status-badge {
-        background: white;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
         padding: 0.5rem;
         border-radius: 5px;
         margin: 0.3rem 0;
-        border-left: 3px solid #4CAF50;
+        border-left: 3px solid #FFD700;
+        color: white;
+    }
+    
+    .status-badge small {
+        color: rgba(255, 255, 255, 0.8);
     }
     
     /* Styling untuk foto tim */
@@ -519,16 +591,16 @@ st.markdown("""
 # Sidebar
 with st.sidebar:
     st.markdown("""
-    <div class="sidebar-header">
-        <h3>🌋 Bromo Tengger Semeru</h3>
-        <p>Taman Nasional</p>
+    <div class="sidebar-header-new">
+        <h3>👥 Tim Peneliti UB</h3>
+        <p>Untuk Ekspedisi Tanaman Herbal di TNBTS - 2026</p>
     </div>
     """, unsafe_allow_html=True)
     
     # Gambar dengan caption
     st.image("https://www.journeyera.com/wp-content/uploads/2018/11/mount-bromo-without-a-tour-king-kong-hill-0600.jpg",
              use_container_width=True)
-    st.markdown('<p class="image-caption">Gunung Bromo saat sunrise</p>', unsafe_allow_html=True)
+    st.markdown('<p class="image-caption" style="color: white !important;">Gunung Bromo saat sunrise</p>', unsafe_allow_html=True)
     
     st.markdown("---")
     
