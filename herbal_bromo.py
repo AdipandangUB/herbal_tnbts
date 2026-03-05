@@ -1779,8 +1779,8 @@ st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="footer">
-    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">🌿 WebGIS Sebaran Tanaman Herbal TNBTS</p>
-    <p style="margin-bottom: 0.5rem;">© 2026 Tim Peneliti Universitas Brawijaya</p>
+    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">🌿 WebGIS Ketahanan Kesehatan Terhadap Potensi Bencana Bromo-Tengger-Semeru Melalui Konsumsi Tanaman Herbal di TNBTS</p>
+    <p style="margin-bottom: 0.5rem;">© Ekspedisi Tanaman Herbal di Kawasan Taman Nasional Bromo Tengger Semeru untuk Health Security pada Masyarakat Terdampak Letusan Gunung Bromo - 2026</p>
     <p style="font-size: 0.9rem; opacity: 0.9;">Distribusi Spasial Tanaman Herbal di TNBTS • 86 Spesies • 41 Desa</p>
     <p style="font-size: 0.5rem; opacity: 0.5;">© Credit: Scrypt & WebGIS Developer - Adipandang Yudono (2026)</p>
 </div>
