@@ -598,9 +598,9 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     
     # Gambar dengan caption
-    st.image("https://www.journeyera.com/wp-content/uploads/2018/11/mount-bromo-without-a-tour-king-kong-hill-0600.jpg",
+    st.image("https://adipandang.wordpress.com/wp-content/uploads/2026/03/3ffcb908-4978-4464-bf12-178125ad26ec.jpg",
              use_container_width=True)
-    st.markdown('<p class="image-caption" style="color: white !important;">Gunung Bromo saat sunrise</p>', unsafe_allow_html=True)
+    st.markdown('<p class="image-caption" style="color: white !important;">Team Ekspedisi Penelitian</p>', unsafe_allow_html=True)
     
     st.markdown("---")
     
