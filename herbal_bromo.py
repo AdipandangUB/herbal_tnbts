@@ -592,8 +592,8 @@ st.markdown("""
 with st.sidebar:
     st.markdown("""
     <div class="sidebar-header-new">
-        <h3>👥 Tim Peneliti UB</h3>
-        <p>Untuk Ekspedisi Tanaman Herbal di TNBTS - 2026</p>
+        
+        <p>🏔️ Bromo - Tengger - Semeru saat Matahari terbit</p>
     </div>
     """, unsafe_allow_html=True)
     
