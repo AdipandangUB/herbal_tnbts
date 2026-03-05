@@ -1,48 +1,59 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import geopandas as gpd
 import folium
 from streamlit_folium import folium_static
+import geopandas as gpd
 import json
 import os
-import pydeck as pdk
 
 # Konfigurasi halaman
 st.set_page_config(
-    page_title="WebGIS Tanaman TNBTS",
+    page_title="WebGIS Tanaman Herbal TNBTS",
     page_icon="🌿",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
 # Inisialisasi session state untuk menyimpan status
 if 'menu_selected' not in st.session_state:
     st.session_state.menu_selected = "Peta Sebaran"
 
-# Custom CSS
+# Custom CSS dengan header background gambar
 st.markdown("""
 <style>
-    /* header dan title */
+    /* header dan title dengan background gambar */
     .main-header {
-        background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-        padding: 1.5rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://tunashijau.id/wp-content/uploads/2023/12/tnbts.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 2.5rem 1.5rem;
         border-radius: 10px;
         margin-bottom: 1rem;
         color: white;
         text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.1);
     }
     
     .main-header h1 {
         color: white;
         margin: 0;
         font-size: 2.2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        font-weight: bold;
     }
     
     .main-header p {
         color: #E8F5E9;
         margin: 0.5rem 0 0 0;
         font-size: 1rem;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        background: rgba(0,0,0,0.3);
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        border-radius: 30px;
+        backdrop-filter: blur(5px);
     }
     
     /* tampilan sidebar */
@@ -68,6 +79,12 @@ st.markdown("""
         text-align: center;
         border-left: 4px solid #2E7D32;
         margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
     
     .metric-card h3 {
@@ -480,7 +497,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Header
+# Header dengan background gambar
 st.markdown("""
 <div class="main-header">
     <h1>🌿 WebGIS Ketahanan Kesehatan Terhadap Potensi Bencana Bromo & Semeru Melalui Konsumsi Tanaman Herbal</h1>
@@ -599,7 +616,7 @@ with st.sidebar:
         </div>
         """, unsafe_allow_html=True)
 
-# Load data
+# Load data functions
 @st.cache_data
 def load_tanaman_herbal_data():
     # Daftar nama tanaman (86 spesies)
