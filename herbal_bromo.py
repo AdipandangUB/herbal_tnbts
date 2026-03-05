@@ -18,7 +18,7 @@ st.set_page_config(
 if 'menu_selected' not in st.session_state:
     st.session_state.menu_selected = "Peta Sebaran"
 
-# Custom CSS dengan header background gambar
+# Custom CSS dengan header dan footer background gambar
 st.markdown("""
 <style>
     /* header dan title dengan background gambar */
@@ -128,23 +128,34 @@ st.markdown("""
         background: white;
     }
     
-    /* tampilan footer */
+    /* tampilan footer dengan background gambar */
     .footer {
-        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('https://statik.tempo.co/data/2024/05/26/id_1305154/1305154_720.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         color: white;
-        padding: 1.5rem;
+        padding: 2rem 1.5rem;
         border-radius: 10px;
         text-align: center;
         margin-top: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .footer p {
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     }
     
     .footer a {
         color: #FFD700;
         text-decoration: none;
+        font-weight: bold;
     }
     
     .footer a:hover {
         text-decoration: underline;
+        color: #FFA500;
     }
     
     /* tampilan badges untuk legenda */
@@ -1791,7 +1802,7 @@ else:
     </ul>
     """, unsafe_allow_html=True)
 
-# Footer yang lebih menarik
+# Footer dengan background gambar
 st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
 st.markdown("""
