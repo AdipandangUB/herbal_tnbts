@@ -592,7 +592,7 @@ st.markdown("""
 with st.sidebar:
     st.markdown("""
     <div class="sidebar-header-new">
-        
+        <h3> </h3>
         <p>🏔️ Bromo - Tengger - Semeru saat Matahari terbit</p>
     </div>
     """, unsafe_allow_html=True)
