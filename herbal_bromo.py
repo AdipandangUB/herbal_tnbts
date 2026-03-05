@@ -1794,6 +1794,7 @@ st.markdown("""
 <div class="footer">
     <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">🌿 WebGIS Sebaran Tanaman Herbal TNBTS</p>
     <p style="margin-bottom: 0.5rem;">© 2026 Tim Peneliti Universitas Brawijaya</p>
+    <p style="margin-bottom: 0.5rem;">© Scrypt & WebGIS Developer: Adipandang Yudono</p>
     <p style="font-size: 0.9rem; opacity: 0.9;">Distribusi Spasial Tanaman Herbal di TNBTS • 86 Spesies • 41 Desa</p>
 </div>
 """, unsafe_allow_html=True)
