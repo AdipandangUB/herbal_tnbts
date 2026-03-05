@@ -483,7 +483,7 @@ st.markdown("""
 # Header
 st.markdown("""
 <div class="main-header">
-    <h1>🌿 WebGIS Ketahanan Kesehatan Terhadap Potensi Bencana Bromo - Tengger - Semeru Melalui Konsumsi Tanaman Herbal</h1>
+    <h1>🌿 WebGIS Ketahanan Kesehatan Terhadap Potensi Bencana Bromo & Semeru Melalui Konsumsi Tanaman Herbal</h1>
     <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • 86 Spesies Tanaman • 41 Desa</p>
 </div>
 """, unsafe_allow_html=True)
@@ -1103,7 +1103,7 @@ if selected == "Peta Sebaran":
 
 # Halaman Peta 3D Pegunungan
 elif selected == "Peta 3D Pegunungan":
-    st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS (Sketchfab)")
+    st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS ")
     st.markdown("Visualisasi 3D interaktif pegunungan Bromo Tengger Semeru - Putar 360° dengan mouse/touch")
     
     # Informasi singkat
