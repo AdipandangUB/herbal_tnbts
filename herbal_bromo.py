@@ -437,6 +437,45 @@ st.markdown("""
         overflow: hidden;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         margin-bottom: 1rem;
+        background: #f0f0f0;
+        min-height: 600px;
+        position: relative;
+    }
+    
+    /* Style untuk iframe Sketchfab */
+    .sketchfab-embed-wrapper {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    
+    .sketchfab-embed-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    .sketchfab-credit {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 8px;
+        color: #666;
+    }
+    
+    .sketchfab-credit a {
+        color: #1CAAD9;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .sketchfab-credit a:hover {
+        text-decoration: underline;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -525,14 +564,10 @@ with st.sidebar:
     with col2:
         show_tanaman = st.checkbox("🌿 Tanaman", value=True)
     
-    # Tambahan kontrol untuk peta 3D
-    st.markdown("### 🏔️ Kontrol Peta 3D")
+    # Kontrol untuk iframe Sketchfab
+    st.markdown("### 🏔️ Kontrol Tampilan 3D")
     
-    col3, col4 = st.columns(2)
-    with col3:
-        map_height_3d = st.slider("Ketinggian Peta", 400, 800, 600, step=50)
-    with col4:
-        terrain_exaggeration = st.slider("Eksagerasi Terrain", 1.0, 5.0, 2.5, step=0.5)
+    map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
     
     st.markdown("---")
     
@@ -975,184 +1010,6 @@ def create_tnbts_map():
     
     return m
 
-# FUNGSI PETA 3D YANG DIPERBAIKI - MENGGUNAKAN HEX COLOR
-def create_3d_mountain_map():
-    """
-    Membuat peta 3D interaktif pegunungan TNBTS yang dapat diputar 360 derajat
-    Menggunakan PyDeck dengan format warna HEX untuk menghindari error
-    """
-    
-    # Data gunung-gunung di TNBTS - menggunakan HEX color
-    mountain_data = pd.DataFrame({
-        'nama': ['Gunung Semeru', 'Gunung Bromo', 'Gunung Batok', 'Gunung Kursi', 'Gunung Widodaren'],
-        'latitude': [-8.1075, -7.9425, -7.9350, -7.9300, -7.9133],
-        'longitude': [112.9220, 112.9530, 112.9400, 112.9280, 112.9170],
-        'elevasi': [3676, 2329, 2470, 2351, 2250],
-        'warna': ['#8B4513', '#A0522D', '#8B4513', '#8B4513', '#8B4513'],  # HEX color
-        'jenis': 'Gunung',
-        'radius': 800
-    })
-    
-    # Data desa dan pos penting - menggunakan HEX color
-    desa_data = pd.DataFrame({
-        'nama': ['Ranupani', 'Ranu Pane', 'Jemplang', 'Senduro', 'Pasrujambe'],
-        'latitude': [-7.9400, -7.9400, -8.0333, -7.9250, -8.0833],
-        'longitude': [112.9500, 112.9500, 113.0000, 112.9550, 113.0333],
-        'elevasi': [2200, 2100, 1800, 1700, 1700],
-        'warna': ['#2E7D32', '#2E7D32', '#2196F3', '#2196F3', '#2196F3'],  # HEX color
-        'jenis': 'Desa/Pos',
-        'radius': 400
-    })
-    
-    # Gabungkan data
-    all_points = pd.concat([mountain_data, desa_data], ignore_index=True)
-    
-    # Tambahkan data tanaman jika dipilih
-    if show_tanaman and not df_tanaman_filtered.empty:
-        tanaman_display = df_tanaman_filtered[['nama_tanaman', 'latitude', 'longitude', 'ketinggian', 'jenis']].copy()
-        tanaman_display = tanaman_display.rename(columns={'nama_tanaman': 'nama', 'ketinggian': 'elevasi'})
-        
-        # Mapping warna berdasarkan jenis tanaman (dalam format HEX)
-        warna_tanaman = {
-            'Pohon': '#28a745',
-            'Semak': '#90EE90',
-            'Perdu': '#90EE90',
-            'Herba': '#5F9EA0',
-            'Bunga': '#FF69B4',
-            'Rumput': '#FFD700',
-            'Pakis': '#006400',
-            'Lumut': '#D3D3D3'
-        }
-        
-        tanaman_display['warna'] = tanaman_display['jenis'].map(warna_tanaman).fillna('#2196F3')
-        tanaman_display['radius'] = 300
-        tanaman_display['jenis'] = 'Tanaman'
-        
-        all_points = pd.concat([all_points, tanaman_display], ignore_index=True)
-    
-    # Buat layer untuk titik-titik dengan elevasi 3D
-    point_layer = pdk.Layer(
-        "ScatterplotLayer",
-        data=all_points,
-        get_position=["longitude", "latitude"],
-        get_fill_color="warna",  # Referensi ke kolom dengan HEX color
-        get_radius="radius",
-        elevation_scale=terrain_exaggeration * 10,
-        get_elevation="elevasi",
-        extruded=True,
-        pickable=True,
-        auto_highlight=True,
-        radius_min_pixels=3,
-        radius_max_pixels=30,
-        elevation_range=[0, 5000]
-    )
-    
-    # Layer untuk teks label
-    label_layer = pdk.Layer(
-        "TextLayer",
-        data=all_points[all_points['jenis'].isin(['Gunung', 'Desa/Pos'])],
-        get_position=["longitude", "latitude"],
-        get_text="nama",
-        get_color=[255, 255, 255, 255],  # RGB dengan alpha
-        get_size=14,
-        size_min_pixels=10,
-        size_max_pixels=20,
-        get_pixel_offset=[0, 40],
-        get_alignment_baseline="'bottom'"
-    )
-    
-    # Buat grid untuk terrain
-    grid_size = 30
-    lat_center = -7.98
-    lon_center = 112.96
-    lat_range = 0.3
-    lon_range = 0.3
-    
-    grid_data = []
-    for i in range(grid_size):
-        for j in range(grid_size):
-            lat = lat_center - lat_range/2 + (i/grid_size) * lat_range
-            lon = lon_center - lon_range/2 + (j/grid_size) * lon_range
-            
-            # Hitung elevasi berdasarkan jarak ke gunung
-            elev = 1500  # Base elevation
-            
-            # Tambahkan efek dari setiap gunung
-            for _, gunung in mountain_data.iterrows():
-                dist = np.sqrt((lat - gunung['latitude'])**2 + (lon - gunung['longitude'])**2)
-                if dist < 0.1:
-                    elev += gunung['elevasi'] * np.exp(-dist * 30) * 0.5
-            
-            # Tambahkan noise
-            elev += np.random.normal(0, 50)
-            
-            # Tentukan warna berdasarkan elevasi (HEX color)
-            if elev < 1800:
-                warna_grid = '#2E7D32'  # Hijau tua (rendah)
-            elif elev < 2200:
-                warna_grid = '#4CAF50'  # Hijau sedang
-            elif elev < 2600:
-                warna_grid = '#8B4513'  # Coklat (sedang)
-            else:
-                warna_grid = '#A0522D'  # Coklat muda (tinggi)
-            
-            grid_data.append({
-                'lat': lat,
-                'lon': lon,
-                'elevasi': elev * terrain_exaggeration,
-                'warna': warna_grid
-            })
-    
-    grid_df = pd.DataFrame(grid_data)
-    
-    # Layer polygon grid untuk efek terrain - menggunakan HEX color
-    polygon_layer = pdk.Layer(
-        "ColumnLayer",
-        data=grid_df,
-        get_position=["lon", "lat"],
-        get_elevation="elevasi",
-        elevation_scale=10,
-        radius=500,
-        extruded=True,
-        get_fill_color="warna",  # Referensi ke kolom dengan HEX color
-        get_line_color=[0, 0, 0, 30],  # Line color tetap pakai RGBA (diperbolehkan)
-        wireframe=True,
-        coverage=0.8,
-        material=True
-    )
-    
-    # View state untuk peta 3D
-    view_state = pdk.ViewState(
-        latitude=-7.98,
-        longitude=112.96,
-        zoom=9,
-        pitch=45,
-        bearing=30,
-        elevation_scale=50,
-        min_zoom=7,
-        max_zoom=15
-    )
-    
-    # Buat peta dengan multiple layers
-    deck = pdk.Deck(
-        layers=[polygon_layer, point_layer, label_layer],
-        initial_view_state=view_state,
-        map_provider="mapbox",
-        map_style="mapbox://styles/mapbox/satellite-streets-v11",
-        tooltip={
-            "html": "<b>{nama}</b><br/>Jenis: {jenis}<br/>Elevasi: {elevasi} mdpl",
-            "style": {
-                "backgroundColor": "rgba(50, 50, 50, 0.8)",
-                "color": "white",
-                "fontFamily": "Arial",
-                "padding": "10px",
-                "borderRadius": "5px"
-            }
-        }
-    )
-    
-    return deck, all_points
-
 # Halaman Peta Sebaran
 if selected == "Peta Sebaran":
     st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
@@ -1244,157 +1101,132 @@ if selected == "Peta Sebaran":
         - Gunakan Measure Tool untuk mengukur jarak
         """)
 
-# Halaman Peta 3D Pegunungan - DIPERBAIKI
+# Halaman Peta 3D Pegunungan - MENGGUNAKAN EMBED SKETCHFAB
 elif selected == "Peta 3D Pegunungan":
-    st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS")
-    st.markdown("Visualisasi 3D interaktif pegunungan Bromo Tengger Semeru - Putar 360° dengan mouse/touch")
+    st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS (Sketchfab)")
+    st.markdown("Visualisasi 3D interaktif pegunungan Bromo Tengger Semeru dari Sketchfab - Putar 360° dengan mouse/touch")
     
     # Informasi singkat
     st.info("""
     **🖱️ Cara menggunakan:**
     - **Putar 360°**: Klik kiri + drag ke segala arah
-    - **Zoom**: Gulir mouse untuk zoom in/out
-    - **Kemiringan**: Klik kanan + drag atau gunakan 2 jari di trackpad
-    - **Klik titik**: Untuk melihat informasi gunung/desa/tanaman
+    - **Zoom**: Gulir mouse atau gunakan gesture pinch
+    - **Fullscreen**: Klik ikon layar penuh di pojok kanan bawah
+    - **Navigasi**: Gunakan kontrol di pojok kanan bawah untuk mode tur
     """)
     
     # Pilihan tampilan
-    view_option = st.radio(
-        "Pilih Sudut Pandang:",
-        ["Umum (360°)", "Dari Timur", "Dari Barat", "Dari Utara", "Dari Selatan"],
-        horizontal=True
-    )
+    st.markdown("### 🌋 Model 3D Gunung Bromo dan Kaldera Tengger")
     
-    # Mapping sudut pandang
-    view_angles = {
-        "Umum (360°)": 30,
-        "Dari Timur": 90,
-        "Dari Barat": 270,
-        "Dari Utara": 0,
-        "Dari Selatan": 180
-    }
-    
-    # Buat dan tampilkan peta 3D
-    try:
-        with st.spinner("Memuat peta 3D pegunungan..."):
-            deck_3d, points_data = create_3d_mountain_map()
-            
-            # Update bearing berdasarkan pilihan sudut pandang
-            deck_3d.initial_view_state.bearing = view_angles[view_option]
-            
-            # Tampilkan peta 3D
-            st.markdown(f'<div class="map-3d-container">', unsafe_allow_html=True)
-            st.pydeck_chart(deck_3d, height=map_height_3d, use_container_width=True)
-            st.markdown(f'</div>', unsafe_allow_html=True)
-            
-            # Statistik peta 3D
-            col1, col2, col3, col4 = st.columns(4)
-            
-            with col1:
-                gunung_count = len(points_data[points_data['jenis'] == 'Gunung'])
-                st.markdown(f"""
-                <div class="metric-card">
-                    <h3>{gunung_count}</h3>
-                    <p>⛰️ Gunung</p>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col2:
-                desa_count = len(points_data[points_data['jenis'] == 'Desa/Pos'])
-                st.markdown(f"""
-                <div class="metric-card">
-                    <h3>{desa_count}</h3>
-                    <p>🏘️ Desa/Pos</p>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col3:
-                if show_tanaman:
-                    tanaman_count = len(points_data[points_data['jenis'] == 'Tanaman'])
-                    st.markdown(f"""
-                    <div class="metric-card">
-                        <h3>{tanaman_count}</h3>
-                        <p>🌿 Tanaman</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div class="metric-card">
-                        <h3>0</h3>
-                        <p>🌿 Tanaman</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-            
-            with col4:
-                tertinggi = points_data[points_data['jenis'] == 'Gunung']['elevasi'].max() if gunung_count > 0 else 0
-                st.markdown(f"""
-                <div class="metric-card">
-                    <h3>{tertinggi:,.0f}</h3>
-                    <p>📏 Tertinggi (mdpl)</p>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            # Tabel titik-titik penting
-            with st.expander("📍 Titik-titik Penting di TNBTS", expanded=False):
-                important_points = points_data[points_data['jenis'].isin(['Gunung', 'Desa/Pos'])]
-                if 'nama' in important_points.columns:
-                    display_df = important_points[['nama', 'jenis', 'elevasi', 'latitude', 'longitude']].copy()
-                    display_df['elevasi'] = display_df['elevasi'].astype(int).astype(str) + ' mdpl'
-                    display_df = display_df.rename(columns={
-                        'nama': 'Nama',
-                        'jenis': 'Jenis',
-                        'elevasi': 'Ketinggian',
-                        'latitude': 'Latitude',
-                        'longitude': 'Longitude'
-                    })
-                    st.dataframe(display_df, use_container_width=True, hide_index=True)
-            
-            # Legenda peta 3D
-            with st.expander("🎨 Legenda Peta 3D", expanded=False):
-                st.markdown("""
-                ### 🏔️ Legenda Peta 3D
-                
-                **Warna Titik:**
-                - 🟫 **Coklat**: Gunung
-                - 🟢 **Hijau tua**: Desa/Pemukiman
-                - 🔵 **Biru**: Pos RPTN
-                - 🟢 **Hijau**: Tanaman Pohon
-                - 🟢 **Hijau muda**: Tanaman Semak/Perdu
-                - 🔵 **Biru muda**: Tanaman Herba
-                - 💗 **Pink**: Tanaman Bunga
-                - 🟡 **Kuning**: Tanaman Rumput
-                - 🟤 **Hijau tua**: Tanaman Pakis
-                - ⚪ **Abu-abu**: Tanaman Lumut
-                
-                **Ketinggian:**
-                - Warna grid menunjukkan elevasi tanah:
-                  - Hijau tua: < 1800 mdpl
-                  - Hijau sedang: 1800-2200 mdpl
-                  - Coklat: 2200-2600 mdpl
-                  - Coklat muda: > 2600 mdpl
-                """)
-    
-    except Exception as e:
-        st.error(f"Error dalam memuat peta 3D: {e}")
-        st.warning("""
-        **Tips Perbaikan:**
-        - Pastikan library `pydeck` sudah terinstall dengan benar
-        - Coba jalankan: `pip install --upgrade pydeck`
-        - Refresh halaman dan coba lagi
-        - Jika masih error, gunakan menu Peta Sebaran untuk visualisasi 2D
-        """)
+    # Tampilkan iframe Sketchfab
+    with st.spinner("Memuat model 3D dari Sketchfab..."):
+        st.markdown(f"""
+        <div class="map-3d-container" style="height: {map_height_3d}px;">
+            <div class="sketchfab-embed-wrapper" style="height: 100%; padding-bottom: 0;">
+                <iframe 
+                    title="Mount Bromo / Bromo Tengger Semeru National Park" 
+                    frameborder="0" 
+                    allowfullscreen 
+                    mozallowfullscreen="true" 
+                    webkitallowfullscreen="true" 
+                    allow="autoplay; fullscreen; xr-spatial-tracking" 
+                    xr-spatial-tracking 
+                    execution-while-out-of-viewport 
+                    execution-while-not-rendered 
+                    web-share 
+                    src="https://sketchfab.com/models/72f1c983ba4040eab89d75eb2b0d3e32/embed"
+                    style="width: 100%; height: 100%; border: none; border-radius: 10px;">
+                </iframe>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # Tampilkan informasi alternatif
-        st.info("### Data Gunung di TNBTS")
-        mountain_data_alt = pd.DataFrame({
-            'Nama Gunung': ['Semeru', 'Bromo', 'Batok', 'Kursi', 'Widodaren'],
-            'Ketinggian (mdpl)': [3676, 2329, 2470, 2351, 2250],
-            'Koordinat': ['8.1075°S, 112.9220°E', '7.9425°S, 112.9530°E', 
-                         '7.9350°S, 112.9400°E', '7.9300°S, 112.9280°E', 
-                         '7.9133°S, 112.9170°E'],
-            'Status': ['Aktif', 'Aktif', 'Non-aktif', 'Non-aktif', 'Non-aktif']
-        })
-        st.dataframe(mountain_data_alt, use_container_width=True)
+        # Credit link
+        st.markdown("""
+        <div class="sketchfab-credit">
+            Model: <a href="https://sketchfab.com/3d-models/mount-bromo-bromo-tengger-semeru-national-park-72f1c983ba4040eab89d75eb2b0d3e32" target="_blank">Mount Bromo / Bromo Tengger Semeru National Park</a> 
+            by <a href="https://sketchfab.com/smartmAPPS" target="_blank">smartmAPPS</a> on 
+            <a href="https://sketchfab.com" target="_blank">Sketchfab</a>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Statistik peta 3D
+    st.markdown("### 📊 Statistik Kawasan TNBTS")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>5</h3>
+            <p>⛰️ Gunung</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>41</h3>
+            <p>🏘️ Desa</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>86</h3>
+            <p>🌿 Spesies</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col4:
+        st.markdown(f"""
+        <div class="metric-card">
+            <h3>3,676</h3>
+            <p>📏 Tertinggi (mdpl)</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Informasi tentang model
+    with st.expander("ℹ️ Tentang Model 3D", expanded=False):
+        st.markdown("""
+        ### Tentang Model 3D Sketchfab
+        
+        Model 3D ini menampilkan **Gunung Bromo dan Kaldera Tengger** dengan detail:
+        
+        - **Gunung Bromo** (2.329 mdpl) - gunung berapi aktif
+        - **Gunung Batok** (2.470 mdpl) - gunung non-aktif
+        - **Gunung Kursi** (2.351 mdpl)
+        - **Gunung Widodaren** (2.250 mdpl)
+        - **Kaldera Tengger** - kawah raksasa dengan diameter 8-10 km
+        - **Lautan Pasir** - hamparan pasir vulkanik seluas 5.250 hektar
+        
+        **Kredit:** Model dibuat oleh smartmAPPS dan dipublikasikan di Sketchfab.
+        
+        **Lisensi:** Model ini memiliki lisensi terpisah. Harap periksa halaman Sketchfab untuk detail lisensi.
+        """)
+    
+    # Tips penggunaan
+    with st.expander("🎮 Tips Navigasi 3D", expanded=False):
+        st.markdown("""
+        ### Tips Navigasi Model 3D
+        
+        **Kontrol Dasar:**
+        - **Rotasi**: Klik kiri + drag
+        - **Zoom**: Gulir mouse atau pinch gesture
+        - **Pan**: Klik kanan + drag atau shift + drag
+        
+        **Kontrol Lanjutan:**
+        - **Fullscreen**: Klik ikon layar penuh di pojok kanan bawah
+        - **Reset View**: Klik ikon rumah
+        - **Mode Tur**: Klik ikon joystick untuk mode tur otomatis
+        - **VR Mode**: Jika tersedia, gunakan ikon VR untuk pengalaman realitas virtual
+        
+        **Tips:**
+        - Gunakan fullscreen untuk pengalaman imersif
+        - Putar model untuk melihat semua sisi gunung
+        - Zoom in untuk melihat detail kaldera dan lautan pasir
+        """)
 
 # Halaman Data Tanaman
 elif selected == "Data Tanaman":
@@ -1951,7 +1783,7 @@ else:
         <li><b>Data Desa:</b> File GeoJSON dari BIG/BPS (41 desa)</li>
         <li><b>Data Tanaman:</b> Hasil penelitian Tim Peneliti UB (2026) - 86 spesies</li>
         <li><b>Peta Basemap:</b> OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap</li>
-        <li><b>Peta 3D:</b> Dibuat dengan PyDeck - Visualisasi terrain pegunungan</li>
+        <li><b>Peta 3D:</b> Model 3D dari Sketchfab oleh smartmAPPS</li>
     </ul>
     """, unsafe_allow_html=True)
 
