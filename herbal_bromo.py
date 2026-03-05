@@ -58,7 +58,7 @@ st.markdown("""
     
     /* tampilan sidebar dengan background gambar */
     [data-testid="stSidebar"] {
-        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Museum_Tengger_Probolinggo.jpg/800px-Museum_Tengger_Probolinggo.jpg');
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -70,10 +70,11 @@ st.markdown("""
     }
     
     [data-testid="stSidebar"] .stRadio > div {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.15);
         padding: 10px;
         border-radius: 10px;
         backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     [data-testid="stSidebar"] .stRadio label {
@@ -97,7 +98,16 @@ st.markdown("""
         color: white !important;
     }
     
+    [data-testid="stSidebar"] .stMultiSelect div[data-baseweb="select"] > div {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+    }
+    
     [data-testid="stSidebar"] .stCheckbox label {
+        color: white !important;
+    }
+    
+    [data-testid="stSidebar"] .stCheckbox div[data-testid="stMarkdownContainer"] {
         color: white !important;
     }
     
@@ -108,6 +118,10 @@ st.markdown("""
     
     [data-testid="stSidebar"] p {
         color: rgba(255, 255, 255, 0.9) !important;
+    }
+    
+    [data-testid="stSidebar"] hr {
+        border-color: rgba(255, 255, 255, 0.3) !important;
     }
     
     /* Sidebar header baru */
