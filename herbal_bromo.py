@@ -17,6 +17,8 @@ st.set_page_config(
 # Inisialisasi session state untuk menyimpan status
 if 'menu_selected' not in st.session_state:
     st.session_state.menu_selected = "Peta Sebaran"
+if 'music_playing' not in st.session_state:
+    st.session_state.music_playing = True
 
 # Custom CSS dengan header, sidebar, dan footer background gambar
 st.markdown("""
@@ -601,8 +603,67 @@ st.markdown("""
     .sketchfab-credit a:hover {
         text-decoration: underline;
     }
+    
+    /* Style untuk YouTube music player */
+    .music-player {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        border-radius: 40px;
+        padding: 5px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    .music-player iframe {
+        border-radius: 30px;
+    }
+    
+    .music-toggle {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        z-index: 10000;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 40px;
+        padding: 8px 20px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .music-toggle:hover {
+        background: #2E7D32;
+    }
 </style>
 """, unsafe_allow_html=True)
+
+# Tambahkan background musik YouTube
+youtube_url = "https://www.youtube.com/watch?v=imGaOIm5HOk&list=RDimGaOIm5HOk&start_radio=1"
+# Ekstrak video ID dari URL
+video_id = "imGaOIm5HOk"
+
+# Musik player toggle
+col1, col2 = st.columns([1, 5])
+with col1:
+    if st.button("🔊 Matikan Musik" if st.session_state.music_playing else "🔇 Nyalakan Musik", key="music_toggle"):
+        st.session_state.music_playing = not st.session_state.music_playing
+        st.rerun()
+
+# Tampilkan YouTube player jika musik aktif
+if st.session_state.music_playing:
+    st.markdown(f"""
+    <div style="position: fixed; bottom: 60px; right: 10px; z-index: 9999; width: 300px; height: 80px; background: rgba(0,0,0,0.8); border-radius: 10px; padding: 5px; border: 1px solid #4CAF50;">
+        <iframe width="100%" height="80" src="https://www.youtube.com/embed/{video_id}?autoplay=1&loop=1&playlist={video_id}&controls=1&showinfo=0" 
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="border-radius: 5px;"></iframe>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Header dengan background gambar
 st.markdown("""
