@@ -707,83 +707,126 @@ def create_tnbts_map():
     ).add_to(m)
 
     # ── LAYER 1: 8 Kawasan Ekologi (Polygon) ─────────────────────────────
-    # Semua 8 kawasan digabung dalam SATU GeoJson call.
-    # Tooltip menggunakan GeoJsonTooltip (field-based) — tidak ada label permanen.
-    # Warna per-kawasan ditangani via style_function yang membaca properties["fill"].
+    # Setiap kawasan digambar sebagai GeoJson tersendiri dengan:
+    #   • GeoJsonTooltip (field-based, sticky=False) → muncul hanya saat hover
+    #   • folium.Popup (HTML custom) → daftar lengkap nama tanaman saat klik
     if show_kawasan:
         kawasan_group = folium.FeatureGroup(name='🏔️ Kawasan Ekologi TNBTS', show=True)
 
-        # Sisipkan warna hex ke setiap feature properties agar bisa dibaca style_function
-        kawasan_geojson_colored = {
-            "type": "FeatureCollection",
-            "features": []
-        }
         for feat in KAWASAN_GEOJSON["features"]:
-            feat_copy = {
+            props      = feat["properties"]
+            nama_kw    = props["nama"]
+            hex_col    = KAWASAN_HEX.get(nama_kw, "#4CAF50")
+            spesies_n  = props["spesies"]
+            deskripsi  = props["deskripsi"]
+            ketinggian = props["ketinggian"]
+            emoji      = props["emoji"]
+
+            # ── Ambil daftar nama tanaman dari df_tanaman ──────────────────
+            tanaman_kw = df_tanaman[
+                df_tanaman["kawasan"] == nama_kw
+            ]["nama_tanaman"].tolist()
+
+            # Buat badge HTML untuk setiap tanaman
+            badges_html = "".join([
+                f'<span style="display:inline-block;background:#E8F5E9;'
+                f'color:#1B5E20;border:1px solid {hex_col};border-radius:12px;'
+                f'padding:2px 8px;font-size:11px;margin:2px 2px;">'
+                f'🌿 {t}</span>'
+                for t in sorted(tanaman_kw)
+            ])
+
+            # ── Popup HTML lengkap (muncul saat klik) ─────────────────────
+            popup_html = f"""
+            <div style="font-family:Arial;width:320px;max-width:340px;">
+                <div style="background:{hex_col};color:white;
+                            padding:10px 14px;border-radius:8px 8px 0 0;">
+                    <span style="font-size:18px;">{emoji}</span>
+                    <b style="font-size:13px;margin-left:6px;">{nama_kw}</b>
+                </div>
+                <div style="padding:10px 12px;border:1px solid #ddd;
+                            border-top:none;border-radius:0 0 8px 8px;">
+                    <table style="font-size:12px;width:100%;
+                                  border-collapse:collapse;margin-bottom:8px;">
+                        <tr style="background:#f1f8e9;">
+                            <td style="padding:4px 8px;font-weight:bold;
+                                       color:#555;width:90px;">Ketinggian</td>
+                            <td style="padding:4px 8px;">⛰️ {ketinggian}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 8px;font-weight:bold;color:#555;">
+                                Jml. Spesies</td>
+                            <td style="padding:4px 8px;">
+                                <b style="color:{hex_col};">{spesies_n}</b> spesies herbal
+                            </td>
+                        </tr>
+                        <tr style="background:#f1f8e9;">
+                            <td style="padding:4px 8px;font-weight:bold;color:#555;">
+                                Vegetasi</td>
+                            <td style="padding:4px 8px;">{deskripsi}</td>
+                        </tr>
+                    </table>
+                    <div style="font-weight:bold;color:#2E7D32;font-size:12px;
+                                margin-bottom:5px;border-top:1px solid #e0e0e0;
+                                padding-top:7px;">
+                        🌿 Daftar Tanaman Herbal ({spesies_n} spesies):
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:2px;
+                                max-height:160px;overflow-y:auto;padding:2px;">
+                        {badges_html}
+                    </div>
+                </div>
+            </div>"""
+
+            # ── Tooltip ringkas (muncul saat hover) ───────────────────────
+            # Gunakan GeoJsonTooltip field-based agar TIDAK jadi label permanen.
+            # Sisipkan field tooltip ke properties copy
+            feat_with_tt = {
                 "type": feat["type"],
                 "geometry": feat["geometry"],
-                "properties": dict(feat["properties"])
+                "properties": {
+                    **props,
+                    "fill":          hex_col,
+                    "tt_nama":       f"{emoji} {nama_kw}",
+                    "tt_info":       f"{spesies_n} spesies herbal  |  ⛰️ {ketinggian}",
+                }
             }
-            nama = feat_copy["properties"]["nama"]
-            feat_copy["properties"]["fill"] = KAWASAN_HEX.get(nama, "#4CAF50")
-            # Tambah field ringkas untuk tooltip
-            sp  = feat_copy["properties"]["spesies"]
-            alt = feat_copy["properties"]["ketinggian"]
-            em  = feat_copy["properties"]["emoji"]
-            feat_copy["properties"]["tooltip_label"] = (
-                f"{em} {nama}"
-            )
-            feat_copy["properties"]["tooltip_info"] = (
-                f"{sp} spesies | {alt}"
-            )
-            kawasan_geojson_colored["features"].append(feat_copy)
 
-        folium.GeoJson(
-            kawasan_geojson_colored,
-            name="kawasan",
-            style_function=lambda f: {
-                "fillColor":   f["properties"]["fill"],
-                "color":       f["properties"]["fill"],
-                "weight":      2.5,
-                "fillOpacity": 0.18,
-                "dashArray":   "5, 4",
-            },
-            highlight_function=lambda f: {
-                "fillColor":   f["properties"]["fill"],
-                "color":       f["properties"]["fill"],
-                "weight":      4,
-                "fillOpacity": 0.40,
-                "dashArray":   "",
-            },
-            # GeoJsonTooltip — hanya muncul saat hover, tidak pernah permanen
-            tooltip=folium.GeoJsonTooltip(
-                fields=["tooltip_label", "tooltip_info"],
-                aliases=["", ""],
-                localize=False,
-                sticky=False,
-                labels=False,
-                style=(
-                    "background-color:white;"
-                    "border:1px solid #ccc;"
-                    "border-radius:6px;"
-                    "padding:6px 10px;"
-                    "font-family:Arial;"
-                    "font-size:12px;"
-                    "box-shadow:2px 2px 6px rgba(0,0,0,.15);"
+            folium.GeoJson(
+                feat_with_tt,
+                style_function=lambda f: {
+                    "fillColor":   f["properties"]["fill"],
+                    "color":       f["properties"]["fill"],
+                    "weight":      2.5,
+                    "fillOpacity": 0.18,
+                    "dashArray":   "5, 4",
+                },
+                highlight_function=lambda f: {
+                    "fillColor":   f["properties"]["fill"],
+                    "color":       f["properties"]["fill"],
+                    "weight":      4,
+                    "fillOpacity": 0.40,
+                    "dashArray":   "",
+                },
+                tooltip=folium.GeoJsonTooltip(
+                    fields=["tt_nama", "tt_info"],
+                    aliases=["", ""],
+                    localize=False,
+                    sticky=False,
+                    labels=False,
+                    style=(
+                        "background-color:white;"
+                        "border:1px solid #ccc;"
+                        "border-radius:6px;"
+                        "padding:6px 10px;"
+                        "font-family:Arial;"
+                        "font-size:12px;"
+                        "box-shadow:2px 2px 6px rgba(0,0,0,.15);"
+                        "pointer-events:none;"
+                    ),
                 ),
-            ),
-            # Popup hanya muncul saat klik
-            popup=folium.GeoJsonPopup(
-                fields=["nama", "ketinggian", "spesies", "deskripsi"],
-                aliases=["Kawasan:", "Ketinggian:", "Spesies herbal:", "Vegetasi:"],
-                localize=False,
-                max_width=300,
-                style=(
-                    "font-family:Arial;"
-                    "font-size:12px;"
-                ),
-            ),
-        ).add_to(kawasan_group)
+                popup=folium.Popup(popup_html, max_width=360),
+            ).add_to(kawasan_group)
 
         kawasan_group.add_to(m)
 
