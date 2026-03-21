@@ -16,7 +16,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Session state
 if 'menu_selected' not in st.session_state:
     st.session_state.menu_selected = "Peta Sebaran"
 if 'music_playing' not in st.session_state:
@@ -30,29 +29,30 @@ st.markdown("""
     .main-header {
         background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
                     url('https://tunashijau.id/wp-content/uploads/2023/12/tnbts.jpg');
-        background-size: cover; background-position: center;
-        padding: 2.5rem 1.5rem; border-radius: 10px; margin-bottom: 1rem;
-        color: white; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,.3);
+        background-size:cover; background-position:center;
+        padding:2.5rem 1.5rem; border-radius:10px; margin-bottom:1rem;
+        color:white; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,.3);
     }
     .main-header h1 { color:white; margin:0; font-size:2.2rem;
         text-shadow:2px 2px 4px rgba(0,0,0,.5); font-weight:bold; }
-    .main-header p { color:#E8F5E9; margin:.5rem 0 0 0; font-size:1rem;
-        background:rgba(0,0,0,.3); display:inline-block; padding:.3rem 1rem;
-        border-radius:30px; }
+    .main-header p  { color:#E8F5E9; margin:.5rem 0 0 0; font-size:1rem;
+        background:rgba(0,0,0,.3); display:inline-block;
+        padding:.3rem 1rem; border-radius:30px; }
 
     [data-testid="stSidebar"] {
         background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
                     url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
-        background-size: cover; background-position: center;
+        background-size:cover; background-position:center;
     }
-    [data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 { color:white !important; text-shadow:2px 2px 4px rgba(0,0,0,.5); }
     [data-testid="stSidebar"] p  { color:rgba(255,255,255,.9) !important; }
     [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.3) !important; }
     [data-testid="stSidebar"] .stRadio>div {
         background-color:rgba(255,255,255,.15); padding:10px; border-radius:10px;
         backdrop-filter:blur(5px); border:1px solid rgba(255,255,255,.2); }
-    [data-testid="stSidebar"] .stRadio label { color:white !important; font-weight:500; }
+    [data-testid="stSidebar"] .stRadio label    { color:white !important; font-weight:500; }
     [data-testid="stSidebar"] .stSlider label,
     [data-testid="stSidebar"] .stMultiSelect label,
     [data-testid="stSidebar"] .stCheckbox label { color:white !important; }
@@ -98,71 +98,311 @@ st.markdown("""
     .footer a { color:#FFD700; text-decoration:none; font-weight:bold; }
 
     .custom-divider {
-        height:3px; background:linear-gradient(90deg,transparent,#4CAF50,transparent);
-        margin:2rem 0; }
-
+        height:3px;
+        background:linear-gradient(90deg,transparent,#4CAF50,transparent);
+        margin:2rem 0;
+    }
     .image-caption { text-align:center; font-style:italic;
         color:#666; margin-top:.3rem; font-size:.9rem; }
-
     .status-badge {
         background:rgba(255,255,255,.2); backdrop-filter:blur(5px);
         padding:.5rem; border-radius:5px; margin:.3rem 0;
-        border-left:3px solid #FFD700; color:white; }
+        border-left:3px solid #FFD700; color:white;
+    }
     .status-badge small { color:rgba(255,255,255,.8); }
-
     .stButton>button {
         background:linear-gradient(135deg,#2E7D32 0%,#4CAF50 100%);
         color:white; border:none; padding:.5rem 2rem; font-weight:bold;
-        border-radius:5px; transition:all .3s ease; }
+        border-radius:5px; transition:all .3s ease;
+    }
     .stButton>button:hover {
         background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);
-        box-shadow:0 4px 8px rgba(0,0,0,.2); }
-
+        box-shadow:0 4px 8px rgba(0,0,0,.2);
+    }
     .stDownloadButton>button {
         background:linear-gradient(135deg,#1976D2 0%,#2196F3 100%);
         color:white; border:none; padding:.5rem 2rem; font-weight:bold;
-        border-radius:5px; transition:all .3s ease; }
-
+        border-radius:5px; transition:all .3s ease;
+    }
     .info-box {
         background-color:#E8F5E9; border-left:4px solid #4CAF50;
-        padding:1.5rem; border-radius:5px; margin:1rem 0; }
+        padding:1.5rem; border-radius:5px; margin:1rem 0;
+    }
     .info-box h4 { color:#2E7D32; margin-top:0; margin-bottom:1rem; }
-
     .fungsi-card {
         background:white; border-radius:10px; padding:1.2rem;
         margin-bottom:1rem; box-shadow:0 2px 4px rgba(0,0,0,.1);
-        border-left:4px solid #4CAF50; transition:transform .2s; }
+        border-left:4px solid #4CAF50; transition:transform .2s;
+    }
     .fungsi-card:hover { transform:translateX(5px); }
     .fungsi-title { color:#2E7D32; font-size:1.1rem; font-weight:bold;
         margin-bottom:.8rem; border-bottom:2px solid #4CAF50; padding-bottom:.3rem; }
     .tanaman-list {
-        display:flex; flex-wrap:wrap; gap:.5rem;
-        max-height:250px; overflow-y:auto; padding:.5rem;
-        border:1px solid #e0e0e0; border-radius:5px; background:#fafafa; }
+        display:flex; flex-wrap:wrap; gap:.5rem; max-height:250px;
+        overflow-y:auto; padding:.5rem; border:1px solid #e0e0e0;
+        border-radius:5px; background:#fafafa;
+    }
     .tanaman-badge {
         background:#E8F5E9; color:#2E7D32; padding:.3rem .8rem;
         border-radius:20px; font-size:.85rem; border:1px solid #4CAF50;
-        cursor:help; transition:all .2s; }
+        cursor:help; transition:all .2s;
+    }
     .tanaman-badge:hover { background:#4CAF50; color:white; transform:scale(1.05); }
-
     .team-card {
         background:#f5f5f5; padding:1.5rem; border-radius:10px;
-        text-align:center; min-height:380px; box-shadow:0 4px 8px rgba(0,0,0,.1);
-        transition:transform .3s ease; }
+        text-align:center; min-height:380px;
+        box-shadow:0 4px 8px rgba(0,0,0,.1); transition:transform .3s ease;
+    }
     .team-card:hover { transform:translateY(-5px); }
     .team-photo {
         width:150px; height:150px; border-radius:50%; object-fit:cover;
-        border:4px solid #4CAF50; margin-bottom:1rem; }
-    .team-name { color:#2E7D32; margin:.5rem 0 .2rem 0; font-size:1.1rem; font-weight:bold; }
+        border:4px solid #4CAF50; margin-bottom:1rem;
+    }
+    .team-name  { color:#2E7D32; margin:.5rem 0 .2rem 0; font-size:1.1rem; font-weight:bold; }
     .team-title { color:#666; margin:.2rem 0; font-size:.9rem; }
     .team-role  { color:#666; font-style:italic; margin-top:.5rem; font-size:.85rem;
         background:rgba(76,175,80,.1); padding:.3rem; border-radius:20px; }
-
     .kawasan-badge {
         display:inline-block; padding:.25rem .75rem; border-radius:20px;
-        font-size:.8rem; font-weight:600; color:white; margin:.2rem .1rem; }
+        font-size:.8rem; font-weight:600; color:white; margin:.2rem .1rem;
+    }
+
+    /* ── Legenda kawasan di peta ── */
+    .legend-kawasan {
+        background:white; border-radius:10px; padding:12px 14px;
+        box-shadow:0 2px 8px rgba(0,0,0,.15); font-family:Arial,sans-serif;
+    }
+    .legend-kawasan h4 { margin:0 0 8px 0; font-size:13px; color:#1B5E20; }
+    .legend-kawasan .l-row {
+        display:flex; align-items:center; gap:6px;
+        font-size:11px; margin-bottom:4px; color:#333;
+    }
+    .legend-kawasan .l-box {
+        width:14px; height:14px; border-radius:3px;
+        flex-shrink:0; border:1px solid rgba(0,0,0,.2);
+    }
 </style>
 """, unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KONSTANTA WARNA
+# ─────────────────────────────────────────────────────────────────────────────
+# Hex fill untuk polygon kawasan (juga dipakai di marker & badge)
+KAWASAN_HEX = {
+    "Blok Ireng-Ireng & Hutan Atas":   "#1B5E20",
+    "Kantong Air & Lembah":             "#0277BD",
+    "Lereng Semeru & Dataran Tinggi":   "#6D4C41",
+    "Ranu Darungan & Sekitar Danau":    "#00838F",
+    "Savana Bromo & Lereng Terbuka":    "#F57F17",
+    "Tepi Hutan & Zona Transisi":       "#558B2F",
+    "Zona Budidaya & Pekarangan":       "#AD1457",
+    "Zona Pesisir & Pantai Selatan":    "#1565C0",
+}
+
+# Warna CircleMarker berdasarkan jenis tanaman
+JENIS_COLOR = {
+    'Herba':  'cadetblue',
+    'Pohon':  'green',
+    'Semak':  'lightgreen',
+    'Pakis':  'darkgreen',
+    'Rumput': 'beige',
+    'Bunga':  'pink',
+    'Perdu':  'purple',
+    'Lumut':  'lightgray',
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# POLYGON 8 KAWASAN EKOLOGI TNBTS
+# Koordinat [lat, lon] mendekati batas ekologi riil masing-masing kawasan.
+# Disusun sebagai GeoJSON "Polygon" (lon, lat — standar GeoJSON).
+# ─────────────────────────────────────────────────────────────────────────────
+KAWASAN_GEOJSON = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Blok Ireng-Ireng & Hutan Atas",
+                "deskripsi": "Hutan primer, epifit, lumut, pakis langka, tanaman endemik",
+                "ketinggian": "2.400 – 2.600 mdpl",
+                "spesies": 14,
+                "emoji": "🌲"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9150, -7.8950],
+                    [112.9350, -7.8950],
+                    [112.9450, -7.9050],
+                    [112.9380, -7.9200],
+                    [112.9200, -7.9250],
+                    [112.9050, -7.9180],
+                    [112.9000, -7.9020],
+                    [112.9150, -7.8950]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Tepi Hutan & Zona Transisi",
+                "deskripsi": "Rempah-rempah tradisional Tengger, herba obat, semak transisi",
+                "ketinggian": "1.850 – 2.000 mdpl",
+                "spesies": 18,
+                "emoji": "🌿"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9200, -7.9120],
+                    [112.9450, -7.9050],
+                    [112.9500, -7.9180],
+                    [112.9460, -7.9320],
+                    [112.9350, -7.9350],
+                    [112.9150, -7.9300],
+                    [112.9100, -7.9180],
+                    [112.9200, -7.9120]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Savana Bromo & Lereng Terbuka",
+                "deskripsi": "Padang savana vulkanik, rumput, herba terbuka, bunga liar",
+                "ketinggian": "2.000 – 2.200 mdpl",
+                "spesies": 20,
+                "emoji": "🌾"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9450, -7.9180],
+                    [112.9800, -7.9200],
+                    [112.9850, -7.9380],
+                    [112.9780, -7.9550],
+                    [112.9600, -7.9580],
+                    [112.9400, -7.9520],
+                    [112.9350, -7.9350],
+                    [112.9450, -7.9180]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Kantong Air & Lembah",
+                "deskripsi": "Herba air, tanaman lembab, sumber mata air TNBTS",
+                "ketinggian": "1.700 – 1.900 mdpl",
+                "spesies": 6,
+                "emoji": "💧"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9350, -7.9380],
+                    [112.9500, -7.9400],
+                    [112.9550, -7.9520],
+                    [112.9480, -7.9650],
+                    [112.9300, -7.9620],
+                    [112.9250, -7.9500],
+                    [112.9300, -7.9380],
+                    [112.9350, -7.9380]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Ranu Darungan & Sekitar Danau",
+                "deskripsi": "Tanaman tepi danau, pakis air, herba lembab riparian",
+                "ketinggian": "1.860 mdpl",
+                "spesies": 6,
+                "emoji": "🏞️"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9320, -7.9050],
+                    [112.9480, -7.9050],
+                    [112.9520, -7.9150],
+                    [112.9460, -7.9230],
+                    [112.9320, -7.9220],
+                    [112.9260, -7.9140],
+                    [112.9320, -7.9050]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Lereng Semeru & Dataran Tinggi",
+                "deskripsi": "Sayuran dataran tinggi, cemara gunung, purwoceng, stroberi tengger",
+                "ketinggian": "2.200 – 2.500 mdpl",
+                "spesies": 13,
+                "emoji": "🏔️"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9650, -7.9550],
+                    [113.0000, -7.9550],
+                    [113.0050, -7.9800],
+                    [112.9980, -8.0050],
+                    [112.9750, -8.0100],
+                    [112.9600, -7.9950],
+                    [112.9580, -7.9700],
+                    [112.9650, -7.9550]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Zona Budidaya & Pekarangan",
+                "deskripsi": "Tanaman budidaya Tengger, rempah pekarangan, sayuran tradisional",
+                "ketinggian": "1.800 – 2.000 mdpl",
+                "spesies": 5,
+                "emoji": "🏡"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9380, -7.9280],
+                    [112.9600, -7.9300],
+                    [112.9630, -7.9450],
+                    [112.9550, -7.9530],
+                    [112.9380, -7.9500],
+                    [112.9300, -7.9420],
+                    [112.9330, -7.9300],
+                    [112.9380, -7.9280]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Zona Pesisir & Pantai Selatan",
+                "deskripsi": "Pohon pantai, semak pesisir, tanaman mangrove transisi",
+                "ketinggian": "0 – 400 mdpl",
+                "spesies": 4,
+                "emoji": "🌊"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.9750, -8.0050],
+                    [113.0100, -8.0050],
+                    [113.0200, -8.0300],
+                    [112.9900, -8.0350],
+                    [112.9700, -8.0250],
+                    [112.9650, -8.0100],
+                    [112.9750, -8.0050]
+                ]]
+            }
+        }
+    ]
+}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # MUSIK
@@ -195,7 +435,7 @@ st.markdown("""
 <div class="main-header">
     <h1>🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
     Bromo – Kaldera Tengger – Semeru<br>Melalui Konsumsi Tanaman Herbal</h1>
-    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • 86 Spesies Tanaman • 41 Desa</p>
+    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • 86 Spesies Tanaman • 8 Kawasan Ekologi • 41 Desa</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -214,8 +454,10 @@ with st.sidebar:
         "3ffcb908-4978-4464-bf12-178125ad26ec.jpg",
         use_container_width=True
     )
-    st.markdown('<p class="image-caption" style="color:white!important;">Tim Ekspedisi Penelitian</p>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<p class="image-caption" style="color:white!important;">Tim Ekspedisi Penelitian</p>',
+        unsafe_allow_html=True
+    )
     st.markdown("---")
 
     st.markdown("### 📋 Menu Navigasi")
@@ -231,8 +473,6 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown("### 🔍 Filter Data")
-
-    # ── daftar nama tanaman untuk filter ────────────────────────────────────
     semua_tanaman = [
         'Adas','Ajeran putih','Alang-alang','Andong','Awar-awar',
         'Bakung','Bawang merah','Bawang putih','Beluntas','Bidara laut',
@@ -255,15 +495,13 @@ with st.sidebar:
         'Tumbuhan herba bawah (Commelina)','Rumput ilalang','Paku sarang burung',
         'Anggrek tanah','Jahe merah','Cemara gunung'
     ]
-
     selected_tanaman = st.multiselect(
         "Pilih Nama Tanaman",
         options=["Semua"] + sorted(semua_tanaman),
         default=["Semua"],
-        help="Pilih satu atau lebih tanaman untuk ditampilkan di peta"
+        help="Pilih satu atau lebih tanaman"
     )
 
-    # ── filter kawasan ───────────────────────────────────────────────────────
     kawasan_options = [
         "Semua Kawasan",
         "Blok Ireng-Ireng & Hutan Atas",
@@ -281,9 +519,11 @@ with st.sidebar:
     st.markdown("### 🗂️ Layer Control")
     c1, c2 = st.columns(2)
     with c1:
-        show_desa_geojson = st.checkbox("🏘️ Batas Desa", value=True)
+        show_desa_geojson = st.checkbox("🏘️ Batas Desa",    value=True)
+        show_kawasan      = st.checkbox("🏔️ Kawasan Ekologi", value=True)
     with c2:
-        show_tanaman = st.checkbox("🌿 Tanaman", value=True)
+        show_tanaman = st.checkbox("🌿 Tanaman",  value=True)
+        show_label_kw= st.checkbox("🔤 Label Kawasan", value=True)
 
     st.markdown("### 🏔️ Kontrol Tampilan 3D")
     map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
@@ -301,144 +541,115 @@ with st.sidebar:
         <div class="status-badge" style="border-left-color:#f44336;">
             ❌ <b>Desa_TNBTS.geojson</b><br><small>File tidak ditemukan</small>
         </div>""", unsafe_allow_html=True)
-
     st.markdown("""
     <div class="status-badge">
         🌿 <b>Database Tanaman</b><br><small>86 spesies teridentifikasi</small>
+    </div>
+    <div class="status-badge">
+        🏔️ <b>Layer Kawasan</b><br><small>8 kawasan ekologi TNBTS</small>
     </div>""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# WARNA KAWASAN (untuk marker & badge)
-# ─────────────────────────────────────────────────────────────────────────────
-KAWASAN_COLOR = {
-    "Blok Ireng-Ireng & Hutan Atas":   "#1B5E20",   # hijau gelap
-    "Kantong Air & Lembah":             "#0277BD",   # biru tua
-    "Lereng Semeru & Dataran Tinggi":   "#6D4C41",   # coklat
-    "Ranu Darungan & Sekitar Danau":    "#00838F",   # teal
-    "Savana Bromo & Lereng Terbuka":    "#F57F17",   # kuning tua
-    "Tepi Hutan & Zona Transisi":       "#558B2F",   # hijau sedang
-    "Zona Budidaya & Pekarangan":       "#AD1457",   # pink tua
-    "Zona Pesisir & Pantai Selatan":    "#1565C0",   # biru tua
-}
-
-# Warna jenis tanaman untuk CircleMarker
-JENIS_COLOR = {
-    'Herba':  'cadetblue',
-    'Pohon':  'green',
-    'Semak':  'lightgreen',
-    'Pakis':  'darkgreen',
-    'Rumput': 'beige',
-    'Bunga':  'pink',
-    'Perdu':  'purple',
-    'Lumut':  'lightgray',
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# DATA TANAMAN — koordinat AKURAT dari file Excel herbs_bromo.xlsx
-# Setiap baris: (id, nama, latin, jenis, fungsi, lat, lon, kawasan, ketinggian_mdpl, lokasi_detail, desa)
+# DATA TANAMAN
 # ─────────────────────────────────────────────────────────────────────────────
 @st.cache_data
 def load_tanaman_herbal_data():
     records = [
-        # id  nama                          latin                               jenis    fungsi                      lat        lon        kawasan                                  mdpl  lokasi_detail                            desa
-        (1,  'Adas',                        'Foeniculum vulgare',               'Herba', 'Pencernaan',               -7.9385,  112.9515, 'Zona Budidaya & Pekarangan',            1900, 'Sekitar Desa Ngadisari & Wonokitri',     'Ngadisari, Wonokitri'),
-        (2,  'Ajeran putih',                'Bidens pilosa L.',                 'Herba', 'Antiradang',               -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Lautan Pasir & Savana Bromo',            'Seluruh desa penyangga'),
-        (3,  'Alang-alang',                 'Imperata cylindrica L.',           'Rumput','Diuretik',                 -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Padang Savana Tengger',                  'Ngadas, Argosari'),
-        (4,  'Andong',                      'Cordyline fruticosa Linn',         'Pohon', 'Menghentikan pendarahan',  -7.9550,  112.9450, 'Kantong Air & Lembah',                  1750, 'Lembah Sumber Air TNBTS',               'Ngadas, Ranupani'),
-        (5,  'Awar-awar',                   'Ficus septica Burm.f.',            'Pohon', 'Antiradang',               -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Tepi Hutan Cemara – Desa Ngadisari',     'Ngadisari, Wonokitri'),
-        (6,  'Bakung',                      'Crinum asiaticium L.',             'Herba', 'Mengurangi bengkak',       -7.9150,  112.9400, 'Ranu Darungan & Sekitar Danau',         1860, 'Tepi Ranu Darungan',                     'Ranupani'),
-        (7,  'Bawang merah',                'Allium cepa L.',                   'Herba', 'Penurun demam',            -7.9385,  112.9515, 'Zona Budidaya & Pekarangan',            1900, 'Ladang Pertanian Tengger',               'Seluruh desa penyangga'),
-        (8,  'Bawang putih',                'Allium sativum',                   'Herba', 'Menurunkan tekanan darah', -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Lereng Atas Semeru – Ranupani',          'Ranupani, Argosari'),
-        (9,  'Beluntas',                    'Pluchea indica',                   'Semak', 'Pencernaan',               -8.0200,  112.9950, 'Zona Pesisir & Pantai Selatan',         300,  'Zona Pesisir Selatan TNBTS',             'Desa pesisir selatan'),
-        (10, 'Bidara laut',                 'Strychnos lucida',                 'Pohon', 'Pereda nyeri',             -8.0180,  112.9900, 'Zona Pesisir & Pantai Selatan',         250,  'Pantai Selatan – Batas TNBTS',           'Desa pesisir selatan'),
-        (11, 'Buah klandingan',             'Lucas lavandulifolia',             'Pohon', 'Batuk & pilek',            -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Zona Transisi Hutan – Ladang',           'Ngadisari, Wonokitri'),
-        (12, 'Bunga hariang',               'Begonia',                         'Bunga', 'Batuk',                    -7.9800,  112.9850, 'Lereng Semeru & Dataran Tinggi',        2300, 'Lereng Semeru Barat Daya',               'Ranupani'),
-        (13, 'Bunga Matahari',              'Helianthus annuus',               'Bunga', 'Penurun demam',            -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Savana & Ladang Bromo',                  'Ngadisari, Argosari'),
-        (14, 'Calingan',                    'Centella asiatica L.',             'Herba', 'Penyembuhan luka',         -7.9150,  112.9400, 'Ranu Darungan & Sekitar Danau',         1860, 'Bantaran Ranu Darungan',                 'Ranupani'),
-        (15, 'Cemplukan',                   'Physalis minima',                  'Herba', 'Penurun demam',            -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Tepi Savana Bromo',                      'Ngadas, Argosari'),
-        (16, 'Daun dadap',                  'Erythrina variegata L.',           'Pohon', 'Pereda nyeri',             -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Batas Hutan Cemara & Ladang',            'Ngadisari'),
-        (17, 'Dringu',                      'Acorus calamus L.',                'Herba', 'Pencernaan',               -7.9150,  112.9400, 'Ranu Darungan & Sekitar Danau',         1860, 'Tepi Ranu Darungan – Pinggir Air',      'Ranupani'),
-        (18, 'Ganjan',                      'Artemisia vulgaris',               'Herba', 'Obat luka',                -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Blok Ireng-Ireng – Hutan Primer',        'Ireng-Ireng'),
-        (19, 'Ganyong',                     'Canna indica L.',                  'Herba', 'Pencernaan',               -7.9550,  112.9450, 'Kantong Air & Lembah',                  1750, 'Lembah Basah – Sumber Mata Air',        'Ngadas, Ranupani'),
-        (20, 'Jahe',                        'Zingiber Officinale Rocs',         'Herba', 'Pencernaan',               -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Kebun Campuran Tepi Hutan',              'Seluruh desa penyangga'),
-        (21, 'Jambu wer',                   'Prunus persica',                   'Pohon', 'Diare',                    -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Lereng Semeru – Kebun Desa Ranupani',    'Ranupani'),
-        (22, 'Jarak',                       'Jatropha curcas',                  'Pohon', 'Pencahar',                 -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Tepi Savana & Batas Ladang',             'Ngadisari, Cemoro Lawang'),
-        (23, 'Jarak merah',                 'Jatropha curcas L.',               'Pohon', 'Obat luka',                -7.9480,  112.9640, 'Savana Bromo & Lereng Terbuka',         2050, 'Tepi Savana – Agak Ke Utara',           'Cemoro Lawang'),
-        (24, 'Jenggot wesi',                'Usnea Barbata Fries',              'Lumut', 'Antibakteri',              -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2500, 'Pohon Tua Blok Ireng-Ireng',             'Ireng-Ireng'),
-        (25, 'Jenis Talas',                 'Homalomena sp.',                   'Herba', 'Masuk angin',              -7.9550,  112.9450, 'Kantong Air & Lembah',                  1750, 'Lembah Basah – Sekitar Mata Air',       'Ngadas'),
-        (26, 'Kayu Ampet',                  'Alstonia macrophylla',             'Pohon', 'Sakit perut',              -8.0180,  112.9900, 'Zona Pesisir & Pantai Selatan',         250,  'Hutan Pantai Selatan',                   'Desa pesisir selatan'),
-        (27, 'Kayu putih',                  'Melaleuca leucadendra',            'Pohon', 'Masuk angin',              -8.0200,  112.9950, 'Zona Pesisir & Pantai Selatan',         300,  'Hutan Pantai – Zona Penyangga Selatan',  'Desa pesisir selatan'),
-        (28, 'Keladi tikus',                'Typhonium flagelliforme',          'Herba', 'Antikanker',               -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Bawah Tegakan Hutan Cemara',             'Ngadisari'),
-        (29, 'Keladi/sente-sentean',        'Alocasia sp.',                     'Herba', 'Obat bisul',               -7.9550,  112.9450, 'Kantong Air & Lembah',                  1750, 'Lembah Sungai – Naungan Lebat',         'Ngadas, Ranupani'),
-        (30, 'Kencana Ungu',                'Ruellia',                         'Herba', 'Penurun gula darah',       -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Tepi Jalan Savana Bromo',                'Ngadisari, Cemoro Lawang'),
-        (31, 'Kencur',                      'Kaempferia galanga L.',            'Herba', 'Batuk & pilek',            -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Kebun Rempah Tradisional',               'Ngadisari, Wonokitri'),
-        (32, 'Keningar',                    'Ageratina sp.',                    'Herba', 'Menghentikan pendarahan',  -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Lereng Semeru – Zona Terbuka',           'Ranupani, Argosari'),
-        (33, 'Kesimbukan',                  'Paederia foetida',                 'Herba', 'Menghentikan pendarahan',  -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Tepi Hutan – Merambat Di Pohon',        'Wonokitri, Ngadisari'),
-        (34, 'Kunyit',                      'Curcuma domestica Rumph.',         'Herba', 'Antiradang',               -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Kebun Rempah Tradisional',               'Seluruh desa penyangga'),
-        (35, 'Lengkuas',                    'Alpinia galanga',                  'Herba', 'Masuk angin',              -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Kebun Campuran – Tepi Hutan',            'Seluruh desa penyangga'),
-        (36, 'Lili-lilian liar',            'Molineria sp.',                    'Herba', 'Obat luka',                -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Lantai Hutan Blok Ireng-Ireng',          'Ireng-Ireng'),
-        (37, 'Lobak',                       'Raphanus sativus L.',              'Herba', 'Pencernaan',               -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Ladang Dataran Tinggi Ranupani',         'Ranupani, Argosari'),
-        (38, 'Lombok terong',               'Solanum torvum Sw.',               'Herba', 'Tekanan darah tinggi',     -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Tepi Savana – Tumbuh Liar',              'Ngadisari, Cemoro Lawang'),
-        (39, 'Lombok udel',                 'Capsicum frutescens L.',           'Herba', 'Menghangatkan tubuh',      -7.9385,  112.9515, 'Zona Budidaya & Pekarangan',            1900, 'Ladang Pekarangan Desa Tengger',         'Ngadisari, Wonokitri'),
-        (40, 'Paitan',                      'Tithonia diversifolia',            'Herba', 'Penurun demam',            -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Tepi Jalan – Batas Hutan & Ladang',     'Ngadisari'),
-        (41, 'Pakis',                       'Davallia',                        'Pakis', 'Pencernaan',               -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Lantai Hutan Primer Blok Ireng-Ireng',   'Ireng-Ireng'),
-        (42, 'Pakis (fern)',                'Phegopteris',                     'Pakis', 'Pencernaan',               -7.9060,  112.9260, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Blok Ireng-Ireng – Naungan Lebat',      'Ireng-Ireng'),
-        (43, 'Pakis/paku pedang',           'Nephrolepis sp.',                  'Pakis', 'Diuretik',                 -7.9150,  112.9400, 'Ranu Darungan & Sekitar Danau',         1860, 'Tepi Danau Ranu Darungan',              'Ranupani'),
-        (44, 'Paku rane/paku kawat',        'Selaginella sp.',                  'Pakis', 'Melancarkan peredaran darah',-7.9050, 112.9250,'Blok Ireng-Ireng & Hutan Atas',        2500, 'Bebatuan Hutan Primer',                  'Ireng-Ireng'),
-        (45, 'Paku sigung',                 'Didymochlaena',                   'Pakis', 'Penyembuhan luka',         -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Lereng Semeru – Bawah Tegakan',         'Ranupani'),
-        (46, 'Parijoto',                    'Medinilla speciosa',               'Herba', 'Kesuburan',                -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Blok Ireng-Ireng – Tanaman Endemik',    'Ireng-Ireng'),
-        (47, 'Pecut kuda',                  'Stachytarpheta sp.',               'Herba', 'Penurun demam',            -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Tepi Savana – Tumbuh Liar',              'Ngadas'),
-        (48, 'Pisang',                      'Musa paradisiaca',                 'Pohon', 'Diare',                    -7.9550,  112.9450, 'Kantong Air & Lembah',                  1750, 'Lembah – Sekitar Sumber Air',            'Ngadas, Ranupani'),
-        (49, 'Pulosari',                    'Alyxia reinwardtii Blume.',        'Herba', 'Batuk & pilek',            -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Blok Ireng-Ireng – Semak Bawah Pohon',  'Ireng-Ireng'),
-        (50, 'Purwoceng',                   'Pimpinella pruatjan',              'Herba', 'Kesuburan',                -7.9820,  112.9880, 'Lereng Semeru & Dataran Tinggi',        2400, 'Lereng Semeru – Tanaman Endemik Jawa',  'Ranupani'),
-        (51, 'Air kuncup kecubung gunung',  'Brugmansia candida',               'Perdu', 'Pereda nyeri, asma',       -7.9800,  112.9850, 'Lereng Semeru & Dataran Tinggi',        2300, 'Lereng Semeru – Tepi Vegetasi',         'Ranupani'),
-        (52, 'Akar sempretan',              'Mikania cordata',                  'Herba', 'Antiradang, diuretik',     -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Merambat di Tepi Hutan Cemara',          'Ngadisari, Wonokitri'),
-        (53, 'Daun kancing-kancing/semanggi liar','Desmodium sp.',             'Herba', 'Anti radang, batuk',       -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Tepi Hutan – Tanah Lembab',              'Ngadisari'),
-        (54, 'Daun-daunan hutan mirip garutan','Stachyphrynium sp.',            'Herba', 'Obat luka',                -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Lantai Hutan Primer',                    'Ireng-Ireng'),
-        (55, 'Ranti',                       'Tinospora crispa L. Miers',       'Herba', 'Antimalaria',              -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Merambat di Tepi Hutan',                 'Ngadisari, Wonokitri'),
-        (56, 'Rumput asystasia',            'Asystasia sp.',                    'Herba', 'Anti radang',              -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Savana Bromo – Padang Terbuka',          'Cemoro Lawang'),
-        (57, 'Rumput hutan',                'Oplismenus sp.',                   'Rumput','Anti radang',              -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Lantai Hutan Primer Blok Ireng-Ireng',   'Ireng-Ireng'),
-        (58, 'Rumput karpet',               'Axonopus sp.',                    'Rumput','Obat luka',                -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Padang Terbuka – Savana Tengger',        'Ngadas, Argosari'),
-        (59, 'Rumput teki-tekian (nutrush)','Scleria sp.',                     'Rumput','Diuretik',                 -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Padang Savana – Tepian Lembab',          'Ngadas'),
-        (60, 'Tumbuhan herba bawah (Amischotolype)','Amischotolype sp.',       'Herba', 'Obat luka',                -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Lantai Hutan Blok Ireng-Ireng',          'Ireng-Ireng'),
-        (61, 'Sawi ireng',                  'Brassica juncea',                  'Herba', 'Pencernaan',               -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Ladang Sayuran Dataran Tinggi',          'Ranupani, Argosari'),
-        (62, 'Semanggi',                    'Marsilea crenata',                 'Pakis', 'Melancarkan peredaran darah',-7.9150, 112.9400,'Ranu Darungan & Sekitar Danau',         1860, 'Tepi Ranu Darungan – Di Air',           'Ranupani'),
-        (63, 'Sengganen/Senggani',          'Melastoma malabathricum L.',       'Semak', 'Obat diare',               -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Tepi Savana – Semak Terbuka',            'Ngadas, Argosari'),
-        (64, 'Sirih',                       'Piper betle Linn',                 'Semak', 'Antiseptik',               -7.9385,  112.9515, 'Zona Budidaya & Pekarangan',            1900, 'Pekarangan Desa Tengger',                'Ngadisari, Wonokitri'),
-        (65, 'Snikir',                      'C. Caudatus',                     'Herba', 'Penyembuhan luka',         -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Savana Bromo – Tumbuh Liar',             'Cemoro Lawang, Ngadisari'),
-        (66, 'Stroberi tengger',            'Rubus Idaeus L.',                  'Perdu', 'Kesehatan darah',          -7.9820,  112.9880, 'Lereng Semeru & Dataran Tinggi',        2400, 'Lereng Semeru – Khas Dataran Tinggi',   'Ranupani'),
-        (67, 'Suplir',                      'Adiantum',                        'Pakis', 'Batuk, darah tinggi',      -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Lereng Semeru – Bebatuan Lembab',       'Ranupani'),
-        (68, 'Suri pandak',                 'Plantago mayor Linn.',             'Herba', 'Penyembuhan luka',         -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Tepi Jalan Hutan',                       'Ngadisari'),
-        (69, 'Tapak liman',                 'Elephantopus scaber L.',           'Herba', 'Penurun demam',            -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Tepi Savana & Jalur Trekking',           'Ngadas, Argosari'),
-        (70, 'Teklan',                      'Eupatorium riparium',              'Herba', 'Obat demam',               -7.9150,  112.9400, 'Ranu Darungan & Sekitar Danau',         1860, 'Tepi Ranu Darungan – Bantaran',         'Ranupani'),
-        (71, 'Tepung otot',                 'Borreria laevis',                  'Herba', 'Pereda nyeri otot',        -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Padang Rumput Savana',                   'Ngadisari, Cemoro Lawang'),
-        (72, 'Tirem',                       'Chromolaena odoratum',             'Semak', 'Sakit perut',              -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Tepi Savana – Semak Invasif',            'Ngadas, Argosari'),
-        (73, 'Trabasan',                    'Ageratum conyzoides',              'Herba', 'Obat luka',                -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Tepi Hutan & Ladang',                    'Ngadisari, Wonokitri'),
-        (74, 'Vervain',                     'Stachytarpheta mutabilis Vahl',    'Herba', 'Penurun demam',            -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Savana Bromo – Tepian Jalan',            'Cemoro Lawang'),
-        (75, 'Wedusan',                     'Ageratum conyzoides',              'Herba', 'Obat luka',                -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Batas Ladang & Hutan Cemara',            'Ngadisari'),
-        (76, 'Ketumbar',                    'Coriandrum sativum Linn.',         'Herba', 'Pencernaan',               -7.9385,  112.9515, 'Zona Budidaya & Pekarangan',            1900, 'Ladang Pekarangan Desa Tengger',         'Seluruh desa penyangga'),
-        (77, 'Teh-tehan',                   'Eclipta prostrata Linn.',          'Herba', 'Kesehatan hati',           -7.9550,  112.9450, 'Kantong Air & Lembah',                  1750, 'Lembah – Pinggir Aliran Air',            'Ngadas'),
-        (78, 'Cemara besi',                 'Casuarina junghuhniana Miq.',      'Pohon', 'Penyembuhan luka',         -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Lereng Semeru – Tegakan Cemara Khas',   'Ranupani'),
-        (79, 'Simbaran',                    'Peperomia sp.',                    'Herba', 'Penyembuhan luka',         -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Epifit di Pohon Tua Blok Ireng-Ireng',  'Ireng-Ireng'),
-        (80, 'Kenikir',                     'Cosmos caudatus Kunth',            'Herba', 'Antioksidan',              -7.9200,  112.9320, 'Tepi Hutan & Zona Transisi',            1850, 'Tepi Hutan & Ladang',                    'Ngadisari, Wonokitri'),
-        (81, 'Tumbuhan herba bawah (Commelina)','Commelina sp.',               'Herba', 'Obat luka',                -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Lantai Hutan Lembab Blok Ireng-Ireng',  'Ireng-Ireng'),
-        (82, 'Rumput ilalang',              'Imperata cylindrica',              'Rumput','Diuretik',                 -7.9425,  112.9700, 'Savana Bromo & Lereng Terbuka',         2000, 'Padang Terbuka Savana Tengger',          'Ngadas, Argosari'),
-        (83, 'Paku sarang burung',          'Asplenium nidus',                  'Pakis', 'Obat luka',                -7.9050,  112.9250, 'Blok Ireng-Ireng & Hutan Atas',        2400, 'Epifit di Pohon – Blok Ireng-Ireng',    'Ireng-Ireng'),
-        (84, 'Anggrek tanah',               'Spathoglottis plicata',            'Bunga', 'Antioksidan',              -7.9500,  112.9620, 'Savana Bromo & Lereng Terbuka',         2050, 'Tepi Savana Bromo – Semi Terbuka',      'Ngadisari, Cemoro Lawang'),
-        (85, 'Jahe merah',                  'Zingiber officinale var. rubrum',  'Herba', 'Antiradang',               -7.9250,  112.9380, 'Tepi Hutan & Zona Transisi',            1900, 'Kebun Rempah & Tepi Hutan',              'Ngadisari, Wonokitri'),
-        (86, 'Cemara gunung',               'Casuarina junghuhniana',           'Pohon', 'Penyembuhan luka',         -7.9750,  112.9820, 'Lereng Semeru & Dataran Tinggi',        2200, 'Lereng Semeru – Dominant Trees',        'Ranupani'),
+        (1,  'Adas',                        'Foeniculum vulgare',               'Herba', 'Pencernaan',                -7.9385, 112.9515, 'Zona Budidaya & Pekarangan',           1900, 'Sekitar Desa Ngadisari & Wonokitri',    'Ngadisari, Wonokitri'),
+        (2,  'Ajeran putih',                'Bidens pilosa L.',                 'Herba', 'Antiradang',                -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Lautan Pasir & Savana Bromo',           'Seluruh desa penyangga'),
+        (3,  'Alang-alang',                 'Imperata cylindrica L.',           'Rumput','Diuretik',                  -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Padang Savana Tengger',                 'Ngadas, Argosari'),
+        (4,  'Andong',                      'Cordyline fruticosa Linn',         'Pohon', 'Menghentikan pendarahan',   -7.9550, 112.9450, 'Kantong Air & Lembah',                 1750, 'Lembah Sumber Air TNBTS',              'Ngadas, Ranupani'),
+        (5,  'Awar-awar',                   'Ficus septica Burm.f.',            'Pohon', 'Antiradang',                -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Tepi Hutan Cemara – Desa Ngadisari',   'Ngadisari, Wonokitri'),
+        (6,  'Bakung',                      'Crinum asiaticium L.',             'Herba', 'Mengurangi bengkak',        -7.9150, 112.9400, 'Ranu Darungan & Sekitar Danau',        1860, 'Tepi Ranu Darungan',                   'Ranupani'),
+        (7,  'Bawang merah',                'Allium cepa L.',                   'Herba', 'Penurun demam',             -7.9385, 112.9515, 'Zona Budidaya & Pekarangan',           1900, 'Ladang Pertanian Tengger',              'Seluruh desa penyangga'),
+        (8,  'Bawang putih',                'Allium sativum',                   'Herba', 'Menurunkan tekanan darah',  -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Lereng Atas Semeru – Ranupani',         'Ranupani, Argosari'),
+        (9,  'Beluntas',                    'Pluchea indica',                   'Semak', 'Pencernaan',                -8.0200, 112.9950, 'Zona Pesisir & Pantai Selatan',        300,  'Zona Pesisir Selatan TNBTS',            'Desa pesisir selatan'),
+        (10, 'Bidara laut',                 'Strychnos lucida',                 'Pohon', 'Pereda nyeri',              -8.0180, 112.9900, 'Zona Pesisir & Pantai Selatan',        250,  'Pantai Selatan – Batas TNBTS',          'Desa pesisir selatan'),
+        (11, 'Buah klandingan',             'Lucas lavandulifolia',             'Pohon', 'Batuk & pilek',             -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Zona Transisi Hutan – Ladang',          'Ngadisari, Wonokitri'),
+        (12, 'Bunga hariang',               'Begonia',                         'Bunga', 'Batuk',                     -7.9800, 112.9850, 'Lereng Semeru & Dataran Tinggi',       2300, 'Lereng Semeru Barat Daya',              'Ranupani'),
+        (13, 'Bunga Matahari',              'Helianthus annuus',               'Bunga', 'Penurun demam',             -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Savana & Ladang Bromo',                 'Ngadisari, Argosari'),
+        (14, 'Calingan',                    'Centella asiatica L.',             'Herba', 'Penyembuhan luka',          -7.9150, 112.9400, 'Ranu Darungan & Sekitar Danau',        1860, 'Bantaran Ranu Darungan',                'Ranupani'),
+        (15, 'Cemplukan',                   'Physalis minima',                  'Herba', 'Penurun demam',             -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Tepi Savana Bromo',                     'Ngadas, Argosari'),
+        (16, 'Daun dadap',                  'Erythrina variegata L.',           'Pohon', 'Pereda nyeri',              -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Batas Hutan Cemara & Ladang',           'Ngadisari'),
+        (17, 'Dringu',                      'Acorus calamus L.',                'Herba', 'Pencernaan',                -7.9150, 112.9400, 'Ranu Darungan & Sekitar Danau',        1860, 'Tepi Ranu Darungan – Pinggir Air',     'Ranupani'),
+        (18, 'Ganjan',                      'Artemisia vulgaris',               'Herba', 'Obat luka',                 -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Blok Ireng-Ireng – Hutan Primer',       'Ireng-Ireng'),
+        (19, 'Ganyong',                     'Canna indica L.',                  'Herba', 'Pencernaan',                -7.9550, 112.9450, 'Kantong Air & Lembah',                 1750, 'Lembah Basah – Sumber Mata Air',       'Ngadas, Ranupani'),
+        (20, 'Jahe',                        'Zingiber Officinale Rocs',         'Herba', 'Pencernaan',                -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Kebun Campuran Tepi Hutan',             'Seluruh desa penyangga'),
+        (21, 'Jambu wer',                   'Prunus persica',                   'Pohon', 'Diare',                     -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Lereng Semeru – Kebun Desa Ranupani',  'Ranupani'),
+        (22, 'Jarak',                       'Jatropha curcas',                  'Pohon', 'Pencahar',                  -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Tepi Savana & Batas Ladang',            'Ngadisari, Cemoro Lawang'),
+        (23, 'Jarak merah',                 'Jatropha curcas L.',               'Pohon', 'Obat luka',                 -7.9480, 112.9640, 'Savana Bromo & Lereng Terbuka',        2050, 'Tepi Savana – Agak Ke Utara',          'Cemoro Lawang'),
+        (24, 'Jenggot wesi',                'Usnea Barbata Fries',              'Lumut', 'Antibakteri',               -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2500, 'Pohon Tua Blok Ireng-Ireng',            'Ireng-Ireng'),
+        (25, 'Jenis Talas',                 'Homalomena sp.',                   'Herba', 'Masuk angin',               -7.9550, 112.9450, 'Kantong Air & Lembah',                 1750, 'Lembah Basah – Sekitar Mata Air',      'Ngadas'),
+        (26, 'Kayu Ampet',                  'Alstonia macrophylla',             'Pohon', 'Sakit perut',               -8.0180, 112.9900, 'Zona Pesisir & Pantai Selatan',        250,  'Hutan Pantai Selatan',                  'Desa pesisir selatan'),
+        (27, 'Kayu putih',                  'Melaleuca leucadendra',            'Pohon', 'Masuk angin',               -8.0200, 112.9950, 'Zona Pesisir & Pantai Selatan',        300,  'Hutan Pantai – Zona Penyangga Selatan', 'Desa pesisir selatan'),
+        (28, 'Keladi tikus',                'Typhonium flagelliforme',          'Herba', 'Antikanker',                -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Bawah Tegakan Hutan Cemara',            'Ngadisari'),
+        (29, 'Keladi/sente-sentean',        'Alocasia sp.',                     'Herba', 'Obat bisul',                -7.9550, 112.9450, 'Kantong Air & Lembah',                 1750, 'Lembah Sungai – Naungan Lebat',        'Ngadas, Ranupani'),
+        (30, 'Kencana Ungu',                'Ruellia',                         'Herba', 'Penurun gula darah',        -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Tepi Jalan Savana Bromo',               'Ngadisari, Cemoro Lawang'),
+        (31, 'Kencur',                      'Kaempferia galanga L.',            'Herba', 'Batuk & pilek',             -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Kebun Rempah Tradisional',              'Ngadisari, Wonokitri'),
+        (32, 'Keningar',                    'Ageratina sp.',                    'Herba', 'Menghentikan pendarahan',   -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Lereng Semeru – Zona Terbuka',          'Ranupani, Argosari'),
+        (33, 'Kesimbukan',                  'Paederia foetida',                 'Herba', 'Menghentikan pendarahan',   -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Tepi Hutan – Merambat Di Pohon',       'Wonokitri, Ngadisari'),
+        (34, 'Kunyit',                      'Curcuma domestica Rumph.',         'Herba', 'Antiradang',                -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Kebun Rempah Tradisional',              'Seluruh desa penyangga'),
+        (35, 'Lengkuas',                    'Alpinia galanga',                  'Herba', 'Masuk angin',               -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Kebun Campuran – Tepi Hutan',           'Seluruh desa penyangga'),
+        (36, 'Lili-lilian liar',            'Molineria sp.',                    'Herba', 'Obat luka',                 -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Lantai Hutan Blok Ireng-Ireng',         'Ireng-Ireng'),
+        (37, 'Lobak',                       'Raphanus sativus L.',              'Herba', 'Pencernaan',                -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Ladang Dataran Tinggi Ranupani',        'Ranupani, Argosari'),
+        (38, 'Lombok terong',               'Solanum torvum Sw.',               'Herba', 'Tekanan darah tinggi',      -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Tepi Savana – Tumbuh Liar',             'Ngadisari, Cemoro Lawang'),
+        (39, 'Lombok udel',                 'Capsicum frutescens L.',           'Herba', 'Menghangatkan tubuh',       -7.9385, 112.9515, 'Zona Budidaya & Pekarangan',           1900, 'Ladang Pekarangan Desa Tengger',        'Ngadisari, Wonokitri'),
+        (40, 'Paitan',                      'Tithonia diversifolia',            'Herba', 'Penurun demam',             -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Tepi Jalan – Batas Hutan & Ladang',    'Ngadisari'),
+        (41, 'Pakis',                       'Davallia',                        'Pakis', 'Pencernaan',                -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Lantai Hutan Primer Blok Ireng-Ireng',  'Ireng-Ireng'),
+        (42, 'Pakis (fern)',                'Phegopteris',                     'Pakis', 'Pencernaan',                -7.9060, 112.9260, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Blok Ireng-Ireng – Naungan Lebat',     'Ireng-Ireng'),
+        (43, 'Pakis/paku pedang',           'Nephrolepis sp.',                  'Pakis', 'Diuretik',                  -7.9150, 112.9400, 'Ranu Darungan & Sekitar Danau',        1860, 'Tepi Danau Ranu Darungan',             'Ranupani'),
+        (44, 'Paku rane/paku kawat',        'Selaginella sp.',                  'Pakis', 'Melancarkan peredaran darah',-7.9050,112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2500, 'Bebatuan Hutan Primer',                 'Ireng-Ireng'),
+        (45, 'Paku sigung',                 'Didymochlaena',                   'Pakis', 'Penyembuhan luka',          -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Lereng Semeru – Bawah Tegakan',        'Ranupani'),
+        (46, 'Parijoto',                    'Medinilla speciosa',               'Herba', 'Kesuburan',                 -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Blok Ireng-Ireng – Tanaman Endemik',   'Ireng-Ireng'),
+        (47, 'Pecut kuda',                  'Stachytarpheta sp.',               'Herba', 'Penurun demam',             -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Tepi Savana – Tumbuh Liar',             'Ngadas'),
+        (48, 'Pisang',                      'Musa paradisiaca',                 'Pohon', 'Diare',                     -7.9550, 112.9450, 'Kantong Air & Lembah',                 1750, 'Lembah – Sekitar Sumber Air',           'Ngadas, Ranupani'),
+        (49, 'Pulosari',                    'Alyxia reinwardtii Blume.',        'Herba', 'Batuk & pilek',             -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Blok Ireng-Ireng – Semak Bawah Pohon', 'Ireng-Ireng'),
+        (50, 'Purwoceng',                   'Pimpinella pruatjan',              'Herba', 'Kesuburan',                 -7.9820, 112.9880, 'Lereng Semeru & Dataran Tinggi',       2400, 'Lereng Semeru – Tanaman Endemik Jawa', 'Ranupani'),
+        (51, 'Air kuncup kecubung gunung',  'Brugmansia candida',               'Perdu', 'Pereda nyeri, asma',        -7.9800, 112.9850, 'Lereng Semeru & Dataran Tinggi',       2300, 'Lereng Semeru – Tepi Vegetasi',        'Ranupani'),
+        (52, 'Akar sempretan',              'Mikania cordata',                  'Herba', 'Antiradang, diuretik',      -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Merambat di Tepi Hutan Cemara',         'Ngadisari, Wonokitri'),
+        (53, 'Daun kancing-kancing/semanggi liar','Desmodium sp.',             'Herba', 'Anti radang, batuk',        -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Tepi Hutan – Tanah Lembab',             'Ngadisari'),
+        (54, 'Daun-daunan hutan mirip garutan','Stachyphrynium sp.',            'Herba', 'Obat luka',                 -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Lantai Hutan Primer',                   'Ireng-Ireng'),
+        (55, 'Ranti',                       'Tinospora crispa L. Miers',       'Herba', 'Antimalaria',               -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Merambat di Tepi Hutan',                'Ngadisari, Wonokitri'),
+        (56, 'Rumput asystasia',            'Asystasia sp.',                    'Herba', 'Anti radang',               -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Savana Bromo – Padang Terbuka',         'Cemoro Lawang'),
+        (57, 'Rumput hutan',                'Oplismenus sp.',                   'Rumput','Anti radang',               -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Lantai Hutan Primer Blok Ireng-Ireng',  'Ireng-Ireng'),
+        (58, 'Rumput karpet',               'Axonopus sp.',                    'Rumput','Obat luka',                  -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Padang Terbuka – Savana Tengger',       'Ngadas, Argosari'),
+        (59, 'Rumput teki-tekian (nutrush)','Scleria sp.',                     'Rumput','Diuretik',                   -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Padang Savana – Tepian Lembab',         'Ngadas'),
+        (60, 'Tumbuhan herba bawah (Amischotolype)','Amischotolype sp.',       'Herba', 'Obat luka',                 -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Lantai Hutan Blok Ireng-Ireng',         'Ireng-Ireng'),
+        (61, 'Sawi ireng',                  'Brassica juncea',                  'Herba', 'Pencernaan',                -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Ladang Sayuran Dataran Tinggi',         'Ranupani, Argosari'),
+        (62, 'Semanggi',                    'Marsilea crenata',                 'Pakis', 'Melancarkan peredaran darah',-7.9150,112.9400, 'Ranu Darungan & Sekitar Danau',        1860, 'Tepi Ranu Darungan – Di Air',          'Ranupani'),
+        (63, 'Sengganen/Senggani',          'Melastoma malabathricum L.',       'Semak', 'Obat diare',                -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Tepi Savana – Semak Terbuka',           'Ngadas, Argosari'),
+        (64, 'Sirih',                       'Piper betle Linn',                 'Semak', 'Antiseptik',                -7.9385, 112.9515, 'Zona Budidaya & Pekarangan',           1900, 'Pekarangan Desa Tengger',               'Ngadisari, Wonokitri'),
+        (65, 'Snikir',                      'C. Caudatus',                     'Herba', 'Penyembuhan luka',          -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Savana Bromo – Tumbuh Liar',            'Cemoro Lawang, Ngadisari'),
+        (66, 'Stroberi tengger',            'Rubus Idaeus L.',                  'Perdu', 'Kesehatan darah',           -7.9820, 112.9880, 'Lereng Semeru & Dataran Tinggi',       2400, 'Lereng Semeru – Khas Dataran Tinggi',  'Ranupani'),
+        (67, 'Suplir',                      'Adiantum',                        'Pakis', 'Batuk, darah tinggi',       -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Lereng Semeru – Bebatuan Lembab',      'Ranupani'),
+        (68, 'Suri pandak',                 'Plantago mayor Linn.',             'Herba', 'Penyembuhan luka',          -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Tepi Jalan Hutan',                      'Ngadisari'),
+        (69, 'Tapak liman',                 'Elephantopus scaber L.',           'Herba', 'Penurun demam',             -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Tepi Savana & Jalur Trekking',          'Ngadas, Argosari'),
+        (70, 'Teklan',                      'Eupatorium riparium',              'Herba', 'Obat demam',                -7.9150, 112.9400, 'Ranu Darungan & Sekitar Danau',        1860, 'Tepi Ranu Darungan – Bantaran',        'Ranupani'),
+        (71, 'Tepung otot',                 'Borreria laevis',                  'Herba', 'Pereda nyeri otot',         -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Padang Rumput Savana',                  'Ngadisari, Cemoro Lawang'),
+        (72, 'Tirem',                       'Chromolaena odoratum',             'Semak', 'Sakit perut',               -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Tepi Savana – Semak Invasif',           'Ngadas, Argosari'),
+        (73, 'Trabasan',                    'Ageratum conyzoides',              'Herba', 'Obat luka',                 -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Tepi Hutan & Ladang',                   'Ngadisari, Wonokitri'),
+        (74, 'Vervain',                     'Stachytarpheta mutabilis Vahl',    'Herba', 'Penurun demam',             -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Savana Bromo – Tepian Jalan',           'Cemoro Lawang'),
+        (75, 'Wedusan',                     'Ageratum conyzoides',              'Herba', 'Obat luka',                 -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Batas Ladang & Hutan Cemara',           'Ngadisari'),
+        (76, 'Ketumbar',                    'Coriandrum sativum Linn.',         'Herba', 'Pencernaan',                -7.9385, 112.9515, 'Zona Budidaya & Pekarangan',           1900, 'Ladang Pekarangan Desa Tengger',        'Seluruh desa penyangga'),
+        (77, 'Teh-tehan',                   'Eclipta prostrata Linn.',          'Herba', 'Kesehatan hati',            -7.9550, 112.9450, 'Kantong Air & Lembah',                 1750, 'Lembah – Pinggir Aliran Air',           'Ngadas'),
+        (78, 'Cemara besi',                 'Casuarina junghuhniana Miq.',      'Pohon', 'Penyembuhan luka',          -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Lereng Semeru – Tegakan Cemara Khas',  'Ranupani'),
+        (79, 'Simbaran',                    'Peperomia sp.',                    'Herba', 'Penyembuhan luka',          -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Epifit di Pohon Tua Blok Ireng-Ireng', 'Ireng-Ireng'),
+        (80, 'Kenikir',                     'Cosmos caudatus Kunth',            'Herba', 'Antioksidan',               -7.9200, 112.9320, 'Tepi Hutan & Zona Transisi',           1850, 'Tepi Hutan & Ladang',                   'Ngadisari, Wonokitri'),
+        (81, 'Tumbuhan herba bawah (Commelina)','Commelina sp.',               'Herba', 'Obat luka',                 -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Lantai Hutan Lembab Blok Ireng-Ireng', 'Ireng-Ireng'),
+        (82, 'Rumput ilalang',              'Imperata cylindrica',              'Rumput','Diuretik',                  -7.9425, 112.9700, 'Savana Bromo & Lereng Terbuka',        2000, 'Padang Terbuka Savana Tengger',         'Ngadas, Argosari'),
+        (83, 'Paku sarang burung',          'Asplenium nidus',                  'Pakis', 'Obat luka',                 -7.9050, 112.9250, 'Blok Ireng-Ireng & Hutan Atas',       2400, 'Epifit di Pohon – Blok Ireng-Ireng',   'Ireng-Ireng'),
+        (84, 'Anggrek tanah',               'Spathoglottis plicata',            'Bunga', 'Antioksidan',               -7.9500, 112.9620, 'Savana Bromo & Lereng Terbuka',        2050, 'Tepi Savana Bromo – Semi Terbuka',     'Ngadisari, Cemoro Lawang'),
+        (85, 'Jahe merah',                  'Zingiber officinale var. rubrum',  'Herba', 'Antiradang',                -7.9250, 112.9380, 'Tepi Hutan & Zona Transisi',           1900, 'Kebun Rempah & Tepi Hutan',             'Ngadisari, Wonokitri'),
+        (86, 'Cemara gunung',               'Casuarina junghuhniana',           'Pohon', 'Penyembuhan luka',          -7.9750, 112.9820, 'Lereng Semeru & Dataran Tinggi',       2200, 'Lereng Semeru – Dominant Trees',       'Ranupani'),
     ]
 
     df = pd.DataFrame(records, columns=[
         'id','nama_tanaman','nama_latin','jenis','fungsi_utama',
         'latitude','longitude','kawasan','ketinggian','lokasi_detail','desa'
     ])
-
-    # Status konservasi
     df['status_konservasi'] = 'Umum'
     df.loc[df['nama_tanaman'].isin(['Purwoceng','Parijoto','Anggrek tanah']),
            'status_konservasi'] = 'Dilindungi'
-
     np.random.seed(42)
     df['jumlah'] = np.random.randint(10, 500, len(df))
     return df
@@ -450,8 +661,8 @@ def load_desa_geojson():
         if not os.path.exists('Desa_TNBTS.geojson'):
             return gpd.GeoDataFrame()
         with open('Desa_TNBTS.geojson', 'r', encoding='utf-8') as f:
-            geojson_data = json.load(f)
-        gdf = gpd.GeoDataFrame.from_features(geojson_data["features"])
+            data = json.load(f)
+        gdf = gpd.GeoDataFrame.from_features(data["features"])
         gdf.crs = "EPSG:4326"
         return gdf
     except Exception as e:
@@ -460,18 +671,16 @@ def load_desa_geojson():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# LOAD DATA
+# LOAD & FILTER DATA
 # ─────────────────────────────────────────────────────────────────────────────
 df_tanaman = load_tanaman_herbal_data()
 gdf_desa   = load_desa_geojson()
 
-# Filter tanaman berdasarkan nama
 if "Semua" not in selected_tanaman and selected_tanaman:
     df_tanaman_filtered = df_tanaman[df_tanaman['nama_tanaman'].isin(selected_tanaman)]
 else:
     df_tanaman_filtered = df_tanaman.copy()
 
-# Filter berdasarkan kawasan
 if selected_kawasan != "Semua Kawasan":
     df_tanaman_filtered = df_tanaman_filtered[
         df_tanaman_filtered['kawasan'] == selected_kawasan
@@ -482,7 +691,7 @@ if selected_kawasan != "Semua Kawasan":
 # ─────────────────────────────────────────────────────────────────────────────
 def create_tnbts_map():
     m = folium.Map(
-        location=[-7.940, 112.950],
+        location=[-7.955, 112.953],
         zoom_start=11,
         tiles='OpenStreetMap',
         name='OpenStreetMap'
@@ -491,20 +700,121 @@ def create_tnbts_map():
     # Tile tambahan
     folium.TileLayer(
         tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        attr='Esri', name='Satelit'
+        attr='Esri', name='🛰️ Satelit'
     ).add_to(m)
     folium.TileLayer(
         tiles='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-        attr='OpenTopoMap', name='Terrain'
+        attr='OpenTopoMap', name='🗻 Terrain'
     ).add_to(m)
 
-    # ── Layer Desa ────────────────────────────────────────────────────────
-    if show_desa_geojson and not gdf_desa.empty:
-        desa_group = folium.FeatureGroup(name='🏘️ Batas Desa')
+    # ── LAYER 1: 8 Kawasan Ekologi (Polygon) ─────────────────────────────
+    if show_kawasan:
+        kawasan_group = folium.FeatureGroup(name='🏔️ Kawasan Ekologi TNBTS', show=True)
 
+        for feature in KAWASAN_GEOJSON["features"]:
+            props    = feature["properties"]
+            nama_kw  = props["nama"]
+            hex_col  = KAWASAN_HEX.get(nama_kw, "#4CAF50")
+            spesies  = props["spesies"]
+            deskripsi= props["deskripsi"]
+            ketinggian= props["ketinggian"]
+            emoji    = props["emoji"]
+
+            # Hitung centroid polygon untuk label
+            coords = feature["geometry"]["coordinates"][0]
+            cx = sum(c[0] for c in coords) / len(coords)
+            cy = sum(c[1] for c in coords) / len(coords)
+
+            # Popup kawasan
+            popup_html = f"""
+            <div style="font-family:Arial;min-width:260px;max-width:290px;">
+                <div style="background:{hex_col};color:white;padding:10px 12px;
+                            border-radius:8px 8px 0 0;margin:-4px -4px 0 -4px;">
+                    <span style="font-size:20px;">{emoji}</span>
+                    <b style="font-size:14px;margin-left:6px;">{nama_kw}</b>
+                </div>
+                <div style="padding:10px 12px;border:1px solid #ddd;border-top:none;border-radius:0 0 8px 8px;">
+                    <table style="font-size:12px;width:100%;border-collapse:collapse;">
+                        <tr style="background:#f1f8e9;">
+                            <td style="padding:4px 6px;font-weight:bold;color:#555;width:80px;">Ketinggian</td>
+                            <td style="padding:4px 6px;">⛰️ {ketinggian}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 6px;font-weight:bold;color:#555;">Spesies</td>
+                            <td style="padding:4px 6px;">
+                                <b style="color:{hex_col};font-size:14px;">{spesies}</b> spesies herbal
+                            </td>
+                        </tr>
+                        <tr style="background:#f1f8e9;">
+                            <td style="padding:4px 6px;font-weight:bold;color:#555;">Vegetasi</td>
+                            <td style="padding:4px 6px;">{deskripsi}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>"""
+
+            # Tooltip
+            tooltip_txt = f"{emoji} <b>{nama_kw}</b> — {spesies} spesies herbal"
+
+            # Gambar polygon
+            folium.GeoJson(
+                feature,
+                style_function=lambda f, col=hex_col: {
+                    'fillColor':   col,
+                    'color':       col,
+                    'weight':      2.5,
+                    'fillOpacity': 0.18,
+                    'dashArray':   '5, 4',
+                },
+                highlight_function=lambda f, col=hex_col: {
+                    'fillColor':   col,
+                    'color':       col,
+                    'weight':      4,
+                    'fillOpacity': 0.40,
+                    'dashArray':   '',
+                },
+                tooltip=folium.Tooltip(tooltip_txt, sticky=True),
+                popup=folium.Popup(popup_html, max_width=300),
+            ).add_to(kawasan_group)
+
+            # Label teks di centroid kawasan
+            if show_label_kw:
+                label_html = f"""
+                <div style="
+                    background:rgba(255,255,255,0.88);
+                    border:2px solid {hex_col};
+                    border-radius:6px;
+                    padding:3px 7px;
+                    font-family:Arial;
+                    font-size:10px;
+                    font-weight:bold;
+                    color:{hex_col};
+                    white-space:nowrap;
+                    box-shadow:0 1px 4px rgba(0,0,0,.2);
+                    pointer-events:none;
+                ">{emoji} {nama_kw}<br>
+                <span style="font-weight:normal;color:#555;">{spesies} sp. | {ketinggian}</span>
+                </div>"""
+
+                folium.Marker(
+                    location=[cy, cx],
+                    icon=folium.DivIcon(
+                        html=label_html,
+                        icon_size=(200, 40),
+                        icon_anchor=(100, 20),
+                    )
+                ).add_to(kawasan_group)
+
+        kawasan_group.add_to(m)
+
+    # ── LAYER 2: Batas Desa ───────────────────────────────────────────────
+    if show_desa_geojson and not gdf_desa.empty:
+        desa_group = folium.FeatureGroup(name='🏘️ Batas Desa', show=True)
         available_fields, field_aliases = [], []
-        for col, alias in [('nama_kelur','Desa:'),('nama_kecam','Kecamatan:'),
-                           ('nama_kabko','Kabupaten:'),('jumlah_pen','Penduduk:')]:
+        for col, alias in [
+            ('nama_kelur','Desa:'),('nama_kecam','Kecamatan:'),
+            ('nama_kabko','Kabupaten:'),('jumlah_pen','Penduduk:')
+        ]:
             if col in gdf_desa.columns:
                 available_fields.append(col)
                 field_aliases.append(alias)
@@ -513,10 +823,13 @@ def create_tnbts_map():
             gdf_desa,
             name='Desa',
             style_function=lambda f: {
-                'fillColor':'#ffeda0','color':'#f03b20','weight':2,'fillOpacity':.3},
+                'fillColor':'#ffeda0','color':'#e65100',
+                'weight':1.5,'fillOpacity':.15},
             highlight_function=lambda f: {
-                'fillColor':'#ffffb3','color':'#bd0026','weight':3,'fillOpacity':.6},
-            tooltip=folium.GeoJsonTooltip(fields=available_fields, aliases=field_aliases),
+                'fillColor':'#fffde7','color':'#bf360c',
+                'weight':3,'fillOpacity':.45},
+            tooltip=folium.GeoJsonTooltip(
+                fields=available_fields, aliases=field_aliases),
             popup=folium.GeoJsonPopup(
                 fields=['nama_kelur','nama_kecam','nama_kabko','kode','jumlah_pen'],
                 aliases=['Desa','Kecamatan','Kabupaten','Kode','Jumlah Penduduk'],
@@ -525,13 +838,13 @@ def create_tnbts_map():
         ).add_to(desa_group)
         desa_group.add_to(m)
 
-    # ── Layer Tanaman ─────────────────────────────────────────────────────
+    # ── LAYER 3: Marker Tanaman ───────────────────────────────────────────
     if show_tanaman and not df_tanaman_filtered.empty:
-        tanaman_group = folium.FeatureGroup(name='🌿 Tanaman Herbal')
+        tanaman_group = folium.FeatureGroup(name='🌿 Sebaran Tanaman Herbal', show=True)
 
         for _, row in df_tanaman_filtered.iterrows():
-            color       = JENIS_COLOR.get(row['jenis'], 'blue')
-            kw_color    = KAWASAN_COLOR.get(row['kawasan'], '#555555')
+            mk_color = JENIS_COLOR.get(row['jenis'], 'blue')
+            kw_color = KAWASAN_HEX.get(row['kawasan'], '#555555')
 
             popup_html = f"""
             <div style="font-family:Arial;min-width:270px;max-width:300px;padding:4px;">
@@ -572,7 +885,7 @@ def create_tnbts_map():
                         <td style="padding:4px 6px;font-weight:bold;color:#555;">Status</td>
                         <td style="padding:4px 6px;">
                             {'🔒 <b style="color:#c62828;">Dilindungi</b>'
-                             if row['status_konservasi']=='Dilindungi'
+                             if row['status_konservasi'] == 'Dilindungi'
                              else '✅ Umum'}
                         </td>
                     </tr>
@@ -587,29 +900,56 @@ def create_tnbts_map():
 
             folium.CircleMarker(
                 location=[row['latitude'], row['longitude']],
-                radius=8,
+                radius=7,
                 popup=folium.Popup(popup_html, max_width=310),
-                tooltip=f"🌿 {row['nama_tanaman']} ({row['jenis']}) — {row['kawasan']}",
-                color=color,
+                tooltip=(
+                    f"🌿 <b>{row['nama_tanaman']}</b> ({row['jenis']})<br>"
+                    f"<small>{row['kawasan']}</small>"
+                ),
+                color=mk_color,
                 fill=True,
-                fillColor=color,
-                fillOpacity=0.85,
+                fillColor=mk_color,
+                fillOpacity=0.90,
                 weight=2
             ).add_to(tanaman_group)
 
         tanaman_group.add_to(m)
 
-    folium.LayerControl().add_to(m)
+    # ── Legenda kawasan (HTML overlay kiri bawah) ─────────────────────────
+    legend_items_html = "".join([
+        f'<div class="l-row">'
+        f'<div class="l-box" style="background:{col};"></div>'
+        f'{nm.split("&")[0].strip()} ({len(df_tanaman[df_tanaman["kawasan"]==nm])} sp.)'
+        f'</div>'
+        for nm, col in KAWASAN_HEX.items()
+    ])
+    legend_html = f"""
+    <div style="position:fixed;bottom:30px;left:10px;z-index:9000;
+                background:white;border-radius:10px;padding:12px 14px;
+                box-shadow:0 2px 10px rgba(0,0,0,.2);font-family:Arial;
+                max-width:220px;border:1px solid #e0e0e0;">
+        <div style="font-weight:bold;font-size:12px;color:#1B5E20;
+                    margin-bottom:8px;border-bottom:2px solid #4CAF50;padding-bottom:4px;">
+            🏔️ Kawasan Ekologi TNBTS
+        </div>
+        {legend_items_html}
+        <div style="margin-top:8px;border-top:1px solid #eee;padding-top:6px;
+                    font-size:10px;color:#888;">
+            Klik polygon untuk detail kawasan
+        </div>
+    </div>"""
+    m.get_root().html.add_child(folium.Element(legend_html))
 
+    # Layer control & plugins
+    folium.LayerControl(collapsed=False).add_to(m)
     try:
         from folium.plugins import Fullscreen
-        Fullscreen().add_to(m)
+        Fullscreen(position='topright').add_to(m)
     except Exception:
         pass
-
     try:
         from folium.plugins import MeasureControl
-        MeasureControl(position='bottomleft',
+        MeasureControl(position='bottomright',
                        primary_length_unit='kilometers').add_to(m)
     except Exception:
         pass
@@ -623,8 +963,8 @@ def create_tnbts_map():
 if selected == "Peta Sebaran":
     st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
     st.markdown(
-        "Visualisasi sebaran **86 spesies tanaman herbal** di 8 kawasan ekologi TNBTS "
-        "berdasarkan koordinat survei lapangan."
+        "Visualisasi sebaran **86 spesies tanaman herbal** di **8 kawasan ekologi** TNBTS. "
+        "Layer kawasan dapat diaktifkan/nonaktifkan melalui Layer Control di peta."
     )
 
     # Metric cards
@@ -644,50 +984,64 @@ if selected == "Peta Sebaran":
         st.markdown(f"""<div class="metric-card"><h3>{dilind}</h3>
             <p>🔒 Dilindungi</p></div>""", unsafe_allow_html=True)
 
-    # Info kawasan yang dipilih
+    # Info kawasan filter aktif
     if selected_kawasan != "Semua Kawasan":
-        kw_col = KAWASAN_COLOR.get(selected_kawasan, '#2E7D32')
+        kw_col = KAWASAN_HEX.get(selected_kawasan, '#2E7D32')
         st.markdown(
             f'<div style="background:{kw_col};color:white;padding:.6rem 1rem;'
             f'border-radius:8px;margin-bottom:.5rem;font-weight:600;">'
-            f'📍 Filter aktif: {selected_kawasan} '
-            f'({len(df_tanaman_filtered)} spesies)</div>',
+            f'📍 Filter aktif: {selected_kawasan} ({len(df_tanaman_filtered)} spesies)</div>',
             unsafe_allow_html=True
         )
 
+    # Info layer kawasan
+    st.info(
+        "🏔️ **Layer Kawasan Ekologi** aktif — 8 zona ditampilkan sebagai polygon berwarna. "
+        "Gunakan **Layer Control** di pojok kanan atas peta untuk menampilkan/menyembunyikan layer. "
+        "**Klik polygon** kawasan untuk melihat info detail kawasan."
+    )
+
     # Peta
     try:
-        folium_static(create_tnbts_map(), width=1200, height=620)
+        folium_static(create_tnbts_map(), width=1200, height=640)
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
-        m = folium.Map(location=[-7.940, 112.950], zoom_start=10)
-        folium_static(m)
+        m0 = folium.Map(location=[-7.940, 112.950], zoom_start=10)
+        folium_static(m0)
 
-    # Legenda jenis
-    with st.expander("📖 Legenda Peta & Keterangan Kawasan"):
+    # Legenda kawasan & jenis
+    with st.expander("📖 Legenda & Keterangan Kawasan Ekologi", expanded=False):
         lc1, lc2 = st.columns(2)
         with lc1:
-            st.markdown("**🌿 Warna Marker Berdasarkan Jenis:**")
+            st.markdown("**🏔️ 8 Kawasan Ekologi TNBTS (Warna Polygon):**")
+            for kw, col in KAWASAN_HEX.items():
+                cnt   = len(df_tanaman[df_tanaman['kawasan'] == kw])
+                props = next(
+                    f["properties"]
+                    for f in KAWASAN_GEOJSON["features"]
+                    if f["properties"]["nama"] == kw
+                )
+                st.markdown(
+                    f'<div style="border-left:5px solid {col};padding:4px 10px;'
+                    f'margin-bottom:5px;background:#fafafa;border-radius:0 6px 6px 0;">'
+                    f'<span style="font-size:14px;">{props["emoji"]}</span> '
+                    f'<b style="color:{col};">{kw}</b><br>'
+                    f'<small>⛰️ {props["ketinggian"]} | 🌿 {cnt} spesies</small></div>',
+                    unsafe_allow_html=True
+                )
+        with lc2:
+            st.markdown("**🌿 Warna Marker Berdasarkan Jenis Tanaman:**")
             for j, c in JENIS_COLOR.items():
                 cnt = len(df_tanaman[df_tanaman['jenis'] == j])
                 st.markdown(
-                    f'<span style="display:inline-block;width:14px;height:14px;'
+                    f'<span style="display:inline-block;width:13px;height:13px;'
                     f'background:{c};border-radius:50%;margin-right:8px;'
                     f'vertical-align:middle;border:1px solid #999;"></span>'
                     f'**{j}** ({cnt} sp.)',
                     unsafe_allow_html=True
                 )
-        with lc2:
-            st.markdown("**🏔️ Kawasan Ekologi TNBTS:**")
-            for kw, col in KAWASAN_COLOR.items():
-                cnt = len(df_tanaman[df_tanaman['kawasan'] == kw])
-                st.markdown(
-                    f'<span class="kawasan-badge" style="background:{col};">'
-                    f'{kw} ({cnt})</span>',
-                    unsafe_allow_html=True
-                )
 
-    # Tabel ringkas tanaman yang tampil
+    # Tabel ringkas
     with st.expander(f"📋 Daftar {len(df_tanaman_filtered)} Tanaman yang Ditampilkan"):
         st.dataframe(
             df_tanaman_filtered[[
@@ -708,12 +1062,11 @@ if selected == "Peta Sebaran":
 elif selected == "Peta 3D Pegunungan":
     st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS")
     st.markdown("Visualisasi 3D interaktif — putar 360° dengan mouse/touch")
-
     st.info("**🖱️ Cara penggunaan:** Klik kiri + drag untuk memutar | Scroll untuk zoom | Klik fullscreen di pojok kanan bawah")
 
     st.markdown(f"""
-    <div style="border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.2);
-                height:{map_height_3d}px;">
+    <div style="border-radius:10px;overflow:hidden;
+                box-shadow:0 4px 8px rgba(0,0,0,.2);height:{map_height_3d}px;">
         <iframe
             title="Mount Bromo / Bromo Tengger Semeru National Park"
             frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen
@@ -725,10 +1078,8 @@ elif selected == "Peta 3D Pegunungan":
 
     c1, c2, c3, c4 = st.columns(4)
     for col, val, lbl in [
-        (c1, '5',     '⛰️ Gunung'),
-        (c2, '41',    '🏘️ Desa'),
-        (c3, '86',    '🌿 Spesies'),
-        (c4, '3,676', '📏 mdpl tertinggi'),
+        (c1,'5','⛰️ Gunung'),(c2,'41','🏘️ Desa'),
+        (c3,'86','🌿 Spesies'),(c4,'3.676','📏 mdpl tertinggi'),
     ]:
         with col:
             st.markdown(f"""<div class="metric-card"><h3>{val}</h3>
@@ -739,12 +1090,13 @@ elif selected == "Peta 3D Pegunungan":
 # ═════════════════════════════════════════════════════════════════════════════
 elif selected == "Data Tanaman":
     st.markdown("## 📋 Data Tanaman Herbal TNBTS")
-
     tab1, tab2 = st.tabs(["🌿 86 Spesies Tanaman", "🏘️ Data Desa (GeoJSON)"])
 
     with tab1:
-        search = st.text_input("🔍 Cari (nama, fungsi, nama latin, kawasan):",
-                               placeholder="Contoh: antiradang / blok ireng / herba ...")
+        search = st.text_input(
+            "🔍 Cari (nama, fungsi, nama latin, kawasan):",
+            placeholder="Contoh: antiradang / blok ireng / herba ..."
+        )
         df_show = df_tanaman_filtered.copy()
         if search:
             mask = (
@@ -770,13 +1122,15 @@ elif selected == "Data Tanaman":
             }),
             use_container_width=True, height=500, hide_index=True
         )
-
-        csv = df_tanaman_filtered.to_csv(index=False)
         cc1, cc2, cc3 = st.columns([1, 2, 1])
         with cc2:
-            st.download_button("📥 Download CSV Tanaman (86 Spesies)", data=csv,
-                               file_name="tanaman_herbal_tnbts_86.csv", mime="text/csv",
-                               use_container_width=True)
+            st.download_button(
+                "📥 Download CSV Tanaman (86 Spesies)",
+                data=df_tanaman_filtered.to_csv(index=False),
+                file_name="tanaman_herbal_tnbts_86.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
 
     with tab2:
         st.markdown("### 📊 Data Desa dari File GeoJSON")
@@ -784,9 +1138,12 @@ elif selected == "Data Tanaman":
             st.success(f"✅ {len(gdf_desa)} desa berhasil dimuat")
             desa_df = gdf_desa.drop('geometry', axis=1, errors='ignore')
             st.dataframe(desa_df, use_container_width=True, height=500)
-            st.download_button("📥 Download Data Desa (CSV)",
-                               data=desa_df.to_csv(index=False),
-                               file_name="data_desa_tnbts.csv", mime="text/csv")
+            st.download_button(
+                "📥 Download Data Desa (CSV)",
+                data=desa_df.to_csv(index=False),
+                file_name="data_desa_tnbts.csv",
+                mime="text/csv"
+            )
         else:
             st.error("❌ Desa_TNBTS.geojson tidak ditemukan.")
 
@@ -796,7 +1153,6 @@ elif selected == "Data Tanaman":
 elif selected == "Statistik":
     st.markdown("## 📊 Statistik Tanaman Herbal TNBTS")
 
-    # Distribusi per kawasan
     st.markdown("### 🏔️ Sebaran Spesies per Kawasan Ekologi")
     kw_counts = df_tanaman_filtered['kawasan'].value_counts()
     st.bar_chart(kw_counts, use_container_width=True)
@@ -810,13 +1166,11 @@ elif selected == "Statistik":
             pd.DataFrame({'Jenis': jenis_counts.index, 'Jumlah': jenis_counts.values}),
             use_container_width=True, hide_index=True
         )
-
     with c2:
         st.markdown("### 💊 Top 10 Fungsi Tanaman")
         fungsi_counts = df_tanaman_filtered['fungsi_utama'].value_counts().head(10)
         st.bar_chart(fungsi_counts, use_container_width=True)
 
-    # Ketinggian
     st.markdown("### ⛰️ Distribusi Ketinggian Lokasi")
     kd = df_tanaman_filtered['ketinggian'].describe()
     cc1, cc2, cc3, cc4 = st.columns(4)
@@ -830,7 +1184,6 @@ elif selected == "Statistik":
             st.markdown(f"""<div class="metric-card"><h3>{val}</h3>
                 <p>{lbl}</p></div>""", unsafe_allow_html=True)
 
-    # Tabel per kawasan lengkap
     st.markdown("### 📋 Komposisi Jenis per Kawasan")
     pivot = df_tanaman_filtered.groupby(['kawasan','jenis']).size().unstack(fill_value=0)
     st.dataframe(pivot, use_container_width=True)
@@ -841,7 +1194,7 @@ elif selected == "Statistik":
 else:
     st.markdown("## ℹ️ Informasi TNBTS")
 
-    total_penduduk  = gdf_desa['jumlah_pen'].sum()   if not gdf_desa.empty and 'jumlah_pen' in gdf_desa.columns  else 0
+    total_penduduk  = gdf_desa['jumlah_pen'].sum()    if not gdf_desa.empty and 'jumlah_pen'  in gdf_desa.columns else 0
     total_kecamatan = gdf_desa['nama_kecam'].nunique() if not gdf_desa.empty and 'nama_kecam' in gdf_desa.columns else 0
     total_kabupaten = gdf_desa['nama_kabko'].nunique() if not gdf_desa.empty and 'nama_kabko' in gdf_desa.columns else 0
     tanaman_dilind  = len(df_tanaman[df_tanaman['status_konservasi'] == 'Dilindungi'])
@@ -850,7 +1203,7 @@ else:
     <div class="info-box">
         <h4>🌋 Taman Nasional Bromo Tengger Semeru</h4>
         <p>TNBTS adalah kawasan konservasi di Jawa Timur dengan keanekaragaman hayati tinggi.
-        Data WebGIS ini menampilkan <b>86 spesies tanaman herbal</b> yang teridentifikasi
+        WebGIS ini menampilkan <b>86 spesies tanaman herbal</b> yang teridentifikasi
         di <b>8 kawasan ekologi</b> berbeda, dari savana vulkanik Bromo (±2.000 mdpl)
         hingga lereng atas Semeru (±2.500 mdpl) dan hutan primer Blok Ireng-Ireng.</p>
     </div>""", unsafe_allow_html=True)
@@ -859,28 +1212,20 @@ else:
 
     # ── 8 Kawasan Ekologi ────────────────────────────────────────────────────
     st.markdown("### 🏔️ 8 Kawasan Ekologi TNBTS")
-    kw_info = {
-        "Blok Ireng-Ireng & Hutan Atas":   ("2.400–2.600", "Hutan primer, epifit, lumut, pakis langka, tanaman endemik"),
-        "Tepi Hutan & Zona Transisi":       ("1.850–2.000", "Rempah-rempah tradisional Tengger, herba obat, semak transisi"),
-        "Savana Bromo & Lereng Terbuka":    ("2.000–2.200", "Padang savana vulkanik, rumput, herba terbuka, bunga liar"),
-        "Kantong Air & Lembah":             ("1.700–1.900", "Herba air, tanaman lembab, sumber mata air TNBTS"),
-        "Ranu Darungan & Sekitar Danau":    ("1.860",       "Tanaman tepi danau, pakis air, herba lembab riparian"),
-        "Lereng Semeru & Dataran Tinggi":   ("2.200–2.500", "Sayuran dataran tinggi, cemara gunung, purwoceng, stroberi tengger"),
-        "Zona Budidaya & Pekarangan":       ("1.800–2.000", "Tanaman budidaya Tengger, rempah pekarangan, sayuran tradisional"),
-        "Zona Pesisir & Pantai Selatan":    ("0–400",       "Pohon pantai, semak pesisir, tanaman mangrove transisi"),
-    }
-    kw_cols = st.columns(2)
-    for i, (kw, (alt, desc)) in enumerate(kw_info.items()):
-        col_kw = kw_cols[i % 2]
-        cnt    = len(df_tanaman[df_tanaman['kawasan'] == kw])
-        color  = KAWASAN_COLOR.get(kw, '#555')
-        with col_kw:
+    kw_cols_ui = st.columns(2)
+    for i, feat in enumerate(KAWASAN_GEOJSON["features"]):
+        props = feat["properties"]
+        kw    = props["nama"]
+        col_h = KAWASAN_HEX.get(kw, '#555')
+        cnt   = len(df_tanaman[df_tanaman['kawasan'] == kw])
+        with kw_cols_ui[i % 2]:
             st.markdown(
-                f'<div style="border-left:5px solid {color};padding:.6rem 1rem;'
+                f'<div style="border-left:5px solid {col_h};padding:.6rem 1rem;'
                 f'margin-bottom:.6rem;background:#fafafa;border-radius:0 8px 8px 0;">'
-                f'<b style="color:{color};">{kw}</b><br>'
-                f'<small>⛰️ {alt} mdpl &nbsp;|&nbsp; 🌿 {cnt} spesies</small><br>'
-                f'<span style="font-size:.85rem;color:#555;">{desc}</span></div>',
+                f'<b style="font-size:16px;">{props["emoji"]}</b> '
+                f'<b style="color:{col_h};">{kw}</b><br>'
+                f'<small>⛰️ {props["ketinggian"]} &nbsp;|&nbsp; 🌿 {cnt} spesies</small><br>'
+                f'<span style="font-size:.85rem;color:#555;">{props["deskripsi"]}</span></div>',
                 unsafe_allow_html=True
             )
 
@@ -888,44 +1233,41 @@ else:
 
     # ── Fungsi utama tanaman ──────────────────────────────────────────────────
     st.markdown("### 💊 Kelompok Fungsi Tanaman")
-
     FUNGSI_GROUPS = {
-        "🫀 Pencernaan":        ['Pencernaan','Diare','Sakit perut','Masuk angin','Pencahar','Obat diare'],
-        "🔥 Antiradang":        ['Antiradang','Anti radang','Anti radang, batuk','Antiradang, diuretik'],
-        "🤒 Penurun Demam":     ['Penurun demam','Obat demam'],
-        "💊 Pereda Nyeri":      ['Pereda nyeri','Pereda nyeri, asma','Pereda nyeri otot'],
-        "🩹 Obat Luka":         ['Obat luka','Penyembuhan luka','Menghentikan pendarahan','Obat bisul'],
-        "🌡️ Batuk & Pilek":    ['Batuk & pilek','Batuk','Batuk, darah tinggi'],
-        "🌿 Fungsi Khusus":     ['Diuretik','Antiseptik','Kesuburan','Antikanker','Antibakteri',
-                                  'Menurunkan tekanan darah','Tekanan darah tinggi','Penurun gula darah',
-                                  'Melancarkan peredaran darah','Kesehatan darah','Kesehatan hati',
-                                  'Menghangatkan tubuh','Mengurangi bengkak','Antimalaria','Antioksidan'],
+        "🫀 Pencernaan":      ['Pencernaan','Diare','Sakit perut','Masuk angin','Pencahar','Obat diare'],
+        "🔥 Antiradang":      ['Antiradang','Anti radang','Anti radang, batuk','Antiradang, diuretik'],
+        "🤒 Penurun Demam":   ['Penurun demam','Obat demam'],
+        "💊 Pereda Nyeri":    ['Pereda nyeri','Pereda nyeri, asma','Pereda nyeri otot'],
+        "🩹 Obat Luka":       ['Obat luka','Penyembuhan luka','Menghentikan pendarahan','Obat bisul'],
+        "🌡️ Batuk & Pilek":  ['Batuk & pilek','Batuk','Batuk, darah tinggi'],
+        "🌿 Fungsi Khusus":   ['Diuretik','Antiseptik','Kesuburan','Antikanker','Antibakteri',
+                               'Menurunkan tekanan darah','Tekanan darah tinggi','Penurun gula darah',
+                               'Melancarkan peredaran darah','Kesehatan darah','Kesehatan hati',
+                               'Menghangatkan tubuh','Mengurangi bengkak','Antimalaria','Antioksidan'],
     }
 
-    def get_tanaman_by_fungsi_group(fungsi_list, df):
+    def get_tanaman_by_group(flist, df):
         tanaman = []
-        for fungsi in fungsi_list:
+        for f in flist:
             tanaman.extend(
                 df[df['fungsi_utama'].str.contains(
-                    '|'.join([f.strip() for f in fungsi.split(',')]),
+                    '|'.join([x.strip() for x in f.split(',')]),
                     case=False, na=False
                 )]['nama_tanaman'].tolist()
             )
         return list(dict.fromkeys(tanaman))
 
     fg_cols = st.columns(3)
-    for idx, (label, fungsi_list) in enumerate(FUNGSI_GROUPS.items()):
-        tanaman_list = get_tanaman_by_fungsi_group(fungsi_list, df_tanaman)
+    for idx, (label, flist) in enumerate(FUNGSI_GROUPS.items()):
+        t_list = get_tanaman_by_group(flist, df_tanaman)
         badges = "".join([
-            f'<span class="tanaman-badge" '
-            f'title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">'
-            f'{t}</span>'
-            for t in tanaman_list
+            f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>'
+            for t in t_list
         ])
         with fg_cols[idx % 3]:
             st.markdown(f"""
             <div class="fungsi-card">
-                <div class="fungsi-title">{label} ({len(tanaman_list)} sp.)</div>
+                <div class="fungsi-title">{label} ({len(t_list)} sp.)</div>
                 <div class="tanaman-list">{badges}</div>
             </div>""", unsafe_allow_html=True)
 
@@ -946,8 +1288,7 @@ else:
         with col:
             st.markdown(f"""
             <div class="team-card">
-                <img src="{photo}" class="team-photo" alt="{name}"
-                     onerror="this.src='https://via.placeholder.com/150?text={name[:10]}'">
+                <img src="{photo}" class="team-photo" alt="{name}">
                 <h4 class="team-name">{name}</h4>
                 <p class="team-title">{title}</p>
                 <p class="team-role">{role}</p>
@@ -968,7 +1309,7 @@ else:
     st.markdown("""
     ### 📍 Sumber Data
     - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 86 spesies, 8 kawasan ekologi
-    - **Koordinat:** Berdasarkan kawasan ekologi TNBTS hasil survei GPS lapangan
+    - **Koordinat Kawasan:** Batas ekologi TNBTS berdasarkan survei GPS lapangan & interpretasi citra satelit
     - **Data Desa:** GeoJSON BIG/BPS (41 desa penyangga TNBTS)
     - **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
     - **Model 3D:** Sketchfab — smartmAPPS
@@ -984,14 +1325,8 @@ st.markdown("""
         🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
         Bromo – Kaldera Tengger – Semeru Melalui Konsumsi Tanaman Herbal di TNBTS
     </p>
-    <p style="margin-bottom:.3rem;">
-        © Ekspedisi Tanaman Herbal TNBTS untuk Health Security — 2026
-    </p>
-    <p style="font-size:.9rem;opacity:.9;">
-        86 Spesies • 8 Kawasan Ekologi • 41 Desa Penyangga
-    </p>
-    <p style="font-size:.7rem;opacity:.5;">
-        © WebGIS Developer: Adipandang Yudono (2026)
-    </p>
+    <p style="margin-bottom:.3rem;">© Ekspedisi Tanaman Herbal TNBTS untuk Health Security — 2026</p>
+    <p style="font-size:.9rem;opacity:.9;">86 Spesies • 8 Kawasan Ekologi • 41 Desa Penyangga</p>
+    <p style="font-size:.7rem;opacity:.5;">© WebGIS Developer: Adipandang Yudono (2026)</p>
 </div>
 """, unsafe_allow_html=True)
