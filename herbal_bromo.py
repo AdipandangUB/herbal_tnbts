@@ -519,11 +519,10 @@ with st.sidebar:
     st.markdown("### 🗂️ Layer Control")
     c1, c2 = st.columns(2)
     with c1:
-        show_desa_geojson = st.checkbox("🏘️ Batas Desa",    value=True)
+        show_desa_geojson = st.checkbox("🏘️ Batas Desa",     value=True)
         show_kawasan      = st.checkbox("🏔️ Kawasan Ekologi", value=True)
     with c2:
-        show_tanaman = st.checkbox("🌿 Tanaman",  value=True)
-        show_label_kw= st.checkbox("🔤 Label Kawasan", value=True)
+        show_tanaman = st.checkbox("🌿 Tanaman", value=True)
 
     st.markdown("### 🏔️ Kontrol Tampilan 3D")
     map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
@@ -708,102 +707,83 @@ def create_tnbts_map():
     ).add_to(m)
 
     # ── LAYER 1: 8 Kawasan Ekologi (Polygon) ─────────────────────────────
+    # Semua 8 kawasan digabung dalam SATU GeoJson call.
+    # Tooltip menggunakan GeoJsonTooltip (field-based) — tidak ada label permanen.
+    # Warna per-kawasan ditangani via style_function yang membaca properties["fill"].
     if show_kawasan:
         kawasan_group = folium.FeatureGroup(name='🏔️ Kawasan Ekologi TNBTS', show=True)
 
-        for feature in KAWASAN_GEOJSON["features"]:
-            props    = feature["properties"]
-            nama_kw  = props["nama"]
-            hex_col  = KAWASAN_HEX.get(nama_kw, "#4CAF50")
-            spesies  = props["spesies"]
-            deskripsi= props["deskripsi"]
-            ketinggian= props["ketinggian"]
-            emoji    = props["emoji"]
+        # Sisipkan warna hex ke setiap feature properties agar bisa dibaca style_function
+        kawasan_geojson_colored = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+        for feat in KAWASAN_GEOJSON["features"]:
+            feat_copy = {
+                "type": feat["type"],
+                "geometry": feat["geometry"],
+                "properties": dict(feat["properties"])
+            }
+            nama = feat_copy["properties"]["nama"]
+            feat_copy["properties"]["fill"] = KAWASAN_HEX.get(nama, "#4CAF50")
+            # Tambah field ringkas untuk tooltip
+            sp  = feat_copy["properties"]["spesies"]
+            alt = feat_copy["properties"]["ketinggian"]
+            em  = feat_copy["properties"]["emoji"]
+            feat_copy["properties"]["tooltip_label"] = (
+                f"{em} {nama}"
+            )
+            feat_copy["properties"]["tooltip_info"] = (
+                f"{sp} spesies | {alt}"
+            )
+            kawasan_geojson_colored["features"].append(feat_copy)
 
-            # Hitung centroid polygon untuk label
-            coords = feature["geometry"]["coordinates"][0]
-            cx = sum(c[0] for c in coords) / len(coords)
-            cy = sum(c[1] for c in coords) / len(coords)
-
-            # Popup kawasan
-            popup_html = f"""
-            <div style="font-family:Arial;min-width:260px;max-width:290px;">
-                <div style="background:{hex_col};color:white;padding:10px 12px;
-                            border-radius:8px 8px 0 0;margin:-4px -4px 0 -4px;">
-                    <span style="font-size:20px;">{emoji}</span>
-                    <b style="font-size:14px;margin-left:6px;">{nama_kw}</b>
-                </div>
-                <div style="padding:10px 12px;border:1px solid #ddd;border-top:none;border-radius:0 0 8px 8px;">
-                    <table style="font-size:12px;width:100%;border-collapse:collapse;">
-                        <tr style="background:#f1f8e9;">
-                            <td style="padding:4px 6px;font-weight:bold;color:#555;width:80px;">Ketinggian</td>
-                            <td style="padding:4px 6px;">⛰️ {ketinggian}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:4px 6px;font-weight:bold;color:#555;">Spesies</td>
-                            <td style="padding:4px 6px;">
-                                <b style="color:{hex_col};font-size:14px;">{spesies}</b> spesies herbal
-                            </td>
-                        </tr>
-                        <tr style="background:#f1f8e9;">
-                            <td style="padding:4px 6px;font-weight:bold;color:#555;">Vegetasi</td>
-                            <td style="padding:4px 6px;">{deskripsi}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>"""
-
-            # Tooltip
-            tooltip_txt = f"{emoji} <b>{nama_kw}</b> — {spesies} spesies herbal"
-
-            # Gambar polygon
-            folium.GeoJson(
-                feature,
-                style_function=lambda f, col=hex_col: {
-                    'fillColor':   col,
-                    'color':       col,
-                    'weight':      2.5,
-                    'fillOpacity': 0.18,
-                    'dashArray':   '5, 4',
-                },
-                highlight_function=lambda f, col=hex_col: {
-                    'fillColor':   col,
-                    'color':       col,
-                    'weight':      4,
-                    'fillOpacity': 0.40,
-                    'dashArray':   '',
-                },
-                tooltip=folium.Tooltip(tooltip_txt, sticky=True),
-                popup=folium.Popup(popup_html, max_width=300),
-            ).add_to(kawasan_group)
-
-            # Label teks di centroid kawasan
-            if show_label_kw:
-                label_html = f"""
-                <div style="
-                    background:rgba(255,255,255,0.88);
-                    border:2px solid {hex_col};
-                    border-radius:6px;
-                    padding:3px 7px;
-                    font-family:Arial;
-                    font-size:10px;
-                    font-weight:bold;
-                    color:{hex_col};
-                    white-space:nowrap;
-                    box-shadow:0 1px 4px rgba(0,0,0,.2);
-                    pointer-events:none;
-                ">{emoji} {nama_kw}<br>
-                <span style="font-weight:normal;color:#555;">{spesies} sp. | {ketinggian}</span>
-                </div>"""
-
-                folium.Marker(
-                    location=[cy, cx],
-                    icon=folium.DivIcon(
-                        html=label_html,
-                        icon_size=(200, 40),
-                        icon_anchor=(100, 20),
-                    )
-                ).add_to(kawasan_group)
+        folium.GeoJson(
+            kawasan_geojson_colored,
+            name="kawasan",
+            style_function=lambda f: {
+                "fillColor":   f["properties"]["fill"],
+                "color":       f["properties"]["fill"],
+                "weight":      2.5,
+                "fillOpacity": 0.18,
+                "dashArray":   "5, 4",
+            },
+            highlight_function=lambda f: {
+                "fillColor":   f["properties"]["fill"],
+                "color":       f["properties"]["fill"],
+                "weight":      4,
+                "fillOpacity": 0.40,
+                "dashArray":   "",
+            },
+            # GeoJsonTooltip — hanya muncul saat hover, tidak pernah permanen
+            tooltip=folium.GeoJsonTooltip(
+                fields=["tooltip_label", "tooltip_info"],
+                aliases=["", ""],
+                localize=False,
+                sticky=False,
+                labels=False,
+                style=(
+                    "background-color:white;"
+                    "border:1px solid #ccc;"
+                    "border-radius:6px;"
+                    "padding:6px 10px;"
+                    "font-family:Arial;"
+                    "font-size:12px;"
+                    "box-shadow:2px 2px 6px rgba(0,0,0,.15);"
+                ),
+            ),
+            # Popup hanya muncul saat klik
+            popup=folium.GeoJsonPopup(
+                fields=["nama", "ketinggian", "spesies", "deskripsi"],
+                aliases=["Kawasan:", "Ketinggian:", "Spesies herbal:", "Vegetasi:"],
+                localize=False,
+                max_width=300,
+                style=(
+                    "font-family:Arial;"
+                    "font-size:12px;"
+                ),
+            ),
+        ).add_to(kawasan_group)
 
         kawasan_group.add_to(m)
 
@@ -998,7 +978,7 @@ if selected == "Peta Sebaran":
     st.info(
         "🏔️ **Layer Kawasan Ekologi** aktif — 8 zona ditampilkan sebagai polygon berwarna. "
         "Gunakan **Layer Control** di pojok kanan atas peta untuk menampilkan/menyembunyikan layer. "
-        "**Klik polygon** kawasan untuk melihat info detail kawasan."
+        "**Hover** pada polygon untuk melihat nama kawasan. **Klik polygon** untuk info lengkap."
     )
 
     # Peta
