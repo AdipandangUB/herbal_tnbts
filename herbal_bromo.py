@@ -216,9 +216,19 @@ JENIS_COLOR = {
 # Koordinat [lat, lon] mendekati batas ekologi riil masing-masing kawasan.
 # Disusun sebagai GeoJSON "Polygon" (lon, lat — standar GeoJSON).
 # ─────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# Koordinat polygon dihitung dengan metode hexagonal non-overlapping.
+# Setiap kawasan memiliki bounding box yang tidak bersinggungan dengan kawasan lain.
+# Pusat polygon = centroid data survei; radius disesuaikan agar proporsional
+# terhadap jumlah spesies dan luas ekologi relatif.
+# Urutan koordinat: [lon, lat] — standar GeoJSON (bukan [lat, lon]).
+# ─────────────────────────────────────────────────────────────────────────────
 KAWASAN_GEOJSON = {
     "type": "FeatureCollection",
     "features": [
+        # ── 1. Blok Ireng-Ireng & Hutan Atas ─────────────────────────────
+        # Center: (-7.898, 112.917) | radius: 0.0085 lat × 0.0090 lon
+        # Posisi: barat-laut TNBTS, hutan primer, ketinggian tertinggi
         {
             "type": "Feature",
             "properties": {
@@ -231,86 +241,19 @@ KAWASAN_GEOJSON = {
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [[
-                    [112.9150, -7.8950],
-                    [112.9350, -7.8950],
-                    [112.9450, -7.9050],
-                    [112.9380, -7.9200],
-                    [112.9200, -7.9250],
-                    [112.9050, -7.9180],
-                    [112.9000, -7.9020],
-                    [112.9150, -7.8950]
+                    [112.92479, -7.89375],
+                    [112.91700, -7.88950],
+                    [112.90921, -7.89375],
+                    [112.90921, -7.90225],
+                    [112.91700, -7.90650],
+                    [112.92479, -7.90225],
+                    [112.92479, -7.89375]
                 ]]
             }
         },
-        {
-            "type": "Feature",
-            "properties": {
-                "nama": "Tepi Hutan & Zona Transisi",
-                "deskripsi": "Rempah-rempah tradisional Tengger, herba obat, semak transisi",
-                "ketinggian": "1.850 – 2.000 mdpl",
-                "spesies": 18,
-                "emoji": "🌿"
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [[
-                    [112.9200, -7.9120],
-                    [112.9450, -7.9050],
-                    [112.9500, -7.9180],
-                    [112.9460, -7.9320],
-                    [112.9350, -7.9350],
-                    [112.9150, -7.9300],
-                    [112.9100, -7.9180],
-                    [112.9200, -7.9120]
-                ]]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "nama": "Savana Bromo & Lereng Terbuka",
-                "deskripsi": "Padang savana vulkanik, rumput, herba terbuka, bunga liar",
-                "ketinggian": "2.000 – 2.200 mdpl",
-                "spesies": 20,
-                "emoji": "🌾"
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [[
-                    [112.9450, -7.9180],
-                    [112.9800, -7.9200],
-                    [112.9850, -7.9380],
-                    [112.9780, -7.9550],
-                    [112.9600, -7.9580],
-                    [112.9400, -7.9520],
-                    [112.9350, -7.9350],
-                    [112.9450, -7.9180]
-                ]]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "nama": "Kantong Air & Lembah",
-                "deskripsi": "Herba air, tanaman lembab, sumber mata air TNBTS",
-                "ketinggian": "1.700 – 1.900 mdpl",
-                "spesies": 6,
-                "emoji": "💧"
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [[
-                    [112.9350, -7.9380],
-                    [112.9500, -7.9400],
-                    [112.9550, -7.9520],
-                    [112.9480, -7.9650],
-                    [112.9300, -7.9620],
-                    [112.9250, -7.9500],
-                    [112.9300, -7.9380],
-                    [112.9350, -7.9380]
-                ]]
-            }
-        },
+        # ── 2. Ranu Darungan & Sekitar Danau ─────────────────────────────
+        # Center: (-7.904, 112.951) | radius: 0.0050 lat × 0.0055 lon
+        # Posisi: utara-timur, dekat danau Ranu Darungan, area kecil
         {
             "type": "Feature",
             "properties": {
@@ -323,39 +266,44 @@ KAWASAN_GEOJSON = {
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [[
-                    [112.9320, -7.9050],
-                    [112.9480, -7.9050],
-                    [112.9520, -7.9150],
-                    [112.9460, -7.9230],
-                    [112.9320, -7.9220],
-                    [112.9260, -7.9140],
-                    [112.9320, -7.9050]
+                    [112.95576, -7.90150],
+                    [112.95100, -7.89900],
+                    [112.94624, -7.90150],
+                    [112.94624, -7.90650],
+                    [112.95100, -7.90900],
+                    [112.95576, -7.90650],
+                    [112.95576, -7.90150]
                 ]]
             }
         },
+        # ── 3. Tepi Hutan & Zona Transisi ────────────────────────────────
+        # Center: (-7.924, 112.933) | radius: 0.0075 lat × 0.0080 lon
+        # Posisi: tengah-barat, zona peralihan hutan–ladang Tengger
         {
             "type": "Feature",
             "properties": {
-                "nama": "Lereng Semeru & Dataran Tinggi",
-                "deskripsi": "Sayuran dataran tinggi, cemara gunung, purwoceng, stroberi tengger",
-                "ketinggian": "2.200 – 2.500 mdpl",
-                "spesies": 13,
-                "emoji": "🏔️"
+                "nama": "Tepi Hutan & Zona Transisi",
+                "deskripsi": "Rempah-rempah tradisional Tengger, herba obat, semak transisi",
+                "ketinggian": "1.850 – 2.000 mdpl",
+                "spesies": 18,
+                "emoji": "🌿"
             },
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [[
-                    [112.9650, -7.9550],
-                    [113.0000, -7.9550],
-                    [113.0050, -7.9800],
-                    [112.9980, -8.0050],
-                    [112.9750, -8.0100],
-                    [112.9600, -7.9950],
-                    [112.9580, -7.9700],
-                    [112.9650, -7.9550]
+                    [112.93993, -7.91650],
+                    [112.93300, -7.91200],
+                    [112.92607, -7.91650],
+                    [112.92607, -7.93150],
+                    [112.93300, -7.93600],
+                    [112.93993, -7.93150],
+                    [112.93993, -7.91650]
                 ]]
             }
         },
+        # ── 4. Zona Budidaya & Pekarangan ────────────────────────────────
+        # Center: (-7.937, 112.948) | radius: 0.0060 lat × 0.0065 lon
+        # Posisi: tengah, desa-desa Tengger (Ngadisari, Wonokitri, dll.)
         {
             "type": "Feature",
             "properties": {
@@ -368,17 +316,94 @@ KAWASAN_GEOJSON = {
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [[
-                    [112.9380, -7.9280],
-                    [112.9600, -7.9300],
-                    [112.9630, -7.9450],
-                    [112.9550, -7.9530],
-                    [112.9380, -7.9500],
-                    [112.9300, -7.9420],
-                    [112.9330, -7.9300],
-                    [112.9380, -7.9280]
+                    [112.95363, -7.93400],
+                    [112.94800, -7.93100],
+                    [112.94237, -7.93400],
+                    [112.94237, -7.94000],
+                    [112.94800, -7.94300],
+                    [112.95363, -7.94000],
+                    [112.95363, -7.93400]
                 ]]
             }
         },
+        # ── 5. Savana Bromo & Lereng Terbuka ─────────────────────────────
+        # Center: (-7.945, 112.968) | radius: 0.0100 lat × 0.0110 lon
+        # Posisi: tengah-timur, lautan pasir & savana Bromo, kawasan terluas
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Savana Bromo & Lereng Terbuka",
+                "deskripsi": "Padang savana vulkanik, rumput, herba terbuka, bunga liar",
+                "ketinggian": "2.000 – 2.200 mdpl",
+                "spesies": 20,
+                "emoji": "🌾"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.97753, -7.94000],
+                    [112.96800, -7.93500],
+                    [112.95847, -7.94000],
+                    [112.95847, -7.95000],
+                    [112.96800, -7.95500],
+                    [112.97753, -7.95000],
+                    [112.97753, -7.94000]
+                ]]
+            }
+        },
+        # ── 6. Kantong Air & Lembah ──────────────────────────────────────
+        # Center: (-7.960, 112.937) | radius: 0.0065 lat × 0.0070 lon
+        # Posisi: selatan-barat, lembah sumber mata air TNBTS
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Kantong Air & Lembah",
+                "deskripsi": "Herba air, tanaman lembab, sumber mata air TNBTS",
+                "ketinggian": "1.700 – 1.900 mdpl",
+                "spesies": 6,
+                "emoji": "💧"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.94306, -7.95675],
+                    [112.93700, -7.95350],
+                    [112.93094, -7.95675],
+                    [112.93094, -7.96325],
+                    [112.93700, -7.96650],
+                    [112.94306, -7.96325],
+                    [112.94306, -7.95675]
+                ]]
+            }
+        },
+        # ── 7. Lereng Semeru & Dataran Tinggi ────────────────────────────
+        # Center: (-7.980, 112.987) | radius: 0.0110 lat × 0.0120 lon
+        # Posisi: tenggara, lereng Gunung Semeru, kawasan luas
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Lereng Semeru & Dataran Tinggi",
+                "deskripsi": "Sayuran dataran tinggi, cemara gunung, purwoceng, stroberi tengger",
+                "ketinggian": "2.200 – 2.500 mdpl",
+                "spesies": 13,
+                "emoji": "🏔️"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [112.99739, -7.97450],
+                    [112.98700, -7.96900],
+                    [112.97661, -7.97450],
+                    [112.97661, -7.98550],
+                    [112.98700, -7.99100],
+                    [112.99739, -7.98550],
+                    [112.99739, -7.97450]
+                ]]
+            }
+        },
+        # ── 8. Zona Pesisir & Pantai Selatan ─────────────────────────────
+        # Center: (-8.020, 112.993) | radius: 0.0090 lat × 0.0110 lon
+        # Posisi: jauh selatan, zona pesisir, terpisah dari kawasan atas
         {
             "type": "Feature",
             "properties": {
@@ -391,13 +416,13 @@ KAWASAN_GEOJSON = {
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [[
-                    [112.9750, -8.0050],
-                    [113.0100, -8.0050],
-                    [113.0200, -8.0300],
-                    [112.9900, -8.0350],
-                    [112.9700, -8.0250],
-                    [112.9650, -8.0100],
-                    [112.9750, -8.0050]
+                    [113.00253, -8.01550],
+                    [112.99300, -8.01100],
+                    [112.98347, -8.01550],
+                    [112.98347, -8.02450],
+                    [112.99300, -8.02900],
+                    [113.00253, -8.02450],
+                    [113.00253, -8.01550]
                 ]]
             }
         }
