@@ -1019,34 +1019,55 @@ def create_tnbts_map(
             )
         ).add_to(desa_group)
         
-        # ===== PERBAIKAN UTAMA: Menambahkan Label untuk Batas Desa =====
+         # ===== PERBAIKAN UTAMA: Menambahkan Label untuk Batas Desa =====
         # Label nama desa menggunakan DivIcon di centroid masing-masing polygon desa
+        # Format: NAMA_DESA - NAMA_KABUPATEN
         for _, row_desa in gdf_desa.iterrows():
             try:
                 # Hitung centroid polygon desa
                 centroid = row_desa.geometry.centroid
+                # Ambil nama desa dan kabupaten
                 nama_desa = row_desa.get('nama_kelur', '')
-                # Tambahkan marker dengan icon teks untuk setiap desa
-                folium.Marker(
-                    location=[centroid.y, centroid.x],
-                    icon=folium.DivIcon(
-                        html=f"""<div style="
-                            font-family: Arial, sans-serif;
-                            font-size: 11px;
-                            font-weight: bold;
-                            color: #e65100;
-                            background: rgba(255,255,255,0.85);
-                            border: 1.5px solid #e65100;
-                            border-radius: 4px;
-                            padding: 2px 5px;
-                            white-space: nowrap;
-                            box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-                            letter-spacing: 0.3px;
-                        ">{nama_desa}</div>""",
-                        icon_size=(120, 22),
-                        icon_anchor=(60, 11),
-                    )
-                ).add_to(desa_group)
+                nama_kabupaten = row_desa.get('nama_kabko', '')
+                
+                # Format label: DESA - KABUPATEN
+                if nama_desa and nama_kabupaten:
+                    label_text = f"{nama_desa.upper()} - {nama_kabupaten.upper()}"
+                elif nama_desa:
+                    label_text = nama_desa.upper()
+                else:
+                    label_text = ""
+                
+                # Hanya tambahkan marker jika label_text tidak kosong
+                if label_text:
+                    # Sesuaikan ukuran ikon berdasarkan panjang teks (opsional)
+                    # Panjang teks diperkirakan, bisa disesuaikan
+                    text_length = len(label_text)
+                    # Lebar ikon: 8px per karakter + 20px padding
+                    icon_width = max(140, text_length * 8 + 20)
+                    icon_height = 24
+                    
+                    folium.Marker(
+                        location=[centroid.y, centroid.x],
+                        icon=folium.DivIcon(
+                            html=f"""<div style="
+                                font-family: Arial, sans-serif;
+                                font-size: 10px;
+                                font-weight: bold;
+                                color: #e65100;
+                                background: rgba(255,255,255,0.9);
+                                border: 1.5px solid #e65100;
+                                border-radius: 4px;
+                                padding: 3px 6px;
+                                white-space: nowrap;
+                                box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+                                letter-spacing: 0.3px;
+                                text-align: center;
+                            ">{label_text}</div>""",
+                            icon_size=(icon_width, icon_height),
+                            icon_anchor=(icon_width // 2, icon_height // 2),  # Posisikan di tengah centroid
+                        )
+                    ).add_to(desa_group)
             except Exception as e:
                 # Lewati jika ada error pada geometry (misalnya MultiPolygon yang kompleks)
                 pass
