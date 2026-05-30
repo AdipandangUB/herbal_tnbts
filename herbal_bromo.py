@@ -982,6 +982,7 @@ def create_tnbts_map(
         kabupaten_group.add_to(m)
 
     # ── LAYER 3: Batas Desa (outline tebal, fill no color) ──────────────────
+    # DAN Label Desa pada centroid (perbaikan utama)
     if show_desa_geojson and not gdf_desa.empty:
         desa_group = folium.FeatureGroup(name='🏘️ Batas Desa', show=True)
         available_fields, field_aliases = [], []
@@ -1017,6 +1018,40 @@ def create_tnbts_map(
                 max_width=300
             )
         ).add_to(desa_group)
+        
+        # ===== PERBAIKAN UTAMA: Menambahkan Label untuk Batas Desa =====
+        # Label nama desa menggunakan DivIcon di centroid masing-masing polygon desa
+        for _, row_desa in gdf_desa.iterrows():
+            try:
+                # Hitung centroid polygon desa
+                centroid = row_desa.geometry.centroid
+                nama_desa = row_desa.get('nama_kelur', '')
+                # Tambahkan marker dengan icon teks untuk setiap desa
+                folium.Marker(
+                    location=[centroid.y, centroid.x],
+                    icon=folium.DivIcon(
+                        html=f"""<div style="
+                            font-family: Arial, sans-serif;
+                            font-size: 11px;
+                            font-weight: bold;
+                            color: #e65100;
+                            background: rgba(255,255,255,0.85);
+                            border: 1.5px solid #e65100;
+                            border-radius: 4px;
+                            padding: 2px 5px;
+                            white-space: nowrap;
+                            box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+                            letter-spacing: 0.3px;
+                        ">{nama_desa}</div>""",
+                        icon_size=(120, 22),
+                        icon_anchor=(60, 11),
+                    )
+                ).add_to(desa_group)
+            except Exception as e:
+                # Lewati jika ada error pada geometry (misalnya MultiPolygon yang kompleks)
+                pass
+        # ================================================================
+
         desa_group.add_to(m)
 
     # ── LAYER 4: Kawasan Ekologi TNBTS (Polygon) ────────────────────────────
