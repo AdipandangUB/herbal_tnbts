@@ -567,26 +567,50 @@ with st.sidebar:
     st.markdown("### 🗂️ Layer Control")
     c1, c2 = st.columns(2)
     with c1:
-        show_desa_geojson = st.checkbox("🏘️ Batas Desa",     value=True)
-        show_kawasan      = st.checkbox("🏔️ Kawasan Ekologi", value=True)
+        show_desa_geojson  = st.checkbox("🏘️ Batas Desa",         value=True)
+        show_kawasan       = st.checkbox("🏔️ Kawasan Ekologi",     value=True)
     with c2:
-        show_tanaman = st.checkbox("🌿 Tanaman", value=True)
+        show_tanaman       = st.checkbox("🌿 Tanaman",             value=True)
+        show_kabupaten     = st.checkbox("🗺️ Batas Kabupaten",     value=True)
+    show_batas_tnbts   = st.checkbox("🔲 Batas TNBTS",         value=True)
 
     st.markdown("### 🏔️ Kontrol Tampilan 3D")
     map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
 
     st.markdown("---")
     st.markdown("### 📁 Status File")
-    if os.path.exists('Desa_TNBTS.geojson'):
-        fsz = os.path.getsize('Desa_TNBTS.geojson') / 1024
+    if os.path.exists('Desa_kaw_TNBTS.geojson'):
+        fsz = os.path.getsize('Desa_kaw_TNBTS.geojson') / 1024
         st.markdown(f"""
         <div class="status-badge">
-            ✅ <b>Desa_TNBTS.geojson</b><br><small>{fsz:.1f} KB • 41 desa</small>
+            ✅ <b>Desa_kaw_TNBTS.geojson</b><br><small>{fsz:.1f} KB • 41 desa</small>
         </div>""", unsafe_allow_html=True)
     else:
         st.markdown("""
         <div class="status-badge" style="border-left-color:#f44336;">
-            ❌ <b>Desa_TNBTS.geojson</b><br><small>File tidak ditemukan</small>
+            ❌ <b>Desa_kaw_TNBTS.geojson</b><br><small>File tidak ditemukan</small>
+        </div>""", unsafe_allow_html=True)
+    if os.path.exists('Kabupaten_kaw_TNBTS.geojson'):
+        fsz2 = os.path.getsize('Kabupaten_kaw_TNBTS.geojson') / 1024
+        st.markdown(f"""
+        <div class="status-badge">
+            ✅ <b>Kabupaten_kaw_TNBTS.geojson</b><br><small>{fsz2:.1f} KB • 4 kabupaten</small>
+        </div>""", unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <div class="status-badge" style="border-left-color:#f44336;">
+            ❌ <b>Kabupaten_kaw_TNBTS.geojson</b><br><small>File tidak ditemukan</small>
+        </div>""", unsafe_allow_html=True)
+    if os.path.exists('Batas_TNBTS.geojson'):
+        fsz3 = os.path.getsize('Batas_TNBTS.geojson') / 1024
+        st.markdown(f"""
+        <div class="status-badge">
+            ✅ <b>Batas_TNBTS.geojson</b><br><small>{fsz3:.1f} KB • Batas TNBTS</small>
+        </div>""", unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <div class="status-badge" style="border-left-color:#f44336;">
+            ❌ <b>Batas_TNBTS.geojson</b><br><small>File tidak ditemukan</small>
         </div>""", unsafe_allow_html=True)
     st.markdown("""
     <div class="status-badge">
@@ -708,23 +732,55 @@ def load_tanaman_herbal_data():
 @st.cache_data
 def load_desa_geojson():
     try:
-        if not os.path.exists('Desa_TNBTS.geojson'):
+        if not os.path.exists('Desa_kaw_TNBTS.geojson'):
             return gpd.GeoDataFrame()
-        with open('Desa_TNBTS.geojson', 'r', encoding='utf-8') as f:
+        with open('Desa_kaw_TNBTS.geojson', 'r', encoding='utf-8') as f:
             data = json.load(f)
         gdf = gpd.GeoDataFrame.from_features(data["features"])
         gdf.crs = "EPSG:4326"
         return gdf
     except Exception as e:
-        st.sidebar.error(f"❌ Error loading GeoJSON: {e}")
+        st.sidebar.error(f"❌ Error loading GeoJSON Desa: {e}")
+        return gpd.GeoDataFrame()
+
+
+@st.cache_data
+def load_kabupaten_geojson():
+    try:
+        if not os.path.exists('Kabupaten_kaw_TNBTS.geojson'):
+            return gpd.GeoDataFrame()
+        with open('Kabupaten_kaw_TNBTS.geojson', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        gdf = gpd.GeoDataFrame.from_features(data["features"])
+        gdf.crs = "EPSG:4326"
+        return gdf
+    except Exception as e:
+        st.sidebar.error(f"❌ Error loading GeoJSON Kabupaten: {e}")
+        return gpd.GeoDataFrame()
+
+
+@st.cache_data
+def load_batas_geojson():
+    try:
+        if not os.path.exists('Batas_TNBTS.geojson'):
+            return gpd.GeoDataFrame()
+        with open('Batas_TNBTS.geojson', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        gdf = gpd.GeoDataFrame.from_features(data["features"])
+        gdf.crs = "EPSG:4326"
+        return gdf
+    except Exception as e:
+        st.sidebar.error(f"❌ Error loading GeoJSON Batas: {e}")
         return gpd.GeoDataFrame()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # LOAD & FILTER DATA
 # ─────────────────────────────────────────────────────────────────────────────
-df_tanaman = load_tanaman_herbal_data()
-gdf_desa   = load_desa_geojson()
+df_tanaman   = load_tanaman_herbal_data()
+gdf_desa     = load_desa_geojson()
+gdf_kabupaten = load_kabupaten_geojson()
+gdf_batas    = load_batas_geojson()
 
 if "Semua" not in selected_tanaman and selected_tanaman:
     df_tanaman_filtered = df_tanaman[df_tanaman['nama_tanaman'].isin(selected_tanaman)]
@@ -881,7 +937,7 @@ def create_tnbts_map():
 
         kawasan_group.add_to(m)
 
-    # ── LAYER 2: Batas Desa ───────────────────────────────────────────────
+    # ── LAYER 2: Batas Desa (outline tebal, fill no color) ──────────────
     if show_desa_geojson and not gdf_desa.empty:
         desa_group = folium.FeatureGroup(name='🏘️ Batas Desa', show=True)
         available_fields, field_aliases = [], []
@@ -897,11 +953,18 @@ def create_tnbts_map():
             gdf_desa,
             name='Desa',
             style_function=lambda f: {
-                'fillColor':'#ffeda0','color':'#e65100',
-                'weight':1.5,'fillOpacity':.15},
+                'fillColor':'none',
+                'color':'#e65100',
+                'weight':2.5,
+                'fillOpacity':0,
+                'opacity':1,
+            },
             highlight_function=lambda f: {
-                'fillColor':'#fffde7','color':'#bf360c',
-                'weight':3,'fillOpacity':.45},
+                'fillColor':'#ff6d00',
+                'color':'#bf360c',
+                'weight':3.5,
+                'fillOpacity':0.15,
+            },
             tooltip=folium.GeoJsonTooltip(
                 fields=available_fields, aliases=field_aliases),
             popup=folium.GeoJsonPopup(
@@ -912,7 +975,130 @@ def create_tnbts_map():
         ).add_to(desa_group)
         desa_group.add_to(m)
 
-    # ── LAYER 3: Marker Tanaman ───────────────────────────────────────────
+    # ── LAYER 3: Batas Kabupaten (outline tebal, fill no color, label) ───
+    if show_kabupaten and not gdf_kabupaten.empty:
+        kabupaten_group = folium.FeatureGroup(name='🗺️ Batas Kabupaten', show=True)
+
+        folium.GeoJson(
+            gdf_kabupaten,
+            name='Kabupaten',
+            style_function=lambda f: {
+                'fillColor': 'none',
+                'color': '#1565C0',
+                'weight': 4,
+                'fillOpacity': 0,
+                'opacity': 1,
+                'dashArray': '',
+            },
+            highlight_function=lambda f: {
+                'fillColor': '#1565C0',
+                'color': '#0D47A1',
+                'weight': 5,
+                'fillOpacity': 0.12,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=['nama_kabko', 'nama_provi'],
+                aliases=['Kabupaten:', 'Provinsi:'],
+                localize=False,
+                sticky=False,
+                style=(
+                    'background-color:white;'
+                    'border:1px solid #1565C0;'
+                    'border-radius:6px;'
+                    'padding:6px 10px;'
+                    'font-family:Arial;'
+                    'font-size:12px;'
+                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
+                    'pointer-events:none;'
+                ),
+            ),
+            popup=folium.GeoJsonPopup(
+                fields=['nama_kabko', 'nama_provi'],
+                aliases=['Kabupaten', 'Provinsi'],
+                max_width=250
+            )
+        ).add_to(kabupaten_group)
+
+        # Label nama kabupaten menggunakan DivIcon di centroid masing-masing
+        import geopandas as _gpd
+        for _, row_kab in gdf_kabupaten.iterrows():
+            try:
+                centroid = row_kab.geometry.centroid
+                nama_kab = row_kab.get('nama_kabko', '')
+                folium.Marker(
+                    location=[centroid.y, centroid.x],
+                    icon=folium.DivIcon(
+                        html=f"""<div style="
+                            font-family: Arial, sans-serif;
+                            font-size: 12px;
+                            font-weight: bold;
+                            color: #1565C0;
+                            background: rgba(255,255,255,0.85);
+                            border: 2px solid #1565C0;
+                            border-radius: 5px;
+                            padding: 3px 7px;
+                            white-space: nowrap;
+                            box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        ">{nama_kab}</div>""",
+                        icon_size=(150, 28),
+                        icon_anchor=(75, 14),
+                    )
+                ).add_to(kabupaten_group)
+            except Exception:
+                pass
+
+        kabupaten_group.add_to(m)
+
+    # ── LAYER 4: Batas TNBTS (outline tebal, fill no color) ──────────────
+    if show_batas_tnbts and not gdf_batas.empty:
+        batas_group = folium.FeatureGroup(name='🔲 Batas TNBTS', show=True)
+
+        folium.GeoJson(
+            gdf_batas,
+            name='Batas TNBTS',
+            style_function=lambda f: {
+                'fillColor': 'none',
+                'color': '#B71C1C',
+                'weight': 4,
+                'fillOpacity': 0,
+                'opacity': 1,
+                'dashArray': '8, 4',
+            },
+            highlight_function=lambda f: {
+                'fillColor': '#B71C1C',
+                'color': '#7F0000',
+                'weight': 5,
+                'fillOpacity': 0.10,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=['Keterangan'],
+                aliases=['Keterangan:'],
+                localize=False,
+                sticky=False,
+                style=(
+                    'background-color:white;'
+                    'border:2px solid #B71C1C;'
+                    'border-radius:6px;'
+                    'padding:6px 10px;'
+                    'font-family:Arial;'
+                    'font-size:12px;'
+                    'font-weight:bold;'
+                    'color:#B71C1C;'
+                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
+                    'pointer-events:none;'
+                ),
+            ),
+            popup=folium.GeoJsonPopup(
+                fields=['Keterangan'],
+                aliases=[''],
+                max_width=300
+            )
+        ).add_to(batas_group)
+        batas_group.add_to(m)
+
+    # ── LAYER 5: Marker Tanaman ───────────────────────────────────────────
     if show_tanaman and not df_tanaman_filtered.empty:
         tanaman_group = folium.FeatureGroup(name='🌿 Sebaran Tanaman Herbal', show=True)
 
@@ -1071,8 +1257,11 @@ if selected == "Peta Sebaran":
     # Info layer kawasan
     st.info(
         "🏔️ **Layer Kawasan Ekologi** aktif — 8 zona ditampilkan sebagai polygon berwarna. "
+        "🏘️ **Batas Desa** ditampilkan sebagai outline tebal warna oranye (fill transparan). "
+        "🗺️ **Batas Kabupaten** ditampilkan sebagai outline tebal biru dengan label nama. "
+        "🔲 **Batas TNBTS** ditampilkan sebagai outline merah putus-putus. "
         "Gunakan **Layer Control** di pojok kanan atas peta untuk menampilkan/menyembunyikan layer. "
-        "**Hover** pada polygon untuk melihat nama kawasan. **Klik polygon** untuk info lengkap."
+        "**Hover** pada polygon untuk melihat informasi. **Klik polygon** untuk info lengkap."
     )
 
     # Peta
@@ -1114,6 +1303,26 @@ if selected == "Peta Sebaran":
                     f'**{j}** ({cnt} sp.)',
                     unsafe_allow_html=True
                 )
+            st.markdown("---")
+            st.markdown("**🗺️ Keterangan Layer Batas:**")
+            st.markdown(
+                '<div style="border-left:4px solid #e65100;padding:4px 10px;margin-bottom:4px;'
+                'background:#fff3e0;border-radius:0 5px 5px 0;font-size:13px;">'
+                '🏘️ <b style="color:#e65100;">Batas Desa</b> — outline oranye tebal, fill transparan</div>',
+                unsafe_allow_html=True
+            )
+            st.markdown(
+                '<div style="border-left:4px solid #1565C0;padding:4px 10px;margin-bottom:4px;'
+                'background:#E3F2FD;border-radius:0 5px 5px 0;font-size:13px;">'
+                '🗺️ <b style="color:#1565C0;">Batas Kabupaten</b> — outline biru tebal + label nama</div>',
+                unsafe_allow_html=True
+            )
+            st.markdown(
+                '<div style="border-left:4px solid #B71C1C;padding:4px 10px;margin-bottom:4px;'
+                'background:#FFEBEE;border-radius:0 5px 5px 0;font-size:13px;">'
+                '🔲 <b style="color:#B71C1C;">Batas TNBTS</b> — outline merah putus-putus tebal, fill transparan</div>',
+                unsafe_allow_html=True
+            )
 
     # Tabel ringkas
     with st.expander(f"📋 Daftar {len(df_tanaman_filtered)} Tanaman yang Ditampilkan"):
@@ -1219,7 +1428,7 @@ elif selected == "Data Tanaman":
                 mime="text/csv"
             )
         else:
-            st.error("❌ Desa_TNBTS.geojson tidak ditemukan.")
+            st.error("❌ Desa_kaw_TNBTS.geojson tidak ditemukan.")
 
 # ═════════════════════════════════════════════════════════════════════════════
 # HALAMAN: STATISTIK
