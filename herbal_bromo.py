@@ -843,10 +843,168 @@ def create_tnbts_map(
         attr='OpenTopoMap', name='🗻 Terrain'
     ).add_to(m)
 
-    # ── LAYER 1: 8 Kawasan Ekologi (Polygon) ─────────────────────────────
-    # Setiap kawasan digambar sebagai GeoJson tersendiri dengan:
-    #   • GeoJsonTooltip (field-based, sticky=False) → muncul hanya saat hover
-    #   • folium.Popup (HTML custom) → daftar lengkap nama tanaman saat klik
+    # ── LAYER 1: Batas TNBTS (outline tebal, fill no color) ─────────────────
+    if show_batas_tnbts and not gdf_batas.empty:
+        batas_group = folium.FeatureGroup(name='🔲 Batas TNBTS', show=True)
+
+        folium.GeoJson(
+            gdf_batas,
+            name='Batas TNBTS',
+            style_function=lambda f: {
+                'fillColor': 'none',
+                'color': '#B71C1C',
+                'weight': 4,
+                'fillOpacity': 0,
+                'opacity': 1,
+                'dashArray': '8, 4',
+            },
+            highlight_function=lambda f: {
+                'fillColor': '#B71C1C',
+                'color': '#7F0000',
+                'weight': 5,
+                'fillOpacity': 0.10,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=['Keterangan'],
+                aliases=['Keterangan:'],
+                localize=False,
+                sticky=False,
+                style=(
+                    'background-color:white;'
+                    'border:2px solid #B71C1C;'
+                    'border-radius:6px;'
+                    'padding:6px 10px;'
+                    'font-family:Arial;'
+                    'font-size:12px;'
+                    'font-weight:bold;'
+                    'color:#B71C1C;'
+                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
+                    'pointer-events:none;'
+                ),
+            ),
+            popup=folium.GeoJsonPopup(
+                fields=['Keterangan'],
+                aliases=[''],
+                max_width=300
+            )
+        ).add_to(batas_group)
+        batas_group.add_to(m)
+
+    # ── LAYER 2: Batas Kabupaten (outline tebal, fill no color, label) ─────
+    if show_kabupaten and not gdf_kabupaten.empty:
+        kabupaten_group = folium.FeatureGroup(name='🗺️ Batas Kabupaten', show=True)
+
+        folium.GeoJson(
+            gdf_kabupaten,
+            name='Kabupaten',
+            style_function=lambda f: {
+                'fillColor': 'none',
+                'color': '#1565C0',
+                'weight': 4,
+                'fillOpacity': 0,
+                'opacity': 1,
+                'dashArray': '',
+            },
+            highlight_function=lambda f: {
+                'fillColor': '#1565C0',
+                'color': '#0D47A1',
+                'weight': 5,
+                'fillOpacity': 0.12,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=['nama_kabko', 'nama_provi'],
+                aliases=['Kabupaten:', 'Provinsi:'],
+                localize=False,
+                sticky=False,
+                style=(
+                    'background-color:white;'
+                    'border:1px solid #1565C0;'
+                    'border-radius:6px;'
+                    'padding:6px 10px;'
+                    'font-family:Arial;'
+                    'font-size:12px;'
+                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
+                    'pointer-events:none;'
+                ),
+            ),
+            popup=folium.GeoJsonPopup(
+                fields=['nama_kabko', 'nama_provi'],
+                aliases=['Kabupaten', 'Provinsi'],
+                max_width=250
+            )
+        ).add_to(kabupaten_group)
+
+        # Label nama kabupaten menggunakan DivIcon di centroid masing-masing
+        import geopandas as _gpd
+        for _, row_kab in gdf_kabupaten.iterrows():
+            try:
+                centroid = row_kab.geometry.centroid
+                nama_kab = row_kab.get('nama_kabko', '')
+                folium.Marker(
+                    location=[centroid.y, centroid.x],
+                    icon=folium.DivIcon(
+                        html=f"""<div style="
+                            font-family: Arial, sans-serif;
+                            font-size: 12px;
+                            font-weight: bold;
+                            color: #1565C0;
+                            background: rgba(255,255,255,0.85);
+                            border: 2px solid #1565C0;
+                            border-radius: 5px;
+                            padding: 3px 7px;
+                            white-space: nowrap;
+                            box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        ">{nama_kab}</div>""",
+                        icon_size=(150, 28),
+                        icon_anchor=(75, 14),
+                    )
+                ).add_to(kabupaten_group)
+            except Exception:
+                pass
+
+        kabupaten_group.add_to(m)
+
+    # ── LAYER 3: Batas Desa (outline tebal, fill no color) ──────────────────
+    if show_desa_geojson and not gdf_desa.empty:
+        desa_group = folium.FeatureGroup(name='🏘️ Batas Desa', show=True)
+        available_fields, field_aliases = [], []
+        for col, alias in [
+            ('nama_kelur','Desa:'),('nama_kecam','Kecamatan:'),
+            ('nama_kabko','Kabupaten:'),('jumlah_pen','Penduduk:')
+        ]:
+            if col in gdf_desa.columns:
+                available_fields.append(col)
+                field_aliases.append(alias)
+
+        folium.GeoJson(
+            gdf_desa,
+            name='Desa',
+            style_function=lambda f: {
+                'fillColor':'none',
+                'color':'#e65100',
+                'weight':2.5,
+                'fillOpacity':0,
+                'opacity':1,
+            },
+            highlight_function=lambda f: {
+                'fillColor':'#ff6d00',
+                'color':'#bf360c',
+                'weight':3.5,
+                'fillOpacity':0.15,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=available_fields, aliases=field_aliases),
+            popup=folium.GeoJsonPopup(
+                fields=available_fields,
+                aliases=field_aliases,
+                max_width=300
+            )
+        ).add_to(desa_group)
+        desa_group.add_to(m)
+
+    # ── LAYER 4: Kawasan Ekologi TNBTS (Polygon) ────────────────────────────
     if show_kawasan:
         kawasan_group = folium.FeatureGroup(name='🏔️ Kawasan Ekologi TNBTS', show=True)
 
@@ -967,168 +1125,7 @@ def create_tnbts_map(
 
         kawasan_group.add_to(m)
 
-    # ── LAYER 2: Batas Desa (outline tebal, fill no color) ──────────────
-    if show_desa_geojson and not gdf_desa.empty:
-        desa_group = folium.FeatureGroup(name='🏘️ Batas Desa', show=True)
-        available_fields, field_aliases = [], []
-        for col, alias in [
-            ('nama_kelur','Desa:'),('nama_kecam','Kecamatan:'),
-            ('nama_kabko','Kabupaten:'),('jumlah_pen','Penduduk:')
-        ]:
-            if col in gdf_desa.columns:
-                available_fields.append(col)
-                field_aliases.append(alias)
-
-        folium.GeoJson(
-            gdf_desa,
-            name='Desa',
-            style_function=lambda f: {
-                'fillColor':'none',
-                'color':'#e65100',
-                'weight':2.5,
-                'fillOpacity':0,
-                'opacity':1,
-            },
-            highlight_function=lambda f: {
-                'fillColor':'#ff6d00',
-                'color':'#bf360c',
-                'weight':3.5,
-                'fillOpacity':0.15,
-            },
-            tooltip=folium.GeoJsonTooltip(
-                fields=available_fields, aliases=field_aliases),
-            popup=folium.GeoJsonPopup(
-                fields=available_fields,
-                aliases=field_aliases,
-                max_width=300
-            )
-        ).add_to(desa_group)
-        desa_group.add_to(m)
-
-    # ── LAYER 3: Batas Kabupaten (outline tebal, fill no color, label) ───
-    if show_kabupaten and not gdf_kabupaten.empty:
-        kabupaten_group = folium.FeatureGroup(name='🗺️ Batas Kabupaten', show=True)
-
-        folium.GeoJson(
-            gdf_kabupaten,
-            name='Kabupaten',
-            style_function=lambda f: {
-                'fillColor': 'none',
-                'color': '#1565C0',
-                'weight': 4,
-                'fillOpacity': 0,
-                'opacity': 1,
-                'dashArray': '',
-            },
-            highlight_function=lambda f: {
-                'fillColor': '#1565C0',
-                'color': '#0D47A1',
-                'weight': 5,
-                'fillOpacity': 0.12,
-            },
-            tooltip=folium.GeoJsonTooltip(
-                fields=['nama_kabko', 'nama_provi'],
-                aliases=['Kabupaten:', 'Provinsi:'],
-                localize=False,
-                sticky=False,
-                style=(
-                    'background-color:white;'
-                    'border:1px solid #1565C0;'
-                    'border-radius:6px;'
-                    'padding:6px 10px;'
-                    'font-family:Arial;'
-                    'font-size:12px;'
-                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
-                    'pointer-events:none;'
-                ),
-            ),
-            popup=folium.GeoJsonPopup(
-                fields=['nama_kabko', 'nama_provi'],
-                aliases=['Kabupaten', 'Provinsi'],
-                max_width=250
-            )
-        ).add_to(kabupaten_group)
-
-        # Label nama kabupaten menggunakan DivIcon di centroid masing-masing
-        import geopandas as _gpd
-        for _, row_kab in gdf_kabupaten.iterrows():
-            try:
-                centroid = row_kab.geometry.centroid
-                nama_kab = row_kab.get('nama_kabko', '')
-                folium.Marker(
-                    location=[centroid.y, centroid.x],
-                    icon=folium.DivIcon(
-                        html=f"""<div style="
-                            font-family: Arial, sans-serif;
-                            font-size: 12px;
-                            font-weight: bold;
-                            color: #1565C0;
-                            background: rgba(255,255,255,0.85);
-                            border: 2px solid #1565C0;
-                            border-radius: 5px;
-                            padding: 3px 7px;
-                            white-space: nowrap;
-                            box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-                            text-transform: uppercase;
-                            letter-spacing: 0.5px;
-                        ">{nama_kab}</div>""",
-                        icon_size=(150, 28),
-                        icon_anchor=(75, 14),
-                    )
-                ).add_to(kabupaten_group)
-            except Exception:
-                pass
-
-        kabupaten_group.add_to(m)
-
-    # ── LAYER 4: Batas TNBTS (outline tebal, fill no color) ──────────────
-    if show_batas_tnbts and not gdf_batas.empty:
-        batas_group = folium.FeatureGroup(name='🔲 Batas TNBTS', show=True)
-
-        folium.GeoJson(
-            gdf_batas,
-            name='Batas TNBTS',
-            style_function=lambda f: {
-                'fillColor': 'none',
-                'color': '#B71C1C',
-                'weight': 4,
-                'fillOpacity': 0,
-                'opacity': 1,
-                'dashArray': '8, 4',
-            },
-            highlight_function=lambda f: {
-                'fillColor': '#B71C1C',
-                'color': '#7F0000',
-                'weight': 5,
-                'fillOpacity': 0.10,
-            },
-            tooltip=folium.GeoJsonTooltip(
-                fields=['Keterangan'],
-                aliases=['Keterangan:'],
-                localize=False,
-                sticky=False,
-                style=(
-                    'background-color:white;'
-                    'border:2px solid #B71C1C;'
-                    'border-radius:6px;'
-                    'padding:6px 10px;'
-                    'font-family:Arial;'
-                    'font-size:12px;'
-                    'font-weight:bold;'
-                    'color:#B71C1C;'
-                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
-                    'pointer-events:none;'
-                ),
-            ),
-            popup=folium.GeoJsonPopup(
-                fields=['Keterangan'],
-                aliases=[''],
-                max_width=300
-            )
-        ).add_to(batas_group)
-        batas_group.add_to(m)
-
-    # ── LAYER 5: Marker Tanaman ───────────────────────────────────────────
+    # ── LAYER 5: Sebaran Tanaman Herbal ──────────────────────────────────────
     if show_tanaman and not df_tanaman_filtered.empty:
         tanaman_group = folium.FeatureGroup(name='🌿 Sebaran Tanaman Herbal', show=True)
 
