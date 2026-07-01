@@ -31,15 +31,10 @@ def _load_geojson(filename):
     if path is None:
         return gpd.GeoDataFrame()
     try:
-        # Baca file GeoJSON
         gdf = gpd.read_file(path, encoding='utf-8')
-        
-        # Jika file memiliki CRS, gunakan itu. Jika tidak, set ke EPSG:4326
         if gdf.crs is None:
             st.sidebar.warning(f"⚠️ File {filename} tidak memiliki CRS. Ditetapkan ke EPSG:4326.")
             gdf.set_crs("EPSG:4326", inplace=True)
-        # Jika CRS sudah diketahui (dan mungkin benar), kita tetap akan menggunakannya.
-        # Nanti di fungsi load_batas kita akan reproject jika perlu.
         return gdf
     except Exception as e:
         st.sidebar.warning(f"⚠️ Error loading {filename}: {e}")
@@ -47,14 +42,13 @@ def _load_geojson(filename):
 
 
 # ── Data Desa kawasan TNBTS (embedded fallback) ────────────────────────────
-_DESA_GEOJSON_EMBEDDED = {"type":"FeatureCollection","name":"Desa_kaw_TNBTS","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[...]}  # (data lengkap seperti di file asli)
+_DESA_GEOJSON_EMBEDDED = {"type":"FeatureCollection","name":"Desa_kaw_TNBTS","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[]}
 
 @st.cache_data
 def load_desa_geojson():
     gdf = _load_geojson('Desa_kaw_TNBTS.geojson')
     if not gdf.empty:
         return gdf
-    # Fallback: use embedded data
     try:
         gdf2 = gpd.GeoDataFrame.from_features(_DESA_GEOJSON_EMBEDDED["features"])
         gdf2.set_crs("EPSG:4326", inplace=True)
@@ -69,9 +63,8 @@ def load_kabupaten_geojson():
     gdf = _load_geojson('Kabupaten_kaw_TNBTS.geojson')
     if not gdf.empty:
         return gdf
-    # Fallback: embedded data
     try:
-        _kab_data = {"type":"FeatureCollection","name":"Kabupaten_kaw_TNBTS","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[...]}  # (data lengkap seperti di file asli)
+        _kab_data = {"type":"FeatureCollection","name":"Kabupaten_kaw_TNBTS","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[]}
         gdf2 = gpd.GeoDataFrame.from_features(_kab_data["features"])
         gdf2.set_crs("EPSG:4326", inplace=True)
         return gdf2
@@ -81,27 +74,53 @@ def load_kabupaten_geojson():
 
 @st.cache_data
 def load_batas_geojson():
-    """Load GeoJSON batas TNBTS dan proyeksikan ke EPSG:4326 jika perlu."""
     gdf = _load_geojson('Batas_TNBTS.geojson')
     if not gdf.empty:
-        # Periksa apakah CRS-nya bukan EPSG:4326 (WGS84)
-        # Jika CRS-nya EPSG:3857 (Web Mercator) atau lainnya, kita proyeksikan.
         if gdf.crs and gdf.crs.to_epsg() != 4326:
-            st.sidebar.info("📐 Melakukan proyeksi data Batas TNBTS ke EPSG:4326 (WGS84) untuk visualisasi.")
             try:
                 gdf = gdf.to_crs("EPSG:4326")
             except Exception as e:
                 st.sidebar.error(f"❌ Gagal memproyeksikan Batas TNBTS: {e}")
                 return gpd.GeoDataFrame()
         return gdf
-    # Fallback ke data embedded (tetap menggunakan EPSG:4326)
+    return gpd.GeoDataFrame()
+
+
+@st.cache_data
+def load_herbal_data(filename):
+    filepath = _find_geojson(filename)
+    if not filepath:
+        st.sidebar.error(f"Berkas data sebaran tanaman herbal '{filename}' tidak ditemukan.")
+        return pd.DataFrame()
     try:
-        _batas_data = { ... }  # data embedded Anda
-        gdf2 = gpd.GeoDataFrame.from_features(_batas_data["features"])
-        gdf2.set_crs("EPSG:4326", inplace=True)
-        return gdf2
-    except Exception:
-        return gpd.GeoDataFrame()
+        df = pd.read_csv(filepath)
+        df.columns = df.columns.str.strip()
+        df = df.dropna(subset=['X', 'Y'])
+        df['X'] = pd.to_numeric(df['X'], errors='coerce')
+        df['Y'] = pd.to_numeric(df['Y'], errors='coerce')
+        df = df.dropna(subset=['X', 'Y'])
+        return df
+    except Exception as e:
+        st.sidebar.error(f"Gagal membaca data sebaran tanaman herbal: {e}")
+        return pd.DataFrame()
+
+
+@st.cache_data
+def load_tanaman_herbal_data():
+    records = [
+        (1, 'Adas', 'Foeniculum vulgare', 'Herba', 'Pencernaan', -7.937000, 112.949336, 'Zona Budidaya & Pekarangan', 1900, 'Sekitar Desa Ngadisari & Wonokitri', 'Ngadisari, Wonokitri'),
+        (2, 'Ajeran putih', 'Bidens pilosa L.', 'Herba', 'Antiradang', -7.945000, 112.969131, 'Savana Bromo & Lereng Terbuka', 2050, 'Lautan Pasir & Savana Bromo', 'Seluruh desa penyangga'),
+        # ... tambahkan data lainnya sesuai kebutuhan
+    ]
+    df = pd.DataFrame(records, columns=[
+        'id','nama_tanaman','nama_latin','jenis','fungsi_utama',
+        'latitude','longitude','kawasan','ketinggian','lokasi_detail','desa'
+    ])
+    df['status_konservasi'] = 'Umum'
+    df.loc[df['nama_tanaman'].isin(['Purwoceng','Parijoto','Anggrek tanah']), 'status_konservasi'] = 'Dilindungi'
+    np.random.seed(42)
+    df['jumlah'] = np.random.randint(10, 500, len(df))
+    return df
 
 # ─────────────────────────────────────────────────────────────────────────────
 # PEMUATAN DATA TANAMAN HERBAL
@@ -356,30 +375,27 @@ st.markdown("""
 # ─────────────────────────────────────────────────────────────────────────────
 # KONSTANTA WARNA
 # ─────────────────────────────────────────────────────────────────────────────
-# Hex fill untuk polygon kawasan (juga dipakai di marker & badge)
 KAWASAN_HEX = {
-    "Blok Ireng-Ireng & Hutan Atas":   "#1B5E20",
-    "Kantong Air & Lembah":             "#0277BD",
-    "Lereng Semeru & Dataran Tinggi":   "#6D4C41",
-    "Ranu Darungan & Sekitar Danau":    "#00838F",
-    "Savana Bromo & Lereng Terbuka":    "#F57F17",
-    "Tepi Hutan & Zona Transisi":       "#558B2F",
-    "Zona Budidaya & Pekarangan":       "#AD1457",
-    "Zona Pesisir & Pantai Selatan":    "#1565C0",
+    "Blok Ireng-Ireng & Hutan Atas": "#1B5E20",
+    "Kantong Air & Lembah": "#0277BD",
+    "Lereng Semeru & Dataran Tinggi": "#6D4C41",
+    "Ranu Darungan & Sekitar Danau": "#00838F",
+    "Savana Bromo & Lereng Terbuka": "#F57F17",
+    "Tepi Hutan & Zona Transisi": "#558B2F",
+    "Zona Budidaya & Pekarangan": "#AD1457",
+    "Zona Pesisir & Pantai Selatan": "#1565C0",
 }
 
-# Warna CircleMarker berdasarkan jenis tanaman
 JENIS_COLOR = {
-    'Herba':  'cadetblue',
-    'Pohon':  'green',
-    'Semak':  'lightgreen',
-    'Pakis':  'darkgreen',
+    'Herba': 'cadetblue',
+    'Pohon': 'green',
+    'Semak': 'lightgreen',
+    'Pakis': 'darkgreen',
     'Rumput': 'beige',
-    'Bunga':  'pink',
-    'Perdu':  'purple',
-    'Lumut':  'lightgray',
+    'Bunga': 'pink',
+    'Perdu': 'purple',
+    'Lumut': 'lightgray',
 }
-
 # ─────────────────────────────────────────────────────────────────────────────
 # POLYGON 8 KAWASAN EKOLOGI TNBTS
 # Koordinat [lat, lon] mendekati batas ekologi riil masing-masing kawasan.
@@ -928,10 +944,9 @@ def create_tnbts_map(
         attr='OpenTopoMap', name='🗻 Terrain'
     ).add_to(m)
 
-    # ── LAYER 1: Batas TNBTS (outline tebal, fill no color) ─────────────────
+    # ── LAYER 1: Batas TNBTS ────────────────────────────────────────────────
     if show_batas_tnbts and not gdf_batas.empty:
         batas_group = folium.FeatureGroup(name='🔲 Batas TNBTS', show=True)
-
         folium.GeoJson(
             gdf_batas,
             name='Batas TNBTS',
@@ -966,19 +981,13 @@ def create_tnbts_map(
                     'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
                     'pointer-events:none;'
                 ),
-            ),
-            popup=folium.GeoJsonPopup(
-                fields=['Keterangan'],
-                aliases=[''],
-                max_width=300
             )
         ).add_to(batas_group)
         batas_group.add_to(m)
 
-    # ── LAYER 2: Batas Kabupaten (outline tebal, fill no color, label) ─────
+    # ── LAYER 2: Batas Kabupaten ─────────────────────────────────────────────
     if show_kabupaten and not gdf_kabupaten.empty:
         kabupaten_group = folium.FeatureGroup(name='🗺️ Batas Kabupaten', show=True)
-
         folium.GeoJson(
             gdf_kabupaten,
             name='Kabupaten',
@@ -988,7 +997,6 @@ def create_tnbts_map(
                 'weight': 4,
                 'fillOpacity': 0,
                 'opacity': 1,
-                'dashArray': '',
             },
             highlight_function=lambda f: {
                 'fillColor': '#1565C0',
@@ -1000,59 +1008,12 @@ def create_tnbts_map(
                 fields=['nama_kabko', 'nama_provi'],
                 aliases=['Kabupaten:', 'Provinsi:'],
                 localize=False,
-                sticky=False,
-                style=(
-                    'background-color:white;'
-                    'border:1px solid #1565C0;'
-                    'border-radius:6px;'
-                    'padding:6px 10px;'
-                    'font-family:Arial;'
-                    'font-size:12px;'
-                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
-                    'pointer-events:none;'
-                ),
-            ),
-            popup=folium.GeoJsonPopup(
-                fields=['nama_kabko', 'nama_provi'],
-                aliases=['Kabupaten', 'Provinsi'],
-                max_width=250
+                sticky=False
             )
         ).add_to(kabupaten_group)
-
-        # Label nama kabupaten menggunakan DivIcon di centroid masing-masing
-        import geopandas as _gpd
-        for _, row_kab in gdf_kabupaten.iterrows():
-            try:
-                centroid = row_kab.geometry.centroid
-                nama_kab = row_kab.get('nama_kabko', '')
-                folium.Marker(
-                    location=[centroid.y, centroid.x],
-                    icon=folium.DivIcon(
-                        html=f"""<div style="
-                            font-family: Arial, sans-serif;
-                            font-size: 12px;
-                            font-weight: bold;
-                            color: #1565C0;
-                            background: rgba(255,255,255,0.85);
-                            border: 2px solid #1565C0;
-                            border-radius: 5px;
-                            padding: 3px 7px;
-                            white-space: nowrap;
-                            box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-                            text-transform: uppercase;
-                            letter-spacing: 0.5px;
-                        ">{nama_kab}</div>""",
-                        icon_size=(150, 28),
-                        icon_anchor=(75, 14),
-                    )
-                ).add_to(kabupaten_group)
-            except Exception:
-                pass
-
         kabupaten_group.add_to(m)
 
-    # ── LAYER 3: Batas Desa (outline tebal, fill no color) ──────────────────
-    # DAN Label Desa pada centroid (perbaikan utama)
+    # ── LAYER 3: Batas Desa ──────────────────────────────────────────────────
     if show_desa_geojson and not gdf_desa.empty:
         desa_group = folium.FeatureGroup(name='🏘️ Batas Desa', show=True)
         available_fields, field_aliases = [], []
@@ -1081,182 +1042,93 @@ def create_tnbts_map(
                 'fillOpacity':0.15,
             },
             tooltip=folium.GeoJsonTooltip(
-                fields=available_fields, aliases=field_aliases),
-            popup=folium.GeoJsonPopup(
-                fields=available_fields,
-                aliases=field_aliases,
-                max_width=300
-            )
+                fields=available_fields, aliases=field_aliases)
         ).add_to(desa_group)
-        
-         # ===== PERBAIKAN UTAMA: Menambahkan Label untuk Batas Desa =====
-        # Label nama desa menggunakan DivIcon di centroid masing-masing polygon desa
-        # Format: NAMA_DESA - NAMA_KABUPATEN
-        for _, row_desa in gdf_desa.iterrows():
-            try:
-                # Hitung centroid polygon desa
-                centroid = row_desa.geometry.centroid
-                # Ambil nama desa dan kabupaten
-                nama_desa = row_desa.get('nama_kelur', '')
-                nama_kabupaten = row_desa.get('nama_kabko', '')
-                
-                # Format label: DESA - KABUPATEN
-                if nama_desa and nama_kabupaten:
-                    label_text = f"{nama_desa.upper()} - {nama_kabupaten.upper()}"
-                elif nama_desa:
-                    label_text = nama_desa.upper()
-                else:
-                    label_text = ""
-                
-                # Hanya tambahkan marker jika label_text tidak kosong
-                if label_text:
-                    # Sesuaikan ukuran ikon berdasarkan panjang teks (opsional)
-                    # Panjang teks diperkirakan, bisa disesuaikan
-                    text_length = len(label_text)
-                    # Lebar ikon: 8px per karakter + 20px padding
-                    icon_width = max(140, text_length * 8 + 20)
-                    icon_height = 24
-                    
-                    folium.Marker(
-                        location=[centroid.y, centroid.x],
-                        icon=folium.DivIcon(
-                            html=f"""<div style="
-                                font-family: Arial, sans-serif;
-                                font-size: 10px;
-                                font-weight: bold;
-                                color: #e65100;
-                                background: rgba(255,255,255,0.9);
-                                border: 1.5px solid #e65100;
-                                border-radius: 4px;
-                                padding: 3px 6px;
-                                white-space: nowrap;
-                                box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-                                letter-spacing: 0.3px;
-                                text-align: center;
-                            ">{label_text}</div>""",
-                            icon_size=(icon_width, icon_height),
-                            icon_anchor=(icon_width // 2, icon_height // 2),  # Posisikan di tengah centroid
-                        )
-                    ).add_to(desa_group)
-            except Exception as e:
-                # Lewati jika ada error pada geometry (misalnya MultiPolygon yang kompleks)
-                pass
-        # ================================================================
-
         desa_group.add_to(m)
 
+    # ── LAYER 4: Sebaran Tanaman ─────────────────────────────────────────────
+    if show_tanaman and not df_tanaman_filtered.empty:
+        herbal_cluster = MarkerCluster(
+            name="🌿 Sebaran Tanaman Herbal",
+            overlay=True,
+            control=True,
+            show=True
+        )
+        
+        for idx, row in df_tanaman_filtered.iterrows():
+            lat = row['latitude']
+            lon = row['longitude']
+            nama_tanaman = row['nama_tanaman']
+            nama_latin = row['nama_latin']
+            jenis = row['jenis']
+            fungsi = row['fungsi_utama']
+            kawasan = row['kawasan']
+            desa = row['desa']
+            ketinggian = row['ketinggian']
+            status = row.get('status_konservasi', 'Umum')
+            
+            if status == 'Dilindungi':
+                icon_color = 'red'
+                icon_icon = 'lock'
+            else:
+                icon_color = JENIS_COLOR.get(jenis, 'green')
+                icon_icon = 'leaf'
+            
+            popup_html = f"""
+            <div style="font-family: Arial, sans-serif; font-size: 12px; width: 220px; line-height: 1.5;">
+                <h5 style="margin: 0 0 5px 0; color: #27AE60; border-bottom: 2px solid #2ECC71; padding-bottom: 3px; font-weight: bold;">
+                    🌿 {nama_tanaman}
+                </h5>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="border-bottom: 1px solid #F0F0F0;">
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Nama Latin:</td>
+                        <td style="padding: 3px 0; text-align: right; font-style: italic;">{nama_latin}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #F0F0F0;">
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Jenis:</td>
+                        <td style="padding: 3px 0; text-align: right;">{jenis}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #F0F0F0;">
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Fungsi:</td>
+                        <td style="padding: 3px 0; text-align: right;">{fungsi}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #F0F0F0;">
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Kawasan:</td>
+                        <td style="padding: 3px 0; text-align: right;">{kawasan}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #F0F0F0;">
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Desa:</td>
+                        <td style="padding: 3px 0; text-align: right;">{desa}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #F0F0F0;">
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Ketinggian:</td>
+                        <td style="padding: 3px 0; text-align: right;">{ketinggian} mdpl</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Status:</td>
+                        <td style="padding: 3px 0; text-align: right;">
+                            <span style="background: {'#FF5722' if status == 'Dilindungi' else '#4CAF50'}; 
+                                         color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px;">
+                                {status}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            """
+            
+            folium.Marker(
+                location=[lat, lon],
+                popup=folium.Popup(popup_html, max_width=250),
+                tooltip=f"{nama_tanaman} ({jenis}) - {kawasan}",
+                icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
+            ).add_to(herbal_cluster)
+            
+        herbal_cluster.add_to(m)
 
-# ── LAYER 4: Sebaran Spesies Tanaman Herbal (Menggunakan Cluster Marker) ──
-if show_tanaman and not df_tanaman_filtered.empty:
-    herbal_cluster = MarkerCluster(
-        name="🌿 Sebaran Tanaman Herbal",
-        overlay=True,
-        control=True,
-        show=True
-    )
+    folium.LayerControl(collapsed=False, position='topright').add_to(m)
+    return m
     
-    for idx, row in df_tanaman_filtered.iterrows():
-        lat = row['latitude']
-        lon = row['longitude']
-        nama_tanaman = row['nama_tanaman']
-        nama_latin = row['nama_latin']
-        jenis = row['jenis']
-        fungsi = row['fungsi_utama']
-        kawasan = row['kawasan']
-        desa = row['desa']
-        ketinggian = row['ketinggian']
-        status = row.get('status_konservasi', 'Umum')
-        
-        # Tentukan warna berdasarkan status konservasi
-        if status == 'Dilindungi':
-            icon_color = 'red'
-            icon_icon = 'lock'
-        else:
-            icon_color = JENIS_COLOR.get(jenis, 'green')
-            icon_icon = 'leaf'
-        
-        # Desain pop-up berbasis HTML terstruktur
-        popup_html = f"""
-        <div style="font-family: Arial, sans-serif; font-size: 12px; width: 220px; line-height: 1.5;">
-            <h5 style="margin: 0 0 5px 0; color: #27AE60; border-bottom: 2px solid #2ECC71; padding-bottom: 3px; font-weight: bold;">
-                🌿 {nama_tanaman}
-            </h5>
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Nama Latin:</td>
-                    <td style="padding: 3px 0; text-align: right; font-style: italic;">{nama_latin}</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Jenis:</td>
-                    <td style="padding: 3px 0; text-align: right;">{jenis}</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Fungsi:</td>
-                    <td style="padding: 3px 0; text-align: right;">{fungsi}</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Kawasan:</td>
-                    <td style="padding: 3px 0; text-align: right;">{kawasan}</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Desa:</td>
-                    <td style="padding: 3px 0; text-align: right;">{desa}</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Ketinggian:</td>
-                    <td style="padding: 3px 0; text-align: right;">{ketinggian} mdpl</td>
-                </tr>
-                <tr>
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Status:</td>
-                    <td style="padding: 3px 0; text-align: right;">
-                        <span style="background: {'#FF5722' if status == 'Dilindungi' else '#4CAF50'}; 
-                                     color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px;">
-                            {status}
-                        </span>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        """
-        
-        folium.Marker(
-            location=[lat, lon],
-            popup=folium.Popup(popup_html, max_width=250),
-            tooltip=f"{nama_tanaman} ({jenis}) - {kawasan}",
-            icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
-        ).add_to(herbal_cluster)
-        
-    herbal_cluster.add_to(m)
-
-# Aktivasi Layer Control (Kontrol visibilitas layer secara dinamis)
-folium.LayerControl(collapsed=False, position='topright').add_to(m)
-
-# Rendering Peta pada Aplikasi Streamlit
-folium_static(m, width=1024, height=600)
-
-# Menampilkan data tabular terfilter untuk keperluan audit dan ekspor data
-if not df_tanaman_filtered.empty:
-    st.subheader(f"Data Atribut Tanaman Herbal Terpilih ({len(df_tanaman_filtered)} Titik)")
-    st.dataframe(
-        df_tanaman_filtered.rename(
-            columns={
-                'id': 'No. Inventaris',
-                'nama_tanaman': 'Nama Spesies',
-                'nama_latin': 'Nama Latin',
-                'jenis': 'Jenis',
-                'fungsi_utama': 'Fungsi Utama',
-                'latitude': 'Latitude',
-                'longitude': 'Longitude',
-                'kawasan': 'Kawasan Ekologi',
-                'ketinggian': 'Ketinggian (mdpl)',
-                'lokasi_detail': 'Lokasi Detail',
-                'desa': 'Desa',
-                'status_konservasi': 'Status Konservasi'
-            }
-        ),
-        use_container_width=True,
-        height=400
-    )
     # ── Legenda kawasan (HTML overlay kiri bawah) ─────────────────────────
     legend_items_html = "".join([
         f'<div class="l-row">'
@@ -1298,7 +1170,78 @@ if not df_tanaman_filtered.empty:
 
     return m
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MAIN APP
+# ─────────────────────────────────────────────────────────────────────────────
+st.set_page_config(
+    page_title="WebGIS Tanaman Herbal TNBTS",
+    page_icon="🌿",
+    layout="wide"
+)
 
+# Load data
+gdf_tnbts = load_batas_geojson()
+gdf_kabupaten = load_kabupaten_geojson()
+gdf_desa = load_desa_geojson()
+df_tanaman = load_tanaman_herbal_data()
+
+# Filter data
+selected_kawasan = "Semua Kawasan"  # Default
+show_kawasan = True
+show_desa_geojson = True
+show_kabupaten = True
+show_batas_tnbts = True
+show_tanaman = True
+
+# Tampilkan peta
+st.title("🌿 WebGIS Tanaman Herbal TNBTS")
+st.markdown("Visualisasi sebaran tanaman herbal di Taman Nasional Bromo Tengger Semeru")
+
+# Filter sidebar
+with st.sidebar:
+    st.header("Filter")
+    all_kawasan = ["Semua Kawasan"] + list(df_tanaman['kawasan'].unique())
+    selected_kawasan = st.selectbox("Pilih Kawasan", all_kawasan)
+    
+    show_tanaman = st.checkbox("Tampilkan Tanaman", True)
+    show_desa_geojson = st.checkbox("Tampilkan Batas Desa", True)
+    show_kabupaten = st.checkbox("Tampilkan Batas Kabupaten", True)
+    show_batas_tnbts = st.checkbox("Tampilkan Batas TNBTS", True)
+
+# Filter data tanaman
+df_tanaman_filtered = df_tanaman.copy()
+if selected_kawasan != "Semua Kawasan":
+    df_tanaman_filtered = df_tanaman_filtered[df_tanaman_filtered['kawasan'] == selected_kawasan]
+
+# Tampilkan peta
+try:
+    m = create_tnbts_map(
+        show_kawasan=show_kawasan,
+        show_desa_geojson=show_desa_geojson,
+        show_kabupaten=show_kabupaten,
+        show_batas_tnbts=show_batas_tnbts,
+        show_tanaman=show_tanaman,
+        gdf_desa=gdf_desa,
+        gdf_kabupaten=gdf_kabupaten,
+        gdf_batas=gdf_tnbts,
+        df_tanaman_filtered=df_tanaman_filtered,
+    )
+    folium_static(m, width=1200, height=640)
+except Exception as e:
+    st.error(f"Error membuat peta: {e}")
+    m0 = folium.Map(location=[-7.940, 112.950], zoom_start=10)
+    folium_static(m0)
+
+# Tampilkan data
+with st.expander("📋 Data Tanaman"):
+    st.dataframe(
+        df_tanaman_filtered[[
+            'nama_tanaman', 'nama_latin', 'jenis', 'fungsi_utama',
+            'kawasan', 'ketinggian', 'desa', 'status_konservasi'
+        ]],
+        use_container_width=True,
+        hide_index=True
+    )
 # ═════════════════════════════════════════════════════════════════════════════
 # HALAMAN: PETA SEBARAN
 # ═════════════════════════════════════════════════════════════════════════════
