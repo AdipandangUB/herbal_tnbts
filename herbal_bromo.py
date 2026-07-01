@@ -1661,7 +1661,7 @@ elif selected == "Data Tanaman":
         unique_plants = sorted(df_show['Nama'].unique())
         
         if len(unique_plants) > 0:
-            # Tampilkan dalam grid
+            # Tampilkan dalam grid 2 kolom
             cols_per_row = 2
             for i in range(0, len(unique_plants), cols_per_row):
                 cols = st.columns(cols_per_row)
@@ -1671,23 +1671,120 @@ elif selected == "Data Tanaman":
                         plant_name = unique_plants[idx]
                         with col:
                             with st.expander(f"🌿 {plant_name}", expanded=False):
-                                # Tampilkan detail tanaman
-                                detail_html = create_plant_detail_card(plant_name)
-                                st.markdown(detail_html, unsafe_allow_html=True)
+                                # Dapatkan detail tanaman
+                                detail = get_plant_detail(plant_name)
                                 
-                                # Tampilkan titik sebaran
-                                plant_points = df_show[df_show['Nama'] == plant_name]
-                                st.markdown(f"**📍 Jumlah titik sebaran:** {len(plant_points)}")
-                                st.dataframe(
-                                    plant_points[['No', 'X', 'Y']],
-                                    use_container_width=True,
-                                    hide_index=True
-                                )
+                                if detail:
+                                    # Tampilkan detail dalam format yang rapi
+                                    st.markdown(f"""
+                                    <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; 
+                                                border: 1px solid #e0e0e0; margin-bottom: 10px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; 
+                                                    border-bottom: 2px solid #2E7D32; padding-bottom: 8px; margin-bottom: 12px;">
+                                            <h4 style="margin: 0; color: #1B5E20; font-size: 16px;">🌿 {plant_name}</h4>
+                                            <span style="font-style: italic; color: #666; font-size: 13px;">{detail.get('nama_latin', '')}</span>
+                                        </div>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                    
+                                    # Fungsi
+                                    if detail.get('fungsi'):
+                                        st.markdown(f"""
+                                        <div style="background: #E8F5E9; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #2E7D32;">
+                                            <span style="font-weight: bold; color: #1B5E20; font-size: 14px;">💊 Fungsi:</span><br>
+                                            <span style="font-size: 13px; color: #333; line-height: 1.6;">{detail['fungsi']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    # Syarat Hidup
+                                    if detail.get('syarat_hidup'):
+                                        st.markdown(f"""
+                                        <div style="background: #FFF8E1; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #F57F17;">
+                                            <span style="font-weight: bold; color: #E65100; font-size: 14px;">🌱 Syarat Hidup:</span><br>
+                                            <span style="font-size: 12px; color: #555; line-height: 1.6;">{detail['syarat_hidup']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    # Cara Memanfaatkan
+                                    if detail.get('cara_memanfaatkan'):
+                                        st.markdown(f"""
+                                        <div style="background: #E3F2FD; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #0D47A1;">
+                                            <span style="font-weight: bold; color: #0D47A1; font-size: 14px;">🔬 Cara Memanfaatkan:</span><br>
+                                            <span style="font-size: 12px; color: #555; line-height: 1.6;">{detail['cara_memanfaatkan']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    # Grid untuk informasi tambahan
+                                    col_info1, col_info2 = st.columns(2)
+                                    
+                                    with col_info1:
+                                        if detail.get('yang_dimanfaatkan'):
+                                            st.markdown(f"""
+                                            <div style="background: #F3E5F5; border-radius: 8px; padding: 10px 14px; 
+                                                        margin: 6px 0; border-left: 4px solid #6A1B9A;">
+                                                <span style="font-weight: bold; color: #4A148C; font-size: 13px;">✂️ Yang Dimanfaatkan:</span><br>
+                                                <span style="font-size: 13px; color: #555;">{detail['yang_dimanfaatkan']}</span>
+                                            </div>
+                                            """, unsafe_allow_html=True)
+                                    
+                                    with col_info2:
+                                        if detail.get('foto'):
+                                            st.markdown(f"""
+                                            <div style="background: #ECEFF1; border-radius: 8px; padding: 10px 14px; 
+                                                        margin: 6px 0; border-left: 4px solid #455A64;">
+                                                <span style="font-weight: bold; color: #37474F; font-size: 13px;">📷 Foto:</span><br>
+                                                <span style="font-size: 12px; color: #666; word-break: break-all;">{detail['foto']}</span>
+                                            </div>
+                                            """, unsafe_allow_html=True)
+                                    
+                                    # Potensi Sebaran
+                                    if detail.get('potensi_sebaran'):
+                                        st.markdown(f"""
+                                        <div style="background: #E0F7FA; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #00695C;">
+                                            <span style="font-weight: bold; color: #00695C; font-size: 13px;">📍 Potensi Sebaran:</span><br>
+                                            <span style="font-size: 12px; color: #555; line-height: 1.5;">{detail['potensi_sebaran']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    # Tampilkan titik sebaran
+                                    plant_points = df_show[df_show['Nama'] == plant_name]
+                                    if len(plant_points) > 0:
+                                        st.markdown(f"""
+                                        <div style="background: #F5F5F5; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border: 1px solid #ddd;">
+                                            <span style="font-weight: bold; color: #555; font-size: 13px;">📍 Jumlah titik sebaran: {len(plant_points)}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                        # Tampilkan data dalam tabel kecil
+                                        st.dataframe(
+                                            plant_points[['No', 'X', 'Y']],
+                                            use_container_width=True,
+                                            hide_index=True,
+                                            height=150
+                                        )
+                                else:
+                                    st.warning(f"⚠️ Data detail untuk '{plant_name}' tidak tersedia")
+                                    
+                                    # Tetap tampilkan titik sebaran
+                                    plant_points = df_show[df_show['Nama'] == plant_name]
+                                    if len(plant_points) > 0:
+                                        st.markdown(f"**📍 Jumlah titik sebaran:** {len(plant_points)}")
+                                        st.dataframe(
+                                            plant_points[['No', 'X', 'Y']],
+                                            use_container_width=True,
+                                            hide_index=True,
+                                            height=150
+                                        )
         else:
             st.info("Tidak ada data tanaman yang ditemukan")
         
-        cc1, cc2, cc3 = st.columns([1, 2, 1])
-        with cc2:
+        # Tombol download
+        col_download1, col_download2, col_download3 = st.columns([1, 2, 1])
+        with col_download2:
             st.download_button(
                 "📥 Download CSV Data Tanaman",
                 data=df_herbal.to_csv(index=False),
