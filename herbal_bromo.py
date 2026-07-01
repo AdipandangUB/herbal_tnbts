@@ -32,6 +32,426 @@ if 'highlighted_plants' not in st.session_state:
     st.session_state.highlighted_plants = []
 
 # ─────────────────────────────────────────────────────────────────────────────
+# DATA TANAMAN HERBAL LENGKAP DARI FILE
+# ─────────────────────────────────────────────────────────────────────────────
+HERBAL_DETAIL_DATA = {
+    "AJERAN PUTIH": {
+        "nama_latin": "Bindens pilosa L.",
+        "fungsi": "Obat luka dan menghentikan pendarahan, anti radang, anti bakteri dan antiseptik, mengatasi diare, menurunkan demam, mengatasi batuk-flu, rematik, pegal linu, menurunkan gula darah.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C hingga 45°C. Ketinggian: tumbuh baik diketinggian 3600 mdpl. Penyiraman: curah hujan 500mm/th-3.600mm/th sangat tahan terhadap kekeringan. Tumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun atau batang direbus, air rebusan diminum untuk mengatasi demam dan pencernaan, mata merah dan radang usus bunti. Daun dan bunga ajeran ditumbuk atau diblender hingga halus dan ditambahkan sedikit air hangat, pasta daun digunakan mengatasi kulit yang memar, luka ringan, atau bengkak.",
+        "yang_dimanfaatkan": "Batang dan daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image1.png"
+    },
+    "ADAS": {
+        "nama_latin": "Foeniculum vulgare",
+        "fungsi": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C. Ketinggian: dataran tinggi 1.600-2.400 mdpl. Curah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal. Tumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. Daun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "yang_dimanfaatkan": "Daun, batang, dan biji",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "foto": "media/image2.jpeg"
+    },
+    "ALANG-ALANG": {
+        "nama_latin": "Imperata cylindrical L.",
+        "fungsi": "Batu ginjal, infeksi ginjal, hepatitis, kencing batu, buang air kecil tidak lancar, keputihan.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-40°C. Ketinggian: dataran rendah sampai di ketinggian 2.000 mdpl. Curah hujan 500-3.500 mm/th. Tumbuh ideal pada tanah dengan pH 4-7.5",
+        "cara_memanfaatkan": "Akar alang-alang direbus, air rebusan digunakan meredakan panas, melancarkan urine dan mengatasi batu ginjal.",
+        "yang_dimanfaatkan": "Akar",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image3.jpeg"
+    },
+    "ANDONG": {
+        "nama_latin": "cordyline fruticosa Linn",
+        "fungsi": "Menghentikan pendarahan, obat luka, mengatasi diare, mengatasi batuk dan sakit tenggorokan, obat gangguan haid, mengatasi radang, menurunkan demam.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-35°C. Ketinggian: tumbuh di dataran rendah hingga dataran tinggi 1.900 mdpl. Tumbuh pada wilayah dengan curah hujan 300-2.500 mm/th. Tumbuh optimal pada pH 5.5-6.5",
+        "cara_memanfaatkan": "Daun dan akar direbus, air rebusan membantu meredakan infeksi pencernaan (diare dan disentri), batuk darah, haid berlebihan, dan wasir. Daun ditumbuk menjadi pasta, dioleskan pada kulit yang mengalami luka bakar dan bengkak karena sengatan binatang berbisa.",
+        "yang_dimanfaatkan": "Daun dan akar",
+        "potensi_sebaran": "RPTN Patok Picis (Bidang 1 SPTN Wilayah 2)",
+        "foto": "media/image4.jpeg"
+    },
+    "AWAR-AWAR": {
+        "nama_latin": "Ficus septica Burm. F.",
+        "fungsi": "Anti radang dan pereda nyeri, mengobati bisul (pemakaian luar), antibakteri alami, penurun demam, gangguan pencernaan ringan, masalah pernapasan.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 28°C-30°C. Tumbuh optimal di dataran rendah hingga ketinggian 1.200 mdpl, dapat juga tumbuh di 1.800 mdpl. Tumbuh pada wilayah dengan curah hujan 300-2.500 mm/th. Menyukai tanah lembap dan subur dengan pH ideal 6.0 - 7.0.",
+        "cara_memanfaatkan": "Daun ditumbuk hingga menjadi pasta, dioleskan pada kulit bisul dan gatal. Getah awar-awar dioleskan pada kulit yang terkena kurap atau herpes. Daun awar-awar direbus, air diminum untuk meredakan perut mulas dan diare, kompres saat demam.",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Desa Ngadas (Kecamatan Poncokusumo, Malang), Desa Ranupani (Kecamatan Senduro, Lumajang), Desa Cemoro Lawang (Kecamatan Sukapura, Probolinggo).",
+        "foto": "media/image5.jpeg"
+    },
+    "BAKUNG": {
+        "nama_latin": "Crinum asiaticium L.",
+        "fungsi": "Mengurangi bengkak, obat keseleo dan pegal linu, mengatasi nyeri sendi dan rematik, obat bisul dan luka bernana, obat sakit kepala, mengatasi iritasi kulit ringan.",
+        "syarat_hidup": "Iklim dan Suhu: Cocok di daerah tropis dan subtropis, toleran terhadap panas. Optimal di dataran rendah hingga ketinggian 700 mdpl. Optimal tumbuh di curah hujan tinggi 2.000-3.000 mm/th. Tumbuh optimal pada kisaran pH tanah 6,5-7,5",
+        "cara_memanfaatkan": "Daun bakung ditumbuk halus dikompreskan pada bagian tubuh yang bengkak, memar atau terkilir. Ujung daun bakung dipotong untuk diambil getahnya, dioleskan pada luka atau yang terdapat bisul.",
+        "yang_dimanfaatkan": "Daun dan getah",
+        "potensi_sebaran": "RPTN Patok Picis (Bidang 1 SPTN Wilayah 2)",
+        "foto": "media/image6.jpeg"
+    },
+    "KLANDINGAN": {
+        "nama_latin": "Lucas lavandulifolia",
+        "fungsi": "Mengatasi insomnia, meredakan sakit kepala, kejang pada anak, epilepsi, anti inflamasi (bengkak, meredakan nyeri, dan mengobati penyakit kulit (kudis), menurunkan gula dan kolesterol, serta antimikroba.",
+        "syarat_hidup": "Hidup di wilayah tropis dan subtropis dengan rentang suhu udara rata-rata 20°C-35°C. Tumbuh liar di tanah kering dan terlantar, pada dataran rendah hingga ketinggian 1.500 mdpl. Optimal tumbuh di curah hujan tinggi 1.000mm/th -- 2000mm/th. Tumbuh optimal pada kisaran pH tanah antara 6,0 hingga 7,0 membutuhkan sinar matahari penuh",
+        "cara_memanfaatkan": "Daun klandingan ditumbuk halus, pasta dioleskan pada area kulit yang gatal, radang/panas, bisul, dan kulit yang luka luar ringan. Biji klandingan direbus, air rebusan diminum rutin untuk menurunkan gula darah dan kolesterol. Daun direbus, air rebusan membantu tidur lebih nyenyak atau menurunkan panas dalam.",
+        "yang_dimanfaatkan": "Daun dan Biji",
+        "potensi_sebaran": "Desa Ngadas (Kecamatan Poncokusumo, Kab. Malang), Desa Ranupani (Kecamatan Senduro, Kab. Lumajang). Desa Tosari (Kecamatan Tosari Pasuruan)",
+        "foto": "media/image7.jpeg"
+    },
+    "JARAK HITAM": {
+        "nama_latin": "familia euphorbiaceous",
+        "fungsi": "Radang telinga anak, demam, sembelit, memar akibat pukulan, penyakit kulit, kembung, masuk angin, panas, lepra dan kanker",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C hingga 30°C. Ketinggian: dataran rendah hingga ketinggian 1700 mdpl. Tumbuh pada wilayah dengan curah hujan 300mm - 1200 mm/th, sangat tahan kekeringan. Tumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Biji tanaman yang sudah dibuang kulitnya dihaluskan hingga menjadi serbuk dan dapat ditempelkan ke bagian yang terkena sakit lepra. Daun segar di tumbuk dicampur garam dan ditempelkan pada bagian yang luka atau pegal-pegal. Daun jarak direbus, air digunakan untuk mandi untuk mengurangi demam dan penderita penyakit kulit.",
+        "yang_dimanfaatkan": "Biji dan daun",
+        "potensi_sebaran": "",
+        "foto": "media/image8.jpeg"
+    },
+    "JARAK": {
+        "nama_latin": "Jatropha curcas L.",
+        "fungsi": "Sakit gigi, sariawan, gatal-gatal, Mengatasi sembelit, perut kembung, penyembuhan luka (tanin dan flavonoid), nyeri sendi dan reumatik, obat batuk (pengencer dahak)",
+        "syarat_hidup": "Iklim dan suhu: wilayah tropis dengan suhu optimal antara 20°C hingga 30°C. Ketinggian: dataran rendah hingga ketinggian 300-800 mdpl. Tumbuh pada wilayah dengan curah hujan 300-1500mm/tahun, sangat tahan terhadap kekeringan. Tumbuh ideal pada pH tanah di angka 5 - 6,5",
+        "cara_memanfaatkan": "Daun muda dikukus, air rebusan diminum untuk mengatasi sembelit. Daun ditumbuk hingga halus campur air hangat sedikit, oleskan pada lokasi rematik atau masalah kulit seperti exim. Daun jarak tua bersihkan dan layukan di atas api. Setelah layu oleskan minyak kelapa, minyak telon atau minyak kayu putih dan tempelkan di bagian perut dan pinggang. Getah untuk sakit gigi (antiseptik) dan sariawan, perlu berhati-hati karena sering merusak gusi sehat.",
+        "yang_dimanfaatkan": "Biji, getah, batang, dan daun",
+        "potensi_sebaran": "",
+        "foto": "media/image9.jpeg"
+    },
+    "BUAH DELIMA": {
+        "nama_latin": "Punica granatum L",
+        "fungsi": "Menjaga kesehatan jantung, menurunkan tekanan darah, menghambat kanker (kulit, payudara dan prostat), melawan peradangan, dan melancarkan pencernaan",
+        "syarat_hidup": "Iklim dan suhu: wilayah tropis dengan suhu optimal antara 25°C hingga 30°C. Ketinggian: dataran rendah hingga ketinggian 1000 mdpl. Tumbuh baik pada curah hujan 800mm - 1200 mm/th, sangat tahan terhadap kekeringan. Tumbuh ideal pada pH tanah di angka 6,5 - 7,5",
+        "cara_memanfaatkan": "Biji buah delima dihaluskan, saring airnya untuk mendapatkan jus murni yang kaya polifenol dan baik untuk menurunkan kolesterol jahat. Kulit buah delima dikeringkan dan diseduh untuk teh. Buah dapat dikonsumsi langsung kaya Vitamin C untuk kekebalan tubuh, produksi kolagen untuk mencegah penuaan dini, kandungan serat alaminya melancarkan pencernaan dan mencegah sembelit",
+        "yang_dimanfaatkan": "Buah, kulit buah (teh) dan biji",
+        "potensi_sebaran": "",
+        "foto": "media/image10.jpeg"
+    },
+    "LABU SIAM HITAM": {
+        "nama_latin": "Sicyos edulis",
+        "fungsi": "Menurunkan tekanan darah, mengontrol gula darah, mencegah sembelit, mencegah cacat tabung saraf pada janin, melancarkan ASI, mengobati kanker kulit melanoma maligna",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 25°C - 30°C. Ketinggian: dataran rendah hingga ketinggian 1000 mdpl. Tumbuh pada wilayah dengan curah hujan 800mm - 1200 mm/th, sangat tahan terhadap kekeringan. Tumbuh ideal pada pH tanah di angka 6,5 - 7,5",
+        "cara_memanfaatkan": "Air rebusan labu siam mengandung kalium efektif membantu kestabilan tekanan darah. Buah labu siam memiliki indeks glikemik rendah, sangat baik mencegah lonjakan gula darah pada penderita diabetes. Kandungan asam folat tinggi mencegah cacat tabung saraf pada janin dan membantu melancarkan produksi ASI. Daun Muda dikonsumsi atau diseduh sebagai teh herbal untuk peluruh urine (diuretik).",
+        "yang_dimanfaatkan": "Buah dan daun",
+        "potensi_sebaran": "",
+        "foto": "media/image11.jpeg"
+    },
+    "PEPAYA GUNUNG": {
+        "nama_latin": "Vasconcellea pubescens",
+        "fungsi": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C. Ketinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl. Penyiraman: curah hujan 800mm - 1200 mm/th, sangat tahan terhadap kekeringan. Tumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh. Daun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas. Rebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan. Tumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "yang_dimanfaatkan": "Buah, daun, batang dan akar",
+        "potensi_sebaran": "",
+        "foto": "media/image12.jpeg"
+    },
+    "BIT MERAH": {
+        "nama_latin": "Beta vulgaris L",
+        "fungsi": "Menurunkan tekanan darah, mencegah pikun, diabetes, mencegah kanker terutama payudara dan kandung kemih, mencegah kelainan janin, vitalitas, anemia, mengatasi peradangan tubuh, dan meningkatkan kerja saraf dan otot",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C - 25°C. Ketinggian: hidup di dataran tinggi di ketinggian 1.000-1.200 mdpl. Tumbuh pada wilayah dengan curah hujan 500-550 mm per tahun, sangat tahan terhadap kekeringan. Tumbuh ideal pada pH tanah di 6-7",
+        "cara_memanfaatkan": "Umbi dimakan langsung (salad). Dibuat juice.",
+        "yang_dimanfaatkan": "Umbi",
+        "potensi_sebaran": "",
+        "foto": "media/image13.jpeg"
+    },
+    "DAUN OTOT": {
+        "nama_latin": "Stellaria saxatilis",
+        "fungsi": "Meredakan pegal linu, nyeri otot, dan peradangan",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C hingga 30°C. Ketinggian: dataran tinggi hingga ketinggian 2200 mdpl. Tumbuh baik pada wilayah dengan curah hujan 300mm /th-1200 mm/th, tahan terhadap kekeringan. Tumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun dan batang ditumbuk dan ditambah minyak gandapura, dioleskan langsung pada area tubuh yang terasa nyeri atau pegal linu.",
+        "yang_dimanfaatkan": "Daun dan batang",
+        "potensi_sebaran": "",
+        "foto": "media/image14.jpeg"
+    },
+    "CIPLUKAN": {
+        "nama_latin": "Physalis minima",
+        "fungsi": "Mengatasi demam dan masuk angin, obat batuk dan pilek, mengobati radang dan anti inflamasi, diuretik ringan, penyakit kulit ringan.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu 18°C-35°C dan penyinaran matahari penuh. Tumbuh di dataran rendah hingga ketinggian 700-2.300 mdpl, paling baik 1.500 mdpl. Penyiraman: menyukai curah hujan tahunan rata-rata 1.500-2.300 mm. Tumbuh ideal pada tanah dengan pH 4,5-8,2",
+        "cara_memanfaatkan": "Akar dan batang direbus. Air rebusan dapat menurunkan gula, dan tekanan darah tinggi. Daun ciplukan ditumbuk dengan sedikit kapur sirih untuk dioleskan pada sendi yang mengalami peradangan. Daun ciplukan, daun sirih dan sedikit adas pulosari ditumbuk dan ditempelkan pada kulit yang bermasalah (bisul dan borok)",
+        "yang_dimanfaatkan": "Daun, buah dan akar",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Desa Ngadisari (Kec. Sukapura, Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "foto": "media/image15.jpeg"
+    },
+    "CALINGAN": {
+        "nama_latin": "Centella asiatica L.",
+        "fungsi": "Mempercepat penyembuhan luka, kesehatan kulit, sirkulasi darah, menenangkan saraf, anti inflamasi dan antioksidan, mengatasi gangguan pencernaan.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-30°C dengan kelembaban tinggi. Ketinggian: dataran rendah - 2500 mdpl. Tumbuh baik pada wilayah dengan curah hujan 1500mm - 2500 mm/th, sangat tahan kekeringan. Tumbuh ideal pada tanah dengan pH 5,5-6,5",
+        "cara_memanfaatkan": "Dimakan mentah sebagai lalapan. Diseduh menjadi teh herbal. Dibuat jus segar. Daun pegagan dihaluskan, pasta untuk masker untuk menghilangkan kulit berjerawat dan merangsang produksi kolagen",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Ngadisari (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "foto": "media/image16.jpeg"
+    },
+    "DAUN KANCING": {
+        "nama_latin": "Desmodium sp.",
+        "fungsi": "Anti radang, mengatasi batuk dan gangguan pernapasan, melancarkan buang air kecil, obat sakit perut dan diare, mengatasi luka dan infeksi kulit, menambah daya tahan tubuh, detoksifikasi hati.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun semanggi direbus. Air rebusan diminum untuk mengatasi infeksi saluran kencing, batuk sesak napas, amandel, menurunkan kolesterol, hingga mencegah pengeroposan tulang. Daun semanggi ditumbuk hingga halus. Pasta dioleskan kulit yang luka dan diam ±15-20 menit hingga mengering dan dibilas dengan air hangat. Daun dikeringkan untuk teh",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image17.jpeg"
+    },
+    "GANJAN": {
+        "nama_latin": "Artemisia vulgaris",
+        "fungsi": "Obat luka dan bisul, mengurangi bengkak-peradangan, mengatasi demam-masuk angin, mengatasi gangguan pencernaan ringan, antiseptik alami.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun segar atau kering direbus. Air rebusan untuk melancarkan haid, meredakan nyeri kram menstruasi, dan mengatasi gangguan pencernaan ringan. Daun segar ditumbuk atau diblender hingga halus dan berbentuk pasta kental. Pasta dioleskan atau ditempelkan pada bagian tubuh yang bengkak atau nyeri (memar atau luka). Daun ganjan diambil ekstrak kemudian dicampur minyak zaitun. Ekstrak daun ganjan dapat dijadikan minyak oles atau salep untuk menenangkan kulit dan meredakan gatal.",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image18.jpeg"
+    },
+    "GANYONG": {
+        "nama_latin": "Canna indica L.",
+        "fungsi": "Menjaga kesehatan pencernaan, meredakan panas dalam & diare ringan, sumber energi-pemulihan tubuh, anti inflamasi ringan (pemakaian luar), kesehatan kulit.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Umbi ganyong diparut diperas untuk diambil sarinya. Sari pati diendapkan hingga airnya terpisah dan dibuang. Endapan pati dijemur hingga kering menjadi tepung ganyong. Pati ganyong dapat mengobati sakit magh dan asam lambung, mengatasi diare. Umbi ganyong direbus digunakan untuk meredakan panas dalam dan demam (antipiretik), mengatasi radang saluran kencing dan peluruh urine",
+        "yang_dimanfaatkan": "Rimpang (umbi)",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "foto": "media/image19.jpeg"
+    },
+    "JENGGOT WESI": {
+        "nama_latin": "Usnea Berbata Fries",
+        "fungsi": "Anti bakteri, anti jamur, obat luka, gangguan pernapasan, penurun panas -antiradang, potensi antikanker (masih tahap awal riset).",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Jenggot wesi direbus sampai sarinya keluar, lalu saring airnya. Air rebusan untuk mengompres area kulit yang bermasalah atau mencuci luka. Jenggot wesi dicuci bersih dikeringkan dan dipotong kecil-kecil untuk diseduh dengan air panas (layaknya membuat teh). Air seduhan disaring dan ditambahkan madu asli untuk mengurangi rasa pait. Air seduhan jenggot wesi untuk meredakan batuk dan masalah pernapasan.",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab Pasuruan).",
+        "foto": "media/image20.jpeg"
+    },
+    "KAYU AMPET": {
+        "nama_latin": "Alstonia macrophylla",
+        "fungsi": "Obat sakit perut dan diare, mengatasi masuk angin, mengobati demam, antiradang, mengatasi rematik, meningkatkan stamina.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Kulit kayu ampet dikeringkan dan direbus. Air rebusan digunakan meredakan nyeri pasca-persalinan dan merawat area kewanitaan. Kayu ampet dihaluskan hingga menjadi bubuk kayu. Bubuk kayu ampet diseduh untuk meredakan peradangan, menurunkan kolesterol, sakit perut, diare, masuk angin dan demam.",
+        "yang_dimanfaatkan": "Kayu atau batang",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image21.jpeg"
+    },
+    "KENCANA UNGU": {
+        "nama_latin": "Ruellia",
+        "fungsi": "Membantu menurunkan gula darah, penurun panas & antiinflamasi, antibakteri, melancarkan buang air kecil, membantu batuk dan radang tenggorokan.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun kencana ungu direbus. Air rebusan dapat menurunkan kadar gula darah. Daun atau bunga kencana ungu ditumbuk hingga halus. Ampas tumbukan dioleskan pada kulit yang gatal atau terkena iritasi. Akar kencana ungu direbus. Air rebusan digunakan untuk memperlancar buang air kecil.",
+        "yang_dimanfaatkan": "Daun, bunga, dan akar",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image22.jpeg"
+    },
+    "LILI-LILIAN LIAR": {
+        "nama_latin": "Molineria sp.",
+        "fungsi": "Obat masuk angin & perut kembung, obat batuk & sakit tenggorokan, mengatasi mual, anti radang, anti bakteri dan anti jamur, mengatasi pegal linu atau rematik, meningkatkan nafsu makan.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Akar (rimpang) direbus hingga mendidih dengan 2 gelas air. Air rebusan rimpang dapat mengatasi masalah pencernaan, menurunkan demam. Daun atau akar ditumbuk hingga halus membentuk pasta untuk ditempelkan pada area kulit yang bermasalah (gatal-gatal dan luka).",
+        "yang_dimanfaatkan": "Daun dan akar",
+        "potensi_sebaran": "RPTN Ranu Darungan (Bidang ll, SPTN Wilayah lV), RPTN Ranu Pani, RPTN Senduro.",
+        "foto": "media/image23.jpeg"
+    },
+    "LOMBOK TERONG": {
+        "nama_latin": "Solanum torvum Sw",
+        "fungsi": "Mengatasi tekanan darah tinggi, pereda nyeri & antiinflamasi, antibakteri & antiseptik, mengatasi anemia, mengatasi batuk & radang tenggorokan, melancarkan pencernaan.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "1 buah cabai dihaluskan dan dicampur dengan sedikit minyak kelapa atau minyak zaitun untuk dioleskan secara tipis pada area pegal, nyeri otot, atau rematik sebagai kompres hangat. Buah cabai terong diolah secara sehat untuk dikonsumsi dalam porsi yang sedikit untuk meningkatkan sistem imun tubuh (kaya vitamin C), menurunkan berat badan dan metabolisme, dan menurunkan stres dan sakit kepala.",
+        "yang_dimanfaatkan": "Buah",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang).",
+        "foto": "media/image24.png"
+    },
+    "PAITAN": {
+        "nama_latin": "Tithonia diversifolia",
+        "fungsi": "Menurunkan demam, mengatasi sakit perut, antiradang, mengatasi luka & infeksi kulit, menurunkan gula darah (tradisional), menurunkan tekanan darah, mengatasi malaria, antioksidan.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun paitan muda dicuci bersih dan direbus dengan 2-3 gelas air bersih hingga menyusut. Air rebusan kemudian disaring untuk memisahkan ampas dan daunnya. Air rebusan daun paitan digunakan untuk membantu meredakan peradangan, menurunkan gula darah, mengatasi masalah pencernaan (diare dan kembung), demam, dan keluhan kulit (gatal, luka dan infeksi kulit).",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Desa Ngadas RPTN Jemplang (Bidang l, SPTN Wilayah ll)",
+        "foto": "media/image25.jpeg"
+    },
+    "PAKIS": {
+        "nama_latin": "Davallia",
+        "fungsi": "Mengobati gangguan pencernaan, anti inflamasi, mengatasi masalah kulit, meningkatkan kekebalan tubuh.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Akar pakis ditumbuk hingga halus kemudian ditempelkan pada area tubuh yang bengkak, memar, atau nyeri sendi. Akar pakis dicuci bersih kemudian diiris tipis-tipis. Diminum secara rutin untuk mengobati gangguan pencernaan, anti inflamasi, dan meningkatkan kekebalan tubuh.",
+        "yang_dimanfaatkan": "Akar",
+        "potensi_sebaran": "Blok Ireng-ireng, RPTN Senduro (Bidang II, SPTN Wilayah III)",
+        "foto": "media/image26.jpeg"
+    },
+    "PAKU RANE": {
+        "nama_latin": "Selaginella sp",
+        "fungsi": "Mengobati penyakit jantung, stroke, obat luka, malaria, pembersih darah, mengatasi masalah kewanitaan, sakit perut, tonik pasca-persalinan, menurunkan demam, anti kanker, anti mikroba, dan antibiofilm.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-28°C dengan kelembaban tinggi. Ketinggian: ditemukan di pegunungan 1.500 -- 2.356 mdpl. Memerlukan lingkungan sangat lembap dan teduh dengan curah hujan 1.500mm/th - 3.000 mm/th. Tumbuh ideal pada tanah dengan pH yang cenderung asam hingga netral (pH 3,9 - 7,0)",
+        "cara_memanfaatkan": "Batang dan daun ditumbuk hingga halus, pasta dibalurkan atau ditempelkan sebagai kompres pada bagian tubuh yang bengkak, memar, atau luka. Batang dan daun direbus untuk meredakan batuk, asma, masalah pencernaan, hipertensi, dan demam",
+        "yang_dimanfaatkan": "Daun dan Batang",
+        "potensi_sebaran": "RPTN Ranu Darungan (Bidang ll, SPTN Wilayah lV), Blok Ireng-ireng RPTN Senduro.",
+        "foto": "media/image27.jpeg"
+    },
+    "PARIJOTO": {
+        "nama_latin": "Medinilla speciosa",
+        "fungsi": "Meningkatkan kesuburan, menjaga kesehatan ibu hamil, mengatasi sariawan, daya tahan tubuh, menurunkan kolesterol dan trigliserida, serta digunakan dalam ritual adat Jawa simbol kesuburan dan bayi tampan/-cantik",
+        "syarat_hidup": "Iklim dan suhu: tumbuh optimal di pegunungan dengan suhu 18°C-25°C dan kelembaban tinggi. Paling produktif dan tumbuh alami di area pegunungan dengan ketinggian 500--2.300 mdpl. Penyiraman: menyukai curah hujan tahunan rata-rata 1.500-2.300 mm. Tumbuh ideal pada tanah dengan pH 5.5-6.5",
+        "cara_memanfaatkan": "Buah parijoto dapat dimakan langsung. Buah parijoto cocok untuk program hamil. Daun parijoto direbus, air rebusan untuk penambah imunitas tubuh, meredakan diare dan melancarkan pencernaan, menurunkan kolesterol dan trigliserida. Tumbuk daun parijoto, diperas airnya digunakan sebagai obat kumur untuk meredakan sariawan dan gusi bengkak.",
+        "yang_dimanfaatkan": "Buah dan daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image28.jpeg"
+    },
+    "PECUT KUDA": {
+        "nama_latin": "Stachytarpheta sp",
+        "fungsi": "Menurunkan demam, obat batuk-flu, melancarkan buang air kecil gangguan pencernaan, anti radang, menurunkan tekanan darah, menurunkan gula darah, obat luka & penyakit kulit, mengatasi rematik dan pegal-pegal.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun pecut kuda direbus dengan 2-3 gelas air bersih hingga mendidih dan menyusut menjadi 1 gelas. Air rebusan disaring dan diminum 1-2 kali sehari saat hangat untuk mengatasi demam, radang tenggorokan, amandel, batuk, flu, dan infeksi saluran pernapasan. Daun segar ditumbuk hingga halus sampai bertekstur bubur. Tumbukan ditempelkan langsung pada area kulit yang bermasalah atau luka. Daun pecut kuda direbus dengan air hingga berubah menjadi asam-asam kuku, kemudian air rebusan digunakan untuk membasuh area kewanitaan untuk mengatasi keputihan dan rasa gatal.",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image29.jpeg"
+    },
+    "RANTI": {
+        "nama_latin": "Tinospora crispa L. Miers",
+        "fungsi": "Antimalaria, mengatasi demam, menjaga kesehatan jantung dan tekanan darah, melancarkan pencernaan, antibakteri dan antiinflamasi, meningkatkan daya tahan tubuh.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun ranti ditumbuk hingga halus kemudian diseduh dan disaring untuk diminum airnya. Air daun ranti dapat menurunkan tekanan darah tinggi. Daun ranti direbus hingga mendidih dan airnya tersisa setengahnya. Air rebusan disaring dan diminum untuk mengobati sakit perut dan diare. Seluruh bagian tanaman ranti dicuci bersih lalu ditumbuk hingga halus dan ditambahkan madu atau minyak kelapa dan dibalurkan pada area kulit yang bermasalah atau bengkak. Buah ranti dikonsumsi sebagai lalapan atau dimasak tumis (kaya akan vitamin dan nutrisi) untuk mencegah sariawan dan menjaga imunitas",
+        "yang_dimanfaatkan": "Daun, Batang, dan Buah",
+        "potensi_sebaran": "Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ranupani (Kec. Senduro, Kab, Lumajang).",
+        "foto": "media/image30.jpeg"
+    },
+    "SAWI IRENG": {
+        "nama_latin": "Brassica juncea",
+        "fungsi": "Melancarkan pencernaan, menurunkan kolesterol, kesehatan jantung, anti bakteri dan anti inflamasi, penambah imunitas, mengatasi masuk angin ringan.",
+        "syarat_hidup": "Iklim dan Suhu: membutuhkan sinar matahari penuh, dan suhu ideal 10°C-25°C. Tumbuh optimal di dataran rendah hingga tinggi 5-1.200 m dpl. Membutuhkan curah hujan ideal antara 1.000-1.500 mm/tahun. Tumbuh baik pada pH 6.0-6.8",
+        "cara_memanfaatkan": "Daun atau biji sawi ireng ditumbuk, pasta kental ditempelkan bagian tubuh yang nyeri atau bengkak. Daun direbus air rebusan diminum 1 kali sehari untuk membantu detoksifikasi dan pencernaan.",
+        "yang_dimanfaatkan": "Daun dan Biji",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "foto": "media/image31.jpeg"
+    },
+    "SEMANGGI": {
+        "nama_latin": "Marsilea crenata",
+        "fungsi": "Melancarkan peredaran darah, menurunkan kadar gula darah, mengatasi demam, melancarkan pencernaan, antibakteri dan antiinflamasi.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun dan tangkai semanggi direbus, air rebusan untuk menurunkan demam, mengobati flu, dan meredakan radang. Kepala bunga dan daun dikeringkan untuk teh herbal meredakan gejala menopause dan mencegah osteoporosis. Daun diolah menjadi lalapan, pecel atau urap untuk mendapatkan vitamin dan antioksidan untuk menjaga kesehatan pembuluh darah serta menurunkan kolesterol jahat.",
+        "yang_dimanfaatkan": "Daun dan bunga",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec Tosari, Kab Pasuruan).",
+        "foto": "media/image32.jpeg"
+    },
+    "SENGGANEN": {
+        "nama_latin": "Melastoma malabathricum L",
+        "fungsi": "Mengobati diare, menghentikan pendarahan, mempercepat penyembuhan luka, mengatasi sariawan dan radang mulut, mengobati keputihan, anti-inflamasi, mengatasi bisul atau infeksi kulit.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun segar direbus, air rebusan untuk mengobati diare dan disentri, meredakan asam lambung dan nyeri sendi (terdapat senyawa anti-inflamasi). Akar senggani direbus dengan sedikit garam, air rebusan untuk berkumur (meredakan sakit gigi). Daun atau buah senggani ditumbuk halus, pasta ditempelkan pada area kulit yang terkena luka bakar dan bisul sebagai obat luar. Akar senggani dengan sambitolo dan kunyit, air rebusan untuk mengatasi keputihan dan nyeri haid",
+        "yang_dimanfaatkan": "Daun, buah dan akar",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "foto": "media/image33.jpeg"
+    },
+    "SIRIH": {
+        "nama_latin": "Piper betle Linn",
+        "fungsi": "Antiseptik, obat keputihan, mengatasi bau mulut, obat sariawan dan radang gusi, menghentikan mimisan, mengobati luka, infeksi kulit, mengurangi keringat berlebih dan bau badan, obat batuk.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun sirih direbus dengan 500 ml air selama 10-15 menit hingga mendidih, tunggu sampai hangat lalu digunakan untuk berkumur selama beberapa detik sebelum dibuang, obat kumur daun sirih bermanfaat untuk meredakan sakit gigi, sariawan, dan bau mulut. Daun sirih direbus dengan 3 gelas air bersih hingga tersisa 1,5 gelas, kemudian disaring dan didinginkan untuk diminum 2-3 kali sehari sebelum makan. Air rebusan daun sirih dapat mengatasi batuk dan diabetes. Daun sirih yang sudah dicuci bersih ditumbuk hingga halus, lalu ditempelkan pada luka untuk mempercepat penutupan jaringan (obat luka) dan gatal.",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image34.jpeg"
+    },
+    "STROBERI TENGGER": {
+        "nama_latin": "Rubus Idaeus L.",
+        "fungsi": "Menjaga kesehatan darah dan menstruasi, antibakteri dan antiinflamasi, mengontrol gula darah, menjaga kesehatan jantung, melancarkan pencernaan, mengatasi pilek dan flu ringan.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun dikeringkan (dijadikan teh herbal) kemudian seduh dengan secangkir air panas dan disaring untuk diminum (dapat ditambahkan dengan madu murni). Seduhan ini dapat membantu mengencangkan otot panggul, meredakan nyeri haid, dan mengatasi diare. Buah stroberi diblender dengan sedikit air atau yogurt untuk dikonsumsi dan membantu menangkal radikal bebas karena tinggi antioksidan (antosianin dan flavonoid), menurunkan peradangan, menjaga kesehatan sel, meningkatkan sistem kekebalan tubuh. Seduhan teh daun Rubus idaeus pekat dibiarkan hingga dingin kemudian kain bersih dicelupkan ke dalam air seduhan untuk ditempelkan pada area kulit yang meradang.",
+        "yang_dimanfaatkan": "Daun dan buah",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab Pasuruan).",
+        "foto": "media/image35.jpeg"
+    },
+    "SURI PANDAK": {
+        "nama_latin": "Plantago mayor Linn.",
+        "fungsi": "Menyembuhkan luka & memar, meredakan batuk & gangguan pernapasan, melancarkan pencernaan, antibakteri & antiinflamasi, pereda nyeri ringan.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun segar direbus, air rebusan diminum untuk mengencerkan dahak dan melegakan pernapasan, meredakan nyeri, asam urat, meredakan diare ringan serta melancarkan saluran kemih. Daun segar ditumbuk hingga halus kemudian dikompreskan pada bagian yang sakit (mengatasi bengkak)",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab, Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "foto": "media/image36.jpeg"
+    },
+    "TEKLAN": {
+        "nama_latin": "Eupatorium riparium",
+        "fungsi": "Obat demam, melancarkan buang air kecil, mengatasi gangguan pencernaan, anti radang luka ringan, mengatasi batuk.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun segar direbus dengan 2 gelas air bersih selama 15 menit hingga tersisa 1 gelas, kemudian air rebusan disaring dan dibagi menjadi dua bagian untuk diminum 2 kali sehari (pagi dan sore). Air rebusan ini membantu melancarkan urine, menurunkan tekanan darah. Antioksidan (mengandung senyawa flavonoid, tanin, dan fenol yang membantu menangkal radikal bebas).",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image37.jpeg"
+    },
+    "TEPUNG OTOT": {
+        "nama_latin": "Borreria laevis",
+        "fungsi": "Mengendalikan gula darah, meredakan nyeri otot & pegal linu, mengurangi peradangan, obat memar & luka ringan, melancarkan peredaran darah.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun segar yang sudah dicuci bersih direbus dengan 3 gelas hingga tersisa 1,5 gelas, kemudian air disaring dan diminum 1-2 kali sehari untuk mengobati batuk, radang, infeksi saluran kemih, diare atau sembelit. Akar dan daun direbus kemudian saring dan diminum selagi hangat untuk meredakan pegal atau nyeri otot. Daun segar ditumbuk hingga halus dan dioleskan atau ditempelkan tumbukan daun pada bagian kulit yang luka, memar, atau bekas gigitan serangga.",
+        "yang_dimanfaatkan": "Akar dan Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image38.jpeg"
+    },
+    "TIREM": {
+        "nama_latin": "Chromolaena odoratum",
+        "fungsi": "Mengatasi sakit perut & gangguan pencernaan, menurunkan demam, obat luka & bisul, antiradang, mengatasi rematik.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun tirem ditumbuk hingga halus untuk ditempelkan pada area kulit yang luka atau ruam sebagai obat luar. Daun direbus dengan 3 gelas air hingga tersisa setengahnya, kemudian air disaring dan gunakan untuk mengompres pada area yang memar atau meradang.",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image39.jpeg"
+    },
+    "SIMBARAN": {
+        "nama_latin": "Peperomia sp",
+        "fungsi": "Menyembuhkan luka ringan, meredakan batuk & radang tenggorokan, mengatasi demam ringan, pereda nyeri ringan, antibakteri ringan.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun bersih direbus. Air rebusan untuk mengatasi asam urat, rematik, sakit pinggang, kolesterol tinggi, dan menurunkan tekanan darah. Daun ditumbuk hingga halus. Pasta ditempelkan pada kulit yang terluka atau mengalami memar. Memiliki sifat antiseptik dan antiradang bagus untuk mempercepat penyembuhan luka bakar ringan, bisul, jerawat, serta mencerahkan wajah.",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab Pasuruan).",
+        "foto": "media/image40.jpeg"
+    },
+    "TERONG BELANDA": {
+        "nama_latin": "Solanum betaceum",
+        "fungsi": "Mencegah obesitas, daya tahan tubuh, menurunkan tekanan darah, mengurangi resiko serangan jantung dan kanker, menjaga pencernaan, mencegah anemia, menjaga kesehatan mata, menangkal radikal bebas.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daging buah dijus, dapat membantu menurunkan kolesterol, mengontrol darah tinggi, mengatasi sariawan, hingga melancarkan pencernaan.",
+        "yang_dimanfaatkan": "Daging buah",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "foto": "media/image41.jpeg"
+    },
+    "SELEDRI": {
+        "nama_latin": "Apium graveolens",
+        "fungsi": "Menurunkan hipertensi dan kolesterol, mengontrol gula darah, mengurangi peradangan, asam urat dan nyeri sendi, menjaga kesehatan jantung, membantu menenangkan saraf dan mengurangi stres.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun seledri direbus, air rebusan diminum untuk mengontrol tekanan darah dan membantu membuang kelebihan asam urine melalui urine. Daun seledri diblender hingga halus dan diminum secara teratur untuk menurunkan kolesterol dan detoksifikasi",
+        "yang_dimanfaatkan": "Daun dan batang",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image42.jpeg"
+    },
+    "JAMUR LINGZHI": {
+        "nama_latin": "Ganoderma lucidum",
+        "fungsi": "Mengatasi insomnia, hipertensi, gastritis, menambah nafsu makan, menurunkan kolesterol dan lemak dalam darah, batuk, asma, bronkitis, rheumatic arthritis, mencegah tumor, meningkatkan daya tahan tubuh.",
+        "syarat_hidup": "Optimal di hidup di suhu 25°C-30°C. Hidup pada ketinggian optimum 400-600 m dpl. Menyukai kondisi lingkungan dengan curah hujan rata-rata 2.000-2.500 mm/th. Jamur lingzhi umumnya hidup di batang pohon. Media tanam jamur ini berada pada kisaran pH 5,5 hingga 6,5",
+        "cara_memanfaatkan": "Jamur dikeringkan atau direbus langsung. Air rebusan jamur lingzhi dapat meningkatkan kekebalan tubuh, menurunkan kolesterol, hingga mencegah kanker.",
+        "yang_dimanfaatkan": "Jamur",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image43.jpeg"
+    },
+    "TEBU IRENG": {
+        "nama_latin": "Saccharum officinarum",
+        "fungsi": "Mengontrol gula darah, melancarkan sistem pencernaan, mencegah infeksi bakteri, mengurangi risiko terkena kanker",
+        "syarat_hidup": "Iklim dan Suhu: iklim tropis dengan suhu optimal 24°C-30°C. Ketinggian: Ideal hidup di dataran rendah hingga 1.000 mdpl. Penyiraman: curah hujan 200mm/th, sangat tahan terhadap kekeringan. Tumbuh: subur di tanah gembur, kaya bahan organik, pH tanah antara 6,0-6,5",
+        "cara_memanfaatkan": "Air rebusan akar, daun, dan sari batang tebu ireng, digunakan meredakan demam, melancarkan buang air kecil, dan meningkatkan kekebalan tubuh",
+        "yang_dimanfaatkan": "Daun, batang, dan akar",
+        "potensi_sebaran": "",
+        "foto": "media/image44.jpeg"
+    },
+    "KETIUW": {
+        "nama_latin": "Sonchus arvensis",
+        "fungsi": "Meluruhkan batu ginjal atau batu kandung kemih (efek diuretik), menurunkan kadar asam urat, tekanan darah dan gula darah, meredakan radang dan pembengkakan.",
+        "syarat_hidup": "Iklim dan Suhu: tumbuh baik pada suhu 25°C -32°C. Tumbuh subur dan optimal di ketinggian pada kisaran 50-1.600 mdpl. Tumbuh: subur di tanah gembur, kaya bahan organik, pH tanah antara 5.5-7.0",
+        "cara_memanfaatkan": "Daun direbus dan diminum airnya. Daun dimakan langsung sebagai sayur. Daun ditumbuk, pasta digunakan sebagai kompres pada kulit yang bengkak",
+        "yang_dimanfaatkan": "Daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image45.jpeg"
+    },
+    "PUTIHAN": {
+        "nama_latin": "Buddleja asiatica",
+        "fungsi": "Upacara adat Suku Tengger, meredakan demam, penyakit kulit, ramuan pencuci luka karena mengandung antiseptik alami.",
+        "syarat_hidup": "",
+        "cara_memanfaatkan": "Daun direbus, uap air digunakan meredakan sakit kepala dan mengatasi masalah pernapasan. Tumbukan daun digunakan sebagai antiseptik topikal untuk membantu meredakan penyakit kulit. Akar dan daun digunakan sebagai obat nyeri, diare, dan demam. Selain digunakan untuk herbal, pada beberapa daerah tertentu juga dimanfaatkan sebagai penolak serangga (insektisida alami). Bunga putihan juga digunakan untuk upacara adat Suku Tengger.",
+        "yang_dimanfaatkan": "Daun, bunga, dan akar",
+        "potensi_sebaran": "",
+        "foto": "media/image46.png"
+    }
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
 # DATA TANAMAN HERBAL (EMBEDDED - FALLBACK)
 # ─────────────────────────────────────────────────────────────────────────────
 # Data dari file Titik Rapihin.xlsx yang di-embed sebagai fallback
@@ -417,6 +837,130 @@ def load_herbal_data():
     return df
 
 
+def get_plant_detail(plant_name):
+    """Mendapatkan detail tanaman berdasarkan nama."""
+    # Normalisasi nama untuk pencarian
+    plant_name_clean = plant_name.upper().strip()
+    
+    # Coba cari di data detail
+    for key in HERBAL_DETAIL_DATA:
+        if key == plant_name_clean:
+            return HERBAL_DETAIL_DATA[key]
+        # Coba matching parsial
+        if plant_name_clean in key or key in plant_name_clean:
+            return HERBAL_DETAIL_DATA[key]
+    
+    return None
+
+
+def create_plant_popup_html(plant_name, lat, lon, no):
+    """Membuat HTML popup untuk peta dengan detail lengkap tanaman."""
+    detail = get_plant_detail(plant_name)
+    
+    html = f"""
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; 
+                max-width: 380px; line-height: 1.6; background: #FAFAFA; 
+                border-radius: 10px; padding: 0; overflow: hidden;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        
+        <div style="background: linear-gradient(135deg, #2E7D32, #43A047); 
+                    color: white; padding: 12px 16px; border-radius: 10px 10px 0 0;">
+            <h4 style="margin: 0; font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                <span>🌿</span> {plant_name}
+            </h4>
+        </div>
+        
+        <div style="padding: 12px 16px;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;">
+                <tr style="border-bottom: 1px solid #E0E0E0;">
+                    <td style="padding: 4px 0; font-weight: bold; color: #555; width: 35%;">No. Urut:</td>
+                    <td style="padding: 4px 0; text-align: right;">{no}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #E0E0E0;">
+                    <td style="padding: 4px 0; font-weight: bold; color: #555;">Koordinat:</td>
+                    <td style="padding: 4px 0; text-align: right; font-family: monospace;">{lat:.6f}, {lon:.6f}</td>
+                </tr>
+    """
+    
+    if detail:
+        if detail.get('nama_latin'):
+            html += f"""
+                <tr style="border-bottom: 1px solid #E0E0E0;">
+                    <td style="padding: 4px 0; font-weight: bold; color: #555;">Nama Latin:</td>
+                    <td style="padding: 4px 0; text-align: right; font-style: italic;">{detail['nama_latin']}</td>
+                </tr>
+            """
+        
+        html += f"""
+                <tr>
+                    <td style="padding: 4px 0; font-weight: bold; color: #555; vertical-align: top;">Fungsi:</td>
+                    <td style="padding: 4px 0; text-align: left; font-size: 12px;">{detail.get('fungsi', '-')[:200]}{'...' if len(detail.get('fungsi', '')) > 200 else ''}</td>
+                </tr>
+            """
+        html += """
+            </table>
+            
+            <div style="margin-top: 8px; border-top: 2px solid #E8F5E9; padding-top: 8px;">
+                <details style="cursor: pointer;">
+                    <summary style="font-weight: bold; color: #2E7D32; font-size: 13px;">
+                        📋 Detail Lengkap
+                    </summary>
+                    <div style="margin-top: 6px; font-size: 12px;">
+        """
+        
+        if detail.get('syarat_hidup'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">🌱 Syarat Hidup:</span><br>
+                            <span style="color: #444;">{detail['syarat_hidup'][:300]}{'...' if len(detail['syarat_hidup']) > 300 else ''}</span>
+                        </div>
+            """
+        
+        if detail.get('cara_memanfaatkan'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">🔬 Cara Memanfaatkan:</span><br>
+                            <span style="color: #444;">{detail['cara_memanfaatkan'][:300]}{'...' if len(detail['cara_memanfaatkan']) > 300 else ''}</span>
+                        </div>
+            """
+        
+        if detail.get('yang_dimanfaatkan'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">✂️ Yang Dimanfaatkan:</span>
+                            <span style="color: #444;">{detail['yang_dimanfaatkan']}</span>
+                        </div>
+            """
+        
+        if detail.get('potensi_sebaran'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">📍 Potensi Sebaran:</span><br>
+                            <span style="color: #444; font-size: 11px;">{detail['potensi_sebaran']}</span>
+                        </div>
+            """
+        
+        html += """
+                    </div>
+                </details>
+            </div>
+        """
+    else:
+        html += """
+            </table>
+            <div style="margin-top: 8px; border-top: 2px solid #FFCDD2; padding-top: 8px; color: #C62828; font-size: 12px;">
+                ⚠️ Data detail tanaman tidak tersedia
+            </div>
+        """
+    
+    html += """
+        </div>
+    </div>
+    """
+    
+    return html
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS
 # ─────────────────────────────────────────────────────────────────────────────
@@ -759,6 +1303,14 @@ def generate_chatbot_response_herbal(user_input, df_herbal):
     for i, (_, row) in enumerate(results.head(5).iterrows()):
         response += f"\n{i+1}. **{row['Nama']}**\n"
         response += f"   - Koordinat: {row['Y']:.6f}, {row['X']:.6f}\n"
+        
+        # Tambahkan detail jika tersedia
+        detail = get_plant_detail(row['Nama'])
+        if detail:
+            if detail.get('fungsi'):
+                response += f"   - Fungsi: {detail['fungsi'][:100]}...\n"
+            if detail.get('cara_memanfaatkan'):
+                response += f"   - Cara: {detail['cara_memanfaatkan'][:100]}...\n"
     
     if len(results) > 5:
         response += f"\n📋 **{len(results)-5} tanaman lainnya** dapat dilihat di Data Tanaman."
@@ -906,6 +1458,7 @@ def create_tnbts_map(
             lat = row['Y']
             lon = row['X']
             nama = row['Nama']
+            no = row['No']
             
             is_highlighted = nama in highlight_set
             
@@ -916,27 +1469,12 @@ def create_tnbts_map(
                 icon_color = 'green'
                 icon_icon = 'leaf'
             
-            popup_html = f"""
-            <div style="font-family: Arial, sans-serif; font-size: 12px; width: 220px; line-height: 1.5;">
-                <h5 style="margin: 0 0 5px 0; color: #27AE60; border-bottom: 2px solid #2ECC71; padding-bottom: 3px; font-weight: bold;">
-                    {'⭐ ' if is_highlighted else '🌿 '}{nama}
-                </h5>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr style="border-bottom: 1px solid #F0F0F0;">
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Koordinat:</td>
-                        <td style="padding: 3px 0; text-align: right; font-family: monospace;">{lat:.6f}, {lon:.6f}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">No. Urut:</td>
-                        <td style="padding: 3px 0; text-align: right;">{row['No']}</td>
-                    </tr>
-                </table>
-            </div>
-            """
+            # Gunakan popup dengan detail lengkap
+            popup_html = create_plant_popup_html(nama, lat, lon, no)
             
             folium.Marker(
                 location=[lat, lon],
-                popup=folium.Popup(popup_html, max_width=250),
+                popup=folium.Popup(popup_html, max_width=400),
                 tooltip=f"{'⭐ ' if is_highlighted else ''}{nama}",
                 icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
             ).add_to(herbal_cluster)
@@ -1061,6 +1599,7 @@ elif selected == "Peta Sebaran":
     st.info(
         "🏔️ **Layer Batas TNBTS** dan **🏘️ Batas Desa** ditampilkan sebagai outline. "
         "🌿 **Titik hijau** adalah sebaran tanaman herbal. "
+        "Klik titik untuk melihat **detail lengkap** tanaman termasuk fungsi, syarat hidup, dan cara memanfaatkan.\n\n"
         "Gunakan **Layer Control** di pojok kanan atas peta untuk mengatur tampilan."
     )
 
@@ -1155,6 +1694,7 @@ elif selected == "Data Tanaman":
             st.markdown("#### Ringkasan")
             st.metric("Total Spesies Unik", df_herbal['Nama'].nunique())
             st.metric("Total Titik Data", len(df_herbal))
+            st.metric("Tanaman dengan Data Detail", len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None]))
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: STATISTIK
@@ -1188,79 +1728,40 @@ else:
     total_penduduk  = gdf_desa['jumlah_pen'].sum()    if not gdf_desa.empty and 'jumlah_pen'  in gdf_desa.columns else 0
     total_kecamatan = gdf_desa['nama_kecam'].nunique() if not gdf_desa.empty and 'nama_kecam' in gdf_desa.columns else 0
     total_kabupaten = gdf_desa['nama_kabko'].nunique() if not gdf_desa.empty and 'nama_kabko' in gdf_desa.columns else 0
-    tanaman_dilind  = len(df_tanaman[df_tanaman['status_konservasi'] == 'Dilindungi'])
+    total_detailed = len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None])
 
-    st.markdown("""
+    st.markdown(f"""
     <div class="info-box">
         <h4>🌋 Taman Nasional Bromo Tengger Semeru</h4>
         <p>TNBTS adalah kawasan konservasi di Jawa Timur dengan keanekaragaman hayati tinggi.
-        WebGIS ini menampilkan <b>86 spesies tanaman herbal</b> yang teridentifikasi
+        WebGIS ini menampilkan <b>{df_herbal['Nama'].nunique()} spesies tanaman herbal</b> yang teridentifikasi
         di <b>8 kawasan ekologi</b> berbeda, dari savana vulkanik Bromo (±2.000 mdpl)
         hingga lereng atas Semeru (±2.500 mdpl) dan hutan primer Blok Ireng-Ireng.</p>
+        <p>📋 <b>{total_detailed}</b> spesies memiliki data detail lengkap (fungsi, syarat hidup, cara memanfaatkan).</p>
     </div>""", unsafe_allow_html=True)
-
-    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
-
-    # ── 8 Kawasan Ekologi ────────────────────────────────────────────────────
-    st.markdown("### 🏔️ 8 Kawasan Ekologi TNBTS")
-    kw_cols_ui = st.columns(2)
-    for i, feat in enumerate(KAWASAN_GEOJSON["features"]):
-        props = feat["properties"]
-        kw    = props["nama"]
-        col_h = KAWASAN_HEX.get(kw, '#555')
-        cnt   = len(df_tanaman[df_tanaman['kawasan'] == kw])
-        with kw_cols_ui[i % 2]:
-            st.markdown(
-                f'<div style="border-left:5px solid {col_h};padding:.6rem 1rem;'
-                f'margin-bottom:.6rem;background:#fafafa;border-radius:0 8px 8px 0;">'
-                f'<b style="font-size:16px;">{props["emoji"]}</b> '
-                f'<b style="color:{col_h};">{kw}</b><br>'
-                f'<small>⛰️ {props["ketinggian"]} &nbsp;|&nbsp; 🌿 {cnt} spesies</small><br>'
-                f'<span style="font-size:.85rem;color:#555;">{props["deskripsi"]}</span></div>',
-                unsafe_allow_html=True
-            )
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
     # ── Fungsi utama tanaman ──────────────────────────────────────────────────
     st.markdown("### 💊 Kelompok Fungsi Tanaman")
-    FUNGSI_GROUPS = {
-        "🫀 Pencernaan":      ['Pencernaan','Diare','Sakit perut','Masuk angin','Pencahar','Obat diare'],
-        "🔥 Antiradang":      ['Antiradang','Anti radang','Anti radang, batuk','Antiradang, diuretik'],
-        "🤒 Penurun Demam":   ['Penurun demam','Obat demam'],
-        "💊 Pereda Nyeri":    ['Pereda nyeri','Pereda nyeri, asma','Pereda nyeri otot'],
-        "🩹 Obat Luka":       ['Obat luka','Penyembuhan luka','Menghentikan pendarahan','Obat bisul'],
-        "🌡️ Batuk & Pilek":  ['Batuk & pilek','Batuk','Batuk, darah tinggi'],
-        "🌿 Fungsi Khusus":   ['Diuretik','Antiseptik','Kesuburan','Antikanker','Antibakteri',
-                               'Menurunkan tekanan darah','Tekanan darah tinggi','Penurun gula darah',
-                               'Melancarkan peredaran darah','Kesehatan darah','Kesehatan hati',
-                               'Menghangatkan tubuh','Mengurangi bengkak','Antimalaria','Antioksidan'],
-    }
-
-    def get_tanaman_by_group(flist, df):
-        tanaman = []
-        for f in flist:
-            tanaman.extend(
-                df[df['fungsi_utama'].str.contains(
-                    '|'.join([x.strip() for x in f.split(',')]),
-                    case=False, na=False
-                )]['nama_tanaman'].tolist()
-            )
-        return list(dict.fromkeys(tanaman))
-
-    fg_cols = st.columns(3)
-    for idx, (label, flist) in enumerate(FUNGSI_GROUPS.items()):
-        t_list = get_tanaman_by_group(flist, df_tanaman)
-        badges = "".join([
-            f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>'
-            for t in t_list
-        ])
-        with fg_cols[idx % 3]:
+    
+    # Tampilkan beberapa contoh tanaman dengan fungsinya
+    st.markdown("""
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin: 12px 0;">
+    """, unsafe_allow_html=True)
+    
+    for name, detail in list(HERBAL_DETAIL_DATA.items())[:12]:
+        if detail.get('fungsi'):
+            fungsi_short = detail['fungsi'][:80] + ('...' if len(detail['fungsi']) > 80 else '')
             st.markdown(f"""
-            <div class="fungsi-card">
-                <div class="fungsi-title">{label} ({len(t_list)} sp.)</div>
-                <div class="tanaman-list">{badges}</div>
-            </div>""", unsafe_allow_html=True)
+            <div style="background: #f8f9fa; border-radius: 8px; padding: 12px 16px; 
+                        border-left: 4px solid #2E7D32;">
+                <div style="font-weight: bold; color: #2E7D32;">🌿 {name}</div>
+                <div style="font-size: 12px; color: #555; margin-top: 4px;">{fungsi_short}</div>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
@@ -1278,28 +1779,20 @@ else:
     for (photo, name, title, role), col in zip(team, tm_cols):
         with col:
             st.markdown(f"""
-            <div class="team-card">
-                <img src="{photo}" class="team-photo" alt="{name}">
-                <h4 class="team-name">{name}</h4>
-                <p class="team-title">{title}</p>
-                <p class="team-role">{role}</p>
+            <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; text-align: center;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 12px;">
+                <img src="{photo}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+                            border: 3px solid #2E7D32; margin-bottom: 8px;">
+                <h4 style="margin: 4px 0; color: #1B5E20;">{name}</h4>
+                <p style="margin: 2px 0; font-size: 14px; color: #555;">{title}</p>
+                <p style="margin: 2px 0; font-size: 12px; color: #2E7D32; font-weight: bold;">{role}</p>
             </div>""", unsafe_allow_html=True)
-
-    cc1, cc2, cc3 = st.columns([1, 2, 1])
-    with cc2:
-        st.markdown("""
-        <div class="team-card">
-            <img src="https://file-filkom.ub.ac.id/fileupload/assets/uploads/foto/crop/arief_andy_soebroto.jpg"
-                 class="team-photo" alt="Dr. Ir. Arief Andy Soebroto">
-            <h4 class="team-name">Dr. Ir. Arief Andy Soebroto</h4>
-            <p class="team-title">ST., M.Kom.</p>
-            <p class="team-role">Pakar Platform AI & IoT</p>
-        </div>""", unsafe_allow_html=True)
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     st.markdown("""
     ### 📍 Sumber Data
     - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 86 spesies, 8 kawasan ekologi
+    - **Data Detail Tanaman:** Dokumentasi lengkap fungsi, syarat hidup, dan cara pemanfaatan
     - **Koordinat Kawasan:** Batas ekologi TNBTS berdasarkan survei GPS lapangan & interpretasi citra satelit
     - **Data Desa:** GeoJSON BIG/BPS (41 desa penyangga TNBTS)
     - **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
