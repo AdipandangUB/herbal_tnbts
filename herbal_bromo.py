@@ -1166,7 +1166,7 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown("### 📋 Menu Navigasi")
-    menu_options = ["Peta Sebaran", "Chatbot Herbal", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
+    menu_options = ["Peta Sebaran", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
     menu_icons   = ["🗺️", "🤖", "🏔️", "📋", "📊", "ℹ️"]
     selected = st.radio(
         "Pilih Menu:",
@@ -1290,11 +1290,11 @@ def generate_chatbot_response_herbal(user_input, df_herbal):
     
     greetings = ['halo', 'hai', 'hello', 'hi', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam']
     if any(greeting in user_input_lower for greeting in greetings):
-        return "🌿 **Halo!** Saya adalah Mbah Dukun Digital Herbal TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam' atau 'Apa obat batuk?'"
+        return "🌿 **Halo!** Saya adalah Mbah Dukun Herbal Digital TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam' atau 'Apa obat batuk?'"
     
     if 'bantuan' in user_input_lower or 'help' in user_input_lower:
         return """
-        🤖 **Cara Menggunakan Tanya Mbah Dukun Herbal:**
+        🤖 **Cara Menggunakan Tanya Mbah Dukun Herbal Digital:**
         
         1. **Sebutkan gejala penyakit** yang Anda alami
         
@@ -1547,8 +1547,8 @@ def create_tnbts_map(
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: CHATBOT HERBAL
 # ═════════════════════════════════════════════════════════════════════════════
-if selected == "Chatbot Herbal":
-    st.markdown("## 🤖 Asisten Tanaman Herbal TNBTS")
+if selected == "Tanya Mbah Dukun Herbal Digital":
+    st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
     
     # Inisialisasi recommended_plants jika belum ada
     if 'recommended_plants' not in st.session_state:
