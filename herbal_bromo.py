@@ -7,6 +7,8 @@ import geopandas as gpd
 import json
 import os
 from folium.plugins import MarkerCluster
+import re
+from datetime import datetime
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPER FUNGSI GEOSPATIAL (GeoJSON & Reproyeksi)
@@ -110,6 +112,24 @@ def load_tanaman_herbal_data():
     records = [
         (1, 'Adas', 'Foeniculum vulgare', 'Herba', 'Pencernaan', -7.937000, 112.949336, 'Zona Budidaya & Pekarangan', 1900, 'Sekitar Desa Ngadisari & Wonokitri', 'Ngadisari, Wonokitri'),
         (2, 'Ajeran putih', 'Bidens pilosa L.', 'Herba', 'Antiradang', -7.945000, 112.969131, 'Savana Bromo & Lereng Terbuka', 2050, 'Lautan Pasir & Savana Bromo', 'Seluruh desa penyangga'),
+        (3, 'Alang-alang', 'Imperata cylindrica L.', 'Rumput', 'Diuretik', -7.943798, 112.966556, 'Savana Bromo & Lereng Terbuka', 2000, 'Padang Savana Tengger', 'Ngadas, Argosari'),
+        (4, 'Andong', 'Cordyline fruticosa Linn', 'Pohon', 'Menghentikan pendarahan', -7.960000, 112.938313, 'Kantong Air & Lembah', 1750, 'Lembah Sumber Air TNBTS', 'Ngadas, Ranupani'),
+        (5, 'Awar-awar', 'Ficus septica Burm.f.', 'Pohon', 'Antiradang', -7.924000, 112.933867, 'Tepi Hutan & Zona Transisi', 1850, 'Tepi Hutan Cemara – Desa Ngadisari', 'Ngadisari, Wonokitri'),
+        (6, 'Bakung', 'Crinum asiaticium L.', 'Herba', 'Mengurangi bengkak', -7.904000, 112.952032, 'Ranu Darungan & Sekitar Danau', 1860, 'Tepi Ranu Darungan', 'Ranupani'),
+        (7, 'Bawang merah', 'Allium cepa L.', 'Herba', 'Penurun demam', -7.935557, 112.946294, 'Zona Budidaya & Pekarangan', 1900, 'Ladang Pertanian Tengger', 'Seluruh desa penyangga'),
+        (8, 'Bawang putih', 'Allium sativum', 'Herba', 'Menurunkan tekanan darah', -7.980000, 112.988530, 'Lereng Semeru & Dataran Tinggi', 2200, 'Lereng Atas Semeru – Ranupani', 'Ranupani, Argosari'),
+        (9, 'Beluntas', 'Pluchea indica', 'Semak', 'Pencernaan', -8.020000, 112.995528, 'Zona Pesisir & Pantai Selatan', 300, 'Zona Pesisir Selatan TNBTS', 'Desa pesisir selatan'),
+        (10, 'Bidara laut', 'Strychnos lucida', 'Pohon', 'Pereda nyeri', -8.017580, 112.989771, 'Zona Pesisir & Pantai Selatan', 250, 'Pantai Selatan – Batas TNBTS', 'Desa pesisir selatan'),
+        (11, 'Buah klandingan', 'Lucas lavandulifolia', 'Pohon', 'Batuk & pilek', -7.923049, 112.931893, 'Tepi Hutan & Zona Transisi', 1900, 'Zona Transisi Hutan – Ladang', 'Ngadisari, Wonokitri'),
+        (12, 'Bunga hariang', 'Begonia', 'Bunga', 'Batuk', -7.978359, 112.985046, 'Lereng Semeru & Dataran Tinggi', 2300, 'Lereng Semeru Barat Daya', 'Ranupani'),
+        (13, 'Bunga Matahari', 'Helianthus annuus', 'Bunga', 'Penurun demam', -7.947289, 112.968221, 'Savana Bromo & Lereng Terbuka', 2050, 'Savana & Ladang Bromo', 'Ngadisari, Argosari'),
+        (14, 'Calingan', 'Centella asiatica L.', 'Herba', 'Penyembuhan luka', -7.902902, 112.949682, 'Ranu Darungan & Sekitar Danau', 1860, 'Bantaran Ranu Darungan', 'Ranupani'),
+        (15, 'Cemplukan', 'Physalis minima', 'Herba', 'Penurun demam', -7.942842, 112.969820, 'Savana Bromo & Lereng Terbuka', 2000, 'Tepi Savana Bromo', 'Ngadas, Argosari'),
+        (16, 'Daun dadap', 'Erythrina variegata L.', 'Pohon', 'Pereda nyeri', -7.925810, 112.933169, 'Tepi Hutan & Zona Transisi', 1900, 'Batas Hutan Cemara & Ladang', 'Ngadisari'),
+        (17, 'Dringu', 'Acorus calamus L.', 'Herba', 'Pencernaan', -7.906090, 112.951202, 'Ranu Darungan & Sekitar Danau', 1860, 'Tepi Ranu Darungan – Pinggir Air', 'Ranupani'),
+        (18, 'Ganjan', 'Artemisia vulgaris', 'Herba', 'Obat luka', -7.898000, 112.918106, 'Blok Ireng-Ireng & Hutan Atas', 2400, 'Blok Ireng-Ireng – Hutan Primer', 'Ireng-Ireng'),
+        (19, 'Ganyong', 'Canna indica L.', 'Herba', 'Pencernaan', -7.958573, 112.935322, 'Kantong Air & Lembah', 1750, 'Lembah Basah – Sumber Mata Air', 'Ngadas, Ranupani'),
+        (20, 'Jahe', 'Zingiber Officinale Rocs', 'Herba', 'Pencernaan', -7.922294, 112.934395, 'Tepi Hutan & Zona Transisi', 1900, 'Kebun Campuran Tepi Hutan', 'Seluruh desa penyangga'),
         # ... tambahkan data lainnya sesuai kebutuhan
     ]
     df = pd.DataFrame(records, columns=[
@@ -372,6 +392,196 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# ─────────────────────────────────────────────────────────────────────────────
+# FUNGSI CHATBOT AI
+# ─────────────────────────────────────────────────────────────────────────────
+def extract_location(text):
+    """Ekstrak nama desa atau kabupaten dari teks."""
+    # Daftar desa dan kabupaten di sekitar TNBTS
+    desa_list = ['Ngadisari', 'Wonokitri', 'Ngadas', 'Argosari', 'Ranupani', 
+                 'Ireng-Ireng', 'Cemoro Lawang', 'Sariwani', 'Kertosari',
+                 'Sukapura', 'Tosari', 'Pasuruan', 'Malang', 'Lumajang',
+                 'Probolinggo', 'Senduro', 'Gucialit', 'Jabung', 'Wajak',
+                 'Tutur', 'Puspo', 'Lumbang']
+    kabupaten_list = ['Malang', 'Pasuruan', 'Lumajang', 'Probolinggo']
+    
+    location_found = None
+    location_type = None
+    
+    # Cari desa
+    for desa in desa_list:
+        if desa.lower() in text.lower():
+            location_found = desa
+            location_type = 'desa'
+            break
+    
+    # Cari kabupaten
+    if not location_found:
+        for kab in kabupaten_list:
+            if kab.lower() in text.lower():
+                location_found = kab
+                location_type = 'kabupaten'
+                break
+    
+    return location_found, location_type
+
+
+def extract_symptoms(text):
+    """Ekstrak gejala penyakit dari teks."""
+    symptom_keywords = {
+        'demam': ['demam', 'panas', 'meriang', 'meriang'],
+        'batuk': ['batuk', 'pilek', 'flu', 'influenza', 'bersin'],
+        'nyeri': ['nyeri', 'sakit', 'pegal', 'linu', 'rematik'],
+        'luka': ['luka', 'borok', 'bisul', 'cidera'],
+        'pencernaan': ['mual', 'muntah', 'diare', 'perut', 'kembung', 'mulas'],
+        'darah': ['tekanan darah', 'darah tinggi', 'hipertensi', 'kolesterol'],
+        'antiradang': ['radang', 'bengkak', 'peradangan'],
+        'diuretik': ['susah kencing', 'batu ginjal'],
+        'antiseptik': ['infeksi', 'kuman', 'bakteri'],
+        'kesuburan': ['kesuburan', 'hamil', 'reproduksi'],
+        'antioksidan': ['antioksidan', 'penuaan', 'radikal bebas']
+    }
+    
+    found_symptoms = []
+    for symptom, keywords in symptom_keywords.items():
+        for keyword in keywords:
+            if keyword.lower() in text.lower():
+                found_symptoms.append(symptom)
+                break
+    
+    return list(set(found_symptoms))
+
+
+def find_herbal_by_location_and_symptoms(location, location_type, symptoms, df_tanaman, gdf_desa):
+    """Mencari tanaman herbal berdasarkan lokasi dan gejala."""
+    results = []
+    
+    # Filter berdasarkan lokasi
+    if location:
+        if location_type == 'desa':
+            filtered_df = df_tanaman[df_tanaman['desa'].str.contains(location, case=False, na=False)]
+        else:  # kabupaten
+            # Cari desa dalam kabupaten tersebut
+            if not gdf_desa.empty and 'nama_kabko' in gdf_desa.columns:
+                desa_in_kab = gdf_desa[gdf_desa['nama_kabko'].str.contains(location, case=False, na=False)]
+                desa_names = desa_in_kab['nama_kelur'].tolist() if 'nama_kelur' in desa_in_kab.columns else []
+                if desa_names:
+                    filtered_df = df_tanaman[df_tanaman['desa'].str.contains('|'.join(desa_names), case=False, na=False)]
+                else:
+                    filtered_df = df_tanaman
+            else:
+                filtered_df = df_tanaman
+    else:
+        filtered_df = df_tanaman
+    
+    # Filter berdasarkan gejala
+    if symptoms:
+        symptom_matches = []
+        for symptom in symptoms:
+            # Cari fungsi yang cocok dengan gejala
+            symptom_matches.extend(
+                filtered_df[filtered_df['fungsi_utama'].str.contains(symptom, case=False, na=False)].index.tolist()
+            )
+        if symptom_matches:
+            filtered_df = filtered_df.loc[list(set(symptom_matches))]
+        else:
+            # Jika tidak ada yang cocok, cari berdasarkan keyword lain
+            for symptom in symptoms:
+                symptom_matches.extend(
+                    filtered_df[filtered_df['nama_tanaman'].str.contains(symptom, case=False, na=False)].index.tolist()
+                )
+            if symptom_matches:
+                filtered_df = filtered_df.loc[list(set(symptom_matches))]
+    
+    # Urutkan berdasarkan ketinggian (opsional)
+    filtered_df = filtered_df.sort_values('ketinggian', ascending=True)
+    
+    return filtered_df
+
+
+def generate_chatbot_response(user_input, df_tanaman, gdf_desa):
+    """Generate response from chatbot based on user input."""
+    user_input_lower = user_input.lower()
+    
+    # Greeting responses
+    greetings = ['halo', 'hai', 'hello', 'hi', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam']
+    if any(greeting in user_input_lower for greeting in greetings):
+        return "🌿 **Halo!** Saya adalah Asisten Tanaman Herbal TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan lokasi Anda (desa/kabupaten) dan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam di Ngadisari' atau 'Apa obat luka di Malang?'"
+    
+    # Help response
+    if 'bantuan' in user_input_lower or 'help' in user_input_lower:
+        return """
+        🤖 **Cara Menggunakan Chatbot:**
+        
+        1. **Sebutkan lokasi Anda** (desa atau kabupaten)
+        2. **Sebutkan gejala penyakit** yang Anda alami
+        
+        **Contoh pertanyaan:**
+        - "Tanaman untuk demam di Ngadisari"
+        - "Apa obat batuk di Malang?"
+        - "Tanaman antiradang di Pasuruan"
+        - "Saya sakit perut di Wonokitri"
+        
+        **Desa yang tersedia:** Ngadisari, Wonokitri, Ngadas, Argosari, Ranupani, Ireng-Ireng, Cemoro Lawang, Sariwani, Kertosari
+        **Kabupaten:** Malang, Pasuruan, Lumajang, Probolinggo
+        """
+    
+    # Extract location and symptoms
+    location, location_type = extract_location(user_input)
+    symptoms = extract_symptoms(user_input)
+    
+    # If no location and no symptoms, ask for clarification
+    if not location and not symptoms:
+        return """
+        🤔 **Saya belum memahami pertanyaan Anda.** 
+        
+        Untuk menggunakan chatbot ini, silakan sebutkan:
+        - **Lokasi** (desa atau kabupaten di sekitar TNBTS)
+        - **Gejala penyakit** yang Anda alami
+        
+        Contoh: "Tanaman untuk demam di Ngadisari"
+        
+        Ketik **'bantuan'** untuk melihat panduan lengkap.
+        """
+    
+    # Find herbal plants
+    results = find_herbal_by_location_and_symptoms(location, location_type, symptoms, df_tanaman, gdf_desa)
+    
+    if results.empty:
+        response = "🌿 **Maaf, tidak ditemukan tanaman herbal** yang sesuai dengan kriteria Anda."
+        if location:
+            response += f"\n\n📍 Lokasi: **{location}** ({location_type})"
+        if symptoms:
+            response += f"\n\n💊 Gejala: **{', '.join(symptoms)}**"
+        response += "\n\n💡 **Saran:** Coba gunakan kata kunci lain atau konsultasikan dengan ahli kesehatan setempat."
+        return response
+    
+    # Build response
+    response = "🌿 **Ditemukan tanaman herbal yang dapat membantu!**\n\n"
+    if location:
+        response += f"📍 **Lokasi:** {location} ({location_type})\n"
+    if symptoms:
+        response += f"💊 **Gejala:** {', '.join(symptoms)}\n"
+    response += f"🌱 **Jumlah tanaman ditemukan:** {len(results)}\n\n"
+    
+    # Show top 5 results
+    response += "**Rekomendasi Tanaman:**\n"
+    for i, (_, row) in enumerate(results.head(5).iterrows()):
+        response += f"\n{i+1}. **{row['nama_tanaman']}** ({row['nama_latin']})\n"
+        response += f"   - Jenis: {row['jenis']}\n"
+        response += f"   - Fungsi: {row['fungsi_utama']}\n"
+        response += f"   - Lokasi: {row['desa']} - {row['kawasan']}\n"
+        response += f"   - Ketinggian: {row['ketinggian']} mdpl\n"
+        if row['status_konservasi'] == 'Dilindungi':
+            response += "   - ⚠️ **Status: Dilindungi** - Jangan dikonsumsi tanpa izin\n"
+    
+    if len(results) > 5:
+        response += f"\n📋 **{len(results)-5} tanaman lainnya** dapat dilihat di Data Tanaman."
+    
+    response += "\n\n💡 **Catatan:** Selalu konsultasikan dengan ahli kesehatan sebelum mengonsumsi tanaman herbal."
+    
+    return response
+    
 # ─────────────────────────────────────────────────────────────────────────────
 # KONSTANTA WARNA
 # ─────────────────────────────────────────────────────────────────────────────
