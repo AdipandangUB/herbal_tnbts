@@ -1145,74 +1145,118 @@ def create_tnbts_map(
 
         desa_group.add_to(m)
 
-# 4. LAYER: Sebaran Spesies Tanaman Herbal (Menggunakan Cluster Marker)
-if not df_herbal_filtered.empty:
+
+# ── LAYER 4: Sebaran Spesies Tanaman Herbal (Menggunakan Cluster Marker) ──
+if show_tanaman and not df_tanaman_filtered.empty:
     herbal_cluster = MarkerCluster(
-        name="Sebaran Tanaman Herbal",
+        name="🌿 Sebaran Tanaman Herbal",
         overlay=True,
         control=True,
         show=True
     )
     
-    for idx, row in df_herbal_filtered.iterrows(): [1, 2]
-        lat = row
-        lon = row['X']
-        nama_herbal = row['Nama'].strip().upper() 
-        nomor_id = row['No']
+    for idx, row in df_tanaman_filtered.iterrows():
+        lat = row['latitude']
+        lon = row['longitude']
+        nama_tanaman = row['nama_tanaman']
+        nama_latin = row['nama_latin']
+        jenis = row['jenis']
+        fungsi = row['fungsi_utama']
+        kawasan = row['kawasan']
+        desa = row['desa']
+        ketinggian = row['ketinggian']
+        status = row.get('status_konservasi', 'Umum')
+        
+        # Tentukan warna berdasarkan status konservasi
+        if status == 'Dilindungi':
+            icon_color = 'red'
+            icon_icon = 'lock'
+        else:
+            icon_color = JENIS_COLOR.get(jenis, 'green')
+            icon_icon = 'leaf'
         
         # Desain pop-up berbasis HTML terstruktur
         popup_html = f"""
-        <div style="font-family: Arial, sans-serif; font-size: 12px; width: 200px; line-height: 1.5;">
+        <div style="font-family: Arial, sans-serif; font-size: 12px; width: 220px; line-height: 1.5;">
             <h5 style="margin: 0 0 5px 0; color: #27AE60; border-bottom: 2px solid #2ECC71; padding-bottom: 3px; font-weight: bold;">
-                {nama_herbal}
+                🌿 {nama_tanaman}
             </h5>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">No. Urut:</td>
-                    <td style="padding: 3px 0; text-align: right;">{nomor_id}</td>
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Nama Latin:</td>
+                    <td style="padding: 3px 0; text-align: right; font-style: italic;">{nama_latin}</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #F0F0F0;">
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Latitude:</td>
-                    <td style="padding: 3px 0; text-align: right; font-family: monospace;">{lat:.6f}</td>
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Jenis:</td>
+                    <td style="padding: 3px 0; text-align: right;">{jenis}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #F0F0F0;">
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Fungsi:</td>
+                    <td style="padding: 3px 0; text-align: right;">{fungsi}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #F0F0F0;">
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Kawasan:</td>
+                    <td style="padding: 3px 0; text-align: right;">{kawasan}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #F0F0F0;">
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Desa:</td>
+                    <td style="padding: 3px 0; text-align: right;">{desa}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #F0F0F0;">
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Ketinggian:</td>
+                    <td style="padding: 3px 0; text-align: right;">{ketinggian} mdpl</td>
                 </tr>
                 <tr>
-                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Longitude:</td>
-                    <td style="padding: 3px 0; text-align: right; font-family: monospace;">{lon:.6f}</td>
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Status:</td>
+                    <td style="padding: 3px 0; text-align: right;">
+                        <span style="background: {'#FF5722' if status == 'Dilindungi' else '#4CAF50'}; 
+                                     color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px;">
+                            {status}
+                        </span>
+                    </td>
                 </tr>
             </table>
         </div>
         """
         
         folium.Marker(
-            location=[lat, lon][2]
-            popup=folium.Popup(popup_html, max_width=250)[2]
-            tooltip=f"Spesies: {nama_herbal}",
-            icon=folium.Icon(color='green', icon='leaf', prefix='fa')
+            location=[lat, lon],
+            popup=folium.Popup(popup_html, max_width=250),
+            tooltip=f"{nama_tanaman} ({jenis}) - {kawasan}",
+            icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
         ).add_to(herbal_cluster)
         
     herbal_cluster.add_to(m)
 
 # Aktivasi Layer Control (Kontrol visibilitas layer secara dinamis)
-folium.LayerControl(collapsed=False, position='topright').add_to(m) [4]
+folium.LayerControl(collapsed=False, position='topright').add_to(m)
 
 # Rendering Peta pada Aplikasi Streamlit
-folium_static(m, width=1024, height=600) [2, 5]
+folium_static(m, width=1024, height=600)
 
 # Menampilkan data tabular terfilter untuk keperluan audit dan ekspor data
-if not df_herbal_filtered.empty:
-    st.subheader(f"Data Atribut Tanaman Herbal Terpilih ({len(df_herbal_filtered)} Titik)")
+if not df_tanaman_filtered.empty:
+    st.subheader(f"Data Atribut Tanaman Herbal Terpilih ({len(df_tanaman_filtered)} Titik)")
     st.dataframe(
-        df_herbal_filtered].rename(
+        df_tanaman_filtered.rename(
             columns={
-                'No': 'No. Inventaris',
-                'Nama': 'Nama Spesies',
-                'X': 'Longitude (X)',
-                'Y': 'Latitude (Y)'
+                'id': 'No. Inventaris',
+                'nama_tanaman': 'Nama Spesies',
+                'nama_latin': 'Nama Latin',
+                'jenis': 'Jenis',
+                'fungsi_utama': 'Fungsi Utama',
+                'latitude': 'Latitude',
+                'longitude': 'Longitude',
+                'kawasan': 'Kawasan Ekologi',
+                'ketinggian': 'Ketinggian (mdpl)',
+                'lokasi_detail': 'Lokasi Detail',
+                'desa': 'Desa',
+                'status_konservasi': 'Status Konservasi'
             }
         ),
-        use_container_width=True
+        use_container_width=True,
+        height=400
     )
-    
     # ── Legenda kawasan (HTML overlay kiri bawah) ─────────────────────────
     legend_items_html = "".join([
         f'<div class="l-row">'
