@@ -1180,31 +1180,127 @@ elif selected == "Statistik":
         st.metric("Rata-rata per Spesies", f"{avg:.1f}")
 
 # ═════════════════════════════════════════════════════════════════════════════
-# MENU: INFORMASI
+# HALAMAN: INFORMASI
 # ═════════════════════════════════════════════════════════════════════════════
 else:
     st.markdown("## ℹ️ Informasi TNBTS")
+
+    total_penduduk  = gdf_desa['jumlah_pen'].sum()    if not gdf_desa.empty and 'jumlah_pen'  in gdf_desa.columns else 0
+    total_kecamatan = gdf_desa['nama_kecam'].nunique() if not gdf_desa.empty and 'nama_kecam' in gdf_desa.columns else 0
+    total_kabupaten = gdf_desa['nama_kabko'].nunique() if not gdf_desa.empty and 'nama_kabko' in gdf_desa.columns else 0
+    tanaman_dilind  = len(df_tanaman[df_tanaman['status_konservasi'] == 'Dilindungi'])
+
     st.markdown("""
     <div class="info-box">
         <h4>🌋 Taman Nasional Bromo Tengger Semeru</h4>
         <p>TNBTS adalah kawasan konservasi di Jawa Timur dengan keanekaragaman hayati tinggi.
-        WebGIS ini menampilkan data sebaran tanaman herbal yang teridentifikasi di kawasan TNBTS.</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown(f"""
-    <div class="info-box" style="border-left-color:#2196F3;">
-        <h4>📊 Data Tanaman Herbal</h4>
-        <p>
-            <b>{len(df_herbal)}</b> titik data tanaman herbal<br>
-            <b>{df_herbal['Nama'].nunique()}</b> spesies unik teridentifikasi
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
+        WebGIS ini menampilkan <b>86 spesies tanaman herbal</b> yang teridentifikasi
+        di <b>8 kawasan ekologi</b> berbeda, dari savana vulkanik Bromo (±2.000 mdpl)
+        hingga lereng atas Semeru (±2.500 mdpl) dan hutan primer Blok Ireng-Ireng.</p>
+    </div>""", unsafe_allow_html=True)
+
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+
+    # ── 8 Kawasan Ekologi ────────────────────────────────────────────────────
+    st.markdown("### 🏔️ 8 Kawasan Ekologi TNBTS")
+    kw_cols_ui = st.columns(2)
+    for i, feat in enumerate(KAWASAN_GEOJSON["features"]):
+        props = feat["properties"]
+        kw    = props["nama"]
+        col_h = KAWASAN_HEX.get(kw, '#555')
+        cnt   = len(df_tanaman[df_tanaman['kawasan'] == kw])
+        with kw_cols_ui[i % 2]:
+            st.markdown(
+                f'<div style="border-left:5px solid {col_h};padding:.6rem 1rem;'
+                f'margin-bottom:.6rem;background:#fafafa;border-radius:0 8px 8px 0;">'
+                f'<b style="font-size:16px;">{props["emoji"]}</b> '
+                f'<b style="color:{col_h};">{kw}</b><br>'
+                f'<small>⛰️ {props["ketinggian"]} &nbsp;|&nbsp; 🌿 {cnt} spesies</small><br>'
+                f'<span style="font-size:.85rem;color:#555;">{props["deskripsi"]}</span></div>',
+                unsafe_allow_html=True
+            )
+
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+
+    # ── Fungsi utama tanaman ──────────────────────────────────────────────────
+    st.markdown("### 💊 Kelompok Fungsi Tanaman")
+    FUNGSI_GROUPS = {
+        "🫀 Pencernaan":      ['Pencernaan','Diare','Sakit perut','Masuk angin','Pencahar','Obat diare'],
+        "🔥 Antiradang":      ['Antiradang','Anti radang','Anti radang, batuk','Antiradang, diuretik'],
+        "🤒 Penurun Demam":   ['Penurun demam','Obat demam'],
+        "💊 Pereda Nyeri":    ['Pereda nyeri','Pereda nyeri, asma','Pereda nyeri otot'],
+        "🩹 Obat Luka":       ['Obat luka','Penyembuhan luka','Menghentikan pendarahan','Obat bisul'],
+        "🌡️ Batuk & Pilek":  ['Batuk & pilek','Batuk','Batuk, darah tinggi'],
+        "🌿 Fungsi Khusus":   ['Diuretik','Antiseptik','Kesuburan','Antikanker','Antibakteri',
+                               'Menurunkan tekanan darah','Tekanan darah tinggi','Penurun gula darah',
+                               'Melancarkan peredaran darah','Kesehatan darah','Kesehatan hati',
+                               'Menghangatkan tubuh','Mengurangi bengkak','Antimalaria','Antioksidan'],
+    }
+
+    def get_tanaman_by_group(flist, df):
+        tanaman = []
+        for f in flist:
+            tanaman.extend(
+                df[df['fungsi_utama'].str.contains(
+                    '|'.join([x.strip() for x in f.split(',')]),
+                    case=False, na=False
+                )]['nama_tanaman'].tolist()
+            )
+        return list(dict.fromkeys(tanaman))
+
+    fg_cols = st.columns(3)
+    for idx, (label, flist) in enumerate(FUNGSI_GROUPS.items()):
+        t_list = get_tanaman_by_group(flist, df_tanaman)
+        badges = "".join([
+            f'<span class="tanaman-badge" title="{df_tanaman[df_tanaman["nama_tanaman"]==t]["fungsi_utama"].values[0] if len(df_tanaman[df_tanaman["nama_tanaman"]==t])>0 else ""}">{t}</span>'
+            for t in t_list
+        ])
+        with fg_cols[idx % 3]:
+            st.markdown(f"""
+            <div class="fungsi-card">
+                <div class="fungsi-title">{label} ({len(t_list)} sp.)</div>
+                <div class="tanaman-list">{badges}</div>
+            </div>""", unsafe_allow_html=True)
+
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+
+    # ── Tim peneliti ──────────────────────────────────────────────────────────
+    st.markdown("### 👥 Tim Peneliti")
+    tm_cols = st.columns(3)
+    team = [
+        ("https://prasetya.ub.ac.id/wp-content/uploads/2023/10/BU-TYAS-405x270.jpg",
+         "Dr Eng Turniningtyas Ayu R.", "ST., MT", "Ketua Tim"),
+        ("https://img.inews.co.id/files/networks/2022/11/03/e9d8d_prof-sasmito-djati.jpg",
+         "Prof.Dr.Ir. Moch. Sasmito Djati", "M.S.", "Pakar Tanaman Herbal"),
+        ("https://i1.rgstatic.net/ii/profile.image/296334033735682-1447662947469_Q512/Adipandang-Yudono.jpg",
+         "Adipandang Yudono", "S.Si., M.U.R.P., Ph.D", "Pakar GIS & WebGIS Analytics"),
+    ]
+    for (photo, name, title, role), col in zip(team, tm_cols):
+        with col:
+            st.markdown(f"""
+            <div class="team-card">
+                <img src="{photo}" class="team-photo" alt="{name}">
+                <h4 class="team-name">{name}</h4>
+                <p class="team-title">{title}</p>
+                <p class="team-role">{role}</p>
+            </div>""", unsafe_allow_html=True)
+
+    cc1, cc2, cc3 = st.columns([1, 2, 1])
+    with cc2:
+        st.markdown("""
+        <div class="team-card">
+            <img src="https://file-filkom.ub.ac.id/fileupload/assets/uploads/foto/crop/arief_andy_soebroto.jpg"
+                 class="team-photo" alt="Dr. Ir. Arief Andy Soebroto">
+            <h4 class="team-name">Dr. Ir. Arief Andy Soebroto</h4>
+            <p class="team-title">ST., M.Kom.</p>
+            <p class="team-role">Pakar Platform AI & IoT</p>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     st.markdown("""
     ### 📍 Sumber Data
-    - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) - 214 titik
+    - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 86 spesies, 8 kawasan ekologi
+    - **Koordinat Kawasan:** Batas ekologi TNBTS berdasarkan survei GPS lapangan & interpretasi citra satelit
     - **Data Desa:** GeoJSON BIG/BPS (41 desa penyangga TNBTS)
     - **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
     - **Model 3D:** Sketchfab — smartmAPPS
@@ -1216,8 +1312,12 @@ else:
 st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="footer">
-    <p>🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana</p>
-    <p>Bromo – Kaldera Tengger – Semeru Melalui Konsumsi Tanaman Herbal di TNBTS</p>
-    <p>© Ekspedisi Tanaman Herbal TNBTS untuk Health Security — 2026</p>
+    <p style="font-size:1.1rem;margin-bottom:.5rem;">
+        🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
+        Bromo – Kaldera Tengger – Semeru Melalui Konsumsi Tanaman Herbal di TNBTS
+    </p>
+    <p style="margin-bottom:.3rem;">© Ekspedisi Tanaman Herbal TNBTS untuk Health Security — 2026</p>
+    <p style="font-size:.9rem;opacity:.9;">86 Spesies • 8 Kawasan Ekologi • 41 Desa Penyangga</p>
+    <p style="font-size:.7rem;opacity:.5;">© WebGIS Developer: Adipandang Yudono (2026)</p>
 </div>
 """, unsafe_allow_html=True)
