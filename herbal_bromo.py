@@ -34,13 +34,31 @@ if 'highlighted_plants' not in st.session_state:
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPER FUNGSI GEOSPATIAL (GeoJSON & Reproyeksi)
 # ─────────────────────────────────────────────────────────────────────────────
-def _find_geojson(filename):
-    """Mencari file spasial (GeoJSON/CSV) di beberapa direktori kandidat."""
+def _find_file(filename):
+    """Mencari file di beberapa direktori kandidat."""
     script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     candidates = [
         filename,
         os.path.join(script_dir, filename),
         os.path.join(os.getcwd(), filename),
+        os.path.join(script_dir, 'data', filename),
+        os.path.join(os.getcwd(), 'data', filename),
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
+
+
+def _find_geojson(filename):
+    """Mencari file GeoJSON di beberapa direktori kandidat."""
+    script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
+    candidates = [
+        filename,
+        os.path.join(script_dir, filename),
+        os.path.join(os.getcwd(), filename),
+        os.path.join(script_dir, 'data', filename),
+        os.path.join(os.getcwd(), 'data', filename),
     ]
     for p in candidates:
         if os.path.exists(p):
@@ -110,228 +128,119 @@ def load_batas_geojson():
 
 
 @st.cache_data
-def load_tanaman_herbal_data():
-    records = [
-        (1, 'Adas', 'Foeniculum vulgare', 'Herba', 'Pencernaan', -7.937000, 112.949336, 'Zona Budidaya & Pekarangan', 1900, 'Sekitar Desa Ngadisari & Wonokitri', 'Ngadisari, Wonokitri'),
-        (2, 'Ajeran putih', 'Bidens pilosa L.', 'Herba', 'Antiradang', -7.945000, 112.969131, 'Savana Bromo & Lereng Terbuka', 2050, 'Lautan Pasir & Savana Bromo', 'Seluruh desa penyangga'),
-        (3, 'Alang-alang', 'Imperata cylindrica L.', 'Rumput', 'Diuretik', -7.943798, 112.966556, 'Savana Bromo & Lereng Terbuka', 2000, 'Padang Savana Tengger', 'Ngadas, Argosari'),
-        (4, 'Andong', 'Cordyline fruticosa Linn', 'Pohon', 'Menghentikan pendarahan', -7.960000, 112.938313, 'Kantong Air & Lembah', 1750, 'Lembah Sumber Air TNBTS', 'Ngadas, Ranupani'),
-        (5, 'Awar-awar', 'Ficus septica Burm.f.', 'Pohon', 'Antiradang', -7.924000, 112.933867, 'Tepi Hutan & Zona Transisi', 1850, 'Tepi Hutan Cemara – Desa Ngadisari', 'Ngadisari, Wonokitri'),
-        (6, 'Bakung', 'Crinum asiaticium L.', 'Herba', 'Mengurangi bengkak', -7.904000, 112.952032, 'Ranu Darungan & Sekitar Danau', 1860, 'Tepi Ranu Darungan', 'Ranupani'),
-        (7, 'Bawang merah', 'Allium cepa L.', 'Herba', 'Penurun demam', -7.935557, 112.946294, 'Zona Budidaya & Pekarangan', 1900, 'Ladang Pertanian Tengger', 'Seluruh desa penyangga'),
-        (8, 'Bawang putih', 'Allium sativum', 'Herba', 'Menurunkan tekanan darah', -7.980000, 112.988530, 'Lereng Semeru & Dataran Tinggi', 2200, 'Lereng Atas Semeru – Ranupani', 'Ranupani, Argosari'),
-        (9, 'Beluntas', 'Pluchea indica', 'Semak', 'Pencernaan', -8.020000, 112.995528, 'Zona Pesisir & Pantai Selatan', 300, 'Zona Pesisir Selatan TNBTS', 'Desa pesisir selatan'),
-        (10, 'Bidara laut', 'Strychnos lucida', 'Pohon', 'Pereda nyeri', -8.017580, 112.989771, 'Zona Pesisir & Pantai Selatan', 250, 'Pantai Selatan – Batas TNBTS', 'Desa pesisir selatan'),
-        (11, 'Buah klandingan', 'Lucas lavandulifolia', 'Pohon', 'Batuk & pilek', -7.923049, 112.931893, 'Tepi Hutan & Zona Transisi', 1900, 'Zona Transisi Hutan – Ladang', 'Ngadisari, Wonokitri'),
-        (12, 'Bunga hariang', 'Begonia', 'Bunga', 'Batuk', -7.978359, 112.985046, 'Lereng Semeru & Dataran Tinggi', 2300, 'Lereng Semeru Barat Daya', 'Ranupani'),
-        (13, 'Bunga Matahari', 'Helianthus annuus', 'Bunga', 'Penurun demam', -7.947289, 112.968221, 'Savana Bromo & Lereng Terbuka', 2050, 'Savana & Ladang Bromo', 'Ngadisari, Argosari'),
-        (14, 'Calingan', 'Centella asiatica L.', 'Herba', 'Penyembuhan luka', -7.902902, 112.949682, 'Ranu Darungan & Sekitar Danau', 1860, 'Bantaran Ranu Darungan', 'Ranupani'),
-        (15, 'Cemplukan', 'Physalis minima', 'Herba', 'Penurun demam', -7.942842, 112.969820, 'Savana Bromo & Lereng Terbuka', 2000, 'Tepi Savana Bromo', 'Ngadas, Argosari'),
-        (16, 'Daun dadap', 'Erythrina variegata L.', 'Pohon', 'Pereda nyeri', -7.925810, 112.933169, 'Tepi Hutan & Zona Transisi', 1900, 'Batas Hutan Cemara & Ladang', 'Ngadisari'),
-        (17, 'Dringu', 'Acorus calamus L.', 'Herba', 'Pencernaan', -7.906090, 112.951202, 'Ranu Darungan & Sekitar Danau', 1860, 'Tepi Ranu Darungan – Pinggir Air', 'Ranupani'),
-        (18, 'Ganjan', 'Artemisia vulgaris', 'Herba', 'Obat luka', -7.898000, 112.918106, 'Blok Ireng-Ireng & Hutan Atas', 2400, 'Blok Ireng-Ireng – Hutan Primer', 'Ireng-Ireng'),
-        (19, 'Ganyong', 'Canna indica L.', 'Herba', 'Pencernaan', -7.958573, 112.935322, 'Kantong Air & Lembah', 1750, 'Lembah Basah – Sumber Mata Air', 'Ngadas, Ranupani'),
-        (20, 'Jahe', 'Zingiber Officinale Rocs', 'Herba', 'Pencernaan', -7.922294, 112.934395, 'Tepi Hutan & Zona Transisi', 1900, 'Kebun Campuran Tepi Hutan', 'Seluruh desa penyangga'),
-    ]
-    df = pd.DataFrame(records, columns=[
-        'id','nama_tanaman','nama_latin','jenis','fungsi_utama',
-        'latitude','longitude','kawasan','ketinggian','lokasi_detail','desa'
-    ])
-    df['status_konservasi'] = 'Umum'
-    df.loc[df['nama_tanaman'].isin(['Purwoceng','Parijoto','Anggrek tanah']), 'status_konservasi'] = 'Dilindungi'
-    np.random.seed(42)
-    df['jumlah'] = np.random.randint(10, 500, len(df))
-    return df
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# FUNGSI CHATBOT AI
-# ─────────────────────────────────────────────────────────────────────────────
-def extract_location(text):
-    """Ekstrak nama desa atau kabupaten dari teks."""
-    desa_list = ['Ngadisari', 'Wonokitri', 'Ngadas', 'Argosari', 'Ranupani', 
-                 'Ireng-Ireng', 'Cemoro Lawang', 'Sariwani', 'Kertosari',
-                 'Sukapura', 'Tosari', 'Pasuruan', 'Malang', 'Lumajang',
-                 'Probolinggo', 'Senduro', 'Gucialit', 'Jabung', 'Wajak',
-                 'Tutur', 'Puspo', 'Lumbang']
-    kabupaten_list = ['Malang', 'Pasuruan', 'Lumajang', 'Probolinggo']
+def load_herbal_data(filename):
+    """
+    Membaca data sebaran tanaman herbal dari berkas Excel.
+    Mendukung format .xlsx dan .xls
+    """
+    filepath = _find_file(filename)
+    if not filepath:
+        st.sidebar.error(f"Berkas data sebaran tanaman herbal '{filename}' tidak ditemukan.")
+        return pd.DataFrame()
     
-    location_found = None
-    location_type = None
-    
-    for desa in desa_list:
-        if desa.lower() in text.lower():
-            location_found = desa
-            location_type = 'desa'
-            break
-    
-    if not location_found:
-        for kab in kabupaten_list:
-            if kab.lower() in text.lower():
-                location_found = kab
-                location_type = 'kabupaten'
-                break
-    
-    return location_found, location_type
-
-
-def extract_symptoms(text):
-    """Ekstrak gejala penyakit dari teks."""
-    symptom_keywords = {
-        'demam': ['demam', 'panas', 'meriang'],
-        'batuk': ['batuk', 'pilek', 'flu', 'influenza', 'bersin'],
-        'nyeri': ['nyeri', 'sakit', 'pegal', 'linu', 'rematik'],
-        'luka': ['luka', 'borok', 'bisul', 'cidera'],
-        'pencernaan': ['mual', 'muntah', 'diare', 'perut', 'kembung', 'mulas'],
-        'darah': ['tekanan darah', 'darah tinggi', 'hipertensi', 'kolesterol'],
-        'antiradang': ['radang', 'bengkak', 'peradangan'],
-        'diuretik': ['susah kencing', 'batu ginjal'],
-        'antiseptik': ['infeksi', 'kuman', 'bakteri'],
-        'kesuburan': ['kesuburan', 'hamil', 'reproduksi'],
-        'antioksidan': ['antioksidan', 'penuaan', 'radikal bebas']
-    }
-    
-    found_symptoms = []
-    for symptom, keywords in symptom_keywords.items():
-        for keyword in keywords:
-            if keyword.lower() in text.lower():
-                found_symptoms.append(symptom)
-                break
-    
-    return list(set(found_symptoms))
-
-
-def find_herbal_by_location_and_symptoms(location, location_type, symptoms, df_tanaman, gdf_desa):
-    """Mencari tanaman herbal berdasarkan lokasi dan gejala."""
-    if location:
-        if location_type == 'desa':
-            filtered_df = df_tanaman[df_tanaman['desa'].str.contains(location, case=False, na=False)]
+    try:
+        # Coba baca sebagai Excel
+        if filename.endswith('.xlsx') or filename.endswith('.xls'):
+            df = pd.read_excel(filepath, engine='openpyxl')
         else:
-            if not gdf_desa.empty and 'nama_kabko' in gdf_desa.columns:
-                desa_in_kab = gdf_desa[gdf_desa['nama_kabko'].str.contains(location, case=False, na=False)]
-                desa_names = desa_in_kab['nama_kelur'].tolist() if 'nama_kelur' in desa_in_kab.columns else []
-                if desa_names:
-                    filtered_df = df_tanaman[df_tanaman['desa'].str.contains('|'.join(desa_names), case=False, na=False)]
-                else:
-                    filtered_df = df_tanaman
+            # Fallback ke CSV
+            df = pd.read_csv(filepath)
+        
+        # Bersihkan nama kolom
+        df.columns = df.columns.str.strip()
+        
+        # Cari kolom yang sesuai
+        # Kolom koordinat bisa bernama X, x, longitude, Longitude, lon, dll
+        x_col = None
+        y_col = None
+        name_col = None
+        
+        for col in df.columns:
+            col_lower = col.lower().strip()
+            if col_lower in ['x', 'lon', 'longitude', 'long']:
+                x_col = col
+            elif col_lower in ['y', 'lat', 'latitude']:
+                y_col = col
+            elif col_lower in ['nama', 'name', 'jenis', 'spesies', 'tanaman']:
+                name_col = col
+        
+        # Jika tidak ditemukan, gunakan kolom pertama sebagai nama dan X,Y sebagai koordinat
+        if x_col is None:
+            for col in df.columns:
+                if 'x' in col.lower():
+                    x_col = col
+                    break
+        
+        if y_col is None:
+            for col in df.columns:
+                if 'y' in col.lower() or 'lat' in col.lower():
+                    y_col = col
+                    break
+        
+        if name_col is None:
+            # Cari kolom yang berisi teks (bukan numerik)
+            for col in df.columns:
+                if df[col].dtype == 'object':
+                    name_col = col
+                    break
+            if name_col is None:
+                name_col = df.columns[0]
+        
+        # Jika masih belum ditemukan, gunakan indeks kolom yang umum
+        if x_col is None and len(df.columns) >= 3:
+            # Format: No, Nama, X, Y
+            if 'no' in df.columns[0].lower() and 'nama' in df.columns[1].lower():
+                name_col = df.columns[1]
+                x_col = df.columns[2]
+                y_col = df.columns[3]
             else:
-                filtered_df = df_tanaman
-    else:
-        filtered_df = df_tanaman
-    
-    if symptoms:
-        symptom_matches = []
-        for symptom in symptoms:
-            symptom_matches.extend(
-                filtered_df[filtered_df['fungsi_utama'].str.contains(symptom, case=False, na=False)].index.tolist()
-            )
-        if symptom_matches:
-            filtered_df = filtered_df.loc[list(set(symptom_matches))]
-    
-    filtered_df = filtered_df.sort_values('ketinggian', ascending=True)
-    return filtered_df
+                name_col = df.columns[1]
+                x_col = df.columns[2]
+                y_col = df.columns[3]
+        
+        # Konversi koordinat ke numerik
+        df[x_col] = pd.to_numeric(df[x_col], errors='coerce')
+        df[y_col] = pd.to_numeric(df[y_col], errors='coerce')
+        
+        # Hapus baris dengan koordinat NaN
+        df = df.dropna(subset=[x_col, y_col])
+        
+        # Buat dataframe baru dengan kolom standar
+        result_df = pd.DataFrame({
+            'No': df.index + 1,
+            'Nama': df[name_col] if name_col else 'Tanaman',
+            'X': df[x_col],
+            'Y': df[y_col]
+        })
+        
+        # Tambahkan informasi tambahan jika ada
+        if 'jenis' in df.columns:
+            result_df['Jenis'] = df['jenis']
+        else:
+            result_df['Jenis'] = 'Herba'
+        
+        if 'fungsi' in df.columns:
+            result_df['Fungsi'] = df['fungsi']
+        else:
+            result_df['Fungsi'] = 'Obat Tradisional'
+        
+        if 'kawasan' in df.columns:
+            result_df['Kawasan'] = df['kawasan']
+        else:
+            result_df['Kawasan'] = 'TNBTS'
+        
+        if 'desa' in df.columns:
+            result_df['Desa'] = df['desa']
+        else:
+            result_df['Desa'] = 'Desa Penyangga'
+        
+        st.sidebar.success(f"✅ Berhasil memuat {len(result_df)} data tanaman dari {filename}")
+        return result_df
+        
+    except Exception as e:
+        st.sidebar.error(f"Gagal membaca data sebaran tanaman herbal: {e}")
+        return pd.DataFrame()
 
-
-def generate_chatbot_response(user_input, df_tanaman, gdf_desa):
-    """Generate response from chatbot based on user input."""
-    user_input_lower = user_input.lower()
-    
-    greetings = ['halo', 'hai', 'hello', 'hi', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam']
-    if any(greeting in user_input_lower for greeting in greetings):
-        return "🌿 **Halo!** Saya adalah Asisten Tanaman Herbal TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan lokasi Anda (desa/kabupaten) dan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam di Ngadisari' atau 'Apa obat luka di Malang?'"
-    
-    if 'bantuan' in user_input_lower or 'help' in user_input_lower:
-        return """
-        🤖 **Cara Menggunakan Chatbot:**
-        
-        1. **Sebutkan lokasi Anda** (desa atau kabupaten)
-        2. **Sebutkan gejala penyakit** yang Anda alami
-        
-        **Contoh pertanyaan:**
-        - "Tanaman untuk demam di Ngadisari"
-        - "Apa obat batuk di Malang?"
-        - "Tanaman antiradang di Pasuruan"
-        - "Saya sakit perut di Wonokitri"
-        
-        **Desa yang tersedia:** Ngadisari, Wonokitri, Ngadas, Argosari, Ranupani, Ireng-Ireng, Cemoro Lawang, Sariwani, Kertosari
-        **Kabupaten:** Malang, Pasuruan, Lumajang, Probolinggo
-        """
-    
-    location, location_type = extract_location(user_input)
-    symptoms = extract_symptoms(user_input)
-    
-    if not location and not symptoms:
-        return """
-        🤔 **Saya belum memahami pertanyaan Anda.** 
-        
-        Untuk menggunakan chatbot ini, silakan sebutkan:
-        - **Lokasi** (desa atau kabupaten di sekitar TNBTS)
-        - **Gejala penyakit** yang Anda alami
-        
-        Contoh: "Tanaman untuk demam di Ngadisari"
-        
-        Ketik **'bantuan'** untuk melihat panduan lengkap.
-        """
-    
-    results = find_herbal_by_location_and_symptoms(location, location_type, symptoms, df_tanaman, gdf_desa)
-    
-    if results.empty:
-        response = "🌿 **Maaf, tidak ditemukan tanaman herbal** yang sesuai dengan kriteria Anda."
-        if location:
-            response += f"\n\n📍 Lokasi: **{location}** ({location_type})"
-        if symptoms:
-            response += f"\n\n💊 Gejala: **{', '.join(symptoms)}**"
-        response += "\n\n💡 **Saran:** Coba gunakan kata kunci lain atau konsultasikan dengan ahli kesehatan setempat."
-        return response
-    
-    response = "🌿 **Ditemukan tanaman herbal yang dapat membantu!**\n\n"
-    if location:
-        response += f"📍 **Lokasi:** {location} ({location_type})\n"
-    if symptoms:
-        response += f"💊 **Gejala:** {', '.join(symptoms)}\n"
-    response += f"🌱 **Jumlah tanaman ditemukan:** {len(results)}\n\n"
-    
-    response += "**Rekomendasi Tanaman:**\n"
-    for i, (_, row) in enumerate(results.head(5).iterrows()):
-        response += f"\n{i+1}. **{row['nama_tanaman']}** ({row['nama_latin']})\n"
-        response += f"   - Jenis: {row['jenis']}\n"
-        response += f"   - Fungsi: {row['fungsi_utama']}\n"
-        response += f"   - Lokasi: {row['desa']} - {row['kawasan']}\n"
-        response += f"   - Ketinggian: {row['ketinggian']} mdpl\n"
-        if row['status_konservasi'] == 'Dilindungi':
-            response += "   - ⚠️ **Status: Dilindungi** - Jangan dikonsumsi tanpa izin\n"
-    
-    if len(results) > 5:
-        response += f"\n📋 **{len(results)-5} tanaman lainnya** dapat dilihat di Data Tanaman."
-    
-    response += "\n\n💡 **Catatan:** Selalu konsultasikan dengan ahli kesehatan sebelum mengonsumsi tanaman herbal."
-    return response
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# KONSTANTA WARNA
-# ─────────────────────────────────────────────────────────────────────────────
-KAWASAN_HEX = {
-    "Blok Ireng-Ireng & Hutan Atas": "#1B5E20",
-    "Kantong Air & Lembah": "#0277BD",
-    "Lereng Semeru & Dataran Tinggi": "#6D4C41",
-    "Ranu Darungan & Sekitar Danau": "#00838F",
-    "Savana Bromo & Lereng Terbuka": "#F57F17",
-    "Tepi Hutan & Zona Transisi": "#558B2F",
-    "Zona Budidaya & Pekarangan": "#AD1457",
-    "Zona Pesisir & Pantai Selatan": "#1565C0",
-}
-
-JENIS_COLOR = {
-    'Herba': 'cadetblue',
-    'Pohon': 'green',
-    'Semak': 'lightgreen',
-    'Pakis': 'darkgreen',
-    'Rumput': 'beige',
-    'Bunga': 'pink',
-    'Perdu': 'purple',
-    'Lumut': 'lightgray',
-}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS
@@ -382,9 +291,6 @@ st.markdown("""
         border-bottom-left-radius: 4px;
         border-left: 4px solid #4CAF50;
     }
-    .chat-message.bot h4 { color: #2E7D32; margin-top: 0; }
-    .chat-message.bot ul { margin: 4px 0; padding-left: 20px; }
-    .chat-message.bot li { margin-bottom: 4px; }
     
     .chat-container {
         max-height: 450px;
@@ -460,7 +366,7 @@ st.markdown("""
 <div class="main-header">
     <h1>🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
     Bromo – Kaldera Tengger – Semeru<br>Melalui Konsumsi Tanaman Herbal</h1>
-    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • 86 Spesies Tanaman • 8 Kawasan Ekologi • 41 Desa</p>
+    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • Data Tanaman Herbal Terintegrasi</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -470,7 +376,13 @@ st.markdown("""
 gdf_desa = load_desa_geojson()
 gdf_kabupaten = load_kabupaten_geojson()
 gdf_batas = load_batas_geojson()
-df_tanaman = load_tanaman_herbal_data()
+df_herbal = load_herbal_data("Titik Rapihin.xlsx")
+
+# Jika df_herbal kosong, coba alternatif
+if df_herbal.empty:
+    df_herbal = load_herbal_data("Titik Rapihin.xls")
+if df_herbal.empty:
+    df_herbal = load_herbal_data("Titik Rapihin.csv")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SIDEBAR
@@ -505,76 +417,218 @@ with st.sidebar:
     )
     st.markdown("---")
 
-    st.markdown("### 🔍 Filter Data")
-    semua_tanaman = sorted(df_tanaman['nama_tanaman'].unique())
-    selected_tanaman = st.multiselect(
-        "Pilih Nama Tanaman",
-        options=["Semua"] + semua_tanaman,
-        default=["Semua"],
-        help="Pilih satu atau lebih tanaman"
-    )
+    # Filter data jika tersedia
+    if not df_herbal.empty:
+        st.markdown("### 🔍 Filter Data")
+        
+        semua_tanaman = sorted(df_herbal['Nama'].unique())
+        selected_tanaman = st.multiselect(
+            "Pilih Nama Tanaman",
+            options=["Semua"] + semua_tanaman,
+            default=["Semua"],
+            help="Pilih satu atau lebih tanaman"
+        )
+        
+        # Filter kawasan jika tersedia
+        if 'Kawasan' in df_herbal.columns:
+            kawasan_options = ["Semua Kawasan"] + sorted(df_herbal['Kawasan'].unique())
+            selected_kawasan = st.selectbox("Filter Kawasan Ekologi", kawasan_options)
+        else:
+            selected_kawasan = "Semua Kawasan"
 
-    kawasan_options = ["Semua Kawasan"] + sorted(df_tanaman['kawasan'].unique())
-    selected_kawasan = st.selectbox("Filter Kawasan Ekologi", kawasan_options)
+        st.markdown("---")
+        st.markdown("### 🗂️ Layer Control")
+        c1, c2 = st.columns(2)
+        with c1:
+            show_desa_geojson  = st.checkbox("🏘️ Batas Desa",         value=True)
+            show_kawasan       = st.checkbox("🏔️ Kawasan Ekologi",     value=True)
+        with c2:
+            show_tanaman       = st.checkbox("🌿 Tanaman",             value=True)
+            show_kabupaten     = st.checkbox("🗺️ Batas Kabupaten",     value=True)
+        show_batas_tnbts   = st.checkbox("🔲 Batas TNBTS",         value=True)
 
-    st.markdown("---")
-    st.markdown("### 🗂️ Layer Control")
-    c1, c2 = st.columns(2)
-    with c1:
-        show_desa_geojson  = st.checkbox("🏘️ Batas Desa",         value=True)
-        show_kawasan       = st.checkbox("🏔️ Kawasan Ekologi",     value=True)
-    with c2:
-        show_tanaman       = st.checkbox("🌿 Tanaman",             value=True)
-        show_kabupaten     = st.checkbox("🗺️ Batas Kabupaten",     value=True)
-    show_batas_tnbts   = st.checkbox("🔲 Batas TNBTS",         value=True)
+        st.markdown("### 🏔️ Kontrol Tampilan 3D")
+        map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
 
-    st.markdown("### 🏔️ Kontrol Tampilan 3D")
-    map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
-
-    st.markdown("---")
-    st.markdown("### 📁 Status File")
-    _p_desa = _find_geojson('Desa_kaw_TNBTS.geojson')
-    _p_kab  = _find_geojson('Kabupaten_kaw_TNBTS.geojson')
-    _p_bts  = _find_geojson('Batas_TNBTS.geojson')
-    for _fname, _path, _keterangan in [
-        ('Desa_kaw_TNBTS.geojson',      _p_desa, '41 desa kawasan'),
-        ('Kabupaten_kaw_TNBTS.geojson', _p_kab,  '4 kabupaten'),
-        ('Batas_TNBTS.geojson',         _p_bts,  'Batas TNBTS'),
-    ]:
-        if _path:
-            _fsz = os.path.getsize(_path) / 1024
+        st.markdown("---")
+        st.markdown("### 📁 Status File")
+        
+        # Status file
+        _p_desa = _find_geojson('Desa_kaw_TNBTS.geojson')
+        _p_kab  = _find_geojson('Kabupaten_kaw_TNBTS.geojson')
+        _p_bts  = _find_geojson('Batas_TNBTS.geojson')
+        _p_data = _find_file('Titik Rapihin.xlsx')
+        
+        for _fname, _path, _keterangan in [
+            ('Desa_kaw_TNBTS.geojson',      _p_desa, '41 desa kawasan'),
+            ('Kabupaten_kaw_TNBTS.geojson', _p_kab,  '4 kabupaten'),
+            ('Batas_TNBTS.geojson',         _p_bts,  'Batas TNBTS'),
+        ]:
+            if _path:
+                _fsz = os.path.getsize(_path) / 1024
+                st.markdown(f"""
+                <div class="status-badge">
+                    ✅ <b>{_fname}</b><br><small>{_fsz:.1f} KB • {_keterangan}</small>
+                </div>""", unsafe_allow_html=True)
+            else:
+                st.markdown(f"""
+                <div class="status-badge" style="border-left-color:#f44336;">
+                    ❌ <b>{_fname}</b><br><small>File tidak ditemukan</small>
+                </div>""", unsafe_allow_html=True)
+        
+        if _p_data:
+            _fsz = os.path.getsize(_p_data) / 1024
             st.markdown(f"""
             <div class="status-badge">
-                ✅ <b>{_fname}</b><br><small>{_fsz:.1f} KB • {_keterangan}</small>
+                ✅ <b>Titik Rapihin.xlsx</b><br><small>{_fsz:.1f} KB • {len(df_herbal)} data tanaman</small>
             </div>""", unsafe_allow_html=True)
         else:
-            st.markdown(f"""
+            st.markdown("""
             <div class="status-badge" style="border-left-color:#f44336;">
-                ❌ <b>{_fname}</b><br><small>File tidak ditemukan</small>
+                ❌ <b>Titik Rapihin.xlsx</b><br><small>File tidak ditemukan</small>
             </div>""", unsafe_allow_html=True)
-    st.markdown("""
-    <div class="status-badge">
-        🌿 <b>Database Tanaman</b><br><small>86 spesies teridentifikasi</small>
-    </div>
-    <div class="status-badge">
-        🏔️ <b>Layer Kawasan</b><br><small>8 kawasan ekologi TNBTS</small>
-    </div>""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FILTER DATA
 # ─────────────────────────────────────────────────────────────────────────────
-if "Semua" not in selected_tanaman and selected_tanaman:
-    df_tanaman_filtered = df_tanaman[df_tanaman['nama_tanaman'].isin(selected_tanaman)]
-else:
-    df_tanaman_filtered = df_tanaman.copy()
+if not df_herbal.empty:
+    if "Semua" not in selected_tanaman and selected_tanaman:
+        df_herbal_filtered = df_herbal[df_herbal['Nama'].isin(selected_tanaman)]
+    else:
+        df_herbal_filtered = df_herbal.copy()
 
-if selected_kawasan != "Semua Kawasan":
-    df_tanaman_filtered = df_tanaman_filtered[
-        df_tanaman_filtered['kawasan'] == selected_kawasan
-    ]
+    if selected_kawasan != "Semua Kawasan" and 'Kawasan' in df_herbal_filtered.columns:
+        df_herbal_filtered = df_herbal_filtered[
+            df_herbal_filtered['Kawasan'] == selected_kawasan
+        ]
+else:
+    df_herbal_filtered = pd.DataFrame()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# FUNGSI BUAT PETA (DENGAN PARAMETER HIGHLIGHT_POINTS)
+# FUNGSI CHATBOT AI (UNTUK DATA HERBAL)
+# ─────────────────────────────────────────────────────────────────────────────
+def extract_symptoms_from_text(text):
+    """Ekstrak gejala penyakit dari teks."""
+    symptom_keywords = {
+        'demam': ['demam', 'panas', 'meriang', 'meriang'],
+        'batuk': ['batuk', 'pilek', 'flu', 'influenza', 'bersin'],
+        'nyeri': ['nyeri', 'sakit', 'pegal', 'linu', 'rematik'],
+        'luka': ['luka', 'borok', 'bisul', 'cidera'],
+        'pencernaan': ['mual', 'muntah', 'diare', 'perut', 'kembung', 'mulas'],
+        'darah': ['tekanan darah', 'darah tinggi', 'hipertensi', 'kolesterol'],
+        'antiradang': ['radang', 'bengkak', 'peradangan'],
+        'diuretik': ['susah kencing', 'batu ginjal'],
+        'antiseptik': ['infeksi', 'kuman', 'bakteri'],
+        'kesuburan': ['kesuburan', 'hamil', 'reproduksi'],
+        'antioksidan': ['antioksidan', 'penuaan', 'radikal bebas']
+    }
+    
+    found_symptoms = []
+    for symptom, keywords in symptom_keywords.items():
+        for keyword in keywords:
+            if keyword.lower() in text.lower():
+                found_symptoms.append(symptom)
+                break
+    
+    return list(set(found_symptoms))
+
+
+def find_herbal_by_symptoms(symptoms, df_herbal):
+    """Mencari tanaman herbal berdasarkan gejala."""
+    if symptoms:
+        symptom_matches = []
+        for symptom in symptoms:
+            # Cari berdasarkan nama atau fungsi
+            for col in ['Nama', 'Jenis', 'Fungsi']:
+                if col in df_herbal.columns:
+                    matches = df_herbal[df_herbal[col].str.contains(symptom, case=False, na=False)].index.tolist()
+                    symptom_matches.extend(matches)
+        if symptom_matches:
+            return df_herbal.loc[list(set(symptom_matches))]
+    return df_herbal
+
+
+def generate_chatbot_response_herbal(user_input, df_herbal):
+    """Generate response from chatbot based on user input for herbal data."""
+    user_input_lower = user_input.lower()
+    
+    greetings = ['halo', 'hai', 'hello', 'hi', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam']
+    if any(greeting in user_input_lower for greeting in greetings):
+        return "🌿 **Halo!** Saya adalah Asisten Tanaman Herbal TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam' atau 'Apa obat batuk?'"
+    
+    if 'bantuan' in user_input_lower or 'help' in user_input_lower:
+        return """
+        🤖 **Cara Menggunakan Chatbot:**
+        
+        1. **Sebutkan gejala penyakit** yang Anda alami
+        
+        **Contoh pertanyaan:**
+        - "Tanaman untuk demam"
+        - "Apa obat batuk?"
+        - "Tanaman antiradang"
+        - "Saya sakit perut"
+        """
+    
+    symptoms = extract_symptoms_from_text(user_input)
+    
+    if not symptoms:
+        return """
+        🤔 **Saya belum memahami pertanyaan Anda.** 
+        
+        Untuk menggunakan chatbot ini, silakan sebutkan:
+        - **Gejala penyakit** yang Anda alami
+        
+        Contoh: "Tanaman untuk demam"
+        
+        Ketik **'bantuan'** untuk melihat panduan lengkap.
+        """
+    
+    results = find_herbal_by_symptoms(symptoms, df_herbal)
+    
+    if results.empty:
+        response = "🌿 **Maaf, tidak ditemukan tanaman herbal** yang sesuai dengan kriteria Anda."
+        response += f"\n\n💊 Gejala: **{', '.join(symptoms)}**"
+        response += "\n\n💡 **Saran:** Coba gunakan kata kunci lain atau konsultasikan dengan ahli kesehatan setempat."
+        return response
+    
+    response = "🌿 **Ditemukan tanaman herbal yang dapat membantu!**\n\n"
+    if symptoms:
+        response += f"💊 **Gejala:** {', '.join(symptoms)}\n"
+    response += f"🌱 **Jumlah tanaman ditemukan:** {len(results)}\n\n"
+    
+    response += "**Rekomendasi Tanaman:**\n"
+    for i, (_, row) in enumerate(results.head(5).iterrows()):
+        response += f"\n{i+1}. **{row['Nama']}**\n"
+        response += f"   - Koordinat: {row['Y']:.6f}, {row['X']:.6f}\n"
+        if 'Jenis' in row:
+            response += f"   - Jenis: {row['Jenis']}\n"
+        if 'Fungsi' in row:
+            response += f"   - Fungsi: {row['Fungsi']}\n"
+    
+    if len(results) > 5:
+        response += f"\n📋 **{len(results)-5} tanaman lainnya** dapat dilihat di Data Tanaman."
+    
+    response += "\n\n💡 **Catatan:** Selalu konsultasikan dengan ahli kesehatan sebelum mengonsumsi tanaman herbal."
+    return response
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KONSTANTA WARNA
+# ─────────────────────────────────────────────────────────────────────────────
+JENIS_COLOR = {
+    'Herba': 'cadetblue',
+    'Pohon': 'green',
+    'Semak': 'lightgreen',
+    'Pakis': 'darkgreen',
+    'Rumput': 'beige',
+    'Bunga': 'pink',
+    'Perdu': 'purple',
+    'Lumut': 'lightgray',
+}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FUNGSI BUAT PETA
 # ─────────────────────────────────────────────────────────────────────────────
 def create_tnbts_map(
     show_kawasan, show_desa_geojson, show_kabupaten, show_batas_tnbts, show_tanaman,
@@ -694,67 +748,32 @@ def create_tnbts_map(
         highlight_set = set(highlight_points) if highlight_points else set()
         
         for idx, row in df_tanaman_filtered.iterrows():
-            lat = row['latitude']
-            lon = row['longitude']
-            nama_tanaman = row['nama_tanaman']
-            nama_latin = row['nama_latin']
-            jenis = row['jenis']
-            fungsi = row['fungsi_utama']
-            kawasan = row['kawasan']
-            desa = row['desa']
-            ketinggian = row['ketinggian']
-            status = row.get('status_konservasi', 'Umum')
+            lat = row['Y']
+            lon = row['X']
+            nama = row['Nama']
             
-            is_highlighted = nama_tanaman in highlight_set
+            is_highlighted = nama in highlight_set
             
             if is_highlighted:
                 icon_color = 'red'
                 icon_icon = 'star'
-            elif status == 'Dilindungi':
-                icon_color = 'orange'
-                icon_icon = 'lock'
             else:
-                icon_color = JENIS_COLOR.get(jenis, 'green')
+                icon_color = 'green'
                 icon_icon = 'leaf'
             
             popup_html = f"""
             <div style="font-family: Arial, sans-serif; font-size: 12px; width: 220px; line-height: 1.5;">
                 <h5 style="margin: 0 0 5px 0; color: #27AE60; border-bottom: 2px solid #2ECC71; padding-bottom: 3px; font-weight: bold;">
-                    {'⭐ ' if is_highlighted else '🌿 '}{nama_tanaman}
+                    {'⭐ ' if is_highlighted else '🌿 '}{nama}
                 </h5>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr style="border-bottom: 1px solid #F0F0F0;">
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Nama Latin:</td>
-                        <td style="padding: 3px 0; text-align: right; font-style: italic;">{nama_latin}</td>
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Koordinat:</td>
+                        <td style="padding: 3px 0; text-align: right; font-family: monospace;">{lat:.6f}, {lon:.6f}</td>
                     </tr>
                     <tr style="border-bottom: 1px solid #F0F0F0;">
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Jenis:</td>
-                        <td style="padding: 3px 0; text-align: right;">{jenis}</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #F0F0F0;">
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Fungsi:</td>
-                        <td style="padding: 3px 0; text-align: right;">{fungsi}</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #F0F0F0;">
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Kawasan:</td>
-                        <td style="padding: 3px 0; text-align: right;">{kawasan}</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #F0F0F0;">
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Desa:</td>
-                        <td style="padding: 3px 0; text-align: right;">{desa}</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #F0F0F0;">
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Ketinggian:</td>
-                        <td style="padding: 3px 0; text-align: right;">{ketinggian} mdpl</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 3px 0; font-weight: bold; color: #666;">Status:</td>
-                        <td style="padding: 3px 0; text-align: right;">
-                            <span style="background: {'#FF5722' if status == 'Dilindungi' else '#4CAF50'}; 
-                                         color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px;">
-                                {status}
-                            </span>
-                        </td>
+                        <td style="padding: 3px 0; font-weight: bold; color: #666;">No. Urut:</td>
+                        <td style="padding: 3px 0; text-align: right;">{row['No']}</td>
                     </tr>
                 </table>
             </div>
@@ -763,7 +782,7 @@ def create_tnbts_map(
             folium.Marker(
                 location=[lat, lon],
                 popup=folium.Popup(popup_html, max_width=250),
-                tooltip=f"{'⭐ ' if is_highlighted else ''}{nama_tanaman} ({jenis}) - {kawasan}",
+                tooltip=f"{'⭐ ' if is_highlighted else ''}{nama}",
                 icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
             ).add_to(herbal_cluster)
             
@@ -777,70 +796,126 @@ def create_tnbts_map(
 # ═════════════════════════════════════════════════════════════════════════════
 if selected == "Chatbot Herbal":
     st.markdown("## 🤖 Asisten Tanaman Herbal TNBTS")
-    st.markdown("""
-    <div class="info-box">
-        <h4>💬 Tanyakan Tanaman Herbal Berdasarkan Lokasi & Gejala</h4>
-        <p>
-            Chatbot ini akan membantu Anda menemukan tanaman herbal di sekitar TNBTS 
-            berdasarkan <b>lokasi</b> (desa/kabupaten) dan <b>gejala penyakit</b> yang Anda alami.
-        </p>
-        <p><b>Contoh pertanyaan:</b><br>
-        - "Tanaman untuk demam di Ngadisari"<br>
-        - "Apa obat batuk di Malang?"<br>
-        - "Tanaman antiradang di Pasuruan"<br>
-        - "Saya sakit perut di Wonokitri"
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    
+    if df_herbal.empty:
+        st.error("❌ Data tanaman herbal tidak tersedia. Pastikan file 'Titik Rapihin.xlsx' tersedia.")
+    else:
+        st.markdown("""
+        <div class="info-box">
+            <h4>💬 Tanyakan Tanaman Herbal Berdasarkan Gejala</h4>
+            <p>
+                Chatbot ini akan membantu Anda menemukan tanaman herbal di sekitar TNBTS 
+                berdasarkan <b>gejala penyakit</b> yang Anda alami.
+            </p>
+            <p><b>Contoh pertanyaan:</b><br>
+            - "Tanaman untuk demam"<br>
+            - "Apa obat batuk?"<br>
+            - "Tanaman antiradang"<br>
+            - "Saya sakit perut"
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
 
-    chat_container = st.container()
-    with chat_container:
-        st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-        for msg in st.session_state.chat_history:
-            if msg['role'] == 'user':
-                st.markdown(f'<div class="chat-message user">👤 {msg["content"]}</div>', unsafe_allow_html=True)
-            else:
-                st.markdown(f'<div class="chat-message bot">🤖 {msg["content"]}</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        chat_container = st.container()
+        with chat_container:
+            st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+            for msg in st.session_state.chat_history:
+                if msg['role'] == 'user':
+                    st.markdown(f'<div class="chat-message user">👤 {msg["content"]}</div>', unsafe_allow_html=True)
+                else:
+                    st.markdown(f'<div class="chat-message bot">🤖 {msg["content"]}</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+        
+        col_input, col_button = st.columns([5, 1])
+        with col_input:
+            user_input = st.text_input(
+                "💬 Tanyakan sesuatu...",
+                placeholder="Contoh: Tanaman untuk demam",
+                key="chat_input",
+                label_visibility="collapsed"
+            )
+        with col_button:
+            send_button = st.button("📤 Kirim", use_container_width=True)
+        
+        if send_button and user_input:
+            st.session_state.chat_history.append({'role': 'user', 'content': user_input})
+            response = generate_chatbot_response_herbal(user_input, df_herbal)
+            
+            highlighted = []
+            if "**Rekomendasi Tanaman:**" in response:
+                lines = response.split('\n')
+                for line in lines:
+                    if '**' in line:
+                        parts = line.split('**')
+                        if len(parts) >= 3:
+                            highlighted.append(parts[1].strip())
+            
+            st.session_state.highlighted_plants = highlighted
+            st.session_state.chat_history.append({'role': 'bot', 'content': response})
+            st.rerun()
+        
+        if st.button("🗑️ Hapus Riwayat Chat"):
+            st.session_state.chat_history = []
+            st.session_state.highlighted_plants = []
+            st.rerun()
+        
+        if st.session_state.highlighted_plants:
+            st.markdown("---")
+            st.markdown("### 🗺️ Peta Sebaran Tanaman yang Direkomendasikan")
+            st.markdown("⭐ **Titik berwarna merah dengan bintang** adalah tanaman yang direkomendasikan berdasarkan pertanyaan Anda.")
+            
+            try:
+                m = create_tnbts_map(
+                    show_kawasan=show_kawasan,
+                    show_desa_geojson=show_desa_geojson,
+                    show_kabupaten=show_kabupaten,
+                    show_batas_tnbts=show_batas_tnbts,
+                    show_tanaman=show_tanaman,
+                    gdf_desa=gdf_desa,
+                    gdf_kabupaten=gdf_kabupaten,
+                    gdf_batas=gdf_batas,
+                    df_tanaman_filtered=df_herbal,
+                    highlight_points=st.session_state.highlighted_plants
+                )
+                folium_static(m, width=1200, height=500)
+            except Exception as e:
+                st.error(f"Error membuat peta: {e}")
+
+# ═════════════════════════════════════════════════════════════════════════════
+# MENU: PETA SEBARAN
+# ═════════════════════════════════════════════════════════════════════════════
+elif selected == "Peta Sebaran":
+    st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
     
-    col_input, col_button = st.columns([5, 1])
-    with col_input:
-        user_input = st.text_input(
-            "💬 Tanyakan sesuatu...",
-            placeholder="Contoh: Tanaman untuk demam di Ngadisari",
-            key="chat_input",
-            label_visibility="collapsed"
+    if df_herbal.empty:
+        st.error("❌ Data tanaman herbal tidak tersedia. Pastikan file 'Titik Rapihin.xlsx' tersedia.")
+    else:
+        st.markdown(
+            f"Visualisasi sebaran **{len(df_herbal_filtered)} titik tanaman herbal** "
+            f"dari **{df_herbal['Nama'].nunique()} spesies** di kawasan TNBTS."
         )
-    with col_button:
-        send_button = st.button("📤 Kirim", use_container_width=True)
-    
-    if send_button and user_input:
-        st.session_state.chat_history.append({'role': 'user', 'content': user_input})
-        response = generate_chatbot_response(user_input, df_tanaman, gdf_desa)
-        
-        highlighted = []
-        if "**Rekomendasi Tanaman:**" in response:
-            lines = response.split('\n')
-            for line in lines:
-                if '**' in line and 'nama_tanaman' in line:
-                    parts = line.split('**')
-                    if len(parts) >= 3:
-                        highlighted.append(parts[1].strip())
-        
-        st.session_state.highlighted_plants = highlighted
-        st.session_state.chat_history.append({'role': 'bot', 'content': response})
-        st.rerun()
-    
-    if st.button("🗑️ Hapus Riwayat Chat"):
-        st.session_state.chat_history = []
-        st.session_state.highlighted_plants = []
-        st.rerun()
-    
-    if st.session_state.highlighted_plants:
-        st.markdown("---")
-        st.markdown("### 🗺️ Peta Sebaran Tanaman yang Direkomendasikan")
-        st.markdown("⭐ **Titik berwarna merah dengan bintang** adalah tanaman yang direkomendasikan berdasarkan pertanyaan Anda.")
-        
+
+        # Metric cards
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            st.markdown(f"""<div class="metric-card"><h3>{len(df_herbal)}</h3>
+                <p>🌿 Total Titik</p></div>""", unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""<div class="metric-card"><h3>{df_herbal['Nama'].nunique()}</h3>
+                <p>🌱 Spesies Unik</p></div>""", unsafe_allow_html=True)
+        with c3:
+            st.markdown(f"""<div class="metric-card"><h3>{len(df_herbal_filtered)}</h3>
+                <p>📌 Ditampilkan</p></div>""", unsafe_allow_html=True)
+        with c4:
+            st.markdown(f"""<div class="metric-card"><h3>{len(gdf_desa)}</h3>
+                <p>🏘️ Desa</p></div>""", unsafe_allow_html=True)
+
+        st.info(
+            "🏔️ **Layer Batas TNBTS** dan **🏘️ Batas Desa** ditampilkan sebagai outline. "
+            "🌿 **Titik hijau** adalah sebaran tanaman herbal. "
+            "Gunakan **Layer Control** di pojok kanan atas peta untuk mengatur tampilan."
+        )
+
         try:
             m = create_tnbts_map(
                 show_kawasan=show_kawasan,
@@ -851,53 +926,19 @@ if selected == "Chatbot Herbal":
                 gdf_desa=gdf_desa,
                 gdf_kabupaten=gdf_kabupaten,
                 gdf_batas=gdf_batas,
-                df_tanaman_filtered=df_tanaman,
-                highlight_points=st.session_state.highlighted_plants
+                df_tanaman_filtered=df_herbal_filtered,
+                highlight_points=None
             )
-            folium_static(m, width=1200, height=500)
+            folium_static(m, width=1200, height=640)
         except Exception as e:
             st.error(f"Error membuat peta: {e}")
 
-# ═════════════════════════════════════════════════════════════════════════════
-# MENU: PETA SEBARAN
-# ═════════════════════════════════════════════════════════════════════════════
-elif selected == "Peta Sebaran":
-    st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
-    st.markdown(
-        "Visualisasi sebaran **86 spesies tanaman herbal** di **8 kawasan ekologi** TNBTS."
-    )
-
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        st.markdown(f"""<div class="metric-card"><h3>{len(gdf_desa)}</h3>
-            <p>🏘️ Total Desa</p></div>""", unsafe_allow_html=True)
-    with c2:
-        st.markdown(f"""<div class="metric-card"><h3>{len(df_tanaman_filtered)}</h3>
-            <p>🌿 Spesies Ditampilkan</p></div>""", unsafe_allow_html=True)
-    with c3:
-        kws = df_tanaman_filtered['kawasan'].nunique()
-        st.markdown(f"""<div class="metric-card"><h3>{kws}</h3>
-            <p>🏔️ Kawasan Aktif</p></div>""", unsafe_allow_html=True)
-    with c4:
-        dilind = (df_tanaman_filtered['status_konservasi'] == 'Dilindungi').sum()
-        st.markdown(f"""<div class="metric-card"><h3>{dilind}</h3>
-            <p>🔒 Dilindungi</p></div>""", unsafe_allow_html=True)
-
-    try:
-        folium_static(create_tnbts_map(
-            show_kawasan=show_kawasan,
-            show_desa_geojson=show_desa_geojson,
-            show_kabupaten=show_kabupaten,
-            show_batas_tnbts=show_batas_tnbts,
-            show_tanaman=show_tanaman,
-            gdf_desa=gdf_desa,
-            gdf_kabupaten=gdf_kabupaten,
-            gdf_batas=gdf_batas,
-            df_tanaman_filtered=df_tanaman_filtered,
-            highlight_points=None
-        ), width=1200, height=640)
-    except Exception as e:
-        st.error(f"Error membuat peta: {e}")
+        # Tabel ringkas
+        with st.expander(f"📋 Daftar {len(df_herbal_filtered)} Tanaman yang Ditampilkan"):
+            st.dataframe(
+                df_herbal_filtered,
+                use_container_width=True, height=350, hide_index=True
+            )
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: PETA 3D
@@ -922,67 +963,81 @@ elif selected == "Peta 3D Pegunungan":
 # ═════════════════════════════════════════════════════════════════════════════
 elif selected == "Data Tanaman":
     st.markdown("## 📋 Data Tanaman Herbal TNBTS")
-    tab1, tab2 = st.tabs(["🌿 86 Spesies Tanaman", "🏘️ Data Desa (GeoJSON)"])
+    
+    if df_herbal.empty:
+        st.error("❌ Data tanaman herbal tidak tersedia. Pastikan file 'Titik Rapihin.xlsx' tersedia.")
+    else:
+        tab1, tab2 = st.tabs(["🌿 Semua Data Tanaman", "📊 Statistik Singkat"])
 
-    with tab1:
-        search = st.text_input(
-            "🔍 Cari (nama, fungsi, nama latin, kawasan):",
-            placeholder="Contoh: antiradang / blok ireng / herba ..."
-        )
-        df_show = df_tanaman_filtered.copy()
-        if search:
-            mask = (
-                df_show['nama_tanaman'].str.contains(search, case=False, na=False) |
-                df_show['fungsi_utama'].str.contains(search, case=False, na=False) |
-                df_show['nama_latin'].str.contains(search, case=False, na=False) |
-                df_show['kawasan'].str.contains(search, case=False, na=False) |
-                df_show['desa'].str.contains(search, case=False, na=False)
+        with tab1:
+            search = st.text_input(
+                "🔍 Cari (nama tanaman):",
+                placeholder="Contoh: adas / jahe / jarak ..."
             )
-            df_show = df_show[mask]
-            st.info(f"Ditemukan **{len(df_show)}** hasil")
+            df_show = df_herbal_filtered.copy()
+            if search:
+                mask = df_show['Nama'].str.contains(search, case=False, na=False)
+                df_show = df_show[mask]
+                st.info(f"Ditemukan **{len(df_show)}** hasil")
 
-        st.dataframe(
-            df_show[[
-                'id','nama_tanaman','nama_latin','jenis','fungsi_utama',
-                'kawasan','ketinggian','lokasi_detail','desa','status_konservasi'
-            ]].rename(columns={
-                'id':'No','nama_tanaman':'Nama Tanaman','nama_latin':'Nama Latin',
-                'jenis':'Jenis','fungsi_utama':'Fungsi Utama',
-                'kawasan':'Kawasan Ekologi','ketinggian':'mdpl',
-                'lokasi_detail':'Lokasi Detail','desa':'Desa',
-                'status_konservasi':'Status Konservasi'
-            }),
-            use_container_width=True, height=500, hide_index=True
-        )
+            st.dataframe(
+                df_show,
+                use_container_width=True, height=500, hide_index=True
+            )
+            
+            cc1, cc2, cc3 = st.columns([1, 2, 1])
+            with cc2:
+                st.download_button(
+                    "📥 Download CSV Data Tanaman",
+                    data=df_herbal.to_csv(index=False),
+                    file_name="data_tanaman_herbal_tnbts.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
 
-    with tab2:
-        st.markdown("### 📊 Data Desa dari File GeoJSON")
-        if not gdf_desa.empty:
-            st.success(f"✅ {len(gdf_desa)} desa berhasil dimuat")
-            desa_df = gdf_desa.drop('geometry', axis=1, errors='ignore')
-            st.dataframe(desa_df, use_container_width=True, height=500)
-        else:
-            st.error("❌ Desa_kaw_TNBTS.geojson tidak ditemukan.")
+        with tab2:
+            st.markdown("### 📊 Statistik Tanaman")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("#### Top 10 Tanaman Terbanyak")
+                top_plants = df_herbal['Nama'].value_counts().head(10)
+                st.dataframe(
+                    pd.DataFrame({'Tanaman': top_plants.index, 'Jumlah': top_plants.values}),
+                    use_container_width=True, hide_index=True
+                )
+            
+            with col2:
+                st.markdown("#### Distribusi Spesies")
+                st.metric("Total Spesies Unik", df_herbal['Nama'].nunique())
+                st.metric("Total Titik Data", len(df_herbal))
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: STATISTIK
 # ═════════════════════════════════════════════════════════════════════════════
 elif selected == "Statistik":
     st.markdown("## 📊 Statistik Tanaman Herbal TNBTS")
-
-    st.markdown("### 🏔️ Sebaran Spesies per Kawasan Ekologi")
-    kw_counts = df_tanaman_filtered['kawasan'].value_counts()
-    st.bar_chart(kw_counts, use_container_width=True)
-
-    c1, c2 = st.columns(2)
-    with c1:
-        st.markdown("### 🌿 Distribusi Jenis Tanaman")
-        jenis_counts = df_tanaman_filtered['jenis'].value_counts()
-        st.bar_chart(jenis_counts, use_container_width=True)
-    with c2:
-        st.markdown("### 💊 Top 10 Fungsi Tanaman")
-        fungsi_counts = df_tanaman_filtered['fungsi_utama'].value_counts().head(10)
-        st.bar_chart(fungsi_counts, use_container_width=True)
+    
+    if df_herbal.empty:
+        st.error("❌ Data tanaman herbal tidak tersedia.")
+    else:
+        st.markdown("### 🌿 Sebaran Spesies Tanaman")
+        
+        # Top tanaman
+        top_counts = df_herbal['Nama'].value_counts().head(15)
+        st.bar_chart(top_counts, use_container_width=True)
+        
+        st.markdown("### 📋 Detail Statistik")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Spesies", df_herbal['Nama'].nunique())
+        with col2:
+            st.metric("Total Titik Data", len(df_herbal))
+        with col3:
+            # Hitung rata-rata tanaman per titik
+            avg = len(df_herbal) / df_herbal['Nama'].nunique()
+            st.metric("Rata-rata per Spesies", f"{avg:.1f}")
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: INFORMASI
@@ -993,9 +1048,28 @@ else:
     <div class="info-box">
         <h4>🌋 Taman Nasional Bromo Tengger Semeru</h4>
         <p>TNBTS adalah kawasan konservasi di Jawa Timur dengan keanekaragaman hayati tinggi.
-        WebGIS ini menampilkan <b>86 spesies tanaman herbal</b> yang teridentifikasi
-        di <b>8 kawasan ekologi</b> berbeda.</p>
-    </div>""", unsafe_allow_html=True)
+        WebGIS ini menampilkan data sebaran tanaman herbal yang teridentifikasi di kawasan TNBTS.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if not df_herbal.empty:
+        st.markdown(f"""
+        <div class="info-box" style="border-left-color:#2196F3;">
+            <h4>📊 Data Tanaman Herbal</h4>
+            <p>
+                <b>{len(df_herbal)}</b> titik data tanaman herbal<br>
+                <b>{df_herbal['Nama'].nunique()}</b> spesies unik teridentifikasi
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    ### 📍 Sumber Data
+    - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026)
+    - **Data Desa:** GeoJSON BIG/BPS (41 desa penyangga TNBTS)
+    - **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
+    - **Model 3D:** Sketchfab — smartmAPPS
+    """)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FOOTER
