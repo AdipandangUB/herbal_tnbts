@@ -6,14 +6,14 @@ from streamlit_folium import folium_static
 import geopandas as gpd
 import json
 import os
-
+from folium.plugins import MarkerCluster
 
 # ─────────────────────────────────────────────────────────────────────────────
-# HELPER FUNGSI GeoJSON (harus di atas sidebar)
+# HELPER FUNGSI GEOSPATIAL (GeoJSON & Reproyeksi)
 # ─────────────────────────────────────────────────────────────────────────────
 def _find_geojson(filename):
-    """Cari file GeoJSON di beberapa lokasi umum."""
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+  """Mencari file spasial (GeoJSON/CSV) di beberapa direktori kandidat."""
+    script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     candidates = [
         filename,
         os.path.join(script_dir, filename),
@@ -26,7 +26,7 @@ def _find_geojson(filename):
 
 
 def _load_geojson(filename):
-    """Load GeoJSON ke GeoDataFrame dengan deteksi CRS otomatis."""
+    """Membaca file GeoJSON ke dalam GeoDataFrame dengan penanganan encoding."""
     path = _find_geojson(filename)
     if path is None:
         return gpd.GeoDataFrame()
@@ -104,6 +104,72 @@ def load_batas_geojson():
     except Exception:
         return gpd.GeoDataFrame()
 
+# ─────────────────────────────────────────────────────────────────────────────
+# PEMUATAN DATA TANAMAN HERBAL
+# ─────────────────────────────────────────────────────────────────────────────
+@st.cache_data
+def load_herbal_data(filename):
+    """Membaca data sebaran tanaman herbal dari berkas CSV."""
+    filepath = _find_geojson(filename)
+    if not filepath:
+        st.sidebar.error(f"Berkas data sebaran tanaman herbal '{filename}' tidak ditemukan.")
+        return pd.DataFrame()
+    try:
+        df = pd.read_csv(filepath)
+        # Membersihkan spasi pada nama kolom dan memastikan kolom X, Y tersedia
+        df.columns = df.columns.str.strip()
+        df = df.dropna(subset=)
+        return df
+    except Exception as e:
+        st.sidebar.error(f"Gagal membaca data sebaran tanaman herbal: {e}")
+        return pd.DataFrame()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ANTARMUKA STREAMLIT DAN FILTERING DATA
+# ─────────────────────────────────────────────────────────────────────────────
+st.set_page_config(
+    page_title="Sistem Spasial Konservasi TNBTS",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.title("Sistem Informasi Geografis Keanekaragaman Hayati TNBTS")
+st.markdown(
+    """
+    Sistem ini memproyeksikan batas kawasan konservasi TNBTS, pembagian wilayah administrasi kabupaten, 
+    batas administrasi desa penyangga, serta visualisasi titik sebaran inventarisasi tanaman herbal secara dinamis.
+    """
+)
+
+# Memuat data spasial menggunakan fungsi load_batas (tanpa menulis ulang koordinat)
+gdf_tnbts = load_batas("Batas_TNBTS.geojson") 
+gdf_kabupaten = load_batas("Kabupaten_kaw_TNBTS.geojson")
+gdf_desa = load_batas("Desa_kaw_TNBTS.geojson") [1]
+df_herbal = load_herbal_data("Titik Rapihin.xlsx - Sheet1.csv") 
+
+# Penanganan fallback untuk data desa penyangga
+if gdf_desa.empty:
+    gdf_desa = gpd.GeoDataFrame.from_features(_DESA_GEOJSON_EMBEDDED['features'], crs="EPSG:4326") 
+
+# Penyiapan filter spesies tanaman herbal pada bilah samping (sidebar)
+selected_species =
+if not df_herbal.empty:
+    st.sidebar.header("Filter Distribusi Spasial")
+    all_species = sorted(df_herbal['Nama'].unique()) 
+    
+    select_all = st.sidebar.checkbox("Pilih Semua Spesies Herbal", value=True)
+    if select_all:
+        selected_species = all_species
+    else:
+        selected_species = st.sidebar.multiselect(
+            "Pilih Spesies Herbal yang Ditampilkan:",
+            options=all_species,
+            default=all_species[:5]
+        )
+    
+    df_herbal_filtered = df_herbal[df_herbal['Nama'].isin(selected_species)]
+else:
+    df_herbal_filtered = pd.DataFrame()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1075,6 +1141,74 @@ def create_tnbts_map(
 
         desa_group.add_to(m)
 
+# 4. LAYER: Sebaran Spesies Tanaman Herbal (Menggunakan Cluster Marker)
+if not df_herbal_filtered.empty:
+    herbal_cluster = MarkerCluster(
+        name="Sebaran Tanaman Herbal",
+        overlay=True,
+        control=True,
+        show=True
+    )
+    
+    for idx, row in df_herbal_filtered.iterrows(): [1, 2]
+        lat = row
+        lon = row['X']
+        nama_herbal = row['Nama'].strip().upper() 
+        nomor_id = row['No']
+        
+        # Desain pop-up berbasis HTML terstruktur
+        popup_html = f"""
+        <div style="font-family: Arial, sans-serif; font-size: 12px; width: 200px; line-height: 1.5;">
+            <h5 style="margin: 0 0 5px 0; color: #27AE60; border-bottom: 2px solid #2ECC71; padding-bottom: 3px; font-weight: bold;">
+                {nama_herbal}
+            </h5>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid #F0F0F0;">
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">No. Urut:</td>
+                    <td style="padding: 3px 0; text-align: right;">{nomor_id}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #F0F0F0;">
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Latitude:</td>
+                    <td style="padding: 3px 0; text-align: right; font-family: monospace;">{lat:.6f}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 3px 0; font-weight: bold; color: #666;">Longitude:</td>
+                    <td style="padding: 3px 0; text-align: right; font-family: monospace;">{lon:.6f}</td>
+                </tr>
+            </table>
+        </div>
+        """
+        
+        folium.Marker(
+            location=[lat, lon][2]
+            popup=folium.Popup(popup_html, max_width=250)[2]
+            tooltip=f"Spesies: {nama_herbal}",
+            icon=folium.Icon(color='green', icon='leaf', prefix='fa')
+        ).add_to(herbal_cluster)
+        
+    herbal_cluster.add_to(m)
+
+# Aktivasi Layer Control (Kontrol visibilitas layer secara dinamis)
+folium.LayerControl(collapsed=False, position='topright').add_to(m) [4]
+
+# Rendering Peta pada Aplikasi Streamlit
+folium_static(m, width=1024, height=600) [2, 5]
+
+# Menampilkan data tabular terfilter untuk keperluan audit dan ekspor data
+if not df_herbal_filtered.empty:
+    st.subheader(f"Data Atribut Tanaman Herbal Terpilih ({len(df_herbal_filtered)} Titik)")
+    st.dataframe(
+        df_herbal_filtered].rename(
+            columns={
+                'No': 'No. Inventaris',
+                'Nama': 'Nama Spesies',
+                'X': 'Longitude (X)',
+                'Y': 'Latitude (Y)'
+            }
+        ),
+        use_container_width=True
+    )
+    
     # ── Legenda kawasan (HTML overlay kiri bawah) ─────────────────────────
     legend_items_html = "".join([
         f'<div class="l-row">'
