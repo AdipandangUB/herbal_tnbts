@@ -454,222 +454,103 @@ HERBAL_DETAIL_DATA = {
 # ─────────────────────────────────────────────────────────────────────────────
 # DATA TANAMAN HERBAL (EMBEDDED - FALLBACK)
 # ─────────────────────────────────────────────────────────────────────────────
-# Data dari file Titik Rapihin.xlsx yang di-embed sebagai fallback
 HERBAL_DATA_EMBEDDED = [
-    (1, 'DELIMA', 112.801975, -8.046787),
-    (2, 'JAMBU', 112.801975, -8.046787),
-    (3, 'SEMBUKAN', 112.801975, -8.046787),
-    (4, 'DELIMA', 112.801975, -8.046787),
-    (5, 'JAMBU BIJI', 112.801975, -8.046787),
-    (6, 'KESIMBUKAN', 112.801975, -8.046870),
-    (7, 'CABE GENDOT', 112.806081, -7.901768),
-    (8, 'LAOS', 112.808256, -8.051149),
-    (9, 'CABE GENDOT', 112.830632, -7.919994),
-    (10, 'TEPUNG OTOT', 112.846877, -8.015389),
-    (11, 'GANJAN', 112.846877, -8.015389),
-    (12, 'KECUBUNG PUTIH', 112.847416, -7.922730),
-    (13, 'PAITAN', 112.848401, -8.015110),
-    (14, 'JAHE', 112.850199, -8.014977),
-    (15, 'LABU SIAM', 112.850204, -8.015127),
-    (16, 'MANISA HITAM', 112.850204, -8.015127),
-    (17, 'MANISA HITAM', 112.850208, -8.015127),
-    (18, 'JAMBU', 112.856939, -7.919631),
-    (19, 'JAMBU BIJI', 112.856939, -7.919631),
-    (20, 'DAUN MANGKOK MERAH/BAYAM MERAH', 112.864016, -8.009914),
-    (21, 'ADAS', 112.864227, -8.009353),
-    (22, 'ADAS', 112.864227, -8.009353),
-    (23, 'SEREH', 112.864250, -8.009797),
-    (24, 'JARAK MERAH', 112.865075, -7.918463),
-    (25, 'MANISA HITAM', 112.880200, -7.919971),
-    (26, 'TERONG BELANDA', 112.880537, -7.919971),
-    (27, 'TERONG BELANDA', 112.880590, -7.920100),
-    (28, 'LOMBOK TERONG', 112.880632, -7.919999),
-    (29, 'CARICA', 112.880852, -7.919954),
-    (30, 'CARICA', 112.880857, -7.919554),
-    (31, 'JAHE', 112.890991, -7.951751),
-    (32, 'LOMBOK TERONG', 112.896981, -7.901768),
-    (33, 'GANJAN', 112.896997, -7.901751),
-    (34, 'ARBEI', 112.897021, -7.902696),
-    (35, 'ARBEI', 112.897021, -7.902696),
-    (36, 'CARICA', 112.898502, -7.988507),
-    (37, 'CARICA', 112.898502, -7.988507),
-    (38, 'CARICA', 112.898502, -7.988507),
-    (39, 'CARICA', 112.898802, -7.988507),
-    (40, 'PAITAN', 112.901323, -7.895460),
-    (41, 'PAHITAN', 112.901323, -7.895460),
-    (42, 'PAITAN', 112.901323, -7.895460),
-    (43, 'JARAK MERAH', 112.901614, -7.883742),
-    (44, 'JARAK MERAH', 112.901614, -7.883742),
-    (45, 'AJERAN PUTIH', 112.902096, -7.876545),
-    (46, 'GANJAN', 112.905667, -7.952630),
-    (47, 'ARBEI', 112.906334, -7.984777),
-    (48, 'ARBEI', 112.906334, -7.984777),
-    (49, 'BUAH PEPINO', 112.906345, -7.985210),
-    (50, 'AIR KUNCUP KECUBUNG GUNUNG', 112.906433, -7.984717),
-    (51, 'TERONG BELANDA', 112.906433, -7.984717),
-    (52, 'BIT MERAH', 112.906453, -7.985204),
-    (53, 'BIT MERAH', 112.906453, -7.985204),
-    (54, 'JARAK MERAH', 112.906554, -7.985286),
-    (55, 'JARAK MERAH', 112.906554, -7.985286),
-    (56, 'JARAK HITAM', 112.906554, -7.985286),
-    (57, 'JARAK MERAH', 112.906554, -7.985286),
-    (58, 'ADAS', 112.907053, -7.985087),
-    (59, 'GANJAN', 112.911370, -7.896581),
-    (60, 'JAMBU WER', 112.911490, -7.896698),
-    (61, 'JAMBU WER', 112.911490, -7.906698),
-    (62, 'CERI GUNUNG', 112.911540, -7.895863),
-    (63, 'SURI PANDAK', 112.912578, -8.045221),
-    (64, 'JAHEWONO/PURWOCENG', 112.912883, -8.046042),
-    (65, 'JARAK HIJAU', 112.915327, -7.979138),
-    (66, 'JARAK', 112.915327, -7.979138),
-    (67, 'JENGGOT WESI', 112.916632, -8.040489),
-    (68, 'CALINGAN', 112.922384, -7.971914),
-    (69, 'CALINGAN', 112.924369, -7.996918),
-    (70, 'JENGGOT WESI', 112.928867, -8.037286),
-    (71, 'KAYU AMPET', 112.929233, -8.035871),
-    (72, 'GEMBOKAN', 112.931855, -8.039685),
-    (73, 'CIPLUKAN', 112.933274, -8.030870),
-    (74, 'KRANGEAN', 112.933517, -8.032445),
-    (75, 'TEPUNG OTOT', 112.935605, -8.023313),
-    (76, 'TIREM', 112.939092, -8.002598),
-    (77, 'GODAG', 112.940496, -7.998516),
-    (78, 'AWAR-AWAR', 112.940877, -7.995191),
-    (79, 'DAUN KANCING/SEMANGGI LIAR', 112.941457, -8.015665),
-    (80, 'ANTING PUTRI/FUCHSIA MERAH', 112.941545, -7.994942),
-    (81, 'GANYONG', 112.941746, -8.000256),
-    (82, 'RANGGITAN', 112.942222, -8.021389),
-    (83, 'STROBERI HUTAN', 112.943040, -8.022686),
-    (84, 'SURENGAN/SELADA LIAR', 112.943409, -7.997615),
-    (85, 'KETUL', 112.944211, -8.001242),
-    (86, 'LILI-LILIAN LIAR', 112.944995, -8.000340),
-    (87, 'AKAR SEMPRETAN', 112.945833, -8.002366),
-    (88, 'CALINGAN', 112.946141, -8.002254),
-    (89, 'ADAS', 112.947492, -7.979090),
-    (90, 'ADAS', 112.947540, -7.979791),
-    (91, 'BAKUNG', 112.948793, -8.011198),
-    (92, 'TOMAT CERI', 112.950278, -8.013333),
-    (93, 'TOMAT CERI', 112.950278, -8.013333),
-    (94, 'BAKUNG', 112.950278, -8.013333),
-    (95, 'TOMAT CERI', 112.950278, -8.012778),
-    (96, 'AJERAN PUTIH', 112.950682, -8.009019),
-    (97, 'ALANG-ALANG', 112.950828, -7.930880),
-    (98, 'ALANG-ALANG', 112.950828, -7.930880),
-    (99, 'TEPUNG OTOT', 112.950908, -7.930724),
-    (100, 'JARINGAN', 112.950960, -7.930678),
-    (101, 'PUTIHAN', 112.950980, -7.930804),
-    (102, 'KEMLANDINGAN/KLANDINGAN', 112.951197, -7.930200),
-    (103, 'KEMLANDINGAN', 112.951206, -7.930210),
-    (104, 'EDELWEIS', 112.951276, -7.931024),
-    (105, 'ALANG-ALANG', 112.951282, -7.930039),
-    (106, 'EDELWEIS', 112.951327, -7.939024),
-    (107, 'PASOTE', 112.951343, -7.931000),
-    (108, 'ALANG-ALANG', 112.951787, -7.930879),
-    (109, 'AJERAN PUTIH', 112.955549, -7.953053),
-    (110, 'TEMPUYUNG/KETIUW', 112.959908, -7.930724),
-    (111, 'JARAK HIJAU', 112.961040, -7.922386),
-    (112, 'CEMARA GUNUNG SEMAK', 112.961342, -7.921251),
-    (113, 'CEMARA GUNUNG SEMAK', 112.961382, -7.971251),
-    (114, 'ADAS', 112.964345, -7.922273),
-    (115, 'AIR KUNCUP KECUBUNG GUNUNG', 112.964372, -7.922737),
-    (116, 'KECUBUNG PUTIH', 112.964474, -7.922857),
-    (117, 'AIR KUNCUP KECUBUNG GUNUNG', 112.964474, -7.922857),
-    (118, 'CIPLUKAN', 112.964490, -7.922893),
-    (119, 'CIPLUKAN', 112.964490, -7.922893),
-    (120, 'JARAK HIJAU', 112.966104, -7.922386),
-    (121, 'JAMUR LINGZHI', 112.974959, -8.032646),
-    (122, 'AJERAN PUTIH', 112.975606, -7.980074),
-    (123, 'AWAR-AWAR', 112.978188, -7.974912),
-    (124, 'AWAR-AWAR', 112.979085, -8.037856),
-    (125, 'PAKIS SEJATI', 112.980115, -8.018784),
-    (126, 'PAKIS (DAVALLIA)', 112.980267, -8.032115),
-    (127, 'ADAS', 112.983153, -7.915076),
-    (128, 'SELEDRI', 112.983340, -7.914567),
-    (129, 'KECUBUNG KUNING', 112.983371, -7.914381),
-    (130, 'TERONG BELANDA', 112.983948, -7.914695),
-    (131, 'DRINGU', 112.983977, -7.914867),
-    (132, 'DRINGU', 112.983977, -7.914867),
-    (133, 'CARICA', 112.984027, -7.915494),
-    (134, 'CARICA', 112.984027, -7.915494),
-    (135, 'PAKU PURBA', 112.986718, -8.031921),
-    (136, 'TEKLAN', 112.989008, -8.094180),
-    (137, 'SIMBARAN', 112.990639, -8.018076),
-    (138, 'JARINGAN', 112.990960, -7.930678),
-    (139, 'PAKU RANE/PAKU KAWAT', 112.992477, -8.021199),
-    (140, 'KESEK', 112.995600, -7.968400),
-    (141, 'KIRINYUH', 112.995600, -7.968400),
-    (142, 'AJERAN PUTIH', 112.996344, -8.027946),
-    (143, 'BLUBUK', 112.996600, -7.968000),
-    (144, 'BLUBUK', 112.996600, -7.968000),
-    (145, 'KAYU AMPET', 112.996800, -7.968200),
-    (146, 'KAYU AMPET', 112.996800, -7.968200),
-    (147, 'ADAS', 112.999300, -7.965800),
-    (148, 'KECUBUNG KUNING', 112.999455, -7.965901),
-    (149, 'AIR KUNCUP KECUBUNG GUNUNG', 112.999455, -7.965901),
-    (150, 'ADAS', 112.999457, -7.965879),
-    (151, 'EDELWEIS', 112.999516, -7.956060),
-    (152, 'CIPLUKAN', 112.999910, -7.967044),
-    (153, 'SENGGANEN/SENGGANI', 113.000200, -7.967600),
-    (154, 'PUTIHAN', 113.000200, -7.967600),
-    (155, 'PUTIHAN', 113.000200, -7.967600),
-    (156, 'SENGGANEN/SENGGANI', 113.000200, -7.967600),
-    (157, 'PRONOJIWO', 113.004192, -8.029210),
-    (158, 'SIRIH HUTAN/CABE JAWA', 113.004444, -8.029722),
-    (159, 'CABE JAWA', 113.004444, -8.029722),
-    (160, 'AJERAN PUTIH', 113.005054, -8.048948),
-    (161, 'CALINGAN', 113.005141, -8.030703),
-    (162, 'KAPULAGA', 113.005441, -8.064376),
-    (163, 'PULOSARI', 113.006030, -8.029182),
-    (164, 'SLIMPAT/SELIMPAT', 113.006889, -8.049956),
-    (165, 'KECUBUNG PUTIH', 113.007500, -8.033611),
-    (166, 'JENGGOT WESI', 113.007500, -8.038333),
-    (167, 'ANTING-ANTING', 113.007500, -8.038333),
-    (168, 'AIR KUNCUP KECUBUNG GUNUNG', 113.007500, -8.038611),
-    (169, 'ANTING PUTRI/FUCHSIA MERAH', 113.007500, -8.038333),
-    (170, 'JAMUR LINGZHI', 113.009718, -8.037503),
-    (171, 'MENIRAN', 113.011480, -8.080804),
-    (172, 'PISANG HUTAN', 113.012222, -8.040000),
-    (173, 'KECUBUNG KUNING', 113.015691, -7.986493),
-    (174, 'MARKISA', 113.015691, -7.986493),
-    (175, 'TOMAT', 113.015714, -7.986501),
-    (176, 'DAUN BAWANG', 113.015732, -7.986502),
-    (177, 'SELEDRI', 113.015742, -7.986405),
-    (178, 'SELEDRI', 113.015742, -7.986405),
-    (179, 'SEMANGGI LIAR', 113.015752, -7.986413),
-    (180, 'SEMANGGI LIAR', 113.015752, -7.986413),
-    (181, 'SAWI HITAM', 113.015757, -7.986393),
-    (182, 'SAWI IRENG', 113.015757, -7.986393),
-    (183, 'KETUMBAR', 113.015759, -7.986485),
-    (184, 'SENIKIR', 113.015759, -7.986458),
-    (185, 'BUNGA TAHI AYAM/GEMITIR/MARISELA', 113.015759, -7.986458),
-    (186, 'KESEK', 113.015760, -7.986488),
-    (187, 'WORTEL', 113.015774, -7.986418),
-    (188, 'GANJAN', 113.016111, -7.986944),
-    (189, 'KOPI ARABIKA', 113.016111, -7.986944),
-    (190, 'KACANG BABI', 113.016111, -7.986944),
-    (191, 'PECUT KUDA', 113.017233, -7.960574),
-    (192, 'DAUN KANCING/SEMANGGI LIAR', 113.018173, -7.971436),
-    (193, 'KUNYIT', 113.023762, -7.978400),
-    (194, 'KETUMBAR', 113.023817, -7.978630),
-    (195, 'DRINGU', 113.024150, -7.978630),
-    (196, 'DAUN BAWANG', 113.025098, -7.975778),
-    (197, 'PAITAN', 113.025278, -8.013611),
-    (198, 'PAITAN', 113.025278, -8.013611),
-    (199, 'TEBU IRENG', 113.025370, -7.973474),
-    (200, 'PARIJOTO', 113.026874, -8.024953),
-    (201, 'AWAR-AWAR', 113.026885, -7.995636),
-    (202, 'JAMUR LINGZHI', 113.027076, -8.048771),
-    (203, 'DAUN SENDOK/SANGKUAH', 113.027605, -8.051614),
-    (204, 'PAKIS GARUDA', 113.028600, -8.053304),
-    (205, 'KENCANA UNGU', 113.028632, -8.021287),
-    (206, 'KETUMBAR', 113.028632, -8.021287),
-    (207, 'RANTI', 113.028845, -8.049922),
-    (208, 'KECUBUNG PUTIH', 113.031111, -8.052500),
-    (209, 'AIR KUNCUP KECUBUNG GUNUNG', 113.031111, -8.052500),
-    (210, 'ANDONG', 113.051111, -8.067778),
-    (211, 'ANDONG', 113.051111, -8.067778),
-    (212, 'SEMANGGI', 113.052808, -7.991959),
-    (213, 'PATIKAN KEBO', 113.096769, -8.128499),
-    (214, 'EDELWEIS', 113.964478, -7.973473),
+    (1, 'AJERAN PUTIH', 112.902096, -7.876545),
+    (2, 'ADAS', 112.864227, -8.009353),
+    (3, 'ADAS', 112.864227, -8.009353),
+    (4, 'ALANG-ALANG', 112.950828, -7.930880),
+    (5, 'ALANG-ALANG', 112.950828, -7.930880),
+    (6, 'ANDONG', 113.051111, -8.067778),
+    (7, 'ANDONG', 113.051111, -8.067778),
+    (8, 'AWAR-AWAR', 112.940877, -7.995191),
+    (9, 'AWAR-AWAR', 112.978188, -7.974912),
+    (10, 'AWAR-AWAR', 112.979085, -8.037856),
+    (11, 'AWAR-AWAR', 113.026885, -7.995636),
+    (12, 'BAKUNG', 112.948793, -8.011198),
+    (13, 'BAKUNG', 112.950278, -8.013333),
+    (14, 'BIT MERAH', 112.906453, -7.985204),
+    (15, 'BIT MERAH', 112.906453, -7.985204),
+    (16, 'BUAH DELIMA', 112.801975, -8.046787),
+    (17, 'BUAH DELIMA', 112.801975, -8.046787),
+    (18, 'CALINGAN', 112.922384, -7.971914),
+    (19, 'CALINGAN', 112.924369, -7.996918),
+    (20, 'CALINGAN', 112.946141, -8.002254),
+    (21, 'CALINGAN', 113.005141, -8.030703),
+    (22, 'CIPLUKAN', 112.933274, -8.030870),
+    (23, 'CIPLUKAN', 112.964490, -7.922893),
+    (24, 'CIPLUKAN', 112.964490, -7.922893),
+    (25, 'CIPLUKAN', 112.999910, -7.967044),
+    (26, 'DAUN KANCING', 112.941457, -8.015665),
+    (27, 'DAUN KANCING', 113.018173, -7.971436),
+    (28, 'DAUN OTOT', 112.912578, -8.045221),
+    (29, 'GANJAN', 112.846877, -8.015389),
+    (30, 'GANJAN', 112.896997, -7.901751),
+    (31, 'GANJAN', 112.905667, -7.952630),
+    (32, 'GANJAN', 112.911370, -7.896581),
+    (33, 'GANJAN', 113.016111, -7.986944),
+    (34, 'GANYONG', 112.941746, -8.000256),
+    (35, 'JAMUR LINGZHI', 112.974959, -8.032646),
+    (36, 'JAMUR LINGZHI', 113.009718, -8.037503),
+    (37, 'JAMUR LINGZHI', 113.027076, -8.048771),
+    (38, 'JARAK', 112.915327, -7.979138),
+    (39, 'JARAK HITAM', 112.906554, -7.985286),
+    (40, 'JENGGOT WESI', 112.916632, -8.040489),
+    (41, 'JENGGOT WESI', 112.928867, -8.037286),
+    (42, 'JENGGOT WESI', 113.007500, -8.038333),
+    (43, 'KAYU AMPET', 112.929233, -8.035871),
+    (44, 'KAYU AMPET', 112.996800, -7.968200),
+    (45, 'KAYU AMPET', 112.996800, -7.968200),
+    (46, 'KENCANA UNGU', 113.028632, -8.021287),
+    (47, 'KETIUW', 112.959908, -7.930724),
+    (48, 'KLANDINGAN', 112.951197, -7.930200),
+    (49, 'KLANDINGAN', 112.951206, -7.930210),
+    (50, 'LABU SIAM HITAM', 112.850204, -8.015127),
+    (51, 'LILI-LILIAN LIAR', 112.944995, -8.000340),
+    (52, 'LOMBOK TERONG', 112.880632, -7.919999),
+    (53, 'LOMBOK TERONG', 112.896981, -7.901768),
+    (54, 'PAITAN', 112.848401, -8.015110),
+    (55, 'PAITAN', 112.901323, -7.895460),
+    (56, 'PAITAN', 112.901323, -7.895460),
+    (57, 'PAITAN', 113.025278, -8.013611),
+    (58, 'PAITAN', 113.025278, -8.013611),
+    (59, 'PAKIS', 112.980267, -8.032115),
+    (60, 'PAKU RANE', 112.992477, -8.021199),
+    (61, 'PARIJOTO', 113.026874, -8.024953),
+    (62, 'PECUT KUDA', 113.017233, -7.960574),
+    (63, 'PEPAYA GUNUNG', 112.880852, -7.919954),
+    (64, 'PEPAYA GUNUNG', 112.880857, -7.919554),
+    (65, 'PEPAYA GUNUNG', 112.898502, -7.988507),
+    (66, 'PEPAYA GUNUNG', 112.898502, -7.988507),
+    (67, 'PEPAYA GUNUNG', 112.898502, -7.988507),
+    (68, 'PEPAYA GUNUNG', 112.898802, -7.988507),
+    (69, 'PEPAYA GUNUNG', 112.984027, -7.915494),
+    (70, 'PEPAYA GUNUNG', 112.984027, -7.915494),
+    (71, 'PUTIHAN', 112.950980, -7.930804),
+    (72, 'PUTIHAN', 113.000200, -7.967600),
+    (73, 'PUTIHAN', 113.000200, -7.967600),
+    (74, 'RANTI', 113.028845, -8.049922),
+    (75, 'SAWI IRENG', 113.015757, -7.986393),
+    (76, 'SAWI IRENG', 113.015757, -7.986393),
+    (77, 'SELEDRI', 112.983340, -7.914567),
+    (78, 'SELEDRI', 113.015742, -7.986405),
+    (79, 'SELEDRI', 113.015742, -7.986405),
+    (80, 'SEMANGGI', 113.052808, -7.991959),
+    (81, 'SENGGANEN', 113.000200, -7.967600),
+    (82, 'SENGGANEN', 113.000200, -7.967600),
+    (83, 'SIMBARAN', 112.990639, -8.018076),
+    (84, 'SIRIH', 113.004444, -8.029722),
+    (85, 'STROBERI TENGGER', 112.943040, -8.022686),
+    (86, 'SURI PANDAK', 112.912578, -8.045221),
+    (87, 'TEBU IRENG', 113.025370, -7.973474),
+    (88, 'TEKLAN', 112.989008, -8.094180),
+    (89, 'TEPUNG OTOT', 112.846877, -8.015389),
+    (90, 'TEPUNG OTOT', 112.935605, -8.023313),
+    (91, 'TEPUNG OTOT', 112.950908, -7.930724),
+    (92, 'TERONG BELANDA', 112.880537, -7.919971),
+    (93, 'TERONG BELANDA', 112.880590, -7.920100),
+    (94, 'TERONG BELANDA', 112.906433, -7.984717),
+    (95, 'TERONG BELANDA', 112.983948, -7.914695),
+    (96, 'TIREM', 112.939092, -8.002598),
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -832,7 +713,7 @@ def load_herbal_data():
                 continue
     
     # Jika file tidak ditemukan, gunakan data embedded
-    st.sidebar.info("📊 Menggunakan data tanaman herbal embedded (214 titik)")
+    st.sidebar.info("📊 Menggunakan data tanaman herbal embedded")
     df = pd.DataFrame(HERBAL_DATA_EMBEDDED, columns=['No', 'Nama', 'X', 'Y'])
     return df
 
@@ -940,6 +821,15 @@ def create_plant_popup_html(plant_name, lat, lon, no):
                         </div>
             """
         
+        # Tambahkan foto jika ada
+        if detail.get('foto'):
+            html += f"""
+                        <div style="margin-top: 6px;">
+                            <span style="font-weight: bold;">📷 Foto:</span><br>
+                            <span style="color: #888; font-size: 11px;">{detail['foto']}</span>
+                        </div>
+            """
+        
         html += """
                     </div>
                 </details>
@@ -950,6 +840,93 @@ def create_plant_popup_html(plant_name, lat, lon, no):
             </table>
             <div style="margin-top: 8px; border-top: 2px solid #FFCDD2; padding-top: 8px; color: #C62828; font-size: 12px;">
                 ⚠️ Data detail tanaman tidak tersedia
+            </div>
+        """
+    
+    html += """
+        </div>
+    </div>
+    """
+    
+    return html
+
+
+def create_plant_detail_card(plant_name):
+    """Membuat kartu detail tanaman untuk ditampilkan di Data Tanaman."""
+    detail = get_plant_detail(plant_name)
+    
+    if not detail:
+        return """
+        <div style="background: #fff3e0; border-radius: 8px; padding: 12px; 
+                    border-left: 4px solid #FF9800; margin: 8px 0;">
+            <span style="color: #E65100;">⚠️ Data detail tidak tersedia</span>
+        </div>
+        """
+    
+    html = f"""
+    <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; 
+                margin: 8px 0; border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; 
+                    border-bottom: 2px solid #2E7D32; padding-bottom: 8px; margin-bottom: 10px;">
+            <h4 style="margin: 0; color: #1B5E20;">🌿 {plant_name}</h4>
+            <span style="font-style: italic; color: #666; font-size: 14px;">{detail.get('nama_latin', '')}</span>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    """
+    
+    # Fungsi
+    if detail.get('fungsi'):
+        html += f"""
+            <div style="grid-column: 1 / -1; background: #E8F5E9; border-radius: 6px; padding: 8px 12px;">
+                <span style="font-weight: bold; color: #2E7D32;">💊 Fungsi:</span><br>
+                <span style="font-size: 13px; color: #333;">{detail['fungsi']}</span>
+            </div>
+        """
+    
+    # Syarat Hidup
+    if detail.get('syarat_hidup'):
+        html += f"""
+            <div style="background: #FFF8E1; border-radius: 6px; padding: 8px 12px; grid-column: 1 / 2;">
+                <span style="font-weight: bold; color: #F57F17;">🌱 Syarat Hidup:</span><br>
+                <span style="font-size: 12px; color: #555;">{detail['syarat_hidup'][:200]}{'...' if len(detail['syarat_hidup']) > 200 else ''}</span>
+            </div>
+        """
+    
+    # Cara Memanfaatkan
+    if detail.get('cara_memanfaatkan'):
+        html += f"""
+            <div style="background: #E3F2FD; border-radius: 6px; padding: 8px 12px; grid-column: 2 / 3;">
+                <span style="font-weight: bold; color: #0D47A1;">🔬 Cara Memanfaatkan:</span><br>
+                <span style="font-size: 12px; color: #555;">{detail['cara_memanfaatkan'][:200]}{'...' if len(detail['cara_memanfaatkan']) > 200 else ''}</span>
+            </div>
+        """
+    
+    # Yang Dimanfaatkan
+    if detail.get('yang_dimanfaatkan'):
+        html += f"""
+            <div style="background: #F3E5F5; border-radius: 6px; padding: 8px 12px; grid-column: 1 / 2;">
+                <span style="font-weight: bold; color: #6A1B9A;">✂️ Yang Dimanfaatkan:</span><br>
+                <span style="font-size: 13px; color: #555;">{detail['yang_dimanfaatkan']}</span>
+            </div>
+        """
+    
+    # Potensi Sebaran
+    if detail.get('potensi_sebaran'):
+        html += f"""
+            <div style="background: #E0F7FA; border-radius: 6px; padding: 8px 12px; grid-column: 2 / 3;">
+                <span style="font-weight: bold; color: #00695C;">📍 Potensi Sebaran:</span><br>
+                <span style="font-size: 12px; color: #555;">{detail['potensi_sebaran']}</span>
+            </div>
+        """
+    
+    # Foto
+    if detail.get('foto'):
+        html += f"""
+            <div style="grid-column: 1 / -1; background: #ECEFF1; border-radius: 6px; padding: 8px 12px; text-align: center;">
+                <span style="font-weight: bold; color: #455A64;">📷 Foto:</span>
+                <span style="font-size: 12px; color: #666; display: block;">{detail['foto']}</span>
             </div>
         """
     
@@ -1065,6 +1042,19 @@ st.markdown("""
         background:linear-gradient(90deg,transparent,#4CAF50,transparent);
         margin:2rem 0;
     }
+    
+    .plant-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 10px 0;
+    }
+    
+    @media (max-width: 768px) {
+        .plant-detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1170,7 +1160,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 📁 Status Data")
     st.markdown(f"""
-    <div class="status-badge">
+    <div style="color:white; background:rgba(0,0,0,.3); padding:10px; border-radius:8px;">
         ✅ <b>Data Tanaman</b><br><small>{len(df_herbal)} titik • {df_herbal['Nama'].nunique()} spesies</small>
     </div>
     """, unsafe_allow_html=True)
@@ -1214,18 +1204,18 @@ def extract_symptoms_from_text(text):
 
 def find_herbal_by_symptoms(symptoms, df_herbal):
     """Mencari tanaman herbal berdasarkan gejala."""
-    # Mapping gejala ke tanaman (hardcoded untuk sementara)
+    # Mapping gejala ke tanaman
     symptom_plant_map = {
-        'demam': ['AJERAN PUTIH', 'BAWANG MERAH', 'BUNGA MATAHARI', 'PAITAN', 'PECUT KUDA', 'TAPAK LIMAN', 'VERVAIN'],
-        'batuk': ['ADAS', 'BUAH KLANDINGAN', 'BUNGA HARIANG', 'KENIKIR', 'PULOSARI', 'SUPLIR'],
-        'nyeri': ['BIDARA LAUT', 'DAUN DADAP', 'JAMBU WER', 'SURI PANDAK'],
-        'luka': ['CALINGAN', 'GANJAN', 'GEMBOKAN', 'JARAK MERAH', 'KIRINYUH', 'PAKU SIGUNG', 'SIMBARAN', 'TRABASAN', 'WEDUSAN'],
-        'pencernaan': ['ADAS', 'ALANG-ALANG', 'AWAR-AWAR', 'BELUNTAS', 'DRINGU', 'GANYONG', 'JAHE', 'KETUMBAR', 'LAOS', 'LOBAK', 'SAWI IRENG'],
-        'darah': ['BAWANG PUTIH', 'KENCANA UNGU', 'STROBERI TENGGER', 'SUPLIR'],
-        'antiradang': ['AJERAN PUTIH', 'AWAR-AWAR', 'KUNYIT', 'SEMANGGI', 'TEPUNG OTOT'],
-        'diuretik': ['ALANG-ALANG', 'RUMPUT TEKI-TEKIAN'],
-        'antiseptik': ['SIRIH'],
-        'antioksidan': ['KENIKIR', 'ANGGREK TANAH', 'BIDARA LAUT']
+        'demam': ['AJERAN PUTIH', 'PAITAN', 'PECUT KUDA', 'GANJAN', 'CIPLUKAN'],
+        'batuk': ['ADAS', 'SURI PANDAK', 'SIMBARAN', 'TEKLAN', 'JENGGOT WESI'],
+        'nyeri': ['DAUN OTOT', 'TEPUNG OTOT', 'AWAR-AWAR', 'SURI PANDAK'],
+        'luka': ['CALINGAN', 'GANJAN', 'BAKUNG', 'SIMBARAN', 'ANDONG'],
+        'pencernaan': ['ADAS', 'ALANG-ALANG', 'AWAR-AWAR', 'GANYONG', 'SAWI IRENG', 'CIPLUKAN'],
+        'darah': ['KENCANA UNGU', 'STROBERI TENGGER', 'BIT MERAH', 'BUAH DELIMA'],
+        'antiradang': ['AJERAN PUTIH', 'AWAR-AWAR', 'TEPUNG OTOT', 'DAUN KANCING'],
+        'diuretik': ['ALANG-ALANG', 'KETIUW', 'TEKLAN'],
+        'antiseptik': ['SIRIH', 'PUTIHAN', 'PAKU RANE'],
+        'antioksidan': ['BUAH DELIMA', 'STROBERI TENGGER', 'TERONG BELANDA', 'PEPAYA GUNUNG']
     }
     
     matched_plants = set()
@@ -1662,11 +1652,39 @@ elif selected == "Data Tanaman":
             mask = df_show['Nama'].str.contains(search, case=False, na=False)
             df_show = df_show[mask]
             st.info(f"Ditemukan **{len(df_show)}** hasil")
-
-        st.dataframe(
-            df_show,
-            use_container_width=True, height=500, hide_index=True
-        )
+        
+        # Tampilkan data dengan detail
+        st.markdown("### 📋 Data Tanaman dengan Detail Lengkap")
+        st.markdown("Klik nama tanaman untuk melihat detail fungsi, syarat hidup, dan cara memanfaatkan.")
+        
+        # Buat expander untuk setiap tanaman unik
+        unique_plants = sorted(df_show['Nama'].unique())
+        
+        if len(unique_plants) > 0:
+            # Tampilkan dalam grid
+            cols_per_row = 2
+            for i in range(0, len(unique_plants), cols_per_row):
+                cols = st.columns(cols_per_row)
+                for j, col in enumerate(cols):
+                    idx = i + j
+                    if idx < len(unique_plants):
+                        plant_name = unique_plants[idx]
+                        with col:
+                            with st.expander(f"🌿 {plant_name}", expanded=False):
+                                # Tampilkan detail tanaman
+                                detail_html = create_plant_detail_card(plant_name)
+                                st.markdown(detail_html, unsafe_allow_html=True)
+                                
+                                # Tampilkan titik sebaran
+                                plant_points = df_show[df_show['Nama'] == plant_name]
+                                st.markdown(f"**📍 Jumlah titik sebaran:** {len(plant_points)}")
+                                st.dataframe(
+                                    plant_points[['No', 'X', 'Y']],
+                                    use_container_width=True,
+                                    hide_index=True
+                                )
+        else:
+            st.info("Tidak ada data tanaman yang ditemukan")
         
         cc1, cc2, cc3 = st.columns([1, 2, 1])
         with cc2:
@@ -1694,7 +1712,8 @@ elif selected == "Data Tanaman":
             st.markdown("#### Ringkasan")
             st.metric("Total Spesies Unik", df_herbal['Nama'].nunique())
             st.metric("Total Titik Data", len(df_herbal))
-            st.metric("Tanaman dengan Data Detail", len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None]))
+            detailed_count = len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None])
+            st.metric("Tanaman dengan Data Detail", detailed_count)
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: STATISTIK
@@ -1707,6 +1726,44 @@ elif selected == "Statistik":
     # Top tanaman
     top_counts = df_herbal['Nama'].value_counts().head(15)
     st.bar_chart(top_counts, use_container_width=True)
+    
+    # Tampilkan detail untuk top tanaman
+    st.markdown("### 📋 Detail Tanaman Teratas")
+    
+    top_plants_list = top_counts.head(10).index.tolist()
+    
+    for plant_name in top_plants_list:
+        with st.expander(f"🌿 {plant_name} ({top_counts[plant_name]} titik)", expanded=False):
+            detail = get_plant_detail(plant_name)
+            if detail:
+                st.markdown(f"""
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 12px; margin: 4px 0;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div style="grid-column: 1 / -1;">
+                            <span style="font-weight: bold;">💊 Fungsi:</span>
+                            <span style="font-size: 13px;">{detail.get('fungsi', '-')}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">🌱 Syarat Hidup:</span><br>
+                            <span style="font-size: 12px; color: #555;">{detail.get('syarat_hidup', '-')[:150]}{'...' if len(detail.get('syarat_hidup', '')) > 150 else ''}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">🔬 Cara Memanfaatkan:</span><br>
+                            <span style="font-size: 12px; color: #555;">{detail.get('cara_memanfaatkan', '-')[:150]}{'...' if len(detail.get('cara_memanfaatkan', '')) > 150 else ''}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">✂️ Yang Dimanfaatkan:</span>
+                            <span style="font-size: 13px;">{detail.get('yang_dimanfaatkan', '-')}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">📍 Potensi Sebaran:</span><br>
+                            <span style="font-size: 11px; color: #555;">{detail.get('potensi_sebaran', '-')}</span>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.info("Data detail tidak tersedia untuk tanaman ini")
     
     st.markdown("### 📋 Detail Statistik")
     
@@ -1747,19 +1804,24 @@ else:
     
     # Tampilkan beberapa contoh tanaman dengan fungsinya
     st.markdown("""
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin: 12px 0;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin: 12px 0;">
     """, unsafe_allow_html=True)
     
-    for name, detail in list(HERBAL_DETAIL_DATA.items())[:12]:
+    shown = 0
+    for name, detail in HERBAL_DETAIL_DATA.items():
+        if shown >= 16:
+            break
         if detail.get('fungsi'):
             fungsi_short = detail['fungsi'][:80] + ('...' if len(detail['fungsi']) > 80 else '')
             st.markdown(f"""
             <div style="background: #f8f9fa; border-radius: 8px; padding: 12px 16px; 
-                        border-left: 4px solid #2E7D32;">
-                <div style="font-weight: bold; color: #2E7D32;">🌿 {name}</div>
+                        border-left: 4px solid #2E7D32; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <div style="font-weight: bold; color: #2E7D32; font-size: 14px;">🌿 {name}</div>
                 <div style="font-size: 12px; color: #555; margin-top: 4px;">{fungsi_short}</div>
+                <div style="font-size: 11px; color: #888; margin-top: 2px; font-style: italic;">{detail.get('yang_dimanfaatkan', '')}</div>
             </div>
             """, unsafe_allow_html=True)
+            shown += 1
     
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -1783,8 +1845,8 @@ else:
                         box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 12px;">
                 <img src="{photo}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
                             border: 3px solid #2E7D32; margin-bottom: 8px;">
-                <h4 style="margin: 4px 0; color: #1B5E20;">{name}</h4>
-                <p style="margin: 2px 0; font-size: 14px; color: #555;">{title}</p>
+                <h4 style="margin: 4px 0; color: #1B5E20; font-size: 14px;">{name}</h4>
+                <p style="margin: 2px 0; font-size: 13px; color: #555;">{title}</p>
                 <p style="margin: 2px 0; font-size: 12px; color: #2E7D32; font-weight: bold;">{role}</p>
             </div>""", unsafe_allow_html=True)
 
