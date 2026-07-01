@@ -1290,11 +1290,11 @@ def generate_chatbot_response_herbal(user_input, df_herbal):
     
     greetings = ['halo', 'hai', 'hello', 'hi', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam']
     if any(greeting in user_input_lower for greeting in greetings):
-        return "🌿 **Halo!** Saya adalah Asisten Tanaman Herbal TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam' atau 'Apa obat batuk?'"
+        return "🌿 **Halo!** Saya adalah Mbah Dukun Digital Herbal TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam' atau 'Apa obat batuk?'"
     
     if 'bantuan' in user_input_lower or 'help' in user_input_lower:
         return """
-        🤖 **Cara Menggunakan Chatbot:**
+        🤖 **Cara Menggunakan Tanya Mbah Dukun Herbal:**
         
         1. **Sebutkan gejala penyakit** yang Anda alami
         
@@ -1311,7 +1311,7 @@ def generate_chatbot_response_herbal(user_input, df_herbal):
         return """
         🤔 **Saya belum memahami pertanyaan Anda.** 
         
-        Untuk menggunakan chatbot ini, silakan sebutkan:
+        Untuk menggunakan tanya mbah dukun herbal ini, silakan sebutkan:
         - **Gejala penyakit** yang Anda alami
         
         Contoh: "Tanaman untuk demam"
