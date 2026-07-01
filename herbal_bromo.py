@@ -1182,58 +1182,6 @@ if selected == "Peta Sebaran":
         m0 = folium.Map(location=[-7.940, 112.950], zoom_start=10)
         folium_static(m0)
 
-    # Legenda kawasan & jenis
-    with st.expander("📖 Legenda & Keterangan Kawasan Ekologi", expanded=False):
-        lc1, lc2 = st.columns(2)
-        with lc1:
-            st.markdown("**🏔️ 8 Kawasan Ekologi TNBTS (Warna Polygon):**")
-            for kw, col in KAWASAN_HEX.items():
-                cnt   = len(df_tanaman[df_tanaman['kawasan'] == kw])
-                props = next(
-                    f["properties"]
-                    for f in KAWASAN_GEOJSON["features"]
-                    if f["properties"]["nama"] == kw
-                )
-                st.markdown(
-                    f'<div style="border-left:5px solid {col};padding:4px 10px;'
-                    f'margin-bottom:5px;background:#fafafa;border-radius:0 6px 6px 0;">'
-                    f'<span style="font-size:14px;">{props["emoji"]}</span> '
-                    f'<b style="color:{col};">{kw}</b><br>'
-                    f'<small>⛰️ {props["ketinggian"]} | 🌿 {cnt} spesies</small></div>',
-                    unsafe_allow_html=True
-                )
-        with lc2:
-            st.markdown("**🌿 Warna Marker Berdasarkan Jenis Tanaman:**")
-            for j, c in JENIS_COLOR.items():
-                cnt = len(df_tanaman[df_tanaman['jenis'] == j])
-                st.markdown(
-                    f'<span style="display:inline-block;width:13px;height:13px;'
-                    f'background:{c};border-radius:50%;margin-right:8px;'
-                    f'vertical-align:middle;border:1px solid #999;"></span>'
-                    f'**{j}** ({cnt} sp.)',
-                    unsafe_allow_html=True
-                )
-            st.markdown("---")
-            st.markdown("**🗺️ Keterangan Layer Batas:**")
-            st.markdown(
-                '<div style="border-left:4px solid #e65100;padding:4px 10px;margin-bottom:4px;'
-                'background:#fff3e0;border-radius:0 5px 5px 0;font-size:13px;">'
-                '🏘️ <b style="color:#e65100;">Batas Desa</b> — outline oranye tebal, fill transparan</div>',
-                unsafe_allow_html=True
-            )
-            st.markdown(
-                '<div style="border-left:4px solid #1565C0;padding:4px 10px;margin-bottom:4px;'
-                'background:#E3F2FD;border-radius:0 5px 5px 0;font-size:13px;">'
-                '🗺️ <b style="color:#1565C0;">Batas Kabupaten</b> — outline biru tebal + label nama</div>',
-                unsafe_allow_html=True
-            )
-            st.markdown(
-                '<div style="border-left:4px solid #B71C1C;padding:4px 10px;margin-bottom:4px;'
-                'background:#FFEBEE;border-radius:0 5px 5px 0;font-size:13px;">'
-                '🔲 <b style="color:#B71C1C;">Batas TNBTS</b> — outline merah putus-putus tebal, fill transparan</div>',
-                unsafe_allow_html=True
-            )
-
     # Tabel ringkas
     with st.expander(f"📋 Daftar {len(df_tanaman_filtered)} Tanaman yang Ditampilkan"):
         st.dataframe(
