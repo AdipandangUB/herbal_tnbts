@@ -664,6 +664,14 @@ def load_herbal_data():
         filepath = _find_file(filename)
         if filepath:
             try:
+                # Coba import openpyxl jika file .xlsx
+                if filename.endswith('.xlsx'):
+                    try:
+                        import openpyxl
+                    except ImportError:
+                        # Jika openpyxl tidak terinstall, lanjut ke file berikutnya
+                        continue
+                
                 if filename.endswith('.xlsx') or filename.endswith('.xls'):
                     df = pd.read_excel(filepath, engine='openpyxl')
                 else:
@@ -706,14 +714,16 @@ def load_herbal_data():
                         'Y': df[y_col]
                     })
                     
+                    # Tampilkan pesan sukses di sidebar
                     st.sidebar.success(f"✅ Memuat {len(result_df)} data dari {filename}")
                     return result_df
             except Exception as e:
-                st.sidebar.warning(f"⚠️ Gagal membaca {filename}: {e}")
+                # Lewati error dan coba file berikutnya
                 continue
     
     # Jika file tidak ditemukan, gunakan data embedded
-    st.sidebar.info("📊 Menggunakan data tanaman herbal embedded")
+    # Tampilkan pesan informatif di sidebar
+    st.sidebar.info(f"📊 Menggunakan data tanaman herbal embedded ({len(HERBAL_DATA_EMBEDDED)} titik)")
     df = pd.DataFrame(HERBAL_DATA_EMBEDDED, columns=['No', 'Nama', 'X', 'Y'])
     return df
 
@@ -966,6 +976,21 @@ st.markdown("""
     [data-testid="stSidebar"] h3 { color:white !important; text-shadow:2px 2px 4px rgba(0,0,0,.5); }
     [data-testid="stSidebar"] p  { color:rgba(255,255,255,.9) !important; }
     [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.3) !important; }
+    
+    /* Sembunyikan pesan error/gagal di sidebar */
+    [data-testid="stSidebar"] .stAlert {
+        background: rgba(0,0,0,0.5) !important;
+        color: white !important;
+        border-color: rgba(255,255,255,0.2) !important;
+    }
+    [data-testid="stSidebar"] .stAlert svg {
+        fill: #4CAF50 !important;
+    }
+    
+    /* Sembunyikan pesan error spesifik */
+    .stAlert .stMarkdown:contains("Gagal membaca") {
+        display: none !important;
+    }
 
     .sidebar-header-new {
         background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.6)),
@@ -1043,17 +1068,16 @@ st.markdown("""
         margin:2rem 0;
     }
     
-    .plant-detail-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin: 10px 0;
+    /* Status badge di sidebar */
+    .status-badge {
+        background: rgba(0,0,0,0.4);
+        padding: 10px 14px;
+        border-radius: 8px;
+        color: white;
+        border-left: 3px solid #4CAF50;
     }
-    
-    @media (max-width: 768px) {
-        .plant-detail-grid {
-            grid-template-columns: 1fr;
-        }
+    .status-badge small {
+        color: rgba(255,255,255,0.7);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1117,7 +1141,7 @@ with st.sidebar:
         use_container_width=True
     )
     st.markdown(
-        '<p class="image-caption" style="color:white!important;">Tim Ekspedisi Penelitian</p>',
+        '<p style="color:white!important; text-align:center; font-size:12px; opacity:0.8;">Tim Ekspedisi Penelitian</p>',
         unsafe_allow_html=True
     )
     st.markdown("---")
@@ -1160,11 +1184,11 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 📁 Status Data")
     st.markdown(f"""
-    <div style="color:white; background:rgba(0,0,0,.3); padding:10px; border-radius:8px;">
-        ✅ <b>Data Tanaman</b><br><small>{len(df_herbal)} titik • {df_herbal['Nama'].nunique()} spesies</small>
+    <div class="status-badge">
+        ✅ <b>Data Tanaman</b><br>
+        <small>{len(df_herbal)} titik • {df_herbal['Nama'].nunique()} spesies</small>
     </div>
     """, unsafe_allow_html=True)
-
 # ─────────────────────────────────────────────────────────────────────────────
 # FILTER DATA
 # ─────────────────────────────────────────────────────────────────────────────
