@@ -1948,33 +1948,35 @@ else:
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
-# ── Tim peneliti ──────────────────────────────────────────────────────────
-st.markdown("### 👥 Tim Peneliti")
-tm_cols = st.columns(4)  # Ubah dari 3 menjadi 4 kolom
-team = [
-    ("https://prasetya.ub.ac.id/wp-content/uploads/2023/10/BU-TYAS-405x270.jpg",
-     "Dr Eng Turniningtyas Ayu R.", "ST., MT", "Ketua Tim"),
-    ("https://img.inews.co.id/files/networks/2022/11/03/e9d8d_prof-sasmito-djati.jpg",
-     "Prof.Dr.Ir. Moch. Sasmito Djati", "M.S.", "Pakar Tanaman Herbal"),
-    ("https://i1.rgstatic.net/ii/profile.image/296334033735682-1447662947469_Q512/Adipandang-Yudono.jpg",
-     "Adipandang Yudono", "S.Si., M.U.R.P., Ph.D", "Pakar GIS & WebGIS Analytics"),
-    ("https://sau.ub.ac.id/storage/foto/96Ptjb7GPiCz32JQkveQ3Hr7p5hk5C78biQvobo5.png",
-     "Dr. Ir. Arief Andy Soebroto", "S.T., M.Kom.", "Pakar AI & IoT"),
-]
-for (photo, name, title, role), col in zip(team, tm_cols):
-    with col:
-        st.markdown(f"""
-        <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; text-align: center;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 12px; height: 100%;">
-            <img src="{photo}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
-                        border: 3px solid #2E7D32; margin-bottom: 8px;" 
-                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={name.replace(' ', '+')}&background=2E7D32&color=fff&size=100';">
-            <h4 style="margin: 4px 0; color: #1B5E20; font-size: 14px;">{name}</h4>
-            <p style="margin: 2px 0; font-size: 13px; color: #555;">{title}</p>
-            <p style="margin: 2px 0; font-size: 12px; color: #2E7D32; font-weight: bold;">{role}</p>
-        </div>""", unsafe_allow_html=True)
+    # ── Tim peneliti ──────────────────────────────────────────────────────────
+    st.markdown("### 👥 Tim Peneliti")
+    tm_cols = st.columns(4)
+    team = [
+        ("https://prasetya.ub.ac.id/wp-content/uploads/2023/10/BU-TYAS-405x270.jpg",
+         "Dr Eng Turniningtyas Ayu R.", "ST., MT", "Ketua Tim"),
+        ("https://img.inews.co.id/files/networks/2022/11/03/e9d8d_prof-sasmito-djati.jpg",
+         "Prof.Dr.Ir. Moch. Sasmito Djati", "M.S.", "Pakar Tanaman Herbal"),
+        ("https://i1.rgstatic.net/ii/profile.image/296334033735682-1447662947469_Q512/Adipandang-Yudono.jpg",
+         "Adipandang Yudono", "S.Si., M.U.R.P., Ph.D", "Pakar GIS & WebGIS Analytics"),
+        ("https://sau.ub.ac.id/storage/foto/96Ptjb7GPiCz32JQkveQ3Hr7p5hk5C78biQvobo5.png",
+         "Dr. Ir. Arief Andy Soebroto", "S.T., M.Kom.", "Pakar AI & IoT"),
+    ]
+    for (photo, name, title, role), col in zip(team, tm_cols):
+        with col:
+            st.markdown(f"""
+            <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; text-align: center;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 12px; height: 100%;">
+                <img src="{photo}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+                            border: 3px solid #2E7D32; margin-bottom: 8px;" 
+                            onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={name.replace(' ', '+')}&background=2E7D32&color=fff&size=100';">
+                <h4 style="margin: 4px 0; color: #1B5E20; font-size: 14px;">{name}</h4>
+                <p style="margin: 2px 0; font-size: 13px; color: #555;">{title}</p>
+                <p style="margin: 2px 0; font-size: 12px; color: #2E7D32; font-weight: bold;">{role}</p>
+            </div>""", unsafe_allow_html=True)
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+    
+    # ── Sumber Data ──────────────────────────────────────────────────────────
     st.markdown("""
     ### 📍 Sumber Data
     - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 86 spesies, 8 kawasan ekologi
