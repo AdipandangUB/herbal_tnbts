@@ -230,6 +230,27 @@ if 'music_playing' not in st.session_state:
     st.session_state.music_playing = True
 
 # ─────────────────────────────────────────────────────────────────────────────
+# KONFIGURASI HALAMAN STREAMLIT
+# ─────────────────────────────────────────────────────────────────────────────
+st.set_page_config(
+    page_title="WebGIS Tanaman Herbal TNBTS",
+    page_icon="🌿",
+    layout="wide"
+)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INISIALISASI SESSION STATE
+# ─────────────────────────────────────────────────────────────────────────────
+if 'menu_selected' not in st.session_state:
+    st.session_state.menu_selected = "Peta Sebaran"
+if 'music_playing' not in st.session_state:
+    st.session_state.music_playing = True
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
+if 'highlighted_plants' not in st.session_state:
+    st.session_state.highlighted_plants = []
+    
+# ─────────────────────────────────────────────────────────────────────────────
 # CSS
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -257,28 +278,52 @@ st.markdown("""
     [data-testid="stSidebar"] h3 { color:white !important; text-shadow:2px 2px 4px rgba(0,0,0,.5); }
     [data-testid="stSidebar"] p  { color:rgba(255,255,255,.9) !important; }
     [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.3) !important; }
-    [data-testid="stSidebar"] .stRadio>div {
-        background-color:rgba(255,255,255,.15); padding:10px; border-radius:10px;
-        backdrop-filter:blur(5px); border:1px solid rgba(255,255,255,.2); }
-    [data-testid="stSidebar"] .stRadio label    { color:white !important; font-weight:500; }
-    [data-testid="stSidebar"] .stSlider label,
-    [data-testid="stSidebar"] .stMultiSelect label,
-    [data-testid="stSidebar"] .stCheckbox label { color:white !important; }
 
-    .sidebar-header-new {
-        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.6)),
-                    url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
-        background-size:cover; background-position:center;
-        padding:1.5rem 1rem; border-radius:10px; color:white; text-align:center;
-        margin-bottom:1rem; border:2px solid rgba(255,215,0,.3);
-        box-shadow:0 4px 15px rgba(0,0,0,.4);
+    /* Chatbot styling */
+    .chat-message {
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        max-width: 85%;
+        box-shadow: 0 1px 3px rgba(0,0,0,.1);
     }
-    .sidebar-header-new h3 { color:#FFD700 !important; margin:0; font-size:1.4rem;
-        text-shadow:2px 2px 4px rgba(0,0,0,.7); font-weight:bold; }
-    .sidebar-header-new p  { color:#FFFFFF !important; margin:.5rem 0 0 0;
-        font-style:italic; background:rgba(0,0,0,.3); display:inline-block;
-        padding:.2rem 1rem; border-radius:20px; }
-
+    .chat-message.user {
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+    }
+    .chat-message.bot {
+        background: #f5f5f5;
+        color: #333;
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+        border-left: 4px solid #4CAF50;
+    }
+    .chat-message.bot h4 { color: #2E7D32; margin-top: 0; }
+    .chat-message.bot ul { margin: 4px 0; padding-left: 20px; }
+    .chat-message.bot li { margin-bottom: 4px; }
+    
+    .chat-container {
+        max-height: 450px;
+        overflow-y: auto;
+        padding: 10px;
+        background: #fafafa;
+        border-radius: 10px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+    }
+    
+    /* Flashing effect untuk marker */
+    @keyframes flash {
+        0% { opacity: 1; }
+        50% { opacity: 0.3; }
+        100% { opacity: 1; }
+    }
+    .flash-marker {
+        animation: flash 1.5s ease-in-out infinite;
+    }
+    
     .metric-card {
         background:white; padding:1rem; border-radius:10px;
         box-shadow:0 2px 4px rgba(0,0,0,.1); text-align:center;
@@ -289,13 +334,12 @@ st.markdown("""
     .metric-card h3 { color:#2E7D32; margin:0; font-size:1.8rem; font-weight:bold; }
     .metric-card p  { color:#666; margin:.2rem 0 0 0; font-size:.9rem; text-transform:uppercase; }
 
-    .stTabs [data-baseweb="tab-list"] {
-        gap:2rem; background-color:#f5f5f5; padding:.5rem; border-radius:10px; }
-    .stTabs [data-baseweb="tab"] { border-radius:5px; padding:.5rem 1rem; }
-
-    .dataframe-container { border:1px solid #ddd; border-radius:10px;
-        padding:1rem; background:white; }
-
+    .info-box {
+        background-color:#E8F5E9; border-left:4px solid #4CAF50;
+        padding:1.5rem; border-radius:5px; margin:1rem 0;
+    }
+    .info-box h4 { color:#2E7D32; margin-top:0; margin-bottom:1rem; }
+    
     .footer {
         background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
                     url('https://statik.tempo.co/data/2024/05/26/id_1305154/1305154_720.jpg');
@@ -309,85 +353,6 @@ st.markdown("""
         height:3px;
         background:linear-gradient(90deg,transparent,#4CAF50,transparent);
         margin:2rem 0;
-    }
-    .image-caption { text-align:center; font-style:italic;
-        color:#666; margin-top:.3rem; font-size:.9rem; }
-    .status-badge {
-        background:rgba(255,255,255,.2); backdrop-filter:blur(5px);
-        padding:.5rem; border-radius:5px; margin:.3rem 0;
-        border-left:3px solid #FFD700; color:white;
-    }
-    .status-badge small { color:rgba(255,255,255,.8); }
-    .stButton>button {
-        background:linear-gradient(135deg,#2E7D32 0%,#4CAF50 100%);
-        color:white; border:none; padding:.5rem 2rem; font-weight:bold;
-        border-radius:5px; transition:all .3s ease;
-    }
-    .stButton>button:hover {
-        background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);
-        box-shadow:0 4px 8px rgba(0,0,0,.2);
-    }
-    .stDownloadButton>button {
-        background:linear-gradient(135deg,#1976D2 0%,#2196F3 100%);
-        color:white; border:none; padding:.5rem 2rem; font-weight:bold;
-        border-radius:5px; transition:all .3s ease;
-    }
-    .info-box {
-        background-color:#E8F5E9; border-left:4px solid #4CAF50;
-        padding:1.5rem; border-radius:5px; margin:1rem 0;
-    }
-    .info-box h4 { color:#2E7D32; margin-top:0; margin-bottom:1rem; }
-    .fungsi-card {
-        background:white; border-radius:10px; padding:1.2rem;
-        margin-bottom:1rem; box-shadow:0 2px 4px rgba(0,0,0,.1);
-        border-left:4px solid #4CAF50; transition:transform .2s;
-    }
-    .fungsi-card:hover { transform:translateX(5px); }
-    .fungsi-title { color:#2E7D32; font-size:1.1rem; font-weight:bold;
-        margin-bottom:.8rem; border-bottom:2px solid #4CAF50; padding-bottom:.3rem; }
-    .tanaman-list {
-        display:flex; flex-wrap:wrap; gap:.5rem; max-height:250px;
-        overflow-y:auto; padding:.5rem; border:1px solid #e0e0e0;
-        border-radius:5px; background:#fafafa;
-    }
-    .tanaman-badge {
-        background:#E8F5E9; color:#2E7D32; padding:.3rem .8rem;
-        border-radius:20px; font-size:.85rem; border:1px solid #4CAF50;
-        cursor:help; transition:all .2s;
-    }
-    .tanaman-badge:hover { background:#4CAF50; color:white; transform:scale(1.05); }
-    .team-card {
-        background:#f5f5f5; padding:1.5rem; border-radius:10px;
-        text-align:center; min-height:380px;
-        box-shadow:0 4px 8px rgba(0,0,0,.1); transition:transform .3s ease;
-    }
-    .team-card:hover { transform:translateY(-5px); }
-    .team-photo {
-        width:150px; height:150px; border-radius:50%; object-fit:cover;
-        border:4px solid #4CAF50; margin-bottom:1rem;
-    }
-    .team-name  { color:#2E7D32; margin:.5rem 0 .2rem 0; font-size:1.1rem; font-weight:bold; }
-    .team-title { color:#666; margin:.2rem 0; font-size:.9rem; }
-    .team-role  { color:#666; font-style:italic; margin-top:.5rem; font-size:.85rem;
-        background:rgba(76,175,80,.1); padding:.3rem; border-radius:20px; }
-    .kawasan-badge {
-        display:inline-block; padding:.25rem .75rem; border-radius:20px;
-        font-size:.8rem; font-weight:600; color:white; margin:.2rem .1rem;
-    }
-
-    /* ── Legenda kawasan di peta ── */
-    .legend-kawasan {
-        background:white; border-radius:10px; padding:12px 14px;
-        box-shadow:0 2px 8px rgba(0,0,0,.15); font-family:Arial,sans-serif;
-    }
-    .legend-kawasan h4 { margin:0 0 8px 0; font-size:13px; color:#1B5E20; }
-    .legend-kawasan .l-row {
-        display:flex; align-items:center; gap:6px;
-        font-size:11px; margin-bottom:4px; color:#333;
-    }
-    .legend-kawasan .l-box {
-        width:14px; height:14px; border-radius:3px;
-        flex-shrink:0; border:1px solid rgba(0,0,0,.2);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1002,6 +967,68 @@ with st.sidebar:
         🏔️ <b>Layer Kawasan</b><br><small>8 kawasan ekologi TNBTS</small>
     </div>""", unsafe_allow_html=True)
 
+# ═════════════════════════════════════════════════════════════════════════════
+# MENU: DATA TANAMAN
+# ═════════════════════════════════════════════════════════════════════════════
+elif selected == "Data Tanaman":
+    st.markdown("## 📋 Data Tanaman Herbal TNBTS")
+    tab1, tab2 = st.tabs(["🌿 86 Spesies Tanaman", "🏘️ Data Desa (GeoJSON)"])
+
+    with tab1:
+        search = st.text_input(
+            "🔍 Cari (nama, fungsi, nama latin, kawasan):",
+            placeholder="Contoh: antiradang / blok ireng / herba ..."
+        )
+        df_show = df_tanaman_filtered.copy()
+        if search:
+            mask = (
+                df_show['nama_tanaman'].str.contains(search, case=False, na=False) |
+                df_show['fungsi_utama'].str.contains(search, case=False, na=False) |
+                df_show['nama_latin'].str.contains(search, case=False, na=False) |
+                df_show['kawasan'].str.contains(search, case=False, na=False) |
+                df_show['desa'].str.contains(search, case=False, na=False)
+            )
+            df_show = df_show[mask]
+            st.info(f"Ditemukan **{len(df_show)}** hasil")
+
+        st.dataframe(
+            df_show[[
+                'id','nama_tanaman','nama_latin','jenis','fungsi_utama',
+                'kawasan','ketinggian','lokasi_detail','desa','status_konservasi'
+            ]].rename(columns={
+                'id':'No','nama_tanaman':'Nama Tanaman','nama_latin':'Nama Latin',
+                'jenis':'Jenis','fungsi_utama':'Fungsi Utama',
+                'kawasan':'Kawasan Ekologi','ketinggian':'mdpl',
+                'lokasi_detail':'Lokasi Detail','desa':'Desa',
+                'status_konservasi':'Status Konservasi'
+            }),
+            use_container_width=True, height=500, hide_index=True
+        )
+        cc1, cc2, cc3 = st.columns([1, 2, 1])
+        with cc2:
+            st.download_button(
+                "📥 Download CSV Tanaman (86 Spesies)",
+                data=df_tanaman_filtered.to_csv(index=False),
+                file_name="tanaman_herbal_tnbts_86.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
+
+    with tab2:
+        st.markdown("### 📊 Data Desa dari File GeoJSON")
+        if not gdf_desa.empty:
+            st.success(f"✅ {len(gdf_desa)} desa berhasil dimuat")
+            desa_df = gdf_desa.drop('geometry', axis=1, errors='ignore')
+            st.dataframe(desa_df, use_container_width=True, height=500)
+            st.download_button(
+                "📥 Download Data Desa (CSV)",
+                data=desa_df.to_csv(index=False),
+                file_name="data_desa_tnbts.csv",
+                mime="text/csv"
+            )
+        else:
+            st.error("❌ Desa_kaw_TNBTS.geojson tidak ditemukan.")
+
 # ─────────────────────────────────────────────────────────────────────────────
 # DATA TANAMAN
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1135,7 +1162,7 @@ if selected_kawasan != "Semua Kawasan":
 # ─────────────────────────────────────────────────────────────────────────────
 def create_tnbts_map(
     show_kawasan, show_desa_geojson, show_kabupaten, show_batas_tnbts, show_tanaman,
-    gdf_desa, gdf_kabupaten, gdf_batas, df_tanaman_filtered
+    gdf_desa, gdf_kabupaten, gdf_batas, df_tanaman_filtered, highlight_points=None
 ):
     m = folium.Map(
         location=[-7.955, 112.953],
@@ -1178,19 +1205,7 @@ def create_tnbts_map(
                 fields=['Keterangan'],
                 aliases=['Keterangan:'],
                 localize=False,
-                sticky=False,
-                style=(
-                    'background-color:white;'
-                    'border:2px solid #B71C1C;'
-                    'border-radius:6px;'
-                    'padding:6px 10px;'
-                    'font-family:Arial;'
-                    'font-size:12px;'
-                    'font-weight:bold;'
-                    'color:#B71C1C;'
-                    'box-shadow:2px 2px 6px rgba(0,0,0,.15);'
-                    'pointer-events:none;'
-                ),
+                sticky=False
             )
         ).add_to(batas_group)
         batas_group.add_to(m)
@@ -1265,6 +1280,9 @@ def create_tnbts_map(
             show=True
         )
         
+        # Konversi highlight_points ke set untuk pencarian cepat
+        highlight_set = set(highlight_points) if highlight_points else set()
+        
         for idx, row in df_tanaman_filtered.iterrows():
             lat = row['latitude']
             lon = row['longitude']
@@ -1277,8 +1295,15 @@ def create_tnbts_map(
             ketinggian = row['ketinggian']
             status = row.get('status_konservasi', 'Umum')
             
-            if status == 'Dilindungi':
+            # Cek apakah tanaman ini termasuk dalam highlight
+            is_highlighted = nama_tanaman in highlight_set
+            
+            if is_highlighted:
                 icon_color = 'red'
+                icon_icon = 'star'
+                # Tambahkan efek flashing - akan ditangani oleh CSS
+            elif status == 'Dilindungi':
+                icon_color = 'orange'
                 icon_icon = 'lock'
             else:
                 icon_color = JENIS_COLOR.get(jenis, 'green')
@@ -1287,7 +1312,7 @@ def create_tnbts_map(
             popup_html = f"""
             <div style="font-family: Arial, sans-serif; font-size: 12px; width: 220px; line-height: 1.5;">
                 <h5 style="margin: 0 0 5px 0; color: #27AE60; border-bottom: 2px solid #2ECC71; padding-bottom: 3px; font-weight: bold;">
-                    🌿 {nama_tanaman}
+                    {'⭐ ' if is_highlighted else '🌿 '}{nama_tanaman}
                 </h5>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr style="border-bottom: 1px solid #F0F0F0;">
@@ -1327,63 +1352,138 @@ def create_tnbts_map(
             </div>
             """
             
-            folium.Marker(
-                location=[lat, lon],
-                popup=folium.Popup(popup_html, max_width=250),
-                tooltip=f"{nama_tanaman} ({jenis}) - {kawasan}",
-                icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
-            ).add_to(herbal_cluster)
+            # Tentukan icon HTML untuk efek flashing
+            if is_highlighted:
+                folium.Marker(
+                    location=[lat, lon],
+                    popup=folium.Popup(popup_html, max_width=250),
+                    tooltip=f"⭐ {nama_tanaman} - Direkomendasikan!",
+                    icon=folium.Icon(color='red', icon='star', prefix='fa')
+                ).add_to(herbal_cluster)
+            else:
+                folium.Marker(
+                    location=[lat, lon],
+                    popup=folium.Popup(popup_html, max_width=250),
+                    tooltip=f"{nama_tanaman} ({jenis}) - {kawasan}",
+                    icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
+                ).add_to(herbal_cluster)
             
         herbal_cluster.add_to(m)
 
     folium.LayerControl(collapsed=False, position='topright').add_to(m)
     return m
+
+# ═════════════════════════════════════════════════════════════════════════════
+# MENU: CHATBOT HERBAL
+# ═════════════════════════════════════════════════════════════════════════════
+if selected == "Chatbot Herbal":
+    st.markdown("## 🤖 Asisten Tanaman Herbal TNBTS")
+    st.markdown("""
+    <div class="info-box">
+        <h4>💬 Tanyakan Tanaman Herbal Berdasarkan Lokasi & Gejala</h4>
+        <p>
+            Chatbot ini akan membantu Anda menemukan tanaman herbal di sekitar TNBTS 
+            berdasarkan <b>lokasi</b> (desa/kabupaten) dan <b>gejala penyakit</b> yang Anda alami.
+        </p>
+        <p><b>Contoh pertanyaan:</b><br>
+        - "Tanaman untuk demam di Ngadisari"<br>
+        - "Apa obat batuk di Malang?"<br>
+        - "Tanaman antiradang di Pasuruan"<br>
+        - "Saya sakit perut di Wonokitri"
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Chat container
+    chat_container = st.container()
     
-    # ── Legenda kawasan (HTML overlay kiri bawah) ─────────────────────────
-    legend_items_html = "".join([
-        f'<div class="l-row">'
-        f'<div class="l-box" style="background:{col};"></div>'
-        f'{nm.split("&")[0].strip()} ({len(df_tanaman[df_tanaman["kawasan"]==nm])} sp.)'
-        f'</div>'
-        for nm, col in KAWASAN_HEX.items()
-    ])
-    legend_html = f"""
-    <div style="position:fixed;bottom:30px;left:10px;z-index:9000;
-                background:white;border-radius:10px;padding:12px 14px;
-                box-shadow:0 2px 10px rgba(0,0,0,.2);font-family:Arial;
-                max-width:220px;border:1px solid #e0e0e0;">
-        <div style="font-weight:bold;font-size:12px;color:#1B5E20;
-                    margin-bottom:8px;border-bottom:2px solid #4CAF50;padding-bottom:4px;">
-            🏔️ Kawasan Ekologi TNBTS
-        </div>
-        {legend_items_html}
-        <div style="margin-top:8px;border-top:1px solid #eee;padding-top:6px;
-                    font-size:10px;color:#888;">
-            Klik polygon untuk detail kawasan
-        </div>
-    </div>"""
-    m.get_root().html.add_child(folium.Element(legend_html))
-
-    # Layer control & plugins
-    folium.LayerControl(collapsed=False).add_to(m)
-    try:
-        from folium.plugins import Fullscreen
-        Fullscreen(position='topright').add_to(m)
-    except Exception:
-        pass
-    try:
-        from folium.plugins import MeasureControl
-        MeasureControl(position='bottomright',
-                       primary_length_unit='kilometers').add_to(m)
-    except Exception:
-        pass
-
-    return m
-
+    with chat_container:
+        st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+        
+        # Tampilkan chat history
+        for msg in st.session_state.chat_history:
+            if msg['role'] == 'user':
+                st.markdown(f'<div class="chat-message user">👤 {msg["content"]}</div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="chat-message bot">🤖 {msg["content"]}</div>', unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Chat input
+    col_input, col_button = st.columns([5, 1])
+    with col_input:
+        user_input = st.text_input(
+            "💬 Tanyakan sesuatu...",
+            placeholder="Contoh: Tanaman untuk demam di Ngadisari",
+            key="chat_input",
+            label_visibility="collapsed"
+        )
+    with col_button:
+        send_button = st.button("📤 Kirim", use_container_width=True)
+    
+    # Process input
+    if send_button and user_input:
+        # Add user message to history
+        st.session_state.chat_history.append({'role': 'user', 'content': user_input})
+        
+        # Generate response
+        response = generate_chatbot_response(user_input, df_tanaman, gdf_desa)
+        
+        # Extract highlighted plants from response
+        highlighted = []
+        if "**Rekomendasi Tanaman:**" in response:
+            # Extract plant names from response
+            lines = response.split('\n')
+            for line in lines:
+                if '**' in line and 'nama_tanaman' in line:
+                    # Simple extraction - look for bold text
+                    parts = line.split('**')
+                    if len(parts) >= 3:
+                        highlighted.append(parts[1].strip())
+        
+        st.session_state.highlighted_plants = highlighted
+        
+        # Add bot response to history
+        st.session_state.chat_history.append({'role': 'bot', 'content': response})
+        
+        # Rerun to update UI
+        st.rerun()
+    
+    # Clear history button
+    if st.button("🗑️ Hapus Riwayat Chat"):
+        st.session_state.chat_history = []
+        st.session_state.highlighted_plants = []
+        st.rerun()
+    
+    # Tampilkan peta dengan highlight jika ada tanaman yang direkomendasikan
+    if st.session_state.highlighted_plants:
+        st.markdown("---")
+        st.markdown("### 🗺️ Peta Sebaran Tanaman yang Direkomendasikan")
+        st.markdown("⭐ **Titik berwarna merah dengan bintang** adalah tanaman yang direkomendasikan berdasarkan pertanyaan Anda.")
+        
+        try:
+            m = create_tnbts_map(
+                show_kawasan=show_kawasan,
+                show_desa_geojson=show_desa_geojson,
+                show_kabupaten=show_kabupaten,
+                show_batas_tnbts=show_batas_tnbts,
+                show_tanaman=show_tanaman,
+                gdf_desa=gdf_desa,
+                gdf_kabupaten=gdf_kabupaten,
+                gdf_batas=gdf_batas,
+                df_tanaman_filtered=df_tanaman,
+                highlight_points=st.session_state.highlighted_plants
+            )
+            folium_static(m, width=1200, height=500)
+        except Exception as e:
+            st.error(f"Error membuat peta: {e}")
+            m0 = folium.Map(location=[-7.940, 112.950], zoom_start=10)
+            folium_static(m0)
+            
 # ═════════════════════════════════════════════════════════════════════════════
-# HALAMAN: PETA SEBARAN
+# MENU: PETA SEBARAN
 # ═════════════════════════════════════════════════════════════════════════════
-if selected == "Peta Sebaran":
+elif selected == "Peta Sebaran":
     st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
     st.markdown(
         "Visualisasi sebaran **86 spesies tanaman herbal** di **8 kawasan ekologi** TNBTS. "
@@ -1407,29 +1507,18 @@ if selected == "Peta Sebaran":
         st.markdown(f"""<div class="metric-card"><h3>{dilind}</h3>
             <p>🔒 Dilindungi</p></div>""", unsafe_allow_html=True)
 
-    # Info kawasan filter aktif
-    if selected_kawasan != "Semua Kawasan":
-        kw_col = KAWASAN_HEX.get(selected_kawasan, '#2E7D32')
-        st.markdown(
-            f'<div style="background:{kw_col};color:white;padding:.6rem 1rem;'
-            f'border-radius:8px;margin-bottom:.5rem;font-weight:600;">'
-            f'📍 Filter aktif: {selected_kawasan} ({len(df_tanaman_filtered)} spesies)</div>',
-            unsafe_allow_html=True
-        )
-
-    # Info layer kawasan
+    # Info layer
     st.info(
         "🏔️ **Layer Kawasan Ekologi** aktif — 8 zona ditampilkan sebagai polygon berwarna. "
         "🏘️ **Batas Desa** ditampilkan sebagai outline tebal warna oranye (fill transparan). "
         "🗺️ **Batas Kabupaten** ditampilkan sebagai outline tebal biru dengan label nama. "
         "🔲 **Batas TNBTS** ditampilkan sebagai outline merah putus-putus. "
-        "Gunakan **Layer Control** di pojok kanan atas peta untuk menampilkan/menyembunyikan layer. "
-        "**Hover** pada polygon untuk melihat informasi. **Klik polygon** untuk info lengkap."
+        "Gunakan **Layer Control** di pojok kanan atas peta untuk menampilkan/menyembunyikan layer."
     )
 
-    # Peta
+    # Tampilkan peta
     try:
-        folium_static(create_tnbts_map(
+        m = create_tnbts_map(
             show_kawasan=show_kawasan,
             show_desa_geojson=show_desa_geojson,
             show_kabupaten=show_kabupaten,
@@ -1439,7 +1528,9 @@ if selected == "Peta Sebaran":
             gdf_kabupaten=gdf_kabupaten,
             gdf_batas=gdf_batas,
             df_tanaman_filtered=df_tanaman_filtered,
-        ), width=1200, height=640)
+            highlight_points=None
+        )
+        folium_static(m, width=1200, height=640)
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
         m0 = folium.Map(location=[-7.940, 112.950], zoom_start=10)
