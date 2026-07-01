@@ -744,20 +744,27 @@ def get_plant_detail(plant_name):
     return None
 
 
-def create_plant_popup_html(plant_name, lat, lon, no):
+def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False):
     """Membuat HTML popup untuk peta dengan detail lengkap tanaman."""
     detail = get_plant_detail(plant_name)
+    
+    # Warna border berdasarkan highlight
+    border_color = '#D32F2F' if is_highlighted else '#2E7D32'
+    header_gradient = 'linear-gradient(135deg, #D32F2F, #E53935)' if is_highlighted else 'linear-gradient(135deg, #2E7D32, #43A047)'
+    star_icon = '⭐ ' if is_highlighted else '🌿 '
     
     html = f"""
     <div style="font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; 
                 max-width: 380px; line-height: 1.6; background: #FAFAFA; 
                 border-radius: 10px; padding: 0; overflow: hidden;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+                border: 2px solid {border_color};">
         
-        <div style="background: linear-gradient(135deg, #2E7D32, #43A047); 
+        <div style="background: {header_gradient}; 
                     color: white; padding: 12px 16px; border-radius: 10px 10px 0 0;">
             <h4 style="margin: 0; font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 8px;">
-                <span>🌿</span> {plant_name}
+                <span>{star_icon}</span> {plant_name}
+                {f'<span style="background: #FFD700; color: #333; font-size: 10px; padding: 2px 8px; border-radius: 12px; margin-left: auto;">⭐ REKOMENDASI</span>' if is_highlighted else ''}
             </h4>
         </div>
         
@@ -1079,6 +1086,18 @@ st.markdown("""
     .status-badge small {
         color: rgba(255,255,255,0.7);
     }
+    
+    /* Highlight untuk tanaman rekomendasi */
+    .highlight-badge {
+        background: #D32F2F;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        margin-left: 8px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1313,13 +1332,19 @@ def generate_chatbot_response_herbal(user_input, df_herbal):
         response += f"💊 **Gejala:** {', '.join(symptoms)}\n"
     response += f"🌱 **Jumlah tanaman ditemukan:** {len(results)}\n\n"
     
+    # Simpan daftar tanaman yang direkomendasikan untuk highlight
+    recommended_plants = []
+    
     response += "**Rekomendasi Tanaman:**\n"
     for i, (_, row) in enumerate(results.head(5).iterrows()):
-        response += f"\n{i+1}. **{row['Nama']}**\n"
+        plant_name = row['Nama']
+        recommended_plants.append(plant_name)
+        
+        response += f"\n{i+1}. **{plant_name}**\n"
         response += f"   - Koordinat: {row['Y']:.6f}, {row['X']:.6f}\n"
         
         # Tambahkan detail jika tersedia
-        detail = get_plant_detail(row['Nama'])
+        detail = get_plant_detail(plant_name)
         if detail:
             if detail.get('fungsi'):
                 response += f"   - Fungsi: {detail['fungsi'][:100]}...\n"
@@ -1330,6 +1355,10 @@ def generate_chatbot_response_herbal(user_input, df_herbal):
         response += f"\n📋 **{len(results)-5} tanaman lainnya** dapat dilihat di Data Tanaman."
     
     response += "\n\n💡 **Catatan:** Selalu konsultasikan dengan ahli kesehatan sebelum mengonsumsi tanaman herbal."
+    
+    # Simpan daftar tanaman yang direkomendasikan di session state
+    st.session_state.recommended_plants = recommended_plants
+    
     return response
 
 
@@ -1353,8 +1382,16 @@ JENIS_COLOR = {
 # ─────────────────────────────────────────────────────────────────────────────
 def create_tnbts_map(
     show_desa_geojson, show_kabupaten, show_batas_tnbts, show_tanaman,
-    gdf_desa, gdf_kabupaten, gdf_batas, df_tanaman_filtered, highlight_points=None
+    gdf_desa, gdf_kabupaten, gdf_batas, df_tanaman_filtered, 
+    highlight_points=None, show_only_highlighted=False
 ):
+    """
+    Membuat peta interaktif TNBTS.
+    
+    Parameters:
+    - show_only_highlighted: Jika True, hanya menampilkan tanaman yang ada di highlight_points
+    - highlight_points: List nama tanaman yang akan di-highlight (warna merah bintang)
+    """
     m = folium.Map(
         location=[-7.955, 112.953],
         zoom_start=11,
@@ -1459,41 +1496,50 @@ def create_tnbts_map(
         desa_group.add_to(m)
 
     if show_tanaman and not df_tanaman_filtered.empty:
-        herbal_cluster = MarkerCluster(
-            name="🌿 Sebaran Tanaman Herbal",
-            overlay=True,
-            control=True,
-            show=True
-        )
+        # Jika show_only_highlighted True, filter hanya tanaman yang di-highlight
+        if show_only_highlighted and highlight_points:
+            df_to_show = df_tanaman_filtered[df_tanaman_filtered['Nama'].isin(highlight_points)]
+            cluster_name = "⭐ Tanaman yang Direkomendasikan"
+        else:
+            df_to_show = df_tanaman_filtered
+            cluster_name = "🌿 Sebaran Tanaman Herbal"
         
-        highlight_set = set(highlight_points) if highlight_points else set()
-        
-        for idx, row in df_tanaman_filtered.iterrows():
-            lat = row['Y']
-            lon = row['X']
-            nama = row['Nama']
-            no = row['No']
+        if not df_to_show.empty:
+            herbal_cluster = MarkerCluster(
+                name=cluster_name,
+                overlay=True,
+                control=True,
+                show=True
+            )
             
-            is_highlighted = nama in highlight_set
+            highlight_set = set(highlight_points) if highlight_points else set()
             
-            if is_highlighted:
-                icon_color = 'red'
-                icon_icon = 'star'
-            else:
-                icon_color = 'green'
-                icon_icon = 'leaf'
-            
-            # Gunakan popup dengan detail lengkap
-            popup_html = create_plant_popup_html(nama, lat, lon, no)
-            
-            folium.Marker(
-                location=[lat, lon],
-                popup=folium.Popup(popup_html, max_width=400),
-                tooltip=f"{'⭐ ' if is_highlighted else ''}{nama}",
-                icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
-            ).add_to(herbal_cluster)
-            
-        herbal_cluster.add_to(m)
+            for idx, row in df_to_show.iterrows():
+                lat = row['Y']
+                lon = row['X']
+                nama = row['Nama']
+                no = row['No']
+                
+                is_highlighted = nama in highlight_set
+                
+                if is_highlighted:
+                    icon_color = 'red'
+                    icon_icon = 'star'
+                else:
+                    icon_color = 'green'
+                    icon_icon = 'leaf'
+                
+                # Gunakan popup dengan detail lengkap
+                popup_html = create_plant_popup_html(nama, lat, lon, no, is_highlighted)
+                
+                folium.Marker(
+                    location=[lat, lon],
+                    popup=folium.Popup(popup_html, max_width=400),
+                    tooltip=f"{'⭐ ' if is_highlighted else ''}{nama}",
+                    icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
+                ).add_to(herbal_cluster)
+                
+            herbal_cluster.add_to(m)
 
     folium.LayerControl(collapsed=False, position='topright').add_to(m)
     return m
@@ -1503,6 +1549,10 @@ def create_tnbts_map(
 # ═════════════════════════════════════════════════════════════════════════════
 if selected == "Chatbot Herbal":
     st.markdown("## 🤖 Asisten Tanaman Herbal TNBTS")
+    
+    # Inisialisasi recommended_plants jika belum ada
+    if 'recommended_plants' not in st.session_state:
+        st.session_state.recommended_plants = []
     
     st.markdown("""
     <div class="info-box">
@@ -1545,44 +1595,80 @@ if selected == "Chatbot Herbal":
         st.session_state.chat_history.append({'role': 'user', 'content': user_input})
         response = generate_chatbot_response_herbal(user_input, df_herbal)
         
-        highlighted = []
-        if "**Rekomendasi Tanaman:**" in response:
-            lines = response.split('\n')
-            for line in lines:
-                if '**' in line:
-                    parts = line.split('**')
-                    if len(parts) >= 3:
-                        highlighted.append(parts[1].strip())
-        
-        st.session_state.highlighted_plants = highlighted
+        # Tanaman yang direkomendasikan sudah disimpan di generate_chatbot_response_herbal
         st.session_state.chat_history.append({'role': 'bot', 'content': response})
         st.rerun()
     
     if st.button("🗑️ Hapus Riwayat Chat"):
         st.session_state.chat_history = []
-        st.session_state.highlighted_plants = []
+        st.session_state.recommended_plants = []
         st.rerun()
     
-    if st.session_state.highlighted_plants:
+    # ─── PETA SEBARAN TANAMAN YANG DIREKOMENDASIKAN ────────────────────────
+    if st.session_state.recommended_plants:
         st.markdown("---")
         st.markdown("### 🗺️ Peta Sebaran Tanaman yang Direkomendasikan")
-        st.markdown("⭐ **Titik berwarna merah dengan bintang** adalah tanaman yang direkomendasikan berdasarkan pertanyaan Anda.")
+        st.markdown("""
+        <div style="background: #FFF3E0; border-left: 4px solid #D32F2F; padding: 12px 16px; border-radius: 8px; margin-bottom: 12px;">
+            <span style="font-weight: bold; color: #D32F2F;">⭐ Titik berwarna MERAH dengan BINTANG</span>
+            <span style="color: #555;"> adalah tanaman yang direkomendasikan berdasarkan pertanyaan Anda.</span>
+            <br>
+            <span style="color: #888; font-size: 13px;">
+                Hanya menampilkan <b>{len(st.session_state.recommended_plants)}</b> jenis tanaman yang direkomendasikan.
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
         
-        try:
-            m = create_tnbts_map(
-                show_desa_geojson=show_desa_geojson,
-                show_kabupaten=show_kabupaten,
-                show_batas_tnbts=show_batas_tnbts,
-                show_tanaman=show_tanaman,
-                gdf_desa=gdf_desa,
-                gdf_kabupaten=gdf_kabupaten,
-                gdf_batas=gdf_batas,
-                df_tanaman_filtered=df_herbal,
-                highlight_points=st.session_state.highlighted_plants
-            )
-            folium_static(m, width=1200, height=500)
-        except Exception as e:
-            st.error(f"Error membuat peta: {e}")
+        # Filter data hanya untuk tanaman yang direkomendasikan
+        df_recommended = df_herbal[df_herbal['Nama'].isin(st.session_state.recommended_plants)]
+        
+        if not df_recommended.empty:
+            try:
+                # Tampilkan hanya tanaman yang direkomendasikan dengan highlight
+                m = create_tnbts_map(
+                    show_desa_geojson=show_desa_geojson,
+                    show_kabupaten=show_kabupaten,
+                    show_batas_tnbts=show_batas_tnbts,
+                    show_tanaman=show_tanaman,
+                    gdf_desa=gdf_desa,
+                    gdf_kabupaten=gdf_kabupaten,
+                    gdf_batas=gdf_batas,
+                    df_tanaman_filtered=df_recommended,  # Hanya data yang direkomendasikan
+                    highlight_points=st.session_state.recommended_plants,
+                    show_only_highlighted=True  # Hanya tampilkan yang direkomendasikan
+                )
+                folium_static(m, width=1200, height=500)
+                
+                # Tampilkan daftar tanaman yang direkomendasikan
+                with st.expander("📋 Daftar Tanaman yang Direkomendasikan"):
+                    for plant in st.session_state.recommended_plants:
+                        detail = get_plant_detail(plant)
+                        plant_data = df_recommended[df_recommended['Nama'] == plant]
+                        st.markdown(f"""
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 12px 16px; 
+                                    margin: 6px 0; border-left: 4px solid #D32F2F;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-weight: bold; font-size: 15px; color: #1B5E20;">⭐ {plant}</span>
+                                    <span style="font-size: 12px; color: #666; margin-left: 8px;">
+                                        ({len(plant_data)} titik sebaran)
+                                    </span>
+                                </div>
+                                <span style="font-size: 11px; color: #D32F2F; background: #FFEBEE; padding: 2px 10px; border-radius: 12px;">
+                                    REKOMENDASI
+                                </span>
+                            </div>
+                            {f'<div style="font-size: 13px; color: #555; margin-top: 4px;">💊 {detail["fungsi"][:150]}{"..." if len(detail["fungsi"]) > 150 else ""}</div>' if detail and detail.get('fungsi') else ''}
+                            <div style="font-size: 11px; color: #888; margin-top: 4px;">
+                                Koordinat: {plant_data.iloc[0]['Y']:.6f}, {plant_data.iloc[0]['X']:.6f}
+                                {f" (+{len(plant_data)-1} lokasi lainnya)" if len(plant_data) > 1 else ""}
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+            except Exception as e:
+                st.error(f"Error membuat peta: {e}")
+        else:
+            st.info("Tidak ada data lokasi untuk tanaman yang direkomendasikan.")
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: PETA SEBARAN
@@ -1627,7 +1713,8 @@ elif selected == "Peta Sebaran":
             gdf_kabupaten=gdf_kabupaten,
             gdf_batas=gdf_batas,
             df_tanaman_filtered=df_herbal_filtered,
-            highlight_points=None
+            highlight_points=None,
+            show_only_highlighted=False
         )
         folium_static(m, width=1200, height=640)
     except Exception as e:
