@@ -1,5 +1,3 @@
-[file name]: herbal_bromo (8).py
-[file content begin]
 import streamlit as st
 import pandas as pd
 import numpy as np
