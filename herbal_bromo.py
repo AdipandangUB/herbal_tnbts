@@ -1104,7 +1104,7 @@ st.markdown("""
 # ─────────────────────────────────────────────────────────────────────────────
 # MUSIK (Floating Player) - LINK YOUTUBE BARU
 # ─────────────────────────────────────────────────────────────────────────────
-# Link YouTube baru: https://www.youtube.com/watch?v=NVY60XJuGKs&list=RDNVY60XJuGKs&start_radio=1&rv=Ep1C30KRYu8
+# Link YouTube: https://www.youtube.com/watch?v=NVY60XJuGKs&list=RDNVY60XJuGKs&start_radio=1&rv=Ep1C30KRYu8
 # Video ID: NVY60XJuGKs
 video_id = "NVY60XJuGKs"
 col_m1, col_m2 = st.columns([1, 5])
@@ -2091,4 +2091,3 @@ st.markdown("""
     <p style="font-size:.7rem;opacity:.5;">© WebGIS Developer: Adipandang Yudono (2026)</p>
 </div>
 """, unsafe_allow_html=True)
-[file content end]
