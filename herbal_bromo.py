@@ -1561,7 +1561,7 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
                 Jelajahi peta prediksi kesesuaian tumbuh tiap jenis tanaman herbal di
                 kawasan TNBTS berdasarkan 8 layer lingkungan (ketinggian, curah hujan,
                 suhu permukaan, kelerengan, kelembapan, NDVI, jarak pemukiman, dan
-                jenis tanah) pada aplikasi WebGIS SDM terpisah.
+                jenis tanah) pada aplikasi WebGIS Analytics terpisah.
             </p>
         </div>
         """,
