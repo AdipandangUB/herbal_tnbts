@@ -1573,7 +1573,6 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
         use_container_width=True,
         type="primary",
     )
-    st.caption("Tautan akan terbuka di tab baru: https://potensi-herbal-tnbts.streamlit.app/")
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: CHATBOT HERBAL
