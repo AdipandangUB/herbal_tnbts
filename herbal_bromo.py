@@ -1168,8 +1168,8 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown("### 📋 Menu Navigasi")
-    menu_options = ["Peta Sebaran", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
-    menu_icons   = ["🗺️", "🤖", "🏔️", "📋", "📊", "ℹ️"]
+    menu_options = ["Peta Sebaran", "WebGIS SDM Potensi Herbal", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
+    menu_icons   = ["🗺️", "🌐", "🤖", "🏔️", "📋", "📊", "ℹ️"]
     selected = st.radio(
         "Pilih Menu:",
         menu_options,
@@ -1547,9 +1547,38 @@ def create_tnbts_map(
     return m
 
 # ═════════════════════════════════════════════════════════════════════════════
+# MENU: WEBGIS SDM POTENSI HERBAL (LINK EKSTERNAL)
+# ═════════════════════════════════════════════════════════════════════════════
+if selected == "WebGIS SDM Potensi Herbal":
+    st.markdown("## 🌐 WebGIS SDM — Potensi Tumbuh Tanaman Herbal TNBTS")
+    st.markdown(
+        """
+        <div style="background:linear-gradient(135deg,#0f5132,#146c43);
+                    padding:28px; border-radius:16px; text-align:center;
+                    box-shadow:0 4px 14px rgba(0,0,0,0.25); margin-bottom:20px;">
+            <h3 style="color:#FFD700; margin:0 0 10px 0;">🌿 Species Distribution Modelling (SDM)</h3>
+            <p style="color:#FFFFFF; font-size:15px; margin:0 0 18px 0;">
+                Jelajahi peta prediksi kesesuaian tumbuh tiap jenis tanaman herbal di
+                kawasan TNBTS berdasarkan 8 layer lingkungan (ketinggian, curah hujan,
+                suhu permukaan, kelerengan, kelembapan, NDVI, jarak pemukiman, dan
+                jenis tanah) pada aplikasi WebGIS SDM terpisah.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.link_button(
+        "🚀 Buka WebGIS SDM Potensi Herbal",
+        "https://potensi-herbal-tnbts.streamlit.app/",
+        use_container_width=True,
+        type="primary",
+    )
+    st.caption("Tautan akan terbuka di tab baru: https://potensi-herbal-tnbts.streamlit.app/")
+
+# ═════════════════════════════════════════════════════════════════════════════
 # MENU: CHATBOT HERBAL
 # ═════════════════════════════════════════════════════════════════════════════
-if selected == "Tanya Mbah Dukun Herbal Digital":
+elif selected == "Tanya Mbah Dukun Herbal Digital":
     st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
     
     # Inisialisasi recommended_plants jika belum ada
