@@ -1168,7 +1168,7 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown("### 📋 Menu Navigasi")
-    menu_options = ["Peta Sebaran", "WebGIS SDM Potensi Herbal", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
+    menu_options = ["Peta Sebaran", "WebGIS Analytics Potensi Tanaman Herbal", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
     menu_icons   = ["🗺️", "🌐", "🤖", "🏔️", "📋", "📊", "ℹ️"]
     selected = st.radio(
         "Pilih Menu:",
@@ -1549,8 +1549,8 @@ def create_tnbts_map(
 # ═════════════════════════════════════════════════════════════════════════════
 # MENU: WEBGIS SDM POTENSI HERBAL (LINK EKSTERNAL)
 # ═════════════════════════════════════════════════════════════════════════════
-if selected == "WebGIS SDM Potensi Herbal":
-    st.markdown("## 🌐 WebGIS SDM — Potensi Tumbuh Tanaman Herbal TNBTS")
+if selected == "WebGIS Analytics Potensi Tanaman Herbal":
+    st.markdown("## 🌐 WebGIS Analytics — Potensi Tumbuh Tanaman Herbal TNBTS")
     st.markdown(
         """
         <div style="background:linear-gradient(135deg,#0f5132,#146c43);
