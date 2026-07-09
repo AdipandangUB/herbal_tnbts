@@ -1568,7 +1568,7 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
         unsafe_allow_html=True,
     )
     st.link_button(
-        "🚀 Buka WebGIS SDM Potensi Herbal",
+        "🚀 Buka WebGIS Analytics Potensi Tanaman Herbal",
         "https://potensi-herbal-tnbts.streamlit.app/",
         use_container_width=True,
         type="primary",
