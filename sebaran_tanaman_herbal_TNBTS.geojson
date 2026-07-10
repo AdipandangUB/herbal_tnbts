@@ -1,0 +1,4932 @@
+{
+  "type": "FeatureCollection",
+  "name": "sebaran_tanaman_herbal_TNBTS",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.955549,
+          -7.953053
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AJERAN PUTIH",
+        "nama_ilmiah": "Bindens pilosa L.",
+        "fungsi_manfaat": "Obat luka dan menghentikan pendarahan, anti radang, anti bakteri dan antiseptik, mengatasi diare, menurunkan demam, mengatasi batuk-flu, rematik,  pegal linu, menurunkan gula darah.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C hingga 45°C.\nKetinggian:  tumbuh baik diketinggian 3600 mdpl.\nPenyiraman: curah hujan  500mm/th-3.600mm/th sangat tahan terhadap kekeringan.\nTumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun atau batang direbus, air rebusan diminum untuk mengatasi demam dan pencernaan, mata merah dan radang usus bunti\nDaun dan bunga ajeran ditumbuk atau diblander hingga halus dan ditambahkan sedikit air hangat, pasta daun digunakan mengatasi kulit yang memar, luka ringan, atau bengkak.",
+        "bagian_dimanfaatkan": "Batang dan daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.950682,
+          -8.009019
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AJERAN PUTIH",
+        "nama_ilmiah": "Bindens pilosa L.",
+        "fungsi_manfaat": "Obat luka dan menghentikan pendarahan, anti radang, anti bakteri dan antiseptik, mengatasi diare, menurunkan demam, mengatasi batuk-flu, rematik,  pegal linu, menurunkan gula darah.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C hingga 45°C.\nKetinggian:  tumbuh baik diketinggian 3600 mdpl.\nPenyiraman: curah hujan  500mm/th-3.600mm/th sangat tahan terhadap kekeringan.\nTumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun atau batang direbus, air rebusan diminum untuk mengatasi demam dan pencernaan, mata merah dan radang usus bunti\nDaun dan bunga ajeran ditumbuk atau diblander hingga halus dan ditambahkan sedikit air hangat, pasta daun digunakan mengatasi kulit yang memar, luka ringan, atau bengkak.",
+        "bagian_dimanfaatkan": "Batang dan daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.975606,
+          -7.980074
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AJERAN PUTIH",
+        "nama_ilmiah": "Bindens pilosa L.",
+        "fungsi_manfaat": "Obat luka dan menghentikan pendarahan, anti radang, anti bakteri dan antiseptik, mengatasi diare, menurunkan demam, mengatasi batuk-flu, rematik,  pegal linu, menurunkan gula darah.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C hingga 45°C.\nKetinggian:  tumbuh baik diketinggian 3600 mdpl.\nPenyiraman: curah hujan  500mm/th-3.600mm/th sangat tahan terhadap kekeringan.\nTumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun atau batang direbus, air rebusan diminum untuk mengatasi demam dan pencernaan, mata merah dan radang usus bunti\nDaun dan bunga ajeran ditumbuk atau diblander hingga halus dan ditambahkan sedikit air hangat, pasta daun digunakan mengatasi kulit yang memar, luka ringan, atau bengkak.",
+        "bagian_dimanfaatkan": "Batang dan daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.996344,
+          -8.027946
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AJERAN PUTIH",
+        "nama_ilmiah": "Bindens pilosa L.",
+        "fungsi_manfaat": "Obat luka dan menghentikan pendarahan, anti radang, anti bakteri dan antiseptik, mengatasi diare, menurunkan demam, mengatasi batuk-flu, rematik,  pegal linu, menurunkan gula darah.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C hingga 45°C.\nKetinggian:  tumbuh baik diketinggian 3600 mdpl.\nPenyiraman: curah hujan  500mm/th-3.600mm/th sangat tahan terhadap kekeringan.\nTumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun atau batang direbus, air rebusan diminum untuk mengatasi demam dan pencernaan, mata merah dan radang usus bunti\nDaun dan bunga ajeran ditumbuk atau diblander hingga halus dan ditambahkan sedikit air hangat, pasta daun digunakan mengatasi kulit yang memar, luka ringan, atau bengkak.",
+        "bagian_dimanfaatkan": "Batang dan daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.005054,
+          -8.048948
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AJERAN PUTIH",
+        "nama_ilmiah": "Bindens pilosa L.",
+        "fungsi_manfaat": "Obat luka dan menghentikan pendarahan, anti radang, anti bakteri dan antiseptik, mengatasi diare, menurunkan demam, mengatasi batuk-flu, rematik,  pegal linu, menurunkan gula darah.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C hingga 45°C.\nKetinggian:  tumbuh baik diketinggian 3600 mdpl.\nPenyiraman: curah hujan  500mm/th-3.600mm/th sangat tahan terhadap kekeringan.\nTumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun atau batang direbus, air rebusan diminum untuk mengatasi demam dan pencernaan, mata merah dan radang usus bunti\nDaun dan bunga ajeran ditumbuk atau diblander hingga halus dan ditambahkan sedikit air hangat, pasta daun digunakan mengatasi kulit yang memar, luka ringan, atau bengkak.",
+        "bagian_dimanfaatkan": "Batang dan daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.918107,
+          -7.993669
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AIR KUNCUP KECUBUNG GUNUNG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.026885,
+          -7.995636
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AWAR-AWAR",
+        "nama_ilmiah": "Ficus septica Burm. F.",
+        "fungsi_manfaat": "Anti radang dan pereda nyeri, mengobati bisul (pemakaian luar), antibakteri alami, penurun demam, gangguan pencernaan ringan, masalah pernapasan.",
+        "potensi_sebaran": "Desa Ngadas (Kecamatan Poncokusumo, Malang), Desa Ranupani (Kecamatan Senduro, Lumajang), Desa Cemoro Lawang (Kecamatan Sukapura, Probolinggo).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 28°C-30°CC.\nTumbuh optimal di dataran rendah hingga ketinggian 1.200 mdpl, dapat juga tumbuh di 1.800 mdpl.\nTumbuh pada wilayah dengan curah hujan 300-2.500 mm/th.\nMenyukai tanah lembap dan subur dengan pH ideal 6.0 - 7.0.",
+        "cara_memanfaatkan": "Daun ditumbuk hingga menjadi pasta, dioleskan pada kulit bisul dan gatal.\nGetah awar-awar dioleskan pada kulit yang terkena kurap atau herpes\nDaun awar-awar direbus, air diminum untuk: meredakan perut mulas dan diare,  kompres saat demam.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.978188,
+          -7.974912
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AWAR-AWAR",
+        "nama_ilmiah": "Ficus septica Burm. F.",
+        "fungsi_manfaat": "Anti radang dan pereda nyeri, mengobati bisul (pemakaian luar), antibakteri alami, penurun demam, gangguan pencernaan ringan, masalah pernapasan.",
+        "potensi_sebaran": "Desa Ngadas (Kecamatan Poncokusumo, Malang), Desa Ranupani (Kecamatan Senduro, Lumajang), Desa Cemoro Lawang (Kecamatan Sukapura, Probolinggo).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 28°C-30°CC.\nTumbuh optimal di dataran rendah hingga ketinggian 1.200 mdpl, dapat juga tumbuh di 1.800 mdpl.\nTumbuh pada wilayah dengan curah hujan 300-2.500 mm/th.\nMenyukai tanah lembap dan subur dengan pH ideal 6.0 - 7.0.",
+        "cara_memanfaatkan": "Daun ditumbuk hingga menjadi pasta, dioleskan pada kulit bisul dan gatal.\nGetah awar-awar dioleskan pada kulit yang terkena kurap atau herpes\nDaun awar-awar direbus, air diminum untuk: meredakan perut mulas dan diare,  kompres saat demam.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.940877,
+          -7.995191
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AWAR-AWAR",
+        "nama_ilmiah": "Ficus septica Burm. F.",
+        "fungsi_manfaat": "Anti radang dan pereda nyeri, mengobati bisul (pemakaian luar), antibakteri alami, penurun demam, gangguan pencernaan ringan, masalah pernapasan.",
+        "potensi_sebaran": "Desa Ngadas (Kecamatan Poncokusumo, Malang), Desa Ranupani (Kecamatan Senduro, Lumajang), Desa Cemoro Lawang (Kecamatan Sukapura, Probolinggo).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 28°C-30°CC.\nTumbuh optimal di dataran rendah hingga ketinggian 1.200 mdpl, dapat juga tumbuh di 1.800 mdpl.\nTumbuh pada wilayah dengan curah hujan 300-2.500 mm/th.\nMenyukai tanah lembap dan subur dengan pH ideal 6.0 - 7.0.",
+        "cara_memanfaatkan": "Daun ditumbuk hingga menjadi pasta, dioleskan pada kulit bisul dan gatal.\nGetah awar-awar dioleskan pada kulit yang terkena kurap atau herpes\nDaun awar-awar direbus, air diminum untuk: meredakan perut mulas dan diare,  kompres saat demam.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.979085,
+          -8.037856
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AWAR-AWAR",
+        "nama_ilmiah": "Ficus septica Burm. F.",
+        "fungsi_manfaat": "Anti radang dan pereda nyeri, mengobati bisul (pemakaian luar), antibakteri alami, penurun demam, gangguan pencernaan ringan, masalah pernapasan.",
+        "potensi_sebaran": "Desa Ngadas (Kecamatan Poncokusumo, Malang), Desa Ranupani (Kecamatan Senduro, Lumajang), Desa Cemoro Lawang (Kecamatan Sukapura, Probolinggo).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 28°C-30°CC.\nTumbuh optimal di dataran rendah hingga ketinggian 1.200 mdpl, dapat juga tumbuh di 1.800 mdpl.\nTumbuh pada wilayah dengan curah hujan 300-2.500 mm/th.\nMenyukai tanah lembap dan subur dengan pH ideal 6.0 - 7.0.",
+        "cara_memanfaatkan": "Daun ditumbuk hingga menjadi pasta, dioleskan pada kulit bisul dan gatal.\nGetah awar-awar dioleskan pada kulit yang terkena kurap atau herpes\nDaun awar-awar direbus, air diminum untuk: meredakan perut mulas dan diare,  kompres saat demam.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.941545,
+          -7.994942
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANTING PUTRI/FUCHSIA MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.945833,
+          -8.002366
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "AKAR SEMPRETAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.948793,
+          -8.011198
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BAKUNG",
+        "nama_ilmiah": "Crinum asiaticium L.",
+        "fungsi_manfaat": "Mengurangi bengkak, obat keseleo dan pegal linu, mengatasi nyeri sendi dan rematik, obat bisul dan luka bernana, obat sakit kepala, mengatasi iritasi kulit ringan.",
+        "potensi_sebaran": "RPTN Patok Picis (Bidang 1 SPTN Wilayah 2)",
+        "syarat_hidup": "Iklim dan Suhu: Cocok di daerah tropis dan subtropis, toleran terhadap panas.\nOptimal di dataran rendah hingga ketinggian 700 mdpl\nOtimal tumbuh di curah hujan tinggi 2.000-3.000 mm/th.\nTumbuh optimal pada kisaran pH tanah 6,5-7,5",
+        "cara_memanfaatkan": "Daun bakung ditumbuk halus dikompreskan pada bagian tubuh yang bengkak, memar atau terkilir\nUjung daun bakung dipotong untuk diambil getahnya, dioleskan pada luka atau yang terdapat bisul.",
+        "bagian_dimanfaatkan": "daun dan getah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.922384,
+          -7.971914
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CALINGAN",
+        "nama_ilmiah": "Centella asiatica L.",
+        "fungsi_manfaat": "Mempercepat penyembuhan luka, kesehatan kulit, sirkulasi darah, menenangkan saraf, anti inflamasi dan  antioksidan, mengatasi gangguan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Ngadisari (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-30°C dengan kelembaban tinggi.\nKetinggian: dataran rendah - 2500 mdpl.\nTumbuh baik pada wilayah dengan  curah hujan  1500mm - 2500 mm/th, sangat tahan kekeringan.\nTumbuh ideal pada tanah dengan pH 5,5-6,5",
+        "cara_memanfaatkan": "Dimakan mentah sebagai lalapan\nDiseduh menjadi teh herbal, \nDibuat jus segar, \nDaun pegagan dihaluskan, pasta untuk masker untuk menghilangkan kulit berjerawat dan merangsang produksi kolagen",
+        "bagian_dimanfaatkan": "daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.924369,
+          -7.996918
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CALINGAN",
+        "nama_ilmiah": "Centella asiatica L.",
+        "fungsi_manfaat": "Mempercepat penyembuhan luka, kesehatan kulit, sirkulasi darah, menenangkan saraf, anti inflamasi dan  antioksidan, mengatasi gangguan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Ngadisari (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-30°C dengan kelembaban tinggi.\nKetinggian: dataran rendah - 2500 mdpl.\nTumbuh baik pada wilayah dengan  curah hujan  1500mm - 2500 mm/th, sangat tahan kekeringan.\nTumbuh ideal pada tanah dengan pH 5,5-6,5",
+        "cara_memanfaatkan": "Dimakan mentah sebagai lalapan\nDiseduh menjadi teh herbal, \nDibuat jus segar, \nDaun pegagan dihaluskan, pasta untuk masker untuk menghilangkan kulit berjerawat dan merangsang produksi kolagen",
+        "bagian_dimanfaatkan": "daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.946141,
+          -8.002254
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CALINGAN",
+        "nama_ilmiah": "Centella asiatica L.",
+        "fungsi_manfaat": "Mempercepat penyembuhan luka, kesehatan kulit, sirkulasi darah, menenangkan saraf, anti inflamasi dan  antioksidan, mengatasi gangguan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Ngadisari (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-30°C dengan kelembaban tinggi.\nKetinggian: dataran rendah - 2500 mdpl.\nTumbuh baik pada wilayah dengan  curah hujan  1500mm - 2500 mm/th, sangat tahan kekeringan.\nTumbuh ideal pada tanah dengan pH 5,5-6,5",
+        "cara_memanfaatkan": "Dimakan mentah sebagai lalapan\nDiseduh menjadi teh herbal, \nDibuat jus segar, \nDaun pegagan dihaluskan, pasta untuk masker untuk menghilangkan kulit berjerawat dan merangsang produksi kolagen",
+        "bagian_dimanfaatkan": "daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.005141,
+          -8.030703
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CALINGAN",
+        "nama_ilmiah": "Centella asiatica L.",
+        "fungsi_manfaat": "Mempercepat penyembuhan luka, kesehatan kulit, sirkulasi darah, menenangkan saraf, anti inflamasi dan  antioksidan, mengatasi gangguan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Ngadisari (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-30°C dengan kelembaban tinggi.\nKetinggian: dataran rendah - 2500 mdpl.\nTumbuh baik pada wilayah dengan  curah hujan  1500mm - 2500 mm/th, sangat tahan kekeringan.\nTumbuh ideal pada tanah dengan pH 5,5-6,5",
+        "cara_memanfaatkan": "Dimakan mentah sebagai lalapan\nDiseduh menjadi teh herbal, \nDibuat jus segar, \nDaun pegagan dihaluskan, pasta untuk masker untuk menghilangkan kulit berjerawat dan merangsang produksi kolagen",
+        "bagian_dimanfaatkan": "daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.999626,
+          -8.054529
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CALINGAN",
+        "nama_ilmiah": "Centella asiatica L.",
+        "fungsi_manfaat": "Mempercepat penyembuhan luka, kesehatan kulit, sirkulasi darah, menenangkan saraf, anti inflamasi dan  antioksidan, mengatasi gangguan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Ngadisari (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-30°C dengan kelembaban tinggi.\nKetinggian: dataran rendah - 2500 mdpl.\nTumbuh baik pada wilayah dengan  curah hujan  1500mm - 2500 mm/th, sangat tahan kekeringan.\nTumbuh ideal pada tanah dengan pH 5,5-6,5",
+        "cara_memanfaatkan": "Dimakan mentah sebagai lalapan\nDiseduh menjadi teh herbal, \nDibuat jus segar, \nDaun pegagan dihaluskan, pasta untuk masker untuk menghilangkan kulit berjerawat dan merangsang produksi kolagen",
+        "bagian_dimanfaatkan": "daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.059776,
+          -8.012945
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CALINGAN",
+        "nama_ilmiah": "Centella asiatica L.",
+        "fungsi_manfaat": "Mempercepat penyembuhan luka, kesehatan kulit, sirkulasi darah, menenangkan saraf, anti inflamasi dan  antioksidan, mengatasi gangguan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Ngadisari (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-30°C dengan kelembaban tinggi.\nKetinggian: dataran rendah - 2500 mdpl.\nTumbuh baik pada wilayah dengan  curah hujan  1500mm - 2500 mm/th, sangat tahan kekeringan.\nTumbuh ideal pada tanah dengan pH 5,5-6,5",
+        "cara_memanfaatkan": "Dimakan mentah sebagai lalapan\nDiseduh menjadi teh herbal, \nDibuat jus segar, \nDaun pegagan dihaluskan, pasta untuk masker untuk menghilangkan kulit berjerawat dan merangsang produksi kolagen",
+        "bagian_dimanfaatkan": "daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.853518,
+          -8.075307
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CIPLUKAN",
+        "nama_ilmiah": "Physalis minima",
+        "fungsi_manfaat": "Mengatasi demam dan masuk angin, obat batuk dan  pilek, mengobati radang dan anti inflamasi, diuretik ringan, penyakit kulit ringan..",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadas dan Desa Ngadisari (Kec. Sukapura, Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan ).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu 18°C-35°C dan penyinaran matahari penuh.\nTumbuh di dataran rendah hingga ketinggian 700-2.300 mdpl, paling baik 1.500 mdpl.\nPenyiraman: menyukai curah hujan tahunan rata-rata 1.500-2.300 mm.\nTumbuh ideal pada tanah dengan pH 4,5-8,2",
+        "cara_memanfaatkan": "Akar dan batang direbus. Air rebusan dapat menurunkan gula, dan tekanan darah tinggi.\nDaun ciplukan ditumbuk dengan sedikit kapur sirih untuk dioleskan pada sendi yang mengalami peradangan\nDaun ciplukan, daun sirih dan sedikit adas pulosari ditumbuk dan ditempelkan pada kulit yang bernasalah (bisul dan borok)",
+        "bagian_dimanfaatkan": "Daun, buah dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.890562,
+          -8.124563
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CABE JAWA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.948878,
+          -8.146794
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CABE JAWA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.955327,
+          -8.096111
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CABE JAWA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.018173,
+          -7.971436
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAUN KANCING/SEMANGGI LIAR",
+        "nama_ilmiah": "Desmodium sp.",
+        "fungsi_manfaat": "Anti radang, mengatasi batuk dan gangguan pernapasan, melancarkan buang air kecil, obat sakit perut dan diare, mengatasi luka dan infeksi kulit, menambah daya tahan tubuh, detoksifikasi hati.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun semanggi direbus. Air rebusan diminum untuk mengatasi infeksi saluran kencing, batuk sesak napas, amandel, menurunkan kolestrol, hingga mencegak pengeroposan tulang.\nDaun semanggi ditumbuk hingga halus. Pasta dioleskan kulit yang luka dan diam ±15-20 menit hingga mengering dan dibilang dengan air hangat\nDaun dikeringkan untuk teh",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.941457,
+          -8.015665
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAUN KANCING/SEMANGGI LIAR",
+        "nama_ilmiah": "Desmodium sp.",
+        "fungsi_manfaat": "Anti radang, mengatasi batuk dan gangguan pernapasan, melancarkan buang air kecil, obat sakit perut dan diare, mengatasi luka dan infeksi kulit, menambah daya tahan tubuh, detoksifikasi hati.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun semanggi direbus. Air rebusan diminum untuk mengatasi infeksi saluran kencing, batuk sesak napas, amandel, menurunkan kolestrol, hingga mencegak pengeroposan tulang.\nDaun semanggi ditumbuk hingga halus. Pasta dioleskan kulit yang luka dan diam ±15-20 menit hingga mengering dan dibilang dengan air hangat\nDaun dikeringkan untuk teh",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.974959,
+          -8.032646
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMUR LINGZHI",
+        "nama_ilmiah": "Ganoderma lucidum",
+        "fungsi_manfaat": "Mengatasi insomnia, hipertensi, gastritis, menambah nafsu makan, menurunkan  kolesterol dan lemak dalam darah, batuk, asma, bronkitis, rheumatic arthritis, mencegah tumor, meningkatkan daya tahan tubuh.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Optimal di hidup di suhu 250C-300C\nHidup pada ketinggian dititik optimum 400-600 m dpl\nMenyukai kondisi lingkungan dengan curah hujan rata-rata 2.000-2.500 mm/th\nJamur lingzhi umumnya hidup di batang pohon. Media tanam jamur ini berada pada kisaran pH 5,5 hingga 6,5",
+        "cara_memanfaatkan": "Jamur dikeringkan atau direbus langsung. Air rebusan jamur lingzhi dapat meningkatkan kekebalan tubuh, menurunkan kolesterol, hingga mencegah kanker.",
+        "bagian_dimanfaatkan": "jamur",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.009718,
+          -8.037503
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMUR LINGZHI",
+        "nama_ilmiah": "Ganoderma lucidum",
+        "fungsi_manfaat": "Mengatasi insomnia, hipertensi, gastritis, menambah nafsu makan, menurunkan  kolesterol dan lemak dalam darah, batuk, asma, bronkitis, rheumatic arthritis, mencegah tumor, meningkatkan daya tahan tubuh.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Optimal di hidup di suhu 250C-300C\nHidup pada ketinggian dititik optimum 400-600 m dpl\nMenyukai kondisi lingkungan dengan curah hujan rata-rata 2.000-2.500 mm/th\nJamur lingzhi umumnya hidup di batang pohon. Media tanam jamur ini berada pada kisaran pH 5,5 hingga 6,5",
+        "cara_memanfaatkan": "Jamur dikeringkan atau direbus langsung. Air rebusan jamur lingzhi dapat meningkatkan kekebalan tubuh, menurunkan kolesterol, hingga mencegah kanker.",
+        "bagian_dimanfaatkan": "jamur",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.027076,
+          -8.048771
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMUR LINGZHI",
+        "nama_ilmiah": "Ganoderma lucidum",
+        "fungsi_manfaat": "Mengatasi insomnia, hipertensi, gastritis, menambah nafsu makan, menurunkan  kolesterol dan lemak dalam darah, batuk, asma, bronkitis, rheumatic arthritis, mencegah tumor, meningkatkan daya tahan tubuh.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Optimal di hidup di suhu 250C-300C\nHidup pada ketinggian dititik optimum 400-600 m dpl\nMenyukai kondisi lingkungan dengan curah hujan rata-rata 2.000-2.500 mm/th\nJamur lingzhi umumnya hidup di batang pohon. Media tanam jamur ini berada pada kisaran pH 5,5 hingga 6,5",
+        "cara_memanfaatkan": "Jamur dikeringkan atau direbus langsung. Air rebusan jamur lingzhi dapat meningkatkan kekebalan tubuh, menurunkan kolesterol, hingga mencegah kanker.",
+        "bagian_dimanfaatkan": "jamur",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.028632,
+          -8.021287
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KENCANA UNGU",
+        "nama_ilmiah": "Ruellia",
+        "fungsi_manfaat": "Membantu menurunkan gula darah, penurun panas & antiinflamasi, antibakteri, melancarkan buang air kecil, membantu batuk dan radang tenggorokan.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun kencana ungu direbus. Air rebusan dapat menurunkan kadar gula darah.\nDaun atau bunga kencana ungu ditumbuk hingga halus. Ampas tumbukan dioleskan pada kulit yang gatal atau terkena iritasi,\nAkar kencana ungu direbus. Air rebusan digunakan untuk memperlancar buang air kecil. bersih.",
+        "bagian_dimanfaatkan": "Daun, bunga, dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.944211,
+          -8.001242
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KETUL",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.005441,
+          -8.064376
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KAPULAGA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.944995,
+          -8.00034
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LILI-LILIAN LIAR",
+        "nama_ilmiah": "Molineria sp.",
+        "fungsi_manfaat": "Obat masuk angin & perut kembung, obat batuk & sakit tenggorokan, mengatasi mual, anti radang, anti bakteri dan anti jamur, mengatasi pegal linu atau rematik, meningkatkan nafsu makan.",
+        "potensi_sebaran": "RPTN Ranu Darungan (Bidang ll, SPTN Wilayah lV), RPTN Ranu Pani, RPTN Senduro.",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "akar (rimpang) direbus hingga mendidih dengan 2 gelas air. Air rebusan rimpang dapat mengatasi masalah pencernaan, menurunkan demam.\nDaun atau akar ditumbuk hingga halus membentuk pasta untuk ditempelkan pada area kulit yang bermasalah (gatal-gatal dan luka).",
+        "bagian_dimanfaatkan": "Daun dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.01148,
+          -8.080804
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "MENIRAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.980267,
+          -8.032115
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAKIS (Davallia)",
+        "nama_ilmiah": "Davallia",
+        "fungsi_manfaat": "Mengobati ganguan pencernaan, anti inflamasi, mengatasi masalah kulit, meningkatkan kekebalan tubuh.",
+        "potensi_sebaran": "Blok Ireng-ireng, RPTN Senduro (Bidang II, SPTN Wilayah III)",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Akar pakis ditumbuk hingga halus kemudian ditempelkan pada area tubuh yang bengkak, memar, atau nyeri sendi.\nAkar pakis dicuci bersih kemudian diiris tipis-tipis. diminum secara rutin untuk mengobati gangguan pencernaan, anti inflamasi, dan meningkatkan kekebalan tubuh.",
+        "bagian_dimanfaatkan": "Akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.992477,
+          -8.021199
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAKU RANE/PAKU KAWAT",
+        "nama_ilmiah": "Selaginella sp",
+        "fungsi_manfaat": "Mengobati penyakit jantung, stroke, obat luka, malaria, pembersih darah, mengatasi masalah kewanitaan, sakit perut, tonik pasca-persalinan, menurunkan demam, anti kanker, anti mikroba, dan antibiofilm.",
+        "potensi_sebaran": "RPTN Ranu Darungan (Bidang ll, SPTN Wilayah lV), Blok Ireng-ireng RPTN Senduro.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-28°C dengan kelembaban tinggi\nKetinggian: ditemukan di pegunungan 1.500 – 2.356 mdpl \nMemerlukan lingkungan sangat lembap dan teduh dengan curah hujan 1.500mm/th -  3.000 mm/th\nTumbuh ideal pada tanah dengan  pH yang cenderung asam hingga netral (pH 3,9 - 7,0)",
+        "cara_memanfaatkan": "Batang dan daun ditumbuk hingga halus, pasta dibalurkan atau ditempelkan sebagai kompres pada bagian tubuh yang bengkak, memar, atau luka.\nBatang dan daun direbus untuk meredakan batuk, asma, masalah pencernaan, hipertensi, dan demam",
+        "bagian_dimanfaatkan": "daun dan Batang",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.026874,
+          -8.024953
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PARIJOTO",
+        "nama_ilmiah": "Medinilla speciosa",
+        "fungsi_manfaat": "Meningkatkan kesuburan, menjaga kesehatan ibu hamil, mengatasi sariawan, daya tahan tubuh, menurunkan kolesterol dan trigliserida, serta digunakan dalam ritual adat Jawa simbol kesuburan dan bayi tampan/-antik",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan suhu: tumbuh optimal di pegunungan dengan suhu 18°C-25°C dan kelembaban tinggi.\nPaling produktif dan tumbuh alami di area pegunungan dengan ketinggian 500–2.300 mdpl.\nPenyiraman: menyukai curah hujan tahunan rata-rata 1.500-2.300 mm.\nTumbuh ideal pada tanah dengan pH 5.5-6.5",
+        "cara_memanfaatkan": "Buah parijoto dapat dimakan langsung. Buah parijoto cocok untuk program hamil\nDaun parijoto direbus, air rebusan untuk untuk penambah imunitas tubuh, meredakan diare dan melancarkan pencernaan.menurunkan kolsterol dan trigliserida.\nTumbuk daun parijoto, diperas airnya digunakan sebagai obat kumur untuk meredakan sariawan dan gusi bengkak.",
+        "bagian_dimanfaatkan": "buah dan daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.017233,
+          -7.960574
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PECUT KUDA",
+        "nama_ilmiah": "Stachytarpheta sp",
+        "fungsi_manfaat": "Menurunkan demam, obat batuk-flu, melancarkan buang air kecil gangguan pencernaan, anti radang, menurunkan tekanan darah, menurunkan gula darah, obat luka & penyakit kulit, mengatasi rematik dan pegal-pegal.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun pecut kuda direbus dengan 2-3 gelas air bersih hingga mendidih dan menyusut menjadi 1 gelas. Air rebusan disaring dan diminum 1-2 kali sahri saat hangat untuk mengatasi demam, radang temggorokan, amandel, batuk, flu, dan infeksi saluran pernapasan.\nDaun segar ditumbuk hingga halus sampai bertekstur bubur. Tumbukan ditempelkan langsung pada area kulit yang bermasalah atau luka.\nDaun pecut kuda direbus dengan air hingga berubah mejadi asam-asam kuku, kemudian air rebusam digunakan untuk mebasuh area kewanitaan untuk mengatasi keputihan dan rasa gatal.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.096769,
+          -8.128499
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PATIKAN KEBO",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.028845,
+          -8.049922
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "RANTI",
+        "nama_ilmiah": "Tinospora crispa L. Miers",
+        "fungsi_manfaat": "Antimalaria, mengatasi demam, menjaga kesehatan jantung dan tekanan darah, melancarkan pencernaan, antibakteri dan antiinflamasi, meningkatkan daya tahan tubuh.",
+        "potensi_sebaran": "Desa Ngadas (Kec.  Poncokusumo, Kab. Malang), Desa Ranupani (Kec. Senduro, Kab, Lumajang).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun ranti ditumbuk hingga halus kemudian diseduh dan disaring untuk diminum airnya. Air daun ranti dapat menurunkan tekanan darah tinggi\nDaun ranti direbus hingga mendidih dan airnya tersisa setengahnya. Air rebusan disaring dan diminum untuk mengobati sakit perut dan diare\nSeluruh bagian tanaman ranti dicuci bersih lalu ditumbuk hingga halus dan ditambahkan madu atau minyak kelapa dan dibalurkan pada area kulit yang bermasalah atau bengkak.\nBuah ranti dikonsumsi sebagai lalapan atau dimasak tumis (kaya akan vitamin dan nutrisi) untuk mencegah sariawan dan mejaga imunitas",
+        "bagian_dimanfaatkan": "Daun, Batang, dan Buah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.961115,
+          -8.070348
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "RANGGITAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.052808,
+          -7.991959
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SEMANGGI",
+        "nama_ilmiah": "Marsilea crenata",
+        "fungsi_manfaat": "Melancarkan peredaran darah, menurunkan kadar gula darah, mengatasi demam, melancarkan pencernaan, antibakteri dan antiinflamasi.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec Tosari, Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun dan tangkai semanggi direbus, air rebusan untuk menurunkan demam, mengobati flu, dan meredakan radang,\nKepala bunga dan daun dikeringkan untuk teh herbal meredakan gejala menapouse dan mencegah osteoporosis.\nDaun diolah menjadi lalapan, pecel atau urap untuk mendapatkan vitamin dan antioksidan untuk menjaga kesehatan pembuluh darah serta menurunkan kolestrol jahat.",
+        "bagian_dimanfaatkan": "Daun dan bunga",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.990639,
+          -8.018076
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SIMBARAN",
+        "nama_ilmiah": "Peperomia sp",
+        "fungsi_manfaat": "Menyembuhkan luka ringan, meredakan batuk & radang tenggorokan, mengatasi demam ringan, pereda nyeri ringan, antibakteri ringan.",
+        "potensi_sebaran": "Desa Argosari (Kec.Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun bersih direbus. Air rebusan untuk mengatasi asam urat, rematik, sakit pinggang, kolesterol tinggi, dan menurunkan tekanan darah.\nDaun ditumbuk hingga halus. Pasta ditempekan pada kulit yang terluka atau mengalami memar. Memiliki sifat antiseptik dan antiradang bagus untuk mempercepat penyembuahan luka bakar ringan, bisul, jerawat, serta mencerahkan wajah.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.943409,
+          -7.997615
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SURENGAN/SELADA LIAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.006889,
+          -8.049956
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SLIMPAT/SELIMPAT",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.989008,
+          -8.09418
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TEKLAN",
+        "nama_ilmiah": "Eupatorium riparium",
+        "fungsi_manfaat": "Obat demam, melancarkan buang air kecil, mengatasi gangguan pencernaan, anti radang luka ringan, mengatasi batuk.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar direbus dengan 2 gelas air bersih selama 15 menit hingga tersisa 1 gelas, kemudian air rebusan disaring dan dibagi menjadi dua bagian untuk diminum 2 kali sehari (pagi dan sore). Air rebusan ini membantu melancarkan urine, menurunkan tekanan darah. Antioksidan (mengandung senyawa flavonoid, tanin, dan fenol yang membantu menangkal radikal bebas).",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.960708,
+          -8.083786
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TEPUNG OTOT",
+        "nama_ilmiah": "Borreria laevis",
+        "fungsi_manfaat": "Mengendalikan gula darah, meredakan nyeri otot & pegal linu, mengurangi peradangan, obat memar & luka ringan, melancarkan peredaran darah.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar yang sudah dicuci bersih direbus dengan 3 gelas hingga tersisa 1,5 gelas, kemudianair disaring dan diminum 1-2 kali sehari untuk mengobati batuk, radang, infeksi saluran kemih, diare atau sembelit.\nAkar dan daun direbus kemudian saring dan diminum selagi hangat untuk meredakan pegal atau nyeri otot.\nDaun segar ditumbuk hingga halus dan dioleskan atau ditemoelkan tumbukan daun pada bagian kulit yang luka, memar, atau bekas gigitan serangga.",
+        "bagian_dimanfaatkan": "Akar dan Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.939092,
+          -8.002598
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TIREM",
+        "nama_ilmiah": "Chromolaena odoratum",
+        "fungsi_manfaat": "Mengatasi sakit perut & gangguan pencernaan, menurunkan demam, obat luka & bisul, antiradang, mengatasi rematik.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "daun tirem ditumbuk hingga halus untuk ditempelkan pada area kulit yang luka atau ruan sebagai obat luar.\nDaun direbus dengan 3 gelas air hingga tersisa setengahnya, kemudian air disaring dan gunakan kapan untuk mengompres pada area yang memar atau meradang.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.940496,
+          -7.998516
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GODAG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.986718,
+          -8.031921
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAKU PURBA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.980115,
+          -8.018784
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAKIS SEJATI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0286,
+          -8.053304
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAKIS GARUDA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.027605,
+          -8.051614
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAUN SENDOK/SANGKUAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.860708,
+          -8.059348
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BONDOTAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.873599,
+          -8.133445
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "NANGKA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.887684,
+          -8.127214
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GIRANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.030558,
+          -8.054203
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GIRANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.926398,
+          -8.179486
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GIRANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.027385,
+          -8.052479
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LAPUAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.989863,
+          -8.07797
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LAPUAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.852893,
+          -8.122623
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LAPUAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.027385,
+          -8.052479
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PALEM EKOR LIAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.989863,
+          -8.07797
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PALEM EKOR LIAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.852893,
+          -8.122623
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PALEM EKOR LIAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.853128,
+          -8.119064
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KAYU MANIS",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.931514,
+          -8.168399
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANGGREK TANAH (Calanthe sp.)",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.984827,
+          -8.040494
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANGGREK TANAH (Calanthe sp.)",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.979051,
+          -8.063333
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANGGREK TANAH (Calanthe sp.)",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.849276,
+          -8.106432
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANGGREK TANAH (Calanthe sp.)",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.985617,
+          -8.032475
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANGGREK TANAH (Calanthe sp.)",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.98173,
+          -8.044553
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SIRIH HUTAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.935326,
+          -8.15243
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMUR KUPING LIAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.024429,
+          -8.017965
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "RUMPUT BELIDANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.977068,
+          -8.051541
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "RUMPUT BELIDANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.911778,
+          -8.146365
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "RUMPUT BELIDANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.868027,
+          -8.062916
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "RUMPUT BELIDANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.873148,
+          -8.061374
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TAPAK KERBAU/TAPAK RIMAU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.889504,
+          -8.132359
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TAPAK KERBAU/TAPAK RIMAU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.00014,
+          -8.039384
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TAPAK KERBAU/TAPAK RIMAU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.997803,
+          -8.045026
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BUAH BERI LIAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.971984,
+          -8.056886
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "POPROL",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.965113,
+          -8.065504
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "POPROL",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.960034,
+          -8.088083
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KETIREM",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.958588,
+          -8.077909
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KATISAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.954665,
+          -8.134136
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "POKAK",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.957755,
+          -8.100009
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KOPEN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.956285,
+          -8.154564
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KOPEN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.950488,
+          -8.103951
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "EMPOS",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.911352,
+          -7.995843
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PINANG JAWA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.957303,
+          -8.093072
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PANDAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.957059,
+          -8.108844
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECIR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.953886,
+          -8.113405
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LOYOR GERIHAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.960561,
+          -8.116638
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAMPUL",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.964462,
+          -8.119122
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAMPUL",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.879699,
+          -8.060731
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PRUSI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.969043,
+          -8.123167
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SISIK NAGA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.992443,
+          -8.018959
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PULOSARI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.970829,
+          -8.08762
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "WUNI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.801975,
+          -8.046787
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DELIMA",
+        "nama_ilmiah": "Punica granatum L",
+        "fungsi_manfaat": "Menjaga kesehatan jantung, menurunkan tekanan darah, menghampat kanker (kulit, payudara dan prostast), melawan peradangan, dan melancarkan pencernaan",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan suhu: wilayah tropis dengan suhu optimal antara 25°C hingga 30°C.\nKetinggian: dataran rendah hingga ketinggian 1000 mdpl. \nTumbuh baik pada curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di angka 6,5 - 7,5",
+        "cara_memanfaatkan": "Biji buah delima dihaluskan, saring airnya untuk mendapatkan jus murni yang kaya polifenol dan baik untuk menurunkan kolesterol jahat.\nKulit buah delima dikeringkan dan diseduh untuk teh. \nBuah dapat dikonsumsi langsung kaya Vitamin C untuk kekebalan tubuh, produksi kolagen untuk mencegah penuaan dini, kandungan serat alaminya melancarkan pencernaan dan mencegah sembelit",
+        "bagian_dimanfaatkan": "buah, kulit buah (teh) dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.801975,
+          -8.046787
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMBU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.801975,
+          -8.046787
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SEMBUKAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.801975,
+          -8.046787
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DELIMA",
+        "nama_ilmiah": "Punica granatum L",
+        "fungsi_manfaat": "Menjaga kesehatan jantung, menurunkan tekanan darah, menghampat kanker (kulit, payudara dan prostast), melawan peradangan, dan melancarkan pencernaan",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan suhu: wilayah tropis dengan suhu optimal antara 25°C hingga 30°C.\nKetinggian: dataran rendah hingga ketinggian 1000 mdpl. \nTumbuh baik pada curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di angka 6,5 - 7,5",
+        "cara_memanfaatkan": "Biji buah delima dihaluskan, saring airnya untuk mendapatkan jus murni yang kaya polifenol dan baik untuk menurunkan kolesterol jahat.\nKulit buah delima dikeringkan dan diseduh untuk teh. \nBuah dapat dikonsumsi langsung kaya Vitamin C untuk kekebalan tubuh, produksi kolagen untuk mencegah penuaan dini, kandungan serat alaminya melancarkan pencernaan dan mencegah sembelit",
+        "bagian_dimanfaatkan": "buah, kulit buah (teh) dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.801975,
+          -8.046787
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMBU BIJI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.801975,
+          -8.04687
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KESIMBUKAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.806081,
+          -7.901768
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CABE GENDOT",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.808256,
+          -8.051149
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LAOS",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.830632,
+          -7.919994
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CABE GENDOT",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.846877,
+          -8.015389
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GANJAN",
+        "nama_ilmiah": "Artemisia vulgaris",
+        "fungsi_manfaat": "Obat luka dan bisul, mengurangi bengkak-peradangan, mengatasi demam-masuk angin, mengatasi gangguan pencernaan ringan, antiseptik alami.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar atau kering direbus. Air rebusan untuk melancarkan haid, meredakan nyeri kram menstruasi, dan mengatasi gangguan pencernaan ringan.\nDaun segar ditumbuk atau diblender hingga halus dan berbentuk pasta kental. Pasta dioleskan atau ditempelkan pada bagian tubuh yang bengkak atau nyeri (memar atau luka)\nDaun ganjan diambil ekstrak kemudian dicampur minyak zaitun. Ekstrak daun ganjan dapat dijadikan minyak oles atau salep untuk menenangkan kulit dan meredakan gatal.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.847416,
+          -7.92273
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECUBUNG PUTIH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.848401,
+          -8.01511
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAITAN",
+        "nama_ilmiah": "Tithonia diversifolia",
+        "fungsi_manfaat": "Menurunkan demam, mengatasi sakit perut, antiradang, mengatasi luka & infeksi kulit, menurunkan gula darah (tradisional), menurunkan tekanan darah, mengatasi malaria, antioksidan.",
+        "potensi_sebaran": "Desa Ngadas RPTN Jemplang (Bidang l, SPTN Wilayah ll)",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun paitan muda dicuci bersih dan direbus dengan 2-3 gelas air bersih hingga menyusut. Air rebusan kemudian disaring untuk memisahkan ampas dan daunnya. Air rebusan daun paitan digunakan untuk membantu meredakan peradangan, menurunkan gula darah, mengatasi masalah pencernaan (diare dan kembung), demam, dan keluhan kulit (gatal, luka dan infeksi kulit).",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.850199,
+          -8.014977
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAHE",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.850204,
+          -8.015127
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LABU SIAM",
+        "nama_ilmiah": "Sicyos edulis",
+        "fungsi_manfaat": "Menurunkan tekanan darah,   mengontrol gula darah, mencegah sembelit, mencegah cacat tabung saraf pada janin,  melancarkan ASI, mengobati kanker kulit melanoma maligna",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 25°C - 30°C.\nKetinggian: dataran rendah hingga ketinggian 1000 mdpl. \nTumbuh pada wilayah dengan curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di angka 6,5 - 7,5",
+        "cara_memanfaatkan": "Air rebusan labu siam mengandung kalium efektif membantu kestabilan tekanan darah.\nBuah labu siam memiliki indeks glikemik rendah, sangat baik mencegah lonjakan gula darah pada penderita diabetes.\nKandungan asam folat tinggi mencegah cacat tabung saraf pada janin dan membantu melancarkan produksi ASI.\nDaun Muda dikonsumsi atau diseduh sebagai teh herbal untuk peluruh urine (diuretik).",
+        "bagian_dimanfaatkan": "buah dan daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.850204,
+          -8.015127
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "MANISA HITAM",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.850208,
+          -8.015127
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "MANISA HITAM",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.856939,
+          -7.919631
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMBU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.856939,
+          -7.919631
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMBU BIJI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.864016,
+          -8.009914
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAUN MANGKOK MERAH/BAYAM MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.864227,
+          -8.009353
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.864227,
+          -8.009353
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.86425,
+          -8.009797
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SEREH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.865075,
+          -7.918463
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.8802,
+          -7.919971
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "MANISA HITAM",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.880537,
+          -7.919971
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TERONG BELANDA",
+        "nama_ilmiah": "Solanum betaceum",
+        "fungsi_manfaat": "Mencegah obesitas, daya tahan tubuh, menurunkan tekanan darah, mengurangi resiko serangan jantung dan kangker, menjaga pencernaan, mencegah anemia, menjaga kesehatan mata, menangkal radikal bebas.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec.  Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daging buah dijus, dapat membantu menurunkan kolesterol, mengontrol darah tinggi, mengatasi sariawan, hingga melancarkan pencernaan.",
+        "bagian_dimanfaatkan": "daging buah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.88059,
+          -7.9201
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TERONG BELANDA",
+        "nama_ilmiah": "Solanum betaceum",
+        "fungsi_manfaat": "Mencegah obesitas, daya tahan tubuh, menurunkan tekanan darah, mengurangi resiko serangan jantung dan kangker, menjaga pencernaan, mencegah anemia, menjaga kesehatan mata, menangkal radikal bebas.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec.  Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daging buah dijus, dapat membantu menurunkan kolesterol, mengontrol darah tinggi, mengatasi sariawan, hingga melancarkan pencernaan.",
+        "bagian_dimanfaatkan": "daging buah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.880632,
+          -7.919999
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LOMBOK TERONG",
+        "nama_ilmiah": "Solanum torvum Sw",
+        "fungsi_manfaat": "Mengatasi tekanan darah tinggi, pereda nyeri & antiinflamasi, antibakteri & antiseptik, mengatasi anemia, mengatasi batuk & radang tenggorokan, melancarkan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "1 buah cabai dihaluskan dan dicampur dengan sedikit minyak kelapa atau minyak zaitun untuk dioleskan secara tipi-tipis pada area pegal, nyeri otot, atau rematik sebagai kompres hangat.\nBuah cabai terong diolah secara sehat untuk dikonsumsi dalam porsi yang sedikit untuk meningkatkan sistem imun tubuh (kaya vitamin C), menurunkan berat badan dan metabolisme, dan menurunkan stres dan sakit kepala.",
+        "bagian_dimanfaatkan": "Buah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.880852,
+          -7.919954
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.880857,
+          -7.919554
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.890991,
+          -7.951751
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAHE",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.896981,
+          -7.901768
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "LOMBOK TERONG",
+        "nama_ilmiah": "Solanum torvum Sw",
+        "fungsi_manfaat": "Mengatasi tekanan darah tinggi, pereda nyeri & antiinflamasi, antibakteri & antiseptik, mengatasi anemia, mengatasi batuk & radang tenggorokan, melancarkan pencernaan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "1 buah cabai dihaluskan dan dicampur dengan sedikit minyak kelapa atau minyak zaitun untuk dioleskan secara tipi-tipis pada area pegal, nyeri otot, atau rematik sebagai kompres hangat.\nBuah cabai terong diolah secara sehat untuk dikonsumsi dalam porsi yang sedikit untuk meningkatkan sistem imun tubuh (kaya vitamin C), menurunkan berat badan dan metabolisme, dan menurunkan stres dan sakit kepala.",
+        "bagian_dimanfaatkan": "Buah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.896997,
+          -7.901751
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GANJAN",
+        "nama_ilmiah": "Artemisia vulgaris",
+        "fungsi_manfaat": "Obat luka dan bisul, mengurangi bengkak-peradangan, mengatasi demam-masuk angin, mengatasi gangguan pencernaan ringan, antiseptik alami.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar atau kering direbus. Air rebusan untuk melancarkan haid, meredakan nyeri kram menstruasi, dan mengatasi gangguan pencernaan ringan.\nDaun segar ditumbuk atau diblender hingga halus dan berbentuk pasta kental. Pasta dioleskan atau ditempelkan pada bagian tubuh yang bengkak atau nyeri (memar atau luka)\nDaun ganjan diambil ekstrak kemudian dicampur minyak zaitun. Ekstrak daun ganjan dapat dijadikan minyak oles atau salep untuk menenangkan kulit dan meredakan gatal.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.897021,
+          -7.902696
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ARBEI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.897021,
+          -7.902696
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ARBEI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.898502,
+          -7.988507
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.898502,
+          -7.988507
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.898502,
+          -7.988507
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.898802,
+          -7.988507
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.901323,
+          -7.89546
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAITAN",
+        "nama_ilmiah": "Tithonia diversifolia",
+        "fungsi_manfaat": "Menurunkan demam, mengatasi sakit perut, antiradang, mengatasi luka & infeksi kulit, menurunkan gula darah (tradisional), menurunkan tekanan darah, mengatasi malaria, antioksidan.",
+        "potensi_sebaran": "Desa Ngadas RPTN Jemplang (Bidang l, SPTN Wilayah ll)",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun paitan muda dicuci bersih dan direbus dengan 2-3 gelas air bersih hingga menyusut. Air rebusan kemudian disaring untuk memisahkan ampas dan daunnya. Air rebusan daun paitan digunakan untuk membantu meredakan peradangan, menurunkan gula darah, mengatasi masalah pencernaan (diare dan kembung), demam, dan keluhan kulit (gatal, luka dan infeksi kulit).",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.901323,
+          -7.89546
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAHITAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.901323,
+          -7.89546
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAITAN",
+        "nama_ilmiah": "Tithonia diversifolia",
+        "fungsi_manfaat": "Menurunkan demam, mengatasi sakit perut, antiradang, mengatasi luka & infeksi kulit, menurunkan gula darah (tradisional), menurunkan tekanan darah, mengatasi malaria, antioksidan.",
+        "potensi_sebaran": "Desa Ngadas RPTN Jemplang (Bidang l, SPTN Wilayah ll)",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun paitan muda dicuci bersih dan direbus dengan 2-3 gelas air bersih hingga menyusut. Air rebusan kemudian disaring untuk memisahkan ampas dan daunnya. Air rebusan daun paitan digunakan untuk membantu meredakan peradangan, menurunkan gula darah, mengatasi masalah pencernaan (diare dan kembung), demam, dan keluhan kulit (gatal, luka dan infeksi kulit).",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.901614,
+          -7.883742
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.901614,
+          -7.883742
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.905667,
+          -7.95263
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GANJAN",
+        "nama_ilmiah": "Artemisia vulgaris",
+        "fungsi_manfaat": "Obat luka dan bisul, mengurangi bengkak-peradangan, mengatasi demam-masuk angin, mengatasi gangguan pencernaan ringan, antiseptik alami.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar atau kering direbus. Air rebusan untuk melancarkan haid, meredakan nyeri kram menstruasi, dan mengatasi gangguan pencernaan ringan.\nDaun segar ditumbuk atau diblender hingga halus dan berbentuk pasta kental. Pasta dioleskan atau ditempelkan pada bagian tubuh yang bengkak atau nyeri (memar atau luka)\nDaun ganjan diambil ekstrak kemudian dicampur minyak zaitun. Ekstrak daun ganjan dapat dijadikan minyak oles atau salep untuk menenangkan kulit dan meredakan gatal.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906334,
+          -7.984777
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ARBEI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906334,
+          -7.984777
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ARBEI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906345,
+          -7.98521
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BUAH PEPINO",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906433,
+          -7.984717
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TERONG BELANDA",
+        "nama_ilmiah": "Solanum betaceum",
+        "fungsi_manfaat": "Mencegah obesitas, daya tahan tubuh, menurunkan tekanan darah, mengurangi resiko serangan jantung dan kangker, menjaga pencernaan, mencegah anemia, menjaga kesehatan mata, menangkal radikal bebas.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec.  Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daging buah dijus, dapat membantu menurunkan kolesterol, mengontrol darah tinggi, mengatasi sariawan, hingga melancarkan pencernaan.",
+        "bagian_dimanfaatkan": "daging buah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906453,
+          -7.985204
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BIT MERAH",
+        "nama_ilmiah": "Beta vulgaris L",
+        "fungsi_manfaat": "Menurunkan tekanan darah, mencegah pikun, diabetes, mencegah kanker terutama payudara dan kandung kemih, mencegah kelainan janin,  fitalitas, anemia, mengatasi peradangan tubuh, dan meningkatkan kerja saraf dan otot",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C - 25°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.000-1.200 mdpl.\nTumbuh pada wilayah dengan curah hujan  500-550 mm per tahun, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 6-7",
+        "cara_memanfaatkan": "Umbi dimakan langsung (salad)\nDibuat juice.",
+        "bagian_dimanfaatkan": "Umbi",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906453,
+          -7.985204
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BIT MERAH",
+        "nama_ilmiah": "Beta vulgaris L",
+        "fungsi_manfaat": "Menurunkan tekanan darah, mencegah pikun, diabetes, mencegah kanker terutama payudara dan kandung kemih, mencegah kelainan janin,  fitalitas, anemia, mengatasi peradangan tubuh, dan meningkatkan kerja saraf dan otot",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C - 25°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.000-1.200 mdpl.\nTumbuh pada wilayah dengan curah hujan  500-550 mm per tahun, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 6-7",
+        "cara_memanfaatkan": "Umbi dimakan langsung (salad)\nDibuat juice.",
+        "bagian_dimanfaatkan": "Umbi",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906554,
+          -7.985286
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906554,
+          -7.985286
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906554,
+          -7.985286
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK HITAM",
+        "nama_ilmiah": "familia euphorbiaceous",
+        "fungsi_manfaat": "Radang telinga anak, demam, sembelit, memar akibat pukulan, penyakit kulit,  kembung, masuk angin, panas, lepra dan kanker",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C hingga 30°C.\nKetinggian: dataran rendah hingga ketinggian 1700 mdpl.\nTumbuh pada wilayah dengan curah hujan  300mm - 1200 mm/th, sangat tahan kekeringan.\nTumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Biji tanaman yang sudah dibuang kulitnya dihaluskan hingga menjadi serbuk dan dapat ditempelkan ke bagian yang terkena sakit lepra.\nDaun segar di tumbuk dicampur garam dan ditempelkan pada bagian yang luka atau pegal-pegal.\nDaun jarak direbus, air digunakan untuk mandi untuk mengurangi demam dan penderita penyakit kulit.",
+        "bagian_dimanfaatkan": "biji dan daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.906554,
+          -7.985286
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK MERAH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.907053,
+          -7.985087
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.91137,
+          -7.896581
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GANJAN",
+        "nama_ilmiah": "Artemisia vulgaris",
+        "fungsi_manfaat": "Obat luka dan bisul, mengurangi bengkak-peradangan, mengatasi demam-masuk angin, mengatasi gangguan pencernaan ringan, antiseptik alami.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar atau kering direbus. Air rebusan untuk melancarkan haid, meredakan nyeri kram menstruasi, dan mengatasi gangguan pencernaan ringan.\nDaun segar ditumbuk atau diblender hingga halus dan berbentuk pasta kental. Pasta dioleskan atau ditempelkan pada bagian tubuh yang bengkak atau nyeri (memar atau luka)\nDaun ganjan diambil ekstrak kemudian dicampur minyak zaitun. Ekstrak daun ganjan dapat dijadikan minyak oles atau salep untuk menenangkan kulit dan meredakan gatal.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.91149,
+          -7.896698
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMBU WER",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.91149,
+          -7.906698
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAMBU WER",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.91154,
+          -7.895863
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CERI GUNUNG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.912578,
+          -8.045221
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SURI PANDAK",
+        "nama_ilmiah": "Plantago mayor Linn.",
+        "fungsi_manfaat": "Menyembuhkan luka & memar, meredakan batuk & gangguan pernapasan, melancarkan pencernaan, antibakteri & antiinflamasi, pereda nyeri ringan.",
+        "potensi_sebaran": "Desa Argosari (K. Senduro, Kab, Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar direbus, air rebusan diminum untuk mengencerkan dahak dan melegakan pernapasan, meredakan nyeri, asam urat, meredakan diare ringan serta melancarkan saluran kemih \nDaun segar ditumbuk hingga halus kemudian dikompreskan pada yang sakit (mengatasi bengkak)",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.912883,
+          -8.046042
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JAHEWONO/PURWOCENG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.915327,
+          -7.979138
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK HIJAU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.915327,
+          -7.979138
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK",
+        "nama_ilmiah": "Jatropha curcas L.",
+        "fungsi_manfaat": "Sakit gigi,  sariawan, gatal-gatal, Mengatasi sembelit, perut kembung, penyembuhan luka ( tanin dan flavonoid), nyeri sendi dan reumatik, obat batuk (pengencer dahak),",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan suhu: wilayah tropis dengan suhu optimal antara 20°C hingga 30°C.\nKetinggian: dataran rendah hingga ketinggian 300-800 mdpl. \nTumbuh pada wilayah dengan curah hujan  300-1500mm/tahun, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di angka 5 - 6,5",
+        "cara_memanfaatkan": "Daun muda dikukus, air rebusan diminum untuk mengatasi sembelit.\nDaun dtumbuk hingga halus campur air hangat sedikit, oleskan pada lokasi rematik atau masalah kulit seperti exim. \nDaun jarak tua bersihkan dan layukan di atas api. Setelah layu oleskan minyak kelapa, minyak telon atau minyak kayu putih dan tempelkan di bagian perut dan pinggang.\nGetah untuk sakit gigi (antiseptik) dan sariawan, perlu berhati-hati karena sering merusak gusi sehat.",
+        "bagian_dimanfaatkan": "biji, getah, batang, dan daun.",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.916632,
+          -8.040489
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JENGGOT WESI",
+        "nama_ilmiah": "Usnea Berbata Fries",
+        "fungsi_manfaat": "Anti bakteri, anti jamur, obat luka, gangguan pernapasan, penurun panas -antiradang, potensi antikanker (masih tahap awal riset).",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo,  Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Jenggot wesi direbus sampai sarinya keluar, lalu saring airnya. Air rebusan untuk mengompres area kulit yang bermasalah atau mencuci luka.\nJenggot wesi dicuci bersih dikeringkan dan dipotong kecil-kecil  untuk diseduh dengan air panas (layaknya membuat teh). Air seduhan disaring dan ditambahkan madu asli untuk mengurangi rasa pait. Air seduhan jenggot wesi untuk meredakan batuk dan masalah pernapasan.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.928867,
+          -8.037286
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JENGGOT WESI",
+        "nama_ilmiah": "Usnea Berbata Fries",
+        "fungsi_manfaat": "Anti bakteri, anti jamur, obat luka, gangguan pernapasan, penurun panas -antiradang, potensi antikanker (masih tahap awal riset).",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo,  Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Jenggot wesi direbus sampai sarinya keluar, lalu saring airnya. Air rebusan untuk mengompres area kulit yang bermasalah atau mencuci luka.\nJenggot wesi dicuci bersih dikeringkan dan dipotong kecil-kecil  untuk diseduh dengan air panas (layaknya membuat teh). Air seduhan disaring dan ditambahkan madu asli untuk mengurangi rasa pait. Air seduhan jenggot wesi untuk meredakan batuk dan masalah pernapasan.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.929233,
+          -8.035871
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KAYU AMPET",
+        "nama_ilmiah": "Alstonia macrophylla",
+        "fungsi_manfaat": "Obat sakit perut dan diare, mengatasi masuk angin, mengobati demam, antiradang, mengatasi rematik, meningkatkan stamina.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Kulit kayu ampet dikeringkan dan direbus.  Air rebusan digunakan meredakan nyeri pasca-persalinan dan merawat area kewanitaan.\nKayu ampet dihaluskan hingga menjadi bubuk kayu. Bubuk kayu ampet diseduh untuk meredakan peradangan, menurunkan kolestrol, sakit perut, diare, masuk angin dan demam.",
+        "bagian_dimanfaatkan": "kayu atau batang",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.931855,
+          -8.039685
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GEMBOKAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.933517,
+          -8.032445
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KRANGEAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.941746,
+          -8.000256
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GANYONG",
+        "nama_ilmiah": "Canna indica L.",
+        "fungsi_manfaat": "Menjaga kesehatan pencernaan, meredakan panas dalam & diare ringan, sumber energi-pemulihan tubuh, anti inflamasi ringan (pemakaian luar), kesehatan kulit.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab.  Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec- Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Umbi ganyong diparut diperas untuk diambil sarinya. Sari pati diendapkan hingga airnya terpisah dan dibuang. Endapan pati dijemur hingga kering menjadi tepung ganyong. Pati ganyong dapat mengobati sakit magh dan asam lambung, mengatasi diare.\nUmbi ganying direbus digunakan untuk meredakan panas dalam dan demam (antipiretik), mengatasi radang saluran kencing dan peluruh urine",
+        "bagian_dimanfaatkan": "rimpang (umbi)",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.94304,
+          -8.022686
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "STROBERI HUTAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.947492,
+          -7.97909
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.94754,
+          -7.979791
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.950278,
+          -8.013333
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TOMAT CERI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.950278,
+          -8.013333
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TOMAT CERI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.950278,
+          -8.012778
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TOMAT CERI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.950828,
+          -7.93088
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ALANG-ALANG",
+        "nama_ilmiah": "Imperata cylindrical L.",
+        "fungsi_manfaat": "Batu ginjal, infeksi ginjal, hepatitis, kencing batu, buang air kecil tidak lancar, keputihan.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-40°C.\nKetinggian: dataran rendah sampai di ketinggian 2.000 mdpl\nCurah hujan 500-3.500 mm/th\nTumbuh ideal pada tanah dengan pH 4-7.5",
+        "cara_memanfaatkan": "Akar alang-alang direbus, air rebusan digunakan meredakan panas, melancarkan urine dan mengatasi batu ginjal.",
+        "bagian_dimanfaatkan": "Akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.950828,
+          -7.93088
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ALANG-ALANG",
+        "nama_ilmiah": "Imperata cylindrical L.",
+        "fungsi_manfaat": "Batu ginjal, infeksi ginjal, hepatitis, kencing batu, buang air kecil tidak lancar, keputihan.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-40°C.\nKetinggian: dataran rendah sampai di ketinggian 2.000 mdpl\nCurah hujan 500-3.500 mm/th\nTumbuh ideal pada tanah dengan pH 4-7.5",
+        "cara_memanfaatkan": "Akar alang-alang direbus, air rebusan digunakan meredakan panas, melancarkan urine dan mengatasi batu ginjal.",
+        "bagian_dimanfaatkan": "Akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.95096,
+          -7.930678
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARINGAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.95098,
+          -7.930804
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PUTIHAN",
+        "nama_ilmiah": "Buddleja asiatica",
+        "fungsi_manfaat": "Upacara adat Suku Tengger, meredakan demam, penyakit kulit, ramuan pencuci luka karena mengandung antiseptik alami.",
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": "Daun direbus, uap air  digunakan meredakan sakit kepala dan mengatasi masalah pernapasan. \nTumbukan daun digunakan sebagai antiseptik topikal untuk membantu meredakan penyakit kulit. \nAkar dan daun digunakan sebagai obat nyeri, diare, dan demam.\nSelain digunakan untuk herbal, pada beberapa daerah tertentu juga dimanfaatkan sebagai penolak serangga (insektisida alami). Bunga putihan juga digunakan untuk upacara adat Suku Tengger.",
+        "bagian_dimanfaatkan": "daun, bunga, dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.951197,
+          -7.9302
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KEMLANDINGAN/KLANDINGAN",
+        "nama_ilmiah": "Lucas lavandulifolia",
+        "fungsi_manfaat": "Mengatasi insomnia,  meredakan sakit kepala, kejang pada anak, epilepsi, anti inflamasi (bengkak, meredakan nyeri, dan mengobati penyakit kulit (kudis), menurunkan gula dan kolesterol, serta  antimikroba.",
+        "potensi_sebaran": "Desa Ngadas (Kecamatan Poncokusumo, Kab. Malang), Desa Ranupani (Kecamatan Senduro, Kab. Lumajang).\nDesa  Tosari (Kecamatan Tosari Pasuruan)",
+        "syarat_hidup": "Hidup di wilayah tropis dan subtropis dengan rentang suhu udara rata-rata 20°C-35°C.\nTumbuh liar di tanah kering dan terlantar, pada dataran rendah hingga ketinggian 1.500 mdpl\nOtimal tumbuh di curah hujan tinggi 1.000mm/th – 2000mm/th.\nTumbuh optimal pada kisaran pH tanah antara 6,0 hingga 7,0 membutuhkan sinar matahari penuh",
+        "cara_memanfaatkan": "Daun klandingan ditumbuk halus, pasta dioleskan pada area kulit yang gatal, radang/panas, bisul, dan kulit yang luka luar ringan\nBiji klandingan direbus, air rebusan diminum rutin untuk menurunkan gula darah dan kolesterol.\nDaun direbus, air rebusan membantu tidur lebih nyenyak atau menurunkan panas dalam.",
+        "bagian_dimanfaatkan": "Daun dan Biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.951206,
+          -7.93021
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KEMLANDINGAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.951276,
+          -7.931024
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "EDELWEIS",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.951282,
+          -7.930039
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ALANG-ALANG",
+        "nama_ilmiah": "Imperata cylindrical L.",
+        "fungsi_manfaat": "Batu ginjal, infeksi ginjal, hepatitis, kencing batu, buang air kecil tidak lancar, keputihan.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-40°C.\nKetinggian: dataran rendah sampai di ketinggian 2.000 mdpl\nCurah hujan 500-3.500 mm/th\nTumbuh ideal pada tanah dengan pH 4-7.5",
+        "cara_memanfaatkan": "Akar alang-alang direbus, air rebusan digunakan meredakan panas, melancarkan urine dan mengatasi batu ginjal.",
+        "bagian_dimanfaatkan": "Akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.951327,
+          -7.939024
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "EDELWEIS",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.951343,
+          -7.931
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PASOTE",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.951787,
+          -7.930879
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ALANG-ALANG",
+        "nama_ilmiah": "Imperata cylindrical L.",
+        "fungsi_manfaat": "Batu ginjal, infeksi ginjal, hepatitis, kencing batu, buang air kecil tidak lancar, keputihan.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-40°C.\nKetinggian: dataran rendah sampai di ketinggian 2.000 mdpl\nCurah hujan 500-3.500 mm/th\nTumbuh ideal pada tanah dengan pH 4-7.5",
+        "cara_memanfaatkan": "Akar alang-alang direbus, air rebusan digunakan meredakan panas, melancarkan urine dan mengatasi batu ginjal.",
+        "bagian_dimanfaatkan": "Akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.959908,
+          -7.930724
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TEMPUYUNG/KETIUW",
+        "nama_ilmiah": "Sonchus arvensis",
+        "fungsi_manfaat": "Meluruhkan batu ginjal atau batu kandung kemih (efek diuretik), menurunkan kadar asam urat,  tekanan darah dan gula darah, meredakan radang dan pembengkakan.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu: tumbuh baik pada  suhu 25°C -32°C.\nTumbuh subur dan optimal di ketinggian pada kisaran 50-1.600 mdpl.\nTumbuh: subur di tanah gembur, kaya bahan organik, pH tanah antara 5.5-7.0",
+        "cara_memanfaatkan": "Daun direbus dan diminum airnya \nDaun dimakan langsung sebagai sayur\nDaun di tumbuk,  pasta digunakan sebagai kompres pada kulit yang bengkak",
+        "bagian_dimanfaatkan": "Daun,",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.96104,
+          -7.922386
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK HIJAU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.961342,
+          -7.921251
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CEMARA GUNUNG SEMAK",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.961382,
+          -7.971251
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CEMARA GUNUNG SEMAK",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.964345,
+          -7.922273
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.964474,
+          -7.922857
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECUBUNG PUTIH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.966104,
+          -7.922386
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARAK HIJAU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.983153,
+          -7.915076
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.98334,
+          -7.914567
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SELEDRI",
+        "nama_ilmiah": "Apium graveolens",
+        "fungsi_manfaat": "Menurunkan hipertensi dan  kolesterol, mengontrol gula darah, mengurangi peradangan, asam urat dan nyeri sendi, menjaga kesehatan jantung, membantu menenangkan saraf dan mengurangi stres.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun seledri direbus, air rebusan diminum untuk mengontrol tekanan darah dan membantu membuang kelebihan asam urine melalui urine,\nDaun seledri diblender hingga halus dan diminum secara teratur untuk menurunkan kolestrol dan detoksifikasi",
+        "bagian_dimanfaatkan": "Daun dan batang",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.983371,
+          -7.914381
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECUBUNG KUNING",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.983948,
+          -7.914695
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TERONG BELANDA",
+        "nama_ilmiah": "Solanum betaceum",
+        "fungsi_manfaat": "Mencegah obesitas, daya tahan tubuh, menurunkan tekanan darah, mengurangi resiko serangan jantung dan kangker, menjaga pencernaan, mencegah anemia, menjaga kesehatan mata, menangkal radikal bebas.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab Lumajang), Desa Ngadas dan Desa Gubuklakah (Kec.  Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daging buah dijus, dapat membantu menurunkan kolesterol, mengontrol darah tinggi, mengatasi sariawan, hingga melancarkan pencernaan.",
+        "bagian_dimanfaatkan": "daging buah",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.983977,
+          -7.914867
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DRINGU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.983977,
+          -7.914867
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DRINGU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.984027,
+          -7.915494
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.984027,
+          -7.915494
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "CARICA",
+        "nama_ilmiah": "Vasconcellea pubescens",
+        "fungsi_manfaat": "Mengatasi cacingan, melancarkan pencernaan dan mencegah konstipasi, anti oksidan untuk mencegah penyakit kanker, jantung, mencegah osteoporosis,",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 10°C - 20°C.\nKetinggian: hidup di dataran tinggi di ketinggian 1.500-3.000 mdpl.\nPenyiraman: curah hujan  800mm - 1200 mm/th, sangat tahan terhadap kekeringan.\nTumbuh ideal pada pH tanah di 5,5 - 6,5",
+        "cara_memanfaatkan": "Daun carica mengandung alkaloid karpain, efektif meredakan demam dan meningkatkan sistem kekebalan tubuh.\nDaun carica berkhasiat meredakan demam, nyeri sendi, dan meningkatkan imunitas\nRebusan akar sering diandalkan untuk membantu meluruhkan batu ginjal dan mengatasi cacingan.\nTumbukan akar atau kulit batang mengandung antiseptik untuk meredakan bengkak akibat gigitan serangga atau radang kulit ringan.",
+        "bagian_dimanfaatkan": "Buah, daun, batang dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.99096,
+          -7.930678
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JARINGAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.9956,
+          -7.9684
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KESEK",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.9956,
+          -7.9684
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KIRINYUH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.9966,
+          -7.968
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BLUBUK",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.9966,
+          -7.968
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BLUBUK",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.9968,
+          -7.9682
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KAYU AMPET",
+        "nama_ilmiah": "Alstonia macrophylla",
+        "fungsi_manfaat": "Obat sakit perut dan diare, mengatasi masuk angin, mengobati demam, antiradang, mengatasi rematik, meningkatkan stamina.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Kulit kayu ampet dikeringkan dan direbus.  Air rebusan digunakan meredakan nyeri pasca-persalinan dan merawat area kewanitaan.\nKayu ampet dihaluskan hingga menjadi bubuk kayu. Bubuk kayu ampet diseduh untuk meredakan peradangan, menurunkan kolestrol, sakit perut, diare, masuk angin dan demam.",
+        "bagian_dimanfaatkan": "kayu atau batang",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.9968,
+          -7.9682
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KAYU AMPET",
+        "nama_ilmiah": "Alstonia macrophylla",
+        "fungsi_manfaat": "Obat sakit perut dan diare, mengatasi masuk angin, mengobati demam, antiradang, mengatasi rematik, meningkatkan stamina.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Kulit kayu ampet dikeringkan dan direbus.  Air rebusan digunakan meredakan nyeri pasca-persalinan dan merawat area kewanitaan.\nKayu ampet dihaluskan hingga menjadi bubuk kayu. Bubuk kayu ampet diseduh untuk meredakan peradangan, menurunkan kolestrol, sakit perut, diare, masuk angin dan demam.",
+        "bagian_dimanfaatkan": "kayu atau batang",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.9993,
+          -7.9658
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.999455,
+          -7.965901
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECUBUNG KUNING",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.999457,
+          -7.965879
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ADAS",
+        "nama_ilmiah": "Foeniculum vulgare",
+        "fungsi_manfaat": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C.\nKetinggian: dataran tinggi 1.600-2.400 mdpl\nCurah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal\nTumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. \nDaun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "bagian_dimanfaatkan": "Daun, batang, dan biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.999516,
+          -7.95606
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "EDELWEIS",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0002,
+          -7.9676
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SENGGANEN/SENGGANI",
+        "nama_ilmiah": "Melastoma malabathricum L",
+        "fungsi_manfaat": "Mengobati diare, menghentikan pendarahan, mempercepat penyembuhan luka, mengatasi sariawan dan radang mulut, mengobati keputihan, anti-flamasi, mengatasi bisul atau infeksi kulit.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar direbus, air rebusan untuk mengobati diare dan disentri, meredakan asam lambung dan nyeri sendi (terdapat senyawa anti-inflamasi).\nAkar senggani direbus dengan sedikit garam, air rebusan untuk berkumur (meredakan sakit gigi).\nDaun atau buah senggani ditumbuk halus, pasta ditempelkan pada area kulit yang terkena luka bakar dan bisul sebagai obat luar\nAkar senggani dengan sambitolo dan kunyit, air rebusan untuk mengatasi keputihan dan nyeri haid",
+        "bagian_dimanfaatkan": "Daun, buah dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0002,
+          -7.9676
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PUTIHAN",
+        "nama_ilmiah": "Buddleja asiatica",
+        "fungsi_manfaat": "Upacara adat Suku Tengger, meredakan demam, penyakit kulit, ramuan pencuci luka karena mengandung antiseptik alami.",
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": "Daun direbus, uap air  digunakan meredakan sakit kepala dan mengatasi masalah pernapasan. \nTumbukan daun digunakan sebagai antiseptik topikal untuk membantu meredakan penyakit kulit. \nAkar dan daun digunakan sebagai obat nyeri, diare, dan demam.\nSelain digunakan untuk herbal, pada beberapa daerah tertentu juga dimanfaatkan sebagai penolak serangga (insektisida alami). Bunga putihan juga digunakan untuk upacara adat Suku Tengger.",
+        "bagian_dimanfaatkan": "daun, bunga, dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0002,
+          -7.9676
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PUTIHAN",
+        "nama_ilmiah": "Buddleja asiatica",
+        "fungsi_manfaat": "Upacara adat Suku Tengger, meredakan demam, penyakit kulit, ramuan pencuci luka karena mengandung antiseptik alami.",
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": "Daun direbus, uap air  digunakan meredakan sakit kepala dan mengatasi masalah pernapasan. \nTumbukan daun digunakan sebagai antiseptik topikal untuk membantu meredakan penyakit kulit. \nAkar dan daun digunakan sebagai obat nyeri, diare, dan demam.\nSelain digunakan untuk herbal, pada beberapa daerah tertentu juga dimanfaatkan sebagai penolak serangga (insektisida alami). Bunga putihan juga digunakan untuk upacara adat Suku Tengger.",
+        "bagian_dimanfaatkan": "daun, bunga, dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0002,
+          -7.9676
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SENGGANEN/SENGGANI",
+        "nama_ilmiah": "Melastoma malabathricum L",
+        "fungsi_manfaat": "Mengobati diare, menghentikan pendarahan, mempercepat penyembuhan luka, mengatasi sariawan dan radang mulut, mengobati keputihan, anti-flamasi, mengatasi bisul atau infeksi kulit.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Ngadas dan Desa Gubuklakah Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar direbus, air rebusan untuk mengobati diare dan disentri, meredakan asam lambung dan nyeri sendi (terdapat senyawa anti-inflamasi).\nAkar senggani direbus dengan sedikit garam, air rebusan untuk berkumur (meredakan sakit gigi).\nDaun atau buah senggani ditumbuk halus, pasta ditempelkan pada area kulit yang terkena luka bakar dan bisul sebagai obat luar\nAkar senggani dengan sambitolo dan kunyit, air rebusan untuk mengatasi keputihan dan nyeri haid",
+        "bagian_dimanfaatkan": "Daun, buah dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.004192,
+          -8.02921
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PRONOJIWO",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0075,
+          -8.033611
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECUBUNG PUTIH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0075,
+          -8.038333
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "JENGGOT WESI",
+        "nama_ilmiah": "Usnea Berbata Fries",
+        "fungsi_manfaat": "Anti bakteri, anti jamur, obat luka, gangguan pernapasan, penurun panas -antiradang, potensi antikanker (masih tahap awal riset).",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo,  Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Jenggot wesi direbus sampai sarinya keluar, lalu saring airnya. Air rebusan untuk mengompres area kulit yang bermasalah atau mencuci luka.\nJenggot wesi dicuci bersih dikeringkan dan dipotong kecil-kecil  untuk diseduh dengan air panas (layaknya membuat teh). Air seduhan disaring dan ditambahkan madu asli untuk mengurangi rasa pait. Air seduhan jenggot wesi untuk meredakan batuk dan masalah pernapasan.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.0075,
+          -8.038333
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANTING-ANTING",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.012222,
+          -8.04
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PISANG HUTAN",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015691,
+          -7.986493
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECUBUNG KUNING",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015691,
+          -7.986493
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "MARKISA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015714,
+          -7.986501
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TOMAT",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015732,
+          -7.986502
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAUN BAWANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015742,
+          -7.986405
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SELEDRI",
+        "nama_ilmiah": "Apium graveolens",
+        "fungsi_manfaat": "Menurunkan hipertensi dan  kolesterol, mengontrol gula darah, mengurangi peradangan, asam urat dan nyeri sendi, menjaga kesehatan jantung, membantu menenangkan saraf dan mengurangi stres.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun seledri direbus, air rebusan diminum untuk mengontrol tekanan darah dan membantu membuang kelebihan asam urine melalui urine,\nDaun seledri diblender hingga halus dan diminum secara teratur untuk menurunkan kolestrol dan detoksifikasi",
+        "bagian_dimanfaatkan": "Daun dan batang",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015742,
+          -7.986405
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SELEDRI",
+        "nama_ilmiah": "Apium graveolens",
+        "fungsi_manfaat": "Menurunkan hipertensi dan  kolesterol, mengontrol gula darah, mengurangi peradangan, asam urat dan nyeri sendi, menjaga kesehatan jantung, membantu menenangkan saraf dan mengurangi stres.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun seledri direbus, air rebusan diminum untuk mengontrol tekanan darah dan membantu membuang kelebihan asam urine melalui urine,\nDaun seledri diblender hingga halus dan diminum secara teratur untuk menurunkan kolestrol dan detoksifikasi",
+        "bagian_dimanfaatkan": "Daun dan batang",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015757,
+          -7.986393
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SAWI HITAM",
+        "nama_ilmiah": "Brassica juncea",
+        "fungsi_manfaat": "Melancarkan pencernaan, menurunkan kolesterol, kesehatan jantung, anti bakteri dan  anti inflamasi, penambah imunitas, mengatasi masuk angin ringan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, KabLumajang), Desa Ngadas dan Desa Gubuklakah  (Kec. Poncokusumo, Kab Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:. embutuhkan sinar matahari penuh, dan suhu ideal 10°C-25°C\nTumbuh optimal di dataran rendah hingga tinggi 5-1.200 m dpl\nMembutuhkan curah hujan ideal antara 1.000-1.500 mm/tahun\nTumbuh baik pada pH 6.0-6.8",
+        "cara_memanfaatkan": "Daun atau biji sawi ireng ditumbuk, pasta kental ditempelkan bagian tubuh yang nyeri atau bengkak.\nDaun direbus air rebusan diminum 1 kali sehari untuk membantu detoksifikasi dan pencernaan.",
+        "bagian_dimanfaatkan": "Daun dan Biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015757,
+          -7.986393
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SAWI IRENG",
+        "nama_ilmiah": "Brassica juncea",
+        "fungsi_manfaat": "Melancarkan pencernaan, menurunkan kolesterol, kesehatan jantung, anti bakteri dan  anti inflamasi, penambah imunitas, mengatasi masuk angin ringan.",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, KabLumajang), Desa Ngadas dan Desa Gubuklakah  (Kec. Poncokusumo, Kab Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari, Kab. Pasuruan).",
+        "syarat_hidup": "Iklim dan Suhu:. embutuhkan sinar matahari penuh, dan suhu ideal 10°C-25°C\nTumbuh optimal di dataran rendah hingga tinggi 5-1.200 m dpl\nMembutuhkan curah hujan ideal antara 1.000-1.500 mm/tahun\nTumbuh baik pada pH 6.0-6.8",
+        "cara_memanfaatkan": "Daun atau biji sawi ireng ditumbuk, pasta kental ditempelkan bagian tubuh yang nyeri atau bengkak.\nDaun direbus air rebusan diminum 1 kali sehari untuk membantu detoksifikasi dan pencernaan.",
+        "bagian_dimanfaatkan": "Daun dan Biji",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015759,
+          -7.986485
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KETUMBAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015759,
+          -7.986458
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "SENIKIR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015759,
+          -7.986458
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "BUNGA TAHI AYAM/GEMITIR/MARISELA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.01576,
+          -7.986488
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KESEK",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015774,
+          -7.986418
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "WORTEL",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.016111,
+          -7.986944
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "GANJAN",
+        "nama_ilmiah": "Artemisia vulgaris",
+        "fungsi_manfaat": "Obat luka dan bisul, mengurangi bengkak-peradangan, mengatasi demam-masuk angin, mengatasi gangguan pencernaan ringan, antiseptik alami.",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun segar atau kering direbus. Air rebusan untuk melancarkan haid, meredakan nyeri kram menstruasi, dan mengatasi gangguan pencernaan ringan.\nDaun segar ditumbuk atau diblender hingga halus dan berbentuk pasta kental. Pasta dioleskan atau ditempelkan pada bagian tubuh yang bengkak atau nyeri (memar atau luka)\nDaun ganjan diambil ekstrak kemudian dicampur minyak zaitun. Ekstrak daun ganjan dapat dijadikan minyak oles atau salep untuk menenangkan kulit dan meredakan gatal.",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.016111,
+          -7.986944
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KOPI ARABIKA",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.016111,
+          -7.986944
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KACANG BABI",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.023762,
+          -7.9784
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KUNYIT",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.023817,
+          -7.97863
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KETUMBAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.02415,
+          -7.97863
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DRINGU",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.025098,
+          -7.975778
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "DAUN BAWANG",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.025278,
+          -8.013611
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAITAN",
+        "nama_ilmiah": "Tithonia diversifolia",
+        "fungsi_manfaat": "Menurunkan demam, mengatasi sakit perut, antiradang, mengatasi luka & infeksi kulit, menurunkan gula darah (tradisional), menurunkan tekanan darah, mengatasi malaria, antioksidan.",
+        "potensi_sebaran": "Desa Ngadas RPTN Jemplang (Bidang l, SPTN Wilayah ll)",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun paitan muda dicuci bersih dan direbus dengan 2-3 gelas air bersih hingga menyusut. Air rebusan kemudian disaring untuk memisahkan ampas dan daunnya. Air rebusan daun paitan digunakan untuk membantu meredakan peradangan, menurunkan gula darah, mengatasi masalah pencernaan (diare dan kembung), demam, dan keluhan kulit (gatal, luka dan infeksi kulit).",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.025278,
+          -8.013611
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "PAITAN",
+        "nama_ilmiah": "Tithonia diversifolia",
+        "fungsi_manfaat": "Menurunkan demam, mengatasi sakit perut, antiradang, mengatasi luka & infeksi kulit, menurunkan gula darah (tradisional), menurunkan tekanan darah, mengatasi malaria, antioksidan.",
+        "potensi_sebaran": "Desa Ngadas RPTN Jemplang (Bidang l, SPTN Wilayah ll)",
+        "syarat_hidup": "Iklim dan Suhu:.\nKetinggian: \nPenyiraman: \nTumbuh",
+        "cara_memanfaatkan": "Daun paitan muda dicuci bersih dan direbus dengan 2-3 gelas air bersih hingga menyusut. Air rebusan kemudian disaring untuk memisahkan ampas dan daunnya. Air rebusan daun paitan digunakan untuk membantu meredakan peradangan, menurunkan gula darah, mengatasi masalah pencernaan (diare dan kembung), demam, dan keluhan kulit (gatal, luka dan infeksi kulit).",
+        "bagian_dimanfaatkan": "Daun",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.02537,
+          -7.973474
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "TEBU IRENG",
+        "nama_ilmiah": "Saccharum officinarum",
+        "fungsi_manfaat": "Mengontrol gula darah, melancarkan sistem pencernaan, mencegah infeksi bakteri, mengurangi risiko terkena kanker",
+        "potensi_sebaran": null,
+        "syarat_hidup": "Iklim dan Suhu: iklim tropis dengan suhu optimal 24°C-30°C.\nKetinggian: Ideal hidup  di dataran rendah hingga 1.000 mdpl\nPenyiraman: curah hujan  200mm/th, sangat tahan terhadap kekeringan\nTumbuh: subur di tanah gembur, kaya bahan organik, pH tanah antara 6,0-6,5",
+        "cara_memanfaatkan": "Air rebusan akar, daun, dan sari batang tebu ireng, digunakan meredakan demam, melancarkan buang air kecil, dan meningkatkan kekebalan tubu",
+        "bagian_dimanfaatkan": "daun, batang, dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.028632,
+          -8.021287
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KETUMBAR",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.031111,
+          -8.0525
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "KECUBUNG PUTIH",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.051111,
+          -8.067778
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANDONG",
+        "nama_ilmiah": "cordyline fruticosa Linn",
+        "fungsi_manfaat": "Menghentikan pendarahan, obat luka, mengatasi diare, mengatasi batuk dan sakit tenggorokan, obat gangguan haid, mengatasi radang, menurunkan demam.",
+        "potensi_sebaran": "RPTN Patok Picis (Bidang 1 SPTN Wilayah 2)",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-35°C.\nKetinggian: tumbuh di dataran rendah hingga dataran tinggi 1.900 mdpl. \nTumbuh pada wilayah dengan curah hujan 300-2.500 mm/th\nTumbuh optimal pada pH 5.5-6.5",
+        "cara_memanfaatkan": "Daun dan akar direbus, air rebusan membantu meredakan infeksi pencernaan (diare dan disentri), batuk darah, haid berlebihan, dan wasir.\nDaun ditumbuk menjadi pasta, dioleskan pada kulit yang mengalami luka bakar dan bengkak karena  sengatan binatang berbisa.",
+        "bagian_dimanfaatkan": "daun dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.051111,
+          -8.067778
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "ANDONG",
+        "nama_ilmiah": "cordyline fruticosa Linn",
+        "fungsi_manfaat": "Menghentikan pendarahan, obat luka, mengatasi diare, mengatasi batuk dan sakit tenggorokan, obat gangguan haid, mengatasi radang, menurunkan demam.",
+        "potensi_sebaran": "RPTN Patok Picis (Bidang 1 SPTN Wilayah 2)",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-35°C.\nKetinggian: tumbuh di dataran rendah hingga dataran tinggi 1.900 mdpl. \nTumbuh pada wilayah dengan curah hujan 300-2.500 mm/th\nTumbuh optimal pada pH 5.5-6.5",
+        "cara_memanfaatkan": "Daun dan akar direbus, air rebusan membantu meredakan infeksi pencernaan (diare dan disentri), batuk darah, haid berlebihan, dan wasir.\nDaun ditumbuk menjadi pasta, dioleskan pada kulit yang mengalami luka bakar dan bengkak karena  sengatan binatang berbisa.",
+        "bagian_dimanfaatkan": "daun dan akar",
+        "ada_data_deskriptif": "Ya"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.964478,
+          -7.973473
+        ]
+      },
+      "properties": {
+        "nama_tanaman": "EDELWEIS",
+        "nama_ilmiah": null,
+        "fungsi_manfaat": null,
+        "potensi_sebaran": null,
+        "syarat_hidup": null,
+        "cara_memanfaatkan": null,
+        "bagian_dimanfaatkan": null,
+        "ada_data_deskriptif": "Tidak"
+      }
+    }
+  ]
+}
