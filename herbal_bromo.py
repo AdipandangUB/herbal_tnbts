@@ -1432,7 +1432,6 @@ elif selected == "Peta Sebaran":
             highlight_points=None,
             show_only_highlighted=False
         )
-        # Gunakan st_folium dengan parameter untuk memastikan layer control terlihat
         st_folium(
             m, 
             width="100%", 
@@ -1489,26 +1488,24 @@ def create_geojson_viewer_link_from_data(geojson_data):
 # ─────────────────────────────────────────────────────────────────────────────
 # ... (kode CSS tetap sama) ...
 
-# ======================== TAMBAHAN: VISUALISASI GEOJSON ========================
+# ======================== VISUALISASI GEOJSON TERINTEGRASI ========================
     st.markdown("---")
     st.markdown("## 📊 Visualisasi Data GeoJSON Terintegrasi")
     st.markdown("Lihat data sebaran tanaman herbal dan batas kawasan TNBTS dalam satu tampilan GeoJSON menggunakan GeoJSON Viewer online.")
     
-# ======================== GABUNGAN VISUALISASI ========================
-    # Cari file GeoJSON Tanaman Herbal
+    # Cari file GeoJSON
     geojson_file = _find_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
     batas_geojson_file = _find_geojson('Batas_TNBTS.geojson')
     
     if geojson_file and batas_geojson_file:
         try:
-            # Baca kedua file GeoJSON
             with open(geojson_file, 'r', encoding='utf-8') as f:
                 geojson_data = json.load(f)
             
             with open(batas_geojson_file, 'r', encoding='utf-8') as f:
                 batas_geojson_data = json.load(f)
             
-            # Gabungkan kedua GeoJSON menjadi satu FeatureCollection
+            # Gabungkan kedua GeoJSON
             combined_geojson = {
                 "type": "FeatureCollection",
                 "name": "TNBTS_Combined_Data",
@@ -1521,22 +1518,20 @@ def create_geojson_viewer_link_from_data(geojson_data):
                 "features": []
             }
             
-            # Tambahkan fitur dari tanaman herbal
+            # Tambahkan fitur tanaman herbal
             for feature in geojson_data.get('features', []):
                 feature['properties']['layer_type'] = 'tanaman_herbal'
                 combined_geojson['features'].append(feature)
             
-            # Tambahkan fitur dari batas TNBTS
+            # Tambahkan fitur batas TNBTS
             for feature in batas_geojson_data.get('features', []):
                 feature['properties']['layer_type'] = 'batas_tnbts'
                 combined_geojson['features'].append(feature)
             
-            # Hitung statistik gabungan
             total_features_herbal = len(geojson_data.get('features', []))
             total_features_batas = len(batas_geojson_data.get('features', []))
             total_features_combined = len(combined_geojson.get('features', []))
             
-            # Hitung jumlah tanaman unik
             unique_plants = set()
             for feature in geojson_data.get('features', []):
                 props = feature.get('properties', {})
@@ -1544,7 +1539,6 @@ def create_geojson_viewer_link_from_data(geojson_data):
                 if nama:
                     unique_plants.add(nama)
             
-            # Hitung total polygon batas
             total_polygons = 0
             for feature in batas_geojson_data.get('features', []):
                 geom = feature.get('geometry', {})
@@ -1553,7 +1547,6 @@ def create_geojson_viewer_link_from_data(geojson_data):
                 elif geom.get('type') == 'Polygon':
                     total_polygons += 1
             
-            # Dapatkan keterangan batas
             keterangan = ""
             for feature in batas_geojson_data.get('features', []):
                 props = feature.get('properties', {})
@@ -1589,8 +1582,7 @@ def create_geojson_viewer_link_from_data(geojson_data):
                     </span>
                 </div>
                 <p style="margin: 12px 0; color: #555;">
-                    Klik tombol di bawah untuk membuka data gabungan di <strong>geojson.io</strong> 
-                    — platform interaktif untuk melihat, mengedit, dan menganalisis data geospasial.
+                    Klik tombol di bawah untuk membuka data gabungan di <strong>geojson.io</strong>
                     <br>
                     <span style="font-size: 12px; color: #888;">
                         🔵 <strong>Titik biru</strong> = Sebaran Tanaman Herbal • 🔴 <strong>Garis merah</strong> = Batas TNBTS
@@ -1599,7 +1591,6 @@ def create_geojson_viewer_link_from_data(geojson_data):
             </div>
             """, unsafe_allow_html=True)
             
-            # Buat tombol untuk membuka data gabungan di GeoJSON Viewer
             url_combined = create_geojson_viewer_link_from_data(combined_geojson)
             
             col1, col2, col3 = st.columns([1, 2, 1])
@@ -1631,11 +1622,8 @@ def create_geojson_viewer_link_from_data(geojson_data):
                 </div>
                 ''', unsafe_allow_html=True)
             
-            # Tampilkan preview data gabungan
-            with st.expander("📋 Preview Data Gabungan (5 data tanaman + batas)"):
+            with st.expander("📋 Preview Data Gabungan"):
                 preview_data = []
-                
-                # Preview tanaman herbal
                 for i, feature in enumerate(geojson_data.get('features', [])[:5]):
                     props = feature.get('properties', {})
                     geom = feature.get('geometry', {})
@@ -1647,8 +1635,6 @@ def create_geojson_viewer_link_from_data(geojson_data):
                         'Keterangan': (props.get('fungsi_manfaat', '-') or '-')[:30] + '...' if len((props.get('fungsi_manfaat', '-') or '-')) > 30 else (props.get('fungsi_manfaat', '-') or '-'),
                         'Koordinat': f"{coords[1]:.6f}, {coords[0]:.6f}" if coords else '-'
                     })
-                
-                # Preview batas TNBTS
                 for i, feature in enumerate(batas_geojson_data.get('features', [])[:2]):
                     props = feature.get('properties', {})
                     geom = feature.get('geometry', {})
@@ -1660,14 +1646,10 @@ def create_geojson_viewer_link_from_data(geojson_data):
                         'Keterangan': props.get('Keterangan', '-'),
                         'Koordinat': f"Tipe: {geom_type}"
                     })
-                
                 st.dataframe(pd.DataFrame(preview_data), use_container_width=True, hide_index=True)
             
-            # Tombol download gabungan dalam 2 kolom
             col_dl1, col_dl2 = st.columns(2)
-            
             with col_dl1:
-                # Download data gabungan sebagai satu file
                 combined_json_str = json.dumps(combined_geojson, ensure_ascii=False, indent=2)
                 st.download_button(
                     label="📥 Download Data Terintegrasi (Gabungan)",
@@ -1677,7 +1659,6 @@ def create_geojson_viewer_link_from_data(geojson_data):
                     key="download_combined_geojson",
                     width='stretch'
                 )
-            
             with col_dl2:
                 st.markdown("""
                 <div style="background: #E8F5E9; border-radius: 8px; padding: 12px 16px; 
@@ -1691,10 +1672,8 @@ def create_geojson_viewer_link_from_data(geojson_data):
             
         except Exception as e:
             st.warning(f"⚠️ Gagal menggabungkan file GeoJSON: {e}")
-            st.info("Pastikan kedua file GeoJSON berada di direktori yang benar.")
     
     elif geojson_file:
-        # Jika hanya file tanaman yang ditemukan
         try:
             with open(geojson_file, 'r', encoding='utf-8') as f:
                 geojson_data = json.load(f)
@@ -1716,8 +1695,7 @@ def create_geojson_viewer_link_from_data(geojson_data):
                     <div class="stat-item"><strong>🌱 Spesies Unik:</strong> {len(unique_plants)}</div>
                 </div>
                 <p style="margin: 12px 0; color: #555;">
-                    ⚠️ <strong>File Batas_TNBTS.geojson tidak ditemukan.</strong> 
-                    Hanya menampilkan data tanaman herbal.
+                    ⚠️ <strong>File Batas_TNBTS.geojson tidak ditemukan.</strong>
                 </p>
             </div>
             """, unsafe_allow_html=True)
@@ -1752,8 +1730,8 @@ def create_geojson_viewer_link_from_data(geojson_data):
             st.warning(f"⚠️ Gagal membaca file GeoJSON: {e}")
     else:
         st.warning("⚠️ File GeoJSON tidak ditemukan.")
-        st.info("Pastikan file 'sebaran_tanaman_herbal_TNBTS.geojson' dan 'Batas_TNBTS.geojson' berada di direktori yang sama dengan aplikasi.")
 
+    # Daftar Spesies Tanaman
     detail_cols = [c for c in ['NamaLatin', 'Fungsi', 'PotensiSebaran',
                                 'SyaratHidup', 'CaraMemanfaatkan', 'BagianDimanfaatkan']
                    if c in df_herbal_filtered.columns]
