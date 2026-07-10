@@ -1650,51 +1650,51 @@ else:
     # Definisikan kategori penyakit dan kata kunci pencariannya
     disease_categories = {
         "🫀 Penyakit Jantung & Pembuluh Darah": {
-            "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah"],
+            "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah", "pembuluh darah"],
             "plants": []
         },
         "🫁 Pernapasan & Batuk": {
-            "keywords": ["batuk", "pilek", "flu", "influenza", "radang tenggorokan", "bronkitis", "asma", "pernapasan", "dahak"],
+            "keywords": ["batuk", "pilek", "flu", "influenza", "radang tenggorokan", "bronkitis", "asma", "pernapasan", "dahak", "tenggorokan", "sesak", "nafas"],
             "plants": []
         },
         "🌡️ Demam & Infeksi": {
-            "keywords": ["demam", "panas", "meriang", "malaria", "infeksi", "antibakteri", "antiseptik", "antimikroba"],
+            "keywords": ["demam", "panas", "meriang", "malaria", "infeksi", "antibakteri", "antiseptik", "antimikroba", "antijamur", "anti bakteri"],
             "plants": []
         },
         "🧬 Pencernaan & Lambung": {
-            "keywords": ["pencernaan", "perut", "kembung", "diare", "mual", "muntah", "sembelit", "maag", "asam lambung", "magh"],
+            "keywords": ["pencernaan", "perut", "kembung", "diare", "mual", "muntah", "sembelit", "maag", "asam lambung", "magh", "konstipasi", "cacing", "cacingan"],
             "plants": []
         },
         "🦴 Sendi, Otot & Nyeri": {
-            "keywords": ["nyeri", "pegal", "linu", "rematik", "asam urat", "sendi", "otot", "keseleo", "memar", "bengkak"],
+            "keywords": ["nyeri", "pegal", "linu", "rematik", "asam urat", "sendi", "otot", "keseleo", "memar", "bengkak", "rematik", "nyeri otot", "pegal linu"],
             "plants": []
         },
         "🩸 Gula Darah & Metabolisme": {
-            "keywords": ["gula darah", "diabetes", "kolesterol", "metabolisme", "obesitas", "berat badan"],
+            "keywords": ["gula darah", "diabetes", "kolesterol", "metabolisme", "obesitas", "berat badan", "trigliserida", "gula"],
             "plants": []
         },
         "🧴 Kulit & Luka": {
-            "keywords": ["luka", "kulit", "bisul", "borok", "gatal", "jerawat", "eksim", "kurap", "herpes", "bakar"],
+            "keywords": ["luka", "kulit", "bisul", "borok", "gatal", "jerawat", "eksim", "kurap", "herpes", "bakar", "luka bakar", "memar", "ruam", "kudis"],
             "plants": []
         },
         "🧠 Saraf & Stres": {
-            "keywords": ["saraf", "stres", "insomnia", "susah tidur", "kejang", "epilepsi", "menenangkan", "cemas"],
+            "keywords": ["saraf", "stres", "insomnia", "susah tidur", "kejang", "epilepsi", "menenangkan", "cemas", "tidur", "nyenyak"],
             "plants": []
         },
         "🤰 Kesehatan Wanita & Kesuburan": {
-            "keywords": ["haid", "menstruasi", "keputihan", "kesuburan", "hamil", "pasca persalinan", "ASI", "menopause"],
+            "keywords": ["haid", "menstruasi", "keputihan", "kesuburan", "hamil", "pasca persalinan", "ASI", "menopause", "kewanitaan", "persalinan", "kandungan"],
             "plants": []
         },
         "🧪 Ginjal & Saluran Kemih": {
-            "keywords": ["ginjal", "kencing", "urine", "batu ginjal", "diuretik", "saluran kemih"],
+            "keywords": ["ginjal", "kencing", "urine", "batu ginjal", "diuretik", "saluran kemih", "kencing batu", "buang air kecil"],
             "plants": []
         },
         "🛡️ Imunitas & Antioksidan": {
-            "keywords": ["imun", "daya tahan", "antioksidan", "kanker", "tumor", "radikal bebas", "vitamin"],
+            "keywords": ["imun", "daya tahan", "antioksidan", "kanker", "tumor", "radikal bebas", "vitamin", "kekebalan", "imunitas", "penuaan"],
             "plants": []
         },
-        "🌿 Lainnya (Antiradang & Detoksifikasi)": {
-            "keywords": ["antiradang", "anti inflamasi", "detoksifikasi", "pembersih darah", "tonik", "stamina"],
+        "🌿 Antiradang & Detoksifikasi": {
+            "keywords": ["antiradang", "anti inflamasi", "detoksifikasi", "pembersih darah", "tonik", "stamina", "anti-inflamasi", "radang", "peradangan", "detoks"],
             "plants": []
         }
     }
@@ -1703,13 +1703,15 @@ else:
     all_plants = list(HERBAL_DETAIL_DATA.keys())
     
     # Kategorikan setiap tanaman
+    plant_category_count = {}  # Untuk melacak kategori setiap tanaman
+    
     for plant_name in all_plants:
         detail = HERBAL_DETAIL_DATA.get(plant_name, {})
         fungsi = detail.get('fungsi', '').lower()
         bagian = detail.get('yang_dimanfaatkan', '')
         
         # Periksa kecocokan dengan setiap kategori
-        matched = False
+        matched_categories = []
         for category, info in disease_categories.items():
             for keyword in info["keywords"]:
                 if keyword.lower() in fungsi:
@@ -1718,37 +1720,40 @@ else:
                         "fungsi": detail.get('fungsi', ''),
                         "bagian": bagian
                     })
-                    matched = True
+                    matched_categories.append(category)
                     break
-            if matched:
-                break
         
-        # Jika tidak masuk kategori manapun, masukkan ke "Lainnya"
-        if not matched:
-            disease_categories["🌿 Lainnya (Antiradang & Detoksifikasi)"]["plants"].append({
+        # Jika tidak masuk kategori manapun, masukkan ke "Antiradang & Detoksifikasi"
+        if not matched_categories:
+            disease_categories["🌿 Antiradang & Detoksifikasi"]["plants"].append({
                 "name": plant_name,
                 "fungsi": detail.get('fungsi', ''),
                 "bagian": bagian
             })
+        
+        plant_category_count[plant_name] = matched_categories if matched_categories else ["🌿 Antiradang & Detoksifikasi"]
     
     # Tampilkan statistik kategorisasi
     st.markdown("#### 📊 Statistik Kategorisasi")
+    
+    # Hitung total kategorisasi (bisa lebih dari total spesies karena satu tanaman bisa masuk multiple kategori)
+    total_kategorisasi = sum(len(info["plants"]) for info in disease_categories.values())
+    active_categories = len([c for c in disease_categories if disease_categories[c]["plants"]])
+    avg_per_category = total_kategorisasi / active_categories if active_categories > 0 else 0
+    
     col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
     with col_stat1:
         st.metric("Total Spesies", len(all_plants))
     with col_stat2:
-        total_mapped = sum(len(info["plants"]) for info in disease_categories.values())
-        st.metric("Total Kategorisasi", f"{total_mapped}")
+        st.metric("Total Kategorisasi", f"{total_kategorisasi}")
     with col_stat3:
-        active_categories = len([c for c in disease_categories if disease_categories[c]["plants"]])
         st.metric("Kategori Aktif", active_categories)
     with col_stat4:
-        avg_per_category = total_mapped / active_categories if active_categories > 0 else 0
         st.metric("Rata-rata per Kategori", f"{avg_per_category:.1f}")
     
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    # Tampilkan semua kategori dalam accordion
+    # ── TAMPILAN KATEGORI ──────────────────────────────────────────────────
     st.markdown("#### 🌿 Daftar Tanaman Berdasarkan Kategori Penyakit")
     st.markdown("Klik setiap kategori untuk melihat daftar tanaman yang dapat membantu mengatasinya.")
     
@@ -1759,14 +1764,16 @@ else:
         reverse=True
     )
     
+    # Tampilkan setiap kategori sebagai expander
     for category_name, info in sorted_categories:
         plants = info["plants"]
         if not plants:
             continue
             
+        # Tampilkan hanya kategori yang memiliki tanaman
         with st.expander(f"{category_name} ({len(plants)} spesies)", expanded=False):
-            # Tampilkan dalam grid
-            cols_per_row = 3
+            # Tampilkan dalam grid 2 kolom
+            cols_per_row = 2
             for i in range(0, len(plants), cols_per_row):
                 cols = st.columns(cols_per_row)
                 for j, col in enumerate(cols):
@@ -1774,8 +1781,7 @@ else:
                     if idx < len(plants):
                         plant = plants[idx]
                         with col:
-                            # Card tanaman
-                            fungsi_short = plant['fungsi'][:100] + ('...' if len(plant['fungsi']) > 100 else '')
+                            fungsi_short = plant['fungsi'][:120] + ('...' if len(plant['fungsi']) > 120 else '')
                             st.markdown(f"""
                             <div style="background: #f8f9fa; border-radius: 8px; padding: 12px 14px; 
                                         border-left: 4px solid #2E7D32; 
@@ -1790,17 +1796,18 @@ else:
                                 <div style="font-size: 11px; color: #888; margin-top: 4px;">
                                     ✂️ {plant['bagian'] if plant['bagian'] else 'Tidak tersedia'}
                                 </div>
-                                <div style="font-size: 11px; color: #2E7D32; margin-top: 4px; cursor: pointer;"
-                                     onclick="document.querySelector('[data-testid=\'stSidebar\']').scrollIntoView();">
-                                    🔍 Lihat di peta
-                                </div>
                             </div>
                             """, unsafe_allow_html=True)
                             
-                            # Tombol untuk melihat di peta
-                            if st.button(f"📍 Lihat {plant['name']} di Peta", key=f"view_{plant['name']}_{idx}"):
+                            # Tombol Lihat di Peta - menggunakan query params
+                            if st.button(
+                                f"📍 Lihat {plant['name']} di Peta", 
+                                key=f"view_plant_{plant['name']}_{idx}_{category_name[:10]}"
+                            ):
+                                # Set session state untuk navigasi dan highlight
                                 st.session_state.menu_selected = "Peta Sebaran"
                                 st.session_state.highlighted_plants = [plant['name']]
+                                st.session_state.show_highlighted = True
                                 st.rerun()
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
@@ -1836,7 +1843,7 @@ else:
     # ── Sumber Data ──────────────────────────────────────────────────────────
     st.markdown("""
     ### 📍 Sumber Data
-    - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 133 spesies, 8 kawasan ekologi
+    - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 133 spesies, 246 titik temuan sebaran tanaman herbal di TNBTS
     - **Data Detail Tanaman:** Dokumentasi lengkap fungsi, syarat hidup, dan cara pemanfaatan
     - **Koordinat Kawasan:** Batas ekologi TNBTS berdasarkan survei GPS lapangan & interpretasi citra satelit
     - **Data Desa:** GeoJSON BIG/BPS (41 desa penyangga TNBTS)
