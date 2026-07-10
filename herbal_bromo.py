@@ -36,72 +36,101 @@ if 'highlighted_plants' not in st.session_state:
     st.session_state.highlighted_plants = []
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CSS UNTUK MEMPERBAIKI TAMPILAN LAYER CONTROL (DIPERBAIKI)
+# CSS UNTUK LAYER CONTROL - VERSI TERBAIK
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Perbaiki z-index untuk layer control */
-    .folium-map {
-        position: relative !important;
-        z-index: 1 !important;
-    }
+    /* ===== PERBAIKAN UTAMA UNTUK LAYER CONTROL ===== */
     
-    /* Pastikan layer control terlihat penuh */
-    .leaflet-control-container .leaflet-top.leaflet-right {
-        z-index: 9999 !important;
-        position: relative !important;
-    }
-    
-    .leaflet-control-container .leaflet-top.leaflet-right .leaflet-control {
-        margin-right: 10px !important;
-        margin-top: 10px !important;
-    }
-    
-    /* Perbaiki ukuran container peta */
+    /* Pastikan container peta tidak memotong elemen */
     .stFoliumContainer {
         position: relative !important;
         overflow: visible !important;
+        z-index: 1 !important;
     }
     
-    /* Pastikan iframe peta tidak terpotong */
     .stFoliumContainer iframe {
         width: 100% !important;
+        min-height: 550px !important;
         height: 100% !important;
-        min-height: 500px !important;
+        border: none !important;
     }
     
-    /* Perbaiki tampilan layer control - DIPERLUKAN UNTUK MENAMPILKAN SEMUA LAYER */
+    /* ===== LAYER CONTROL - POJOK KANAN ATAS ===== */
+    .leaflet-control-container {
+        z-index: 99999 !important;
+        position: relative !important;
+    }
+    
+    .leaflet-top {
+        z-index: 99999 !important;
+    }
+    
+    .leaflet-right {
+        z-index: 99999 !important;
+    }
+    
+    .leaflet-top.leaflet-right {
+        z-index: 99999 !important;
+        position: relative !important;
+    }
+    
+    /* Style utama layer control - DIPERLUKAS UNTUK MENAMPILKAN SEMUA LAYER */
     .leaflet-control-layers {
         background: white !important;
-        border-radius: 8px !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
-        padding: 12px 16px !important;
-        min-width: 220px !important;
-        max-height: 70vh !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+        padding: 14px 18px !important;
+        min-width: 240px !important;
+        max-height: 75vh !important;
         overflow-y: auto !important;
-        border: 1px solid #ccc !important;
+        border: 2px solid rgba(0,0,0,0.1) !important;
+        position: relative !important;
+        z-index: 99999 !important;
     }
     
+    /* Scrollbar untuk layer control */
+    .leaflet-control-layers::-webkit-scrollbar {
+        width: 6px;
+    }
+    .leaflet-control-layers::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    .leaflet-control-layers::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+    .leaflet-control-layers::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    
+    /* Item layer */
     .leaflet-control-layers label {
         font-size: 13px !important;
-        padding: 4px 0 !important;
+        padding: 5px 0 !important;
         display: flex !important;
         align-items: center !important;
-        gap: 8px !important;
+        gap: 10px !important;
         cursor: pointer !important;
+        border-radius: 4px !important;
+        transition: background 0.2s !important;
     }
     
     .leaflet-control-layers label:hover {
-        background: #f5f5f5 !important;
+        background: #f0f0f0 !important;
     }
     
-    .leaflet-control-layers label input[type="checkbox"] {
+    .leaflet-control-layers label input[type="checkbox"],
+    .leaflet-control-layers label input[type="radio"] {
         margin-right: 8px !important;
-        width: 16px !important;
-        height: 16px !important;
+        width: 18px !important;
+        height: 18px !important;
         cursor: pointer !important;
+        flex-shrink: 0 !important;
     }
     
+    /* Judul section layer */
     .leaflet-control-layers-base,
     .leaflet-control-layers-overlays {
         padding: 6px 0 !important;
@@ -112,74 +141,60 @@ st.markdown("""
         margin: 8px 0 !important;
     }
     
-    .leaflet-control-layers-expanded {
-        max-height: 70vh !important;
-        overflow-y: auto !important;
-    }
-    
-    /* Pastikan scrollbar terlihat */
-    .leaflet-control-layers::-webkit-scrollbar {
-        width: 6px;
-    }
-    
-    .leaflet-control-layers::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 3px;
-    }
-    
-    .leaflet-control-layers::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 3px;
-    }
-    
-    .leaflet-control-layers::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
-    
-    /* Perbaiki posisi layer control di mobile */
-    @media (max-width: 768px) {
-        .leaflet-control-container .leaflet-top.leaflet-right {
-            top: 10px !important;
-            right: 10px !important;
-        }
-        
-        .leaflet-control-layers {
-            min-width: 160px !important;
-            font-size: 12px !important;
-            padding: 8px 12px !important;
-            max-height: 50vh !important;
-        }
-    }
-    
-    /* Tambahan untuk memastikan layer control tidak terpotong oleh container lain */
-    .leaflet-control-container {
-        z-index: 9999 !important;
-    }
-    
-    .leaflet-top {
-        z-index: 9999 !important;
-    }
-    
-    .leaflet-right {
-        z-index: 9999 !important;
-    }
-    
-    /* Pastikan peta container memiliki overflow visible */
-    .stFoliumContainer {
-        overflow: visible !important;
-    }
-    
-    /* Perbaiki container untuk peta di chat */
+    /* ===== UNTUK PETA DI CHATBOT ===== */
     .recommended-map-container {
-        position: relative;
+        position: relative !important;
         overflow: visible !important;
-        padding: 0;
-        margin: 0;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 1 !important;
     }
     
     .recommended-map-container iframe {
         width: 100% !important;
-        min-height: 550px !important;
+        min-height: 600px !important;
+        height: 100% !important;
+        border: none !important;
+    }
+    
+    /* ===== RESPONSIF MOBILE ===== */
+    @media (max-width: 768px) {
+        .leaflet-control-layers {
+            min-width: 180px !important;
+            font-size: 12px !important;
+            padding: 10px 12px !important;
+            max-height: 50vh !important;
+        }
+        
+        .leaflet-control-layers label {
+            font-size: 12px !important;
+            padding: 4px 0 !important;
+        }
+        
+        .stFoliumContainer iframe,
+        .recommended-map-container iframe {
+            min-height: 400px !important;
+        }
+    }
+    
+    /* ===== PERBAIKAN UNTUK IFRAME ===== */
+    iframe {
+        border: none !important;
+    }
+    
+    /* Pastikan tidak ada overflow yang memotong */
+    .stApp {
+        overflow-x: visible !important;
+    }
+    
+    .main {
+        overflow: visible !important;
+    }
+    
+    .block-container {
+        overflow: visible !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -752,50 +767,7 @@ st.markdown("""
         margin-left: 8px;
     }
 
-    .stFoliumContainer {
-        position: relative;
-        z-index: 1;
-    }
-    .stFoliumContainer iframe {
-        width: 100% !important;
-        min-height: 600px !important;
-    }
-    .leaflet-control-container .leaflet-top.leaflet-right {
-        z-index: 9999 !important;
-    }
-    .leaflet-control-layers {
-        background: white !important;
-        border-radius: 8px !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
-        padding: 10px 14px !important;
-        max-height: 70vh !important;
-        overflow-y: auto !important;
-        min-width: 200px !important;
-    }
-    .leaflet-control-layers label {
-        font-size: 13px !important;
-        padding: 3px 0 !important;
-        display: flex !important;
-        align-items: center !important;
-    }
-    .leaflet-control-layers input[type="checkbox"],
-    .leaflet-control-layers input[type="radio"] {
-        margin-right: 8px !important;
-        width: 16px !important;
-        height: 16px !important;
-        flex-shrink: 0 !important;
-    }
-    .leaflet-control-layers-selector {
-        margin-right: 8px !important;
-    }
-    @media (max-width: 768px) {
-        .leaflet-control-layers {
-            min-width: 150px !important;
-            font-size: 12px !important;
-            padding: 6px 10px !important;
-        }
-    }
-    
+    /* Styling untuk GeoJSON Viewer section */
     .geojson-viewer-box {
         background: #f0f8ff;
         border: 2px solid #2196F3;
@@ -804,10 +776,12 @@ st.markdown("""
         margin: 15px 0;
         box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
     }
+    
     .geojson-viewer-box h3 {
         color: #0D47A1;
         margin-top: 0;
     }
+    
     .geojson-viewer-box .btn-primary {
         background: #2196F3;
         color: white;
@@ -821,17 +795,20 @@ st.markdown("""
         cursor: pointer;
         box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
     }
+    
     .geojson-viewer-box .btn-primary:hover {
         background: #1976D2;
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
     }
+    
     .geojson-stats {
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
         margin: 10px 0;
     }
+    
     .geojson-stats .stat-item {
         background: white;
         padding: 8px 16px;
@@ -839,6 +816,7 @@ st.markdown("""
         border: 1px solid #e0e0e0;
         font-size: 14px;
     }
+    
     .geojson-stats .stat-item strong {
         color: #1565C0;
     }
@@ -921,6 +899,7 @@ with st.sidebar:
     )
     st.markdown("---")
 
+    # Filter data
     st.markdown("### 🔍 Filter Data")
     semua_tanaman = sorted(df_herbal['Nama'].unique())
     selected_tanaman = st.multiselect(
@@ -1282,9 +1261,7 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
         type="primary",
     )
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: CHATBOT HERBAL
-# ─────────────────────────────────────────────────────────────────────────────
+# MENU: Chatbot Herbal
 elif selected == "Tanya Mbah Dukun Herbal Digital":
     st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
     
@@ -1357,7 +1334,6 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
         
         if not df_recommended.empty:
             try:
-                # Buat peta dengan ukuran yang lebih besar dan layer control yang lebih baik
                 m = create_tnbts_map(
                     show_desa_geojson=show_desa_geojson,
                     show_kabupaten=show_kabupaten,
@@ -1371,18 +1347,18 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
                     show_only_highlighted=True
                 )
                 
-                # Tampilkan peta dengan ukuran yang lebih besar dan padding tambahan
-                st.markdown('<div class="recommended-map-container">', unsafe_allow_html=True)
+                # Gunakan container dengan overflow visible untuk layer control
+                st.markdown('<div style="position:relative; overflow:visible; padding:0; margin:0;">', unsafe_allow_html=True)
                 st_folium(
                     m, 
-                    width=1200, 
+                    width="100%", 
                     height=600, 
                     returned_objects=[],
                     key="recommended_map"
                 )
                 st.markdown('</div>', unsafe_allow_html=True)
                 
-                # Tambahkan informasi tentang layer control
+                # Informasi layer control
                 st.info("""
                 🗺️ **Gunakan Layer Control di pojok kanan atas peta** untuk mengatur tampilan:
                 - **Basemap:** OpenStreetMap, Satelit, Terrain
