@@ -2,13 +2,15 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import folium
-from streamlit_folium import folium_static
+from streamlit_folium import st_folium  # Ganti folium_static dengan st_folium
 import geopandas as gpd
 import json
 import os
 from folium.plugins import MarkerCluster
 import re
 from datetime import datetime
+import warnings
+warnings.filterwarnings('ignore')
 
 # ─────────────────────────────────────────────────────────────────────────────
 # KONFIGURASI HALAMAN STREAMLIT (HANYA SEKALI)
@@ -1777,7 +1779,8 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
                     highlight_points=st.session_state.recommended_plants,
                     show_only_highlighted=True  # Hanya tampilkan yang direkomendasikan
                 )
-                folium_static(m, width=1200, height=500)
+                # Gunakan st_folium sebagai pengganti folium_static
+                st_folium(m, width=1200, height=500, returned_objects=[])
                 
                 # Tampilkan daftar tanaman yang direkomendasikan
                 with st.expander("📋 Daftar Tanaman yang Direkomendasikan"):
@@ -1856,7 +1859,8 @@ elif selected == "Peta Sebaran":
             highlight_points=None,
             show_only_highlighted=False
         )
-        folium_static(m, width=1200, height=640)
+        # Ganti folium_static dengan st_folium
+        st_folium(m, width=1200, height=640, returned_objects=[])
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
 
