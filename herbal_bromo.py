@@ -36,69 +36,150 @@ if 'highlighted_plants' not in st.session_state:
     st.session_state.highlighted_plants = []
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CSS UNTUK MEMPERBAIKI TAMPILAN LAYER CONTROL
+# CSS UNTUK MEMPERBAIKI TAMPILAN LAYER CONTROL (DIPERBAIKI)
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
+    /* Perbaiki z-index untuk layer control */
     .folium-map {
         position: relative !important;
         z-index: 1 !important;
     }
+    
+    /* Pastikan layer control terlihat penuh */
     .leaflet-control-container .leaflet-top.leaflet-right {
-        z-index: 1000 !important;
+        z-index: 9999 !important;
         position: relative !important;
     }
+    
     .leaflet-control-container .leaflet-top.leaflet-right .leaflet-control {
         margin-right: 10px !important;
         margin-top: 10px !important;
     }
+    
+    /* Perbaiki ukuran container peta */
     .stFoliumContainer {
         position: relative !important;
         overflow: visible !important;
     }
+    
+    /* Pastikan iframe peta tidak terpotong */
     .stFoliumContainer iframe {
         width: 100% !important;
         height: 100% !important;
         min-height: 500px !important;
     }
+    
+    /* Perbaiki tampilan layer control - DIPERLUKAN UNTUK MENAMPILKAN SEMUA LAYER */
     .leaflet-control-layers {
         background: white !important;
         border-radius: 8px !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
-        padding: 8px 12px !important;
-        min-width: 180px !important;
-        max-height: 80vh !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+        padding: 12px 16px !important;
+        min-width: 220px !important;
+        max-height: 70vh !important;
         overflow-y: auto !important;
+        border: 1px solid #ccc !important;
     }
+    
     .leaflet-control-layers label {
         font-size: 13px !important;
-        padding: 2px 0 !important;
+        padding: 4px 0 !important;
         display: flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        gap: 8px !important;
+        cursor: pointer !important;
     }
+    
+    .leaflet-control-layers label:hover {
+        background: #f5f5f5 !important;
+    }
+    
     .leaflet-control-layers label input[type="checkbox"] {
-        margin-right: 6px !important;
+        margin-right: 8px !important;
         width: 16px !important;
         height: 16px !important;
+        cursor: pointer !important;
     }
+    
     .leaflet-control-layers-base,
     .leaflet-control-layers-overlays {
-        padding: 4px 0 !important;
+        padding: 6px 0 !important;
     }
+    
     .leaflet-control-layers-separator {
-        border-top: 1px solid #ddd !important;
-        margin: 6px 0 !important;
+        border-top: 2px solid #e0e0e0 !important;
+        margin: 8px 0 !important;
     }
+    
+    .leaflet-control-layers-expanded {
+        max-height: 70vh !important;
+        overflow-y: auto !important;
+    }
+    
+    /* Pastikan scrollbar terlihat */
+    .leaflet-control-layers::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .leaflet-control-layers::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    
+    .leaflet-control-layers::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+    
+    .leaflet-control-layers::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    
+    /* Perbaiki posisi layer control di mobile */
     @media (max-width: 768px) {
         .leaflet-control-container .leaflet-top.leaflet-right {
             top: 10px !important;
             right: 10px !important;
         }
+        
         .leaflet-control-layers {
-            min-width: 140px !important;
+            min-width: 160px !important;
             font-size: 12px !important;
+            padding: 8px 12px !important;
+            max-height: 50vh !important;
         }
+    }
+    
+    /* Tambahan untuk memastikan layer control tidak terpotong oleh container lain */
+    .leaflet-control-container {
+        z-index: 9999 !important;
+    }
+    
+    .leaflet-top {
+        z-index: 9999 !important;
+    }
+    
+    .leaflet-right {
+        z-index: 9999 !important;
+    }
+    
+    /* Pastikan peta container memiliki overflow visible */
+    .stFoliumContainer {
+        overflow: visible !important;
+    }
+    
+    /* Perbaiki container untuk peta di chat */
+    .recommended-map-container {
+        position: relative;
+        overflow: visible !important;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .recommended-map-container iframe {
+        width: 100% !important;
+        min-height: 550px !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1201,7 +1282,9 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
         type="primary",
     )
 
-# MENU: Chatbot Herbal
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: CHATBOT HERBAL
+# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Tanya Mbah Dukun Herbal Digital":
     st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
     
@@ -1274,6 +1357,7 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
         
         if not df_recommended.empty:
             try:
+                # Buat peta dengan ukuran yang lebih besar dan layer control yang lebih baik
                 m = create_tnbts_map(
                     show_desa_geojson=show_desa_geojson,
                     show_kabupaten=show_kabupaten,
@@ -1286,7 +1370,24 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
                     highlight_points=st.session_state.recommended_plants,
                     show_only_highlighted=True
                 )
-                st_folium(m, width=1200, height=500, returned_objects=[])
+                
+                # Tampilkan peta dengan ukuran yang lebih besar dan padding tambahan
+                st.markdown('<div class="recommended-map-container">', unsafe_allow_html=True)
+                st_folium(
+                    m, 
+                    width=1200, 
+                    height=600, 
+                    returned_objects=[],
+                    key="recommended_map"
+                )
+                st.markdown('</div>', unsafe_allow_html=True)
+                
+                # Tambahkan informasi tentang layer control
+                st.info("""
+                🗺️ **Gunakan Layer Control di pojok kanan atas peta** untuk mengatur tampilan:
+                - **Basemap:** OpenStreetMap, Satelit, Terrain
+                - **Layer:** Batas TNBTS, Batas Kabupaten, Batas Desa, Tanaman yang Direkomendasikan
+                """)
                 
                 with st.expander("📋 Daftar Tanaman yang Direkomendasikan"):
                     for plant in st.session_state.recommended_plants:
