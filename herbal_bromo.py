@@ -10,6 +10,7 @@ from folium.plugins import MarkerCluster
 import re
 from datetime import datetime
 import warnings
+import base64
 warnings.filterwarnings('ignore')
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -121,8 +122,6 @@ st.markdown("""
 # ─────────────────────────────────────────────────────────────────────────────
 # DATA TANAMAN HERBAL LENGKAP (LANJUTAN DARI SEBELUMNYA)
 # ─────────────────────────────────────────────────────────────────────────────
-# [SISIPKAN HERBAL_DETAIL_DATA LENGKAP DI SINI - SAMA SEPERTI SEBELUMNYA]
-# ─────────────────────────────────────────────────────────────────────────────
 HERBAL_DETAIL_DATA = {
     "AJERAN PUTIH": {
         "nama_latin": "Bindens pilosa L.",
@@ -151,7 +150,6 @@ HERBAL_DETAIL_DATA = {
         "potensi_sebaran": "Seluruh Kawasan TNBTS",
         "foto": "media/image3.jpeg"
     }
-    # [SISIPKAN SEMUA DATA HERBAL_DETAIL_DATA LENGKAP DI SINI]
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -163,7 +161,6 @@ HERBAL_DATA_EMBEDDED = [
     (3, 'ADAS', 112.864227, -8.009353),
     (4, 'ALANG-ALANG', 112.950828, -7.930880),
     (5, 'ALANG-ALANG', 112.950828, -7.930880),
-    # [SISIPKAN SEMUA DATA HERBAL_DATA_EMBEDDED LENGKAP DI SINI]
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -556,6 +553,30 @@ def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=
     return html
 
 # ─────────────────────────────────────────────────────────────────────────────
+# FUNGSI UNTUK MEMBUAT LINK GeoJSON Viewer
+# ─────────────────────────────────────────────────────────────────────────────
+def create_geojson_viewer_link(geojson_file):
+    """
+    Membuat link untuk membuka GeoJSON di geojson.io
+    """
+    import urllib.parse
+    
+    # Baca file GeoJSON
+    with open(geojson_file, 'r', encoding='utf-8') as f:
+        geojson_data = json.load(f)
+    
+    # Konversi ke string JSON
+    json_str = json.dumps(geojson_data)
+    
+    # Encode untuk URL
+    encoded_json = urllib.parse.quote(json_str)
+    
+    # Buat URL geojson.io dengan parameter
+    url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
+    
+    return url
+
+# ─────────────────────────────────────────────────────────────────────────────
 # CSS UTAMA
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -734,6 +755,60 @@ st.markdown("""
             font-size: 12px !important;
             padding: 6px 10px !important;
         }
+    }
+    
+    /* Styling untuk GeoJSON Viewer section */
+    .geojson-viewer-box {
+        background: #f0f8ff;
+        border: 2px solid #2196F3;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 15px 0;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+    }
+    
+    .geojson-viewer-box h3 {
+        color: #0D47A1;
+        margin-top: 0;
+    }
+    
+    .geojson-viewer-box .btn-primary {
+        background: #2196F3;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+    }
+    
+    .geojson-viewer-box .btn-primary:hover {
+        background: #1976D2;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+    }
+    
+    .geojson-stats {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin: 10px 0;
+    }
+    
+    .geojson-stats .stat-item {
+        background: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        font-size: 14px;
+    }
+    
+    .geojson-stats .stat-item strong {
+        color: #1565C0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1351,6 +1426,114 @@ elif selected == "Peta Sebaran":
         )
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
+
+    # ======================== TAMBAHAN: VISUALISASI GEOJSON ========================
+    st.markdown("---")
+    st.markdown("## 📊 Visualisasi Data GeoJSON Tanaman Herbal")
+    st.markdown("Lihat data sebaran tanaman herbal dalam format GeoJSON menggunakan GeoJSON Viewer online.")
+    
+    # Cari file GeoJSON
+    geojson_file = _find_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
+    
+    if geojson_file:
+        # Baca file untuk mendapatkan statistik
+        try:
+            with open(geojson_file, 'r', encoding='utf-8') as f:
+                geojson_data = json.load(f)
+            
+            # Hitung statistik
+            total_features = len(geojson_data.get('features', []))
+            
+            # Hitung jumlah tanaman unik
+            unique_plants = set()
+            for feature in geojson_data.get('features', []):
+                props = feature.get('properties', {})
+                nama = props.get('nama_tanaman', '')
+                if nama:
+                    unique_plants.add(nama)
+            
+            st.markdown(f"""
+            <div class="geojson-viewer-box">
+                <h3>🗺️ GeoJSON Viewer</h3>
+                <div class="geojson-stats">
+                    <div class="stat-item"><strong>📁 File:</strong> sebaran_tanaman_herbal_TNBTS.geojson</div>
+                    <div class="stat-item"><strong>📍 Total Fitur:</strong> {total_features} titik</div>
+                    <div class="stat-item"><strong>🌱 Spesies Unik:</strong> {len(unique_plants)}</div>
+                </div>
+                <p style="margin: 12px 0; color: #555;">
+                    Klik tombol di bawah untuk membuka data GeoJSON di <strong>geojson.io</strong> 
+                    — platform interaktif untuk melihat, mengedit, dan menganalisis data geospasial.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Buat tombol untuk membuka di GeoJSON Viewer
+            url = create_geojson_viewer_link(geojson_file)
+            
+            col1, col2, col3 = st.columns([1, 2, 1])
+            with col2:
+                st.markdown(f'''
+                <div style="text-align: center;">
+                    <a href="{url}" target="_blank" style="text-decoration: none;">
+                        <button style="
+                            background: linear-gradient(135deg, #2196F3, #1565C0);
+                            color: white;
+                            padding: 16px 40px;
+                            border: none;
+                            border-radius: 10px;
+                            font-size: 18px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+                            transition: all 0.3s ease;
+                            width: 100%;
+                        "
+                        onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(33, 150, 243, 0.5)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(33, 150, 243, 0.4)';">
+                            🌐 Buka di GeoJSON Viewer
+                        </button>
+                    </a>
+                    <p style="margin-top: 8px; font-size: 12px; color: #888;">
+                        🔗 Akan terbuka di tab baru • geojson.io
+                    </p>
+                </div>
+                ''', unsafe_allow_html=True)
+            
+            # Tampilkan preview data
+            with st.expander("📋 Preview Data GeoJSON (5 data pertama)"):
+                preview_data = []
+                for i, feature in enumerate(geojson_data.get('features', [])[:5]):
+                    props = feature.get('properties', {})
+                    geom = feature.get('geometry', {})
+                    coords = geom.get('coordinates', [0, 0])
+                    preview_data.append({
+                        'No': i + 1,
+                        'Nama Tanaman': props.get('nama_tanaman', '-'),
+                        'Nama Ilmiah': props.get('nama_ilmiah', '-') or '-',
+                        'Fungsi': (props.get('fungsi_manfaat', '-') or '-')[:50] + '...' if len((props.get('fungsi_manfaat', '-') or '-')) > 50 else (props.get('fungsi_manfaat', '-') or '-'),
+                        'Koordinat': f"{coords[1]:.6f}, {coords[0]:.6f}",
+                        'Ada Data': '✅' if props.get('ada_data_deskriptif') == 'Ya' else '❌'
+                    })
+                st.dataframe(pd.DataFrame(preview_data), use_container_width=True, hide_index=True)
+            
+            # Tombol download GeoJSON
+            with open(geojson_file, 'r', encoding='utf-8') as f:
+                geojson_content = f.read()
+            
+            st.download_button(
+                label="📥 Download GeoJSON",
+                data=geojson_content,
+                file_name="sebaran_tanaman_herbal_TNBTS.geojson",
+                mime="application/json",
+                key="download_geojson"
+            )
+            
+        except Exception as e:
+            st.warning(f"⚠️ Gagal membaca file GeoJSON: {e}")
+            st.info("Pastikan file 'sebaran_tanaman_herbal_TNBTS.geojson' berada di direktori yang benar.")
+    else:
+        st.warning("⚠️ File 'sebaran_tanaman_herbal_TNBTS.geojson' tidak ditemukan.")
+        st.info("Pastikan file GeoJSON berada di direktori yang sama dengan aplikasi.")
 
     detail_cols = [c for c in ['NamaLatin', 'Fungsi', 'PotensiSebaran',
                                 'SyaratHidup', 'CaraMemanfaatkan', 'BagianDimanfaatkan']
