@@ -1,7 +1,1457 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+import folium
+from streamlit_folium import st_folium
+import geopandas as gpd
+import json
+import os
+from folium.plugins import MarkerCluster
+import re
+from datetime import datetime
+import warnings
+warnings.filterwarnings('ignore')
+
 # ─────────────────────────────────────────────────────────────────────────────
-# HALAMAN: INFORMASI - DENGAN KATEGORISASI PENYAKIT (MENGGUNAKAN df_herbal)
+# KONFIGURASI HALAMAN STREAMLIT
 # ─────────────────────────────────────────────────────────────────────────────
+st.set_page_config(
+    page_title="WebGIS Tanaman Herbal TNBTS",
+    page_icon="🌿",
+    layout="wide"
+)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INISIALISASI SESSION STATE
+# ─────────────────────────────────────────────────────────────────────────────
+if 'menu_selected' not in st.session_state:
+    st.session_state.menu_selected = "Peta Sebaran"
+if 'music_playing' not in st.session_state:
+    st.session_state.music_playing = True
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
+if 'highlighted_plants' not in st.session_state:
+    st.session_state.highlighted_plants = []
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CSS UTAMA
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown("""
+<style>
+    .main-header {
+        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
+                    url('https://tunashijau.id/wp-content/uploads/2023/12/tnbts.jpg');
+        background-size:cover; background-position:center;
+        padding:2.5rem 1.5rem; border-radius:10px; margin-bottom:1rem;
+        color:white; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,.3);
+    }
+    .main-header h1 { color:white; margin:0; font-size:2.2rem;
+        text-shadow:2px 2px 4px rgba(0,0,0,.5); font-weight:bold; }
+    .main-header p  { color:#E8F5E9; margin:.5rem 0 0 0; font-size:1rem;
+        background:rgba(0,0,0,.3); display:inline-block;
+        padding:.3rem 1rem; border-radius:30px; }
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+                    url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
+        background-size:cover; background-position:center;
+    }
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 { color:white !important; text-shadow:2px 2px 4px rgba(0,0,0,.5); }
+    [data-testid="stSidebar"] p  { color:rgba(255,255,255,.9) !important; }
+    [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.3) !important; }
+
+    .sidebar-header-new {
+        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.6)),
+                    url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
+        background-size:cover; background-position:center;
+        padding:1.5rem 1rem; border-radius:10px; color:white; text-align:center;
+        margin-bottom:1rem; border:2px solid rgba(255,215,0,.3);
+        box-shadow:0 4px 15px rgba(0,0,0,.4);
+    }
+    .sidebar-header-new h3 { color:#FFD700 !important; margin:0; font-size:1.4rem;
+        text-shadow:2px 2px 4px rgba(0,0,0,.7); font-weight:bold; }
+    .sidebar-header-new p  { color:#FFFFFF !important; margin:.5rem 0 0 0;
+        font-style:italic; background:rgba(0,0,0,.3); display:inline-block;
+        padding:.2rem 1rem; border-radius:20px; }
+
+    .chat-message {
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        max-width: 85%;
+        box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    }
+    .chat-message.user {
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+    }
+    .chat-message.bot {
+        background: #f5f5f5;
+        color: #333;
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+        border-left: 4px solid #4CAF50;
+    }
+    
+    .chat-container {
+        max-height: 450px;
+        overflow-y: auto;
+        padding: 10px;
+        background: #fafafa;
+        border-radius: 10px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+    }
+    
+    .metric-card {
+        background:white; padding:1rem; border-radius:10px;
+        box-shadow:0 2px 4px rgba(0,0,0,.1); text-align:center;
+        border-left:4px solid #2E7D32; margin-bottom:1rem;
+        transition:transform .3s ease;
+    }
+    .metric-card:hover { transform:translateY(-5px); box-shadow:0 4px 8px rgba(0,0,0,.15); }
+    .metric-card h3 { color:#2E7D32; margin:0; font-size:1.8rem; font-weight:bold; }
+    .metric-card p  { color:#666; margin:.2rem 0 0 0; font-size:.9rem; text-transform:uppercase; }
+
+    .info-box {
+        background-color:#E8F5E9; border-left:4px solid #4CAF50;
+        padding:1.5rem; border-radius:5px; margin:1rem 0;
+    }
+    .info-box h4 { color:#2E7D32; margin-top:0; margin-bottom:1rem; }
+    
+    .footer {
+        background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+                    url('https://statik.tempo.co/data/2024/05/26/id_1305154/1305154_720.jpg');
+        background-size:cover; background-position:center;
+        color:white; padding:2rem 1.5rem; border-radius:10px;
+        text-align:center; margin-top:2rem;
+    }
+    .footer a { color:#FFD700; text-decoration:none; font-weight:bold; }
+
+    .custom-divider {
+        height:3px;
+        background:linear-gradient(90deg,transparent,#4CAF50,transparent);
+        margin:2rem 0;
+    }
+    
+    .status-badge {
+        background: rgba(0,0,0,0.4);
+        padding: 10px 14px;
+        border-radius: 8px;
+        color: white;
+        border-left: 3px solid #4CAF50;
+    }
+    .status-badge small {
+        color: rgba(255,255,255,0.7);
+    }
+
+    /* Perbaiki container peta */
+    .stFoliumContainer {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .stFoliumContainer iframe {
+        width: 100% !important;
+        min-height: 600px !important;
+    }
+    
+    .leaflet-control-container .leaflet-top.leaflet-right {
+        z-index: 9999 !important;
+    }
+    
+    .leaflet-control-layers {
+        background: white !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        padding: 10px 14px !important;
+        max-height: 70vh !important;
+        overflow-y: auto !important;
+        min-width: 200px !important;
+    }
+    
+    .leaflet-control-layers label {
+        font-size: 13px !important;
+        padding: 3px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    .leaflet-control-layers input[type="checkbox"],
+    .leaflet-control-layers input[type="radio"] {
+        margin-right: 8px !important;
+        width: 16px !important;
+        height: 16px !important;
+        flex-shrink: 0 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DATA TANAMAN HERBAL LENGKAP
+# ─────────────────────────────────────────────────────────────────────────────
+HERBAL_DETAIL_DATA = {
+    "AJERAN PUTIH": {
+        "nama_latin": "Bindens pilosa L.",
+        "fungsi": "Obat luka dan menghentikan pendarahan, anti radang, anti bakteri dan antiseptik, mengatasi diare, menurunkan demam, mengatasi batuk-flu, rematik, pegal linu, menurunkan gula darah.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C hingga 45°C. Ketinggian: tumbuh baik diketinggian 3600 mdpl. Penyiraman: curah hujan 500mm/th-3.600mm/th sangat tahan terhadap kekeringan. Tumbuh ideal pada tanah dengan pH 5,0 - 6,5",
+        "cara_memanfaatkan": "Daun atau batang direbus, air rebusan diminum untuk mengatasi demam dan pencernaan, mata merah dan radang usus bunti. Daun dan bunga ajeran ditumbuk atau diblender hingga halus dan ditambahkan sedikit air hangat, pasta daun digunakan mengatasi kulit yang memar, luka ringan, atau bengkak.",
+        "yang_dimanfaatkan": "Batang dan daun",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image1.png"
+    },
+    "ADAS": {
+        "nama_latin": "Foeniculum vulgare",
+        "fungsi": "Mengatasi masalah pencernaan (maag, kembung), batuk, kesehatan jantung, serta meringankan gejala menopause",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 15°C-20°C. Ketinggian: dataran tinggi 1.600-2.400 mdpl. Curah hujan 2.500 mm/th, membutuhkan cuaca sejuk dan cerah agar produksinya maksimal. Tumbuh ideal pada tanah dengan pH 5,3-7,8",
+        "cara_memanfaatkan": "Biji adas direbus dengan air bersih selama 5-10 menit kemudian disaring airnya, dapat mengatasi perut kembung, mual, dan melancarkan pencernaan. Daun dan biji adas direbus untuk diambil kandungan minyak atsiri yang memiliki sifat ekspektoran yang dapat membantu mencernakan dahak, meredakan batuk dan pilek.",
+        "yang_dimanfaatkan": "Daun, batang, dan biji",
+        "potensi_sebaran": "Desa Argosari (Kec. Senduro, Kab. Lumajang), Desa Gubuklakah dan Desa Ngadas (Kec. Poncokusumo, Kab. Malang), Desa Ngadisari dan Desa Ngadas (Kec. Sukapura, Kab. Probolinggo), Desa Wonokitri dan Desa Mororejo (Kec. Tosari Kab. Pasuruan).",
+        "foto": "media/image2.jpeg"
+    },
+    "ALANG-ALANG": {
+        "nama_latin": "Imperata cylindrical L.",
+        "fungsi": "Batu ginjal, infeksi ginjal, hepatitis, kencing batu, buang air kecil tidak lancar, keputihan.",
+        "syarat_hidup": "Iklim dan Suhu: wilayah tropis dengan suhu optimal antara 20°C-40°C. Ketinggian: dataran rendah sampai di ketinggian 2.000 mdpl. Curah hujan 500-3.500 mm/th. Tumbuh ideal pada tanah dengan pH 4-7.5",
+        "cara_memanfaatkan": "Akar alang-alang direbus, air rebusan digunakan meredakan panas, melancarkan urine dan mengatasi batu ginjal.",
+        "yang_dimanfaatkan": "Akar",
+        "potensi_sebaran": "Seluruh Kawasan TNBTS",
+        "foto": "media/image3.jpeg"
+    },
+    # [Tambahkan semua data tanaman lainnya di sini - karena terlalu panjang, 
+    #  pastikan HERBAL_DETAIL_DATA berisi semua 46+ spesies]
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DATA TANAMAN HERBAL (EMBEDDED - FALLBACK)
+# ─────────────────────────────────────────────────────────────────────────────
+HERBAL_DATA_EMBEDDED = [
+    (1, 'AJERAN PUTIH', 112.902096, -7.876545),
+    (2, 'ADAS', 112.864227, -8.009353),
+    (3, 'ADAS', 112.864227, -8.009353),
+    (4, 'ALANG-ALANG', 112.950828, -7.930880),
+    (5, 'ALANG-ALANG', 112.950828, -7.930880),
+    (6, 'ANDONG', 113.051111, -8.067778),
+    (7, 'ANDONG', 113.051111, -8.067778),
+    # [Tambahkan semua data titik lainnya]
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HELPER FUNGSI GEOSPATIAL
+# ─────────────────────────────────────────────────────────────────────────────
+def _find_file(filename):
+    script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
+    candidates = [
+        filename,
+        os.path.join(script_dir, filename),
+        os.path.join(os.getcwd(), filename),
+        os.path.join(script_dir, 'data', filename),
+        os.path.join(os.getcwd(), 'data', filename),
+        os.path.join(script_dir, '..', filename),
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
+
+def _find_geojson(filename):
+    script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
+    candidates = [
+        filename,
+        os.path.join(script_dir, filename),
+        os.path.join(os.getcwd(), filename),
+        os.path.join(script_dir, 'data', filename),
+        os.path.join(os.getcwd(), 'data', filename),
+        os.path.join(script_dir, '..', filename),
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return None
+
+def _load_geojson(filename):
+    path = _find_geojson(filename)
+    if path is None:
+        return gpd.GeoDataFrame()
+    try:
+        gdf = gpd.read_file(path, encoding='utf-8')
+        if gdf.crs is None:
+            gdf.set_crs("EPSG:4326", inplace=True)
+        return gdf
+    except Exception as e:
+        return gpd.GeoDataFrame()
+
+@st.cache_data
+def load_desa_geojson():
+    gdf = _load_geojson('Desa_kaw_TNBTS.geojson')
+    if not gdf.empty:
+        return gdf
+    return gpd.GeoDataFrame()
+
+@st.cache_data
+def load_kabupaten_geojson():
+    gdf = _load_geojson('Kabupaten_kaw_TNBTS.geojson')
+    if not gdf.empty:
+        return gdf
+    return gpd.GeoDataFrame()
+
+@st.cache_data
+def load_batas_geojson():
+    gdf = _load_geojson('Batas_TNBTS.geojson')
+    if not gdf.empty:
+        if gdf.crs and gdf.crs.to_epsg() != 4326:
+            try:
+                gdf = gdf.to_crs("EPSG:4326")
+            except Exception:
+                return gpd.GeoDataFrame()
+        return gdf
+    return gpd.GeoDataFrame()
+
+@st.cache_data
+def load_herbal_geojson():
+    gdf = _load_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
+    if gdf.empty:
+        return pd.DataFrame()
+
+    if gdf.crs and gdf.crs.to_epsg() != 4326:
+        try:
+            gdf = gdf.to_crs("EPSG:4326")
+        except Exception:
+            return pd.DataFrame()
+
+    def _clean_str(v):
+        if v is None:
+            return ''
+        if isinstance(v, float) and pd.isna(v):
+            return ''
+        return str(v).strip()
+
+    records = []
+    for i, row in gdf.iterrows():
+        geom = row.geometry
+        if geom is None or geom.is_empty:
+            continue
+        lon, lat = geom.x, geom.y
+        
+        nama = _clean_str(row.get('nama_tanaman', ''))
+        if not nama:
+            nama = _clean_str(row.get('nama', ''))
+        if not nama:
+            nama = _clean_str(row.get('NAMA', ''))
+        if not nama or nama == 'NONE':
+            continue
+        
+        nama = nama.upper()
+        
+        nama_latin = _clean_str(row.get('nama_ilmiah', ''))
+        if not nama_latin:
+            nama_latin = _clean_str(row.get('nama_latin', ''))
+        
+        fungsi = _clean_str(row.get('fungsi_manfaat', ''))
+        if not fungsi:
+            fungsi = _clean_str(row.get('fungsi', ''))
+        
+        potensi = _clean_str(row.get('potensi_sebaran', ''))
+        if not potensi:
+            potensi = _clean_str(row.get('potensi', ''))
+        
+        syarat = _clean_str(row.get('syarat_hidup', ''))
+        cara = _clean_str(row.get('cara_memanfaatkan', ''))
+        bagian = _clean_str(row.get('bagian_dimanfaatkan', ''))
+        
+        records.append({
+            'No': i + 1,
+            'Nama': nama,
+            'X': lon,
+            'Y': lat,
+            'NamaLatin': nama_latin,
+            'Fungsi': fungsi,
+            'PotensiSebaran': potensi,
+            'SyaratHidup': syarat,
+            'CaraMemanfaatkan': cara,
+            'BagianDimanfaatkan': bagian,
+        })
+
+    df = pd.DataFrame(records)
+    return df
+
+@st.cache_data
+def load_herbal_data():
+    df_geojson = load_herbal_geojson()
+    if not df_geojson.empty:
+        return df_geojson
+
+    filenames = ['Titik Rapihin.xlsx', 'Titik Rapihin.xls', 'Titik Rapihin.csv']
+    
+    for filename in filenames:
+        filepath = _find_file(filename)
+        if filepath:
+            try:
+                if filename.endswith('.xlsx') or filename.endswith('.xls'):
+                    df = pd.read_excel(filepath, engine='openpyxl')
+                else:
+                    df = pd.read_csv(filepath)
+                
+                df.columns = df.columns.str.strip()
+                
+                x_col, y_col, name_col = None, None, None
+                for col in df.columns:
+                    col_lower = col.lower().strip()
+                    if col_lower in ['x', 'lon', 'longitude', 'long']:
+                        x_col = col
+                    elif col_lower in ['y', 'lat', 'latitude']:
+                        y_col = col
+                    elif col_lower in ['nama', 'name', 'jenis', 'spesies', 'tanaman']:
+                        name_col = col
+                
+                if x_col is None and len(df.columns) >= 3:
+                    if 'no' in str(df.columns[0]).lower() and 'nama' in str(df.columns[1]).lower():
+                        name_col = df.columns[1]
+                        x_col = df.columns[2]
+                        y_col = df.columns[3]
+                    else:
+                        name_col = df.columns[1]
+                        x_col = df.columns[2]
+                        y_col = df.columns[3]
+                
+                if x_col and y_col and name_col:
+                    df[x_col] = pd.to_numeric(df[x_col], errors='coerce')
+                    df[y_col] = pd.to_numeric(df[y_col], errors='coerce')
+                    df = df.dropna(subset=[x_col, y_col])
+                    
+                    result_df = pd.DataFrame({
+                        'No': df.index + 1,
+                        'Nama': df[name_col].astype(str),
+                        'X': df[x_col],
+                        'Y': df[y_col]
+                    })
+                    
+                    return result_df
+            except Exception:
+                continue
+    
+    df = pd.DataFrame(HERBAL_DATA_EMBEDDED, columns=['No', 'Nama', 'X', 'Y'])
+    return df
+
+def get_plant_detail(plant_name, row=None):
+    plant_name_clean = plant_name.upper().strip()
+    
+    if row is None and 'df_herbal' in globals() and not df_herbal.empty and 'NamaLatin' in df_herbal.columns:
+        match = df_herbal[df_herbal['Nama'] == plant_name_clean]
+        if not match.empty:
+            row = match.iloc[0]
+
+    detail_from_row = None
+    if row is not None:
+        candidate = {
+            'nama_latin': row.get('NamaLatin', ''),
+            'fungsi': row.get('Fungsi', ''),
+            'syarat_hidup': row.get('SyaratHidup', ''),
+            'cara_memanfaatkan': row.get('CaraMemanfaatkan', ''),
+            'yang_dimanfaatkan': row.get('BagianDimanfaatkan', ''),
+            'potensi_sebaran': row.get('PotensiSebaran', ''),
+        }
+        candidate = {k: v for k, v in candidate.items() if v}
+        if candidate:
+            detail_from_row = candidate
+
+    detail_embedded = None
+    for key in HERBAL_DETAIL_DATA:
+        if key == plant_name_clean or plant_name_clean in key or key in plant_name_clean:
+            detail_embedded = HERBAL_DETAIL_DATA[key]
+            break
+
+    if detail_from_row and detail_embedded:
+        merged = dict(detail_from_row)
+        if detail_embedded.get('foto'):
+            merged['foto'] = detail_embedded['foto']
+        return merged
+
+    return detail_from_row or detail_embedded
+
+def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=None):
+    detail = get_plant_detail(plant_name, row=row)
+    
+    border_color = '#D32F2F' if is_highlighted else '#2E7D32'
+    header_gradient = 'linear-gradient(135deg, #D32F2F, #E53935)' if is_highlighted else 'linear-gradient(135deg, #2E7D32, #43A047)'
+    star_icon = '⭐ ' if is_highlighted else '🌿 '
+    
+    html = f"""
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; 
+                max-width: 380px; line-height: 1.6; background: #FAFAFA; 
+                border-radius: 10px; padding: 0; overflow: hidden;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+                border: 2px solid {border_color};">
+        
+        <div style="background: {header_gradient}; 
+                    color: white; padding: 12px 16px; border-radius: 10px 10px 0 0;">
+            <h4 style="margin: 0; font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                <span>{star_icon}</span> {plant_name}
+                {f'<span style="background: #FFD700; color: #333; font-size: 10px; padding: 2px 8px; border-radius: 12px; margin-left: auto;">⭐ REKOMENDASI</span>' if is_highlighted else ''}
+            </h4>
+        </div>
+        
+        <div style="padding: 12px 16px;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;">
+                <tr style="border-bottom: 1px solid #E0E0E0;">
+                    <td style="padding: 4px 0; font-weight: bold; color: #555; width: 35%;">No. Urut:</td>
+                    <td style="padding: 4px 0; text-align: right;">{no}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #E0E0E0;">
+                    <td style="padding: 4px 0; font-weight: bold; color: #555;">Koordinat:</td>
+                    <td style="padding: 4px 0; text-align: right; font-family: monospace;">{lat:.6f}, {lon:.6f}</td>
+                </tr>
+    """
+    
+    if detail:
+        if detail.get('nama_latin'):
+            html += f"""
+                <tr style="border-bottom: 1px solid #E0E0E0;">
+                    <td style="padding: 4px 0; font-weight: bold; color: #555;">Nama Latin:</td>
+                    <td style="padding: 4px 0; text-align: right; font-style: italic;">{detail['nama_latin']}</td>
+                </tr>
+            """
+        
+        html += f"""
+                <tr>
+                    <td style="padding: 4px 0; font-weight: bold; color: #555; vertical-align: top;">Fungsi:</td>
+                    <td style="padding: 4px 0; text-align: left; font-size: 12px;">{detail.get('fungsi', '-')[:200]}{'...' if len(detail.get('fungsi', '')) > 200 else ''}</td>
+                </tr>
+            """
+        html += """
+            </table>
+            
+            <div style="margin-top: 8px; border-top: 2px solid #E8F5E9; padding-top: 8px;">
+                <details style="cursor: pointer;">
+                    <summary style="font-weight: bold; color: #2E7D32; font-size: 13px;">
+                        📋 Detail Lengkap
+                    </summary>
+                    <div style="margin-top: 6px; font-size: 12px;">
+        """
+        
+        if detail.get('syarat_hidup'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">🌱 Syarat Hidup:</span><br>
+                            <span style="color: #444;">{detail['syarat_hidup'][:300]}{'...' if len(detail['syarat_hidup']) > 300 else ''}</span>
+                        </div>
+            """
+        
+        if detail.get('cara_memanfaatkan'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">🔬 Cara Memanfaatkan:</span><br>
+                            <span style="color: #444;">{detail['cara_memanfaatkan'][:300]}{'...' if len(detail['cara_memanfaatkan']) > 300 else ''}</span>
+                        </div>
+            """
+        
+        if detail.get('yang_dimanfaatkan'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">✂️ Yang Dimanfaatkan:</span>
+                            <span style="color: #444;">{detail['yang_dimanfaatkan']}</span>
+                        </div>
+            """
+        
+        if detail.get('potensi_sebaran'):
+            html += f"""
+                        <div style="margin-bottom: 4px;">
+                            <span style="font-weight: bold;">📍 Potensi Sebaran:</span><br>
+                            <span style="color: #444; font-size: 11px;">{detail['potensi_sebaran']}</span>
+                        </div>
+            """
+        
+        if detail.get('foto'):
+            html += f"""
+                        <div style="margin-top: 6px;">
+                            <span style="font-weight: bold;">📷 Foto:</span><br>
+                            <span style="color: #888; font-size: 11px;">{detail['foto']}</span>
+                        </div>
+            """
+        
+        html += """
+                    </div>
+                </details>
+            </div>
+        """
+    else:
+        html += """
+            </table>
+            <div style="margin-top: 8px; border-top: 2px solid #FFCDD2; padding-top: 8px; color: #C62828; font-size: 12px;">
+                ⚠️ Data detail tanaman tidak tersedia
+            </div>
+        """
+    
+    html += """
+        </div>
+    </div>
+    """
+    
+    return html
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FUNGSI CHATBOT AI
+# ─────────────────────────────────────────────────────────────────────────────
+def extract_symptoms_from_text(text):
+    symptom_keywords = {
+        'demam': ['demam', 'panas', 'meriang'],
+        'batuk': ['batuk', 'pilek', 'flu', 'influenza', 'bersin'],
+        'nyeri': ['nyeri', 'sakit', 'pegal', 'linu', 'rematik'],
+        'luka': ['luka', 'borok', 'bisul', 'cidera'],
+        'pencernaan': ['mual', 'muntah', 'diare', 'perut', 'kembung', 'mulas'],
+        'darah': ['tekanan darah', 'darah tinggi', 'hipertensi', 'kolesterol'],
+        'antiradang': ['radang', 'bengkak', 'peradangan'],
+        'diuretik': ['susah kencing', 'batu ginjal'],
+        'antiseptik': ['infeksi', 'kuman', 'bakteri'],
+        'antioksidan': ['antioksidan', 'penuaan', 'radikal bebas']
+    }
+    
+    found_symptoms = []
+    for symptom, keywords in symptom_keywords.items():
+        for keyword in keywords:
+            if keyword.lower() in text.lower():
+                found_symptoms.append(symptom)
+                break
+    
+    return list(set(found_symptoms))
+
+def find_herbal_by_symptoms(symptoms, df_herbal):
+    symptom_plant_map = {
+        'demam': ['AJERAN PUTIH', 'PAITAN', 'PECUT KUDA', 'GANJAN', 'CIPLUKAN'],
+        'batuk': ['ADAS', 'SURI PANDAK', 'SIMBARAN', 'TEKLAN', 'JENGGOT WESI'],
+        'nyeri': ['DAUN OTOT', 'TEPUNG OTOT', 'AWAR-AWAR', 'SURI PANDAK'],
+        'luka': ['CALINGAN', 'GANJAN', 'BAKUNG', 'SIMBARAN', 'ANDONG'],
+        'pencernaan': ['ADAS', 'ALANG-ALANG', 'AWAR-AWAR', 'GANYONG', 'SAWI IRENG', 'CIPLUKAN'],
+        'darah': ['KENCANA UNGU', 'STROBERI TENGGER', 'BIT MERAH', 'BUAH DELIMA'],
+        'antiradang': ['AJERAN PUTIH', 'AWAR-AWAR', 'TEPUNG OTOT', 'DAUN KANCING'],
+        'diuretik': ['ALANG-ALANG', 'KETIUW', 'TEKLAN'],
+        'antiseptik': ['SIRIH', 'PUTIHAN', 'PAKU RANE'],
+        'antioksidan': ['BUAH DELIMA', 'STROBERI TENGGER', 'TERONG BELANDA', 'PEPAYA GUNUNG']
+    }
+    
+    matched_plants = set()
+    for symptom in symptoms:
+        if symptom in symptom_plant_map:
+            matched_plants.update(symptom_plant_map[symptom])
+    
+    if matched_plants:
+        return df_herbal[df_herbal['Nama'].isin(matched_plants)]
+    
+    results = []
+    for plant in df_herbal['Nama'].unique():
+        plant_lower = plant.lower()
+        for symptom in symptoms:
+            if symptom in plant_lower:
+                results.append(plant)
+                break
+    
+    if results:
+        return df_herbal[df_herbal['Nama'].isin(results)]
+    
+    return df_herbal.head(0)
+
+def generate_chatbot_response_herbal(user_input, df_herbal):
+    user_input_lower = user_input.lower()
+    
+    greetings = ['halo', 'hai', 'hello', 'hi', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam']
+    if any(greeting in user_input_lower for greeting in greetings):
+        return "🌿 **Halo!** Saya adalah Mbah Dukun Herbal Digital TNBTS. Saya dapat membantu Anda menemukan tanaman herbal berdasarkan gejala penyakit yang Anda alami. Coba tanyakan: 'Tanaman untuk demam' atau 'Apa obat batuk?'"
+    
+    if 'bantuan' in user_input_lower or 'help' in user_input_lower:
+        return """
+        🤖 **Cara Menggunakan Tanya Mbah Dukun Herbal Digital:**
+        
+        1. **Sebutkan gejala penyakit** yang Anda alami
+        
+        **Contoh pertanyaan:**
+        - "Tanaman untuk demam"
+        - "Apa obat batuk?"
+        - "Tanaman antiradang"
+        - "Saya sakit perut"
+        """
+    
+    symptoms = extract_symptoms_from_text(user_input)
+    
+    if not symptoms:
+        return """
+        🤔 **Saya belum memahami pertanyaan Anda.** 
+        
+        Untuk menggunakan tanya mbah dukun herbal ini, silakan sebutkan:
+        - **Gejala penyakit** yang Anda alami
+        
+        Contoh: "Tanaman untuk demam"
+        
+        Ketik **'bantuan'** untuk melihat panduan lengkap.
+        """
+    
+    results = find_herbal_by_symptoms(symptoms, df_herbal)
+    
+    if results.empty:
+        response = "🌿 **Maaf, tidak ditemukan tanaman herbal** yang sesuai dengan kriteria Anda."
+        response += f"\n\n💊 Gejala: **{', '.join(symptoms)}**"
+        response += "\n\n💡 **Saran:** Coba gunakan kata kunci lain atau konsultasikan dengan ahli kesehatan setempat."
+        return response
+    
+    response = "🌿 **Ditemukan tanaman herbal yang dapat membantu!**\n\n"
+    if symptoms:
+        response += f"💊 **Gejala:** {', '.join(symptoms)}\n"
+    response += f"🌱 **Jumlah tanaman ditemukan:** {len(results)}\n\n"
+    
+    recommended_plants = []
+    
+    response += "**Rekomendasi Tanaman:**\n"
+    for i, (_, row) in enumerate(results.head(5).iterrows()):
+        plant_name = row['Nama']
+        recommended_plants.append(plant_name)
+        
+        response += f"\n{i+1}. **{plant_name}**\n"
+        response += f"   - Koordinat: {row['Y']:.6f}, {row['X']:.6f}\n"
+        
+        detail = get_plant_detail(plant_name)
+        if detail:
+            if detail.get('fungsi'):
+                response += f"   - Fungsi: {detail['fungsi'][:100]}...\n"
+            if detail.get('cara_memanfaatkan'):
+                response += f"   - Cara: {detail['cara_memanfaatkan'][:100]}...\n"
+    
+    if len(results) > 5:
+        response += f"\n📋 **{len(results)-5} tanaman lainnya** dapat dilihat di Data Tanaman."
+    
+    response += "\n\n💡 **Catatan:** Selalu konsultasikan dengan ahli kesehatan sebelum mengonsumsi tanaman herbal."
+    
+    st.session_state.recommended_plants = recommended_plants
+    
+    return response
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FUNGSI BUAT PETA
+# ─────────────────────────────────────────────────────────────────────────────
+def create_tnbts_map(
+    show_desa_geojson, show_kabupaten, show_batas_tnbts, show_tanaman,
+    gdf_desa, gdf_kabupaten, gdf_batas, df_tanaman_filtered, 
+    highlight_points=None, show_only_highlighted=False
+):
+    m = folium.Map(
+        location=[-7.955, 112.953],
+        zoom_start=11,
+        tiles='OpenStreetMap',
+        name='OpenStreetMap'
+    )
+
+    folium.TileLayer(
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attr='Esri', name='🛰️ Satelit'
+    ).add_to(m)
+    folium.TileLayer(
+        tiles='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+        attr='OpenTopoMap', name='🗻 Terrain'
+    ).add_to(m)
+
+    if show_batas_tnbts and not gdf_batas.empty:
+        batas_group = folium.FeatureGroup(name='🔲 Batas TNBTS', show=True)
+        folium.GeoJson(
+            gdf_batas,
+            name='Batas TNBTS',
+            style_function=lambda f: {
+                'fillColor': 'none',
+                'color': '#B71C1C',
+                'weight': 4,
+                'fillOpacity': 0,
+                'opacity': 1,
+                'dashArray': '8, 4',
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=['Keterangan'],
+                aliases=['Keterangan:'],
+                localize=False,
+                sticky=False
+            )
+        ).add_to(batas_group)
+        batas_group.add_to(m)
+
+    if show_kabupaten and not gdf_kabupaten.empty:
+        kabupaten_group = folium.FeatureGroup(name='🗺️ Batas Kabupaten', show=True)
+        folium.GeoJson(
+            gdf_kabupaten,
+            name='Kabupaten',
+            style_function=lambda f: {
+                'fillColor': 'none',
+                'color': '#1565C0',
+                'weight': 4,
+                'fillOpacity': 0,
+                'opacity': 1,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=['nama_kabko', 'nama_provi'],
+                aliases=['Kabupaten:', 'Provinsi:'],
+                localize=False,
+                sticky=False
+            )
+        ).add_to(kabupaten_group)
+        kabupaten_group.add_to(m)
+
+    if show_desa_geojson and not gdf_desa.empty:
+        desa_group = folium.FeatureGroup(name='🏘️ Batas Desa', show=True)
+        available_fields, field_aliases = [], []
+        for col, alias in [
+            ('nama_kelur','Desa:'),('nama_kecam','Kecamatan:'),
+            ('nama_kabko','Kabupaten:'),('jumlah_pen','Penduduk:')
+        ]:
+            if col in gdf_desa.columns:
+                available_fields.append(col)
+                field_aliases.append(alias)
+
+        folium.GeoJson(
+            gdf_desa,
+            name='Desa',
+            style_function=lambda f: {
+                'fillColor':'none',
+                'color':'#e65100',
+                'weight':2.5,
+                'fillOpacity':0,
+                'opacity':1,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=available_fields, aliases=field_aliases)
+        ).add_to(desa_group)
+        desa_group.add_to(m)
+
+    if show_tanaman and not df_tanaman_filtered.empty:
+        if show_only_highlighted and highlight_points:
+            df_to_show = df_tanaman_filtered[df_tanaman_filtered['Nama'].isin(highlight_points)]
+            cluster_name = "⭐ Tanaman yang Direkomendasikan"
+        else:
+            df_to_show = df_tanaman_filtered
+            cluster_name = "🌿 Sebaran Tanaman Herbal"
+        
+        if not df_to_show.empty:
+            herbal_cluster = MarkerCluster(
+                name=cluster_name,
+                overlay=True,
+                control=True,
+                show=True
+            )
+            
+            highlight_set = set(highlight_points) if highlight_points else set()
+            
+            for idx, row in df_to_show.iterrows():
+                lat = row['Y']
+                lon = row['X']
+                nama = row['Nama']
+                no = row['No']
+                
+                is_highlighted = nama in highlight_set
+                
+                if is_highlighted:
+                    icon_color = 'red'
+                    icon_icon = 'star'
+                else:
+                    icon_color = 'green'
+                    icon_icon = 'leaf'
+                
+                popup_html = create_plant_popup_html(nama, lat, lon, no, is_highlighted, row=row)
+                
+                folium.Marker(
+                    location=[lat, lon],
+                    popup=folium.Popup(popup_html, max_width=400),
+                    tooltip=f"{'⭐ ' if is_highlighted else ''}{nama}",
+                    icon=folium.Icon(color=icon_color, icon=icon_icon, prefix='fa')
+                ).add_to(herbal_cluster)
+                
+            herbal_cluster.add_to(m)
+
+    folium.LayerControl(collapsed=False, position='topright').add_to(m)
+    return m
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MUSIK (Floating Player)
+# ─────────────────────────────────────────────────────────────────────────────
+video_id = "NVY60XJuGKs"
+col_m1, col_m2 = st.columns([1, 5])
+with col_m1:
+    if st.button(
+        "🔊 Matikan Musik" if st.session_state.music_playing else "🔇 Nyalakan Musik",
+        key="music_toggle"
+    ):
+        st.session_state.music_playing = not st.session_state.music_playing
+        st.rerun()
+
+if st.session_state.music_playing:
+    st.markdown(f"""
+    <div style="position:fixed;bottom:60px;right:10px;z-index:9999;width:300px;
+                height:80px;background:rgba(0,0,0,.8);border-radius:10px;
+                padding:5px;border:1px solid #4CAF50;">
+        <iframe width="100%" height="80"
+            src="https://www.youtube.com/embed/{video_id}?autoplay=1&loop=1&playlist={video_id}&controls=1&showinfo=0"
+            frameborder="0" allow="autoplay;encrypted-media" allowfullscreen
+            style="border-radius:5px;"></iframe>
+    </div>""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HEADER
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown("""
+<div class="main-header">
+    <h1>🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
+    Bromo – Kaldera Tengger – Semeru<br>Melalui Konsumsi Tanaman Herbal</h1>
+    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • Data Tanaman Herbal Terintegrasi</p>
+</div>
+""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LOAD DATA
+# ─────────────────────────────────────────────────────────────────────────────
+gdf_desa = load_desa_geojson()
+gdf_kabupaten = load_kabupaten_geojson()
+gdf_batas = load_batas_geojson()
+df_herbal = load_herbal_data()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SIDEBAR
+# ─────────────────────────────────────────────────────────────────────────────
+with st.sidebar:
+    st.markdown("""
+    <div class="sidebar-header-new">
+        <h3>🏔️ Bromo – Tengger – Semeru</h3>
+        <p>Saat Matahari Terbit</p>
+    </div>""", unsafe_allow_html=True)
+
+    st.image(
+        "https://adipandang.wordpress.com/wp-content/uploads/2026/03/"
+        "3ffcb908-4978-4464-bf12-178125ad26ec.jpg",
+        use_container_width=True
+    )
+    st.markdown(
+        '<p style="color:white!important; text-align:center; font-size:12px; opacity:0.8;">Tim Ekspedisi Penelitian</p>',
+        unsafe_allow_html=True
+    )
+    st.markdown("---")
+
+    st.markdown("### 📋 Menu Navigasi")
+    menu_options = ["Peta Sebaran", "WebGIS Analytics Potensi Tanaman Herbal", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
+    menu_icons = ["🗺️", "🌐", "🤖", "🏔️", "📋", "📊", "ℹ️"]
+    selected = st.radio(
+        "Pilih Menu:",
+        menu_options,
+        format_func=lambda x: f"{menu_icons[menu_options.index(x)]} {x}",
+        label_visibility="collapsed",
+        key="menu_radio"
+    )
+    st.markdown("---")
+
+    # Filter data
+    st.markdown("### 🔍 Filter Data")
+    semua_tanaman = sorted(df_herbal['Nama'].unique())
+    selected_tanaman = st.multiselect(
+        "Pilih Nama Tanaman",
+        options=["Semua"] + semua_tanaman,
+        default=["Semua"],
+        help="Pilih satu atau lebih tanaman"
+    )
+
+    st.markdown("---")
+    st.markdown("### 🗂️ Layer Control")
+    c1, c2 = st.columns(2)
+    with c1:
+        show_desa_geojson = st.checkbox("🏘️ Batas Desa", value=True)
+    with c2:
+        show_tanaman = st.checkbox("🌿 Tanaman", value=True)
+        show_kabupaten = st.checkbox("🗺️ Batas Kabupaten", value=True)
+    show_batas_tnbts = st.checkbox("🔲 Batas TNBTS", value=True)
+
+    st.markdown("### 🏔️ Kontrol Tampilan 3D")
+    map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
+
+    st.markdown("---")
+    st.markdown("### 📁 Status Data")
+    st.markdown(f"""
+    <div class="status-badge">
+        ✅ <b>Data Tanaman</b><br>
+        <small>{len(df_herbal)} titik • {df_herbal['Nama'].nunique()} spesies</small>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FILTER DATA
+# ─────────────────────────────────────────────────────────────────────────────
+if "Semua" not in selected_tanaman and selected_tanaman:
+    df_herbal_filtered = df_herbal[df_herbal['Nama'].isin(selected_tanaman)]
 else:
+    df_herbal_filtered = df_herbal.copy()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: WEBGIS SDM POTENSI HERBAL
+# ─────────────────────────────────────────────────────────────────────────────
+if selected == "WebGIS Analytics Potensi Tanaman Herbal":
+    st.markdown("## 🌐 WebGIS Analytics — Potensi Tumbuh Tanaman Herbal TNBTS")
+    st.markdown(
+        """
+        <div style="background:linear-gradient(135deg,#0f5132,#146c43);
+                    padding:28px; border-radius:16px; text-align:center;
+                    box-shadow:0 4px 14px rgba(0,0,0,0.25); margin-bottom:20px;">
+            <h3 style="color:#FFD700; margin:0 0 10px 0;">🌿 Species Distribution Modelling (SDM)</h3>
+            <p style="color:#FFFFFF; font-size:15px; margin:0 0 18px 0;">
+                Jelajahi peta prediksi kesesuaian tumbuh tiap jenis tanaman herbal di
+                kawasan TNBTS berdasarkan 8 layer lingkungan (ketinggian, curah hujan,
+                suhu permukaan, kelerengan, kelembapan, NDVI, jarak pemukiman, dan
+                jenis tanah) pada aplikasi WebGIS Analytics terpisah.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.link_button(
+        "🚀 Buka WebGIS Analytics Potensi Tanaman Herbal",
+        "https://potensi-herbal-tnbts.streamlit.app/",
+        width='stretch',
+        type="primary",
+    )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: CHATBOT HERBAL
+# ─────────────────────────────────────────────────────────────────────────────
+elif selected == "Tanya Mbah Dukun Herbal Digital":
+    st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
+    
+    if 'recommended_plants' not in st.session_state:
+        st.session_state.recommended_plants = []
+    
+    st.markdown("""
+    <div class="info-box">
+        <h4>💬 Tanyakan Tanaman Herbal Berdasarkan Gejala</h4>
+        <p>
+            Chatbot ini akan membantu Anda menemukan tanaman herbal di sekitar TNBTS 
+            berdasarkan <b>gejala penyakit</b> yang Anda alami.
+        </p>
+        <p><b>Contoh pertanyaan:</b><br>
+        - "Tanaman untuk demam"<br>
+        - "Apa obat batuk?"<br>
+        - "Tanaman antiradang"<br>
+        - "Saya sakit perut"
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    chat_container = st.container()
+    with chat_container:
+        st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+        for msg in st.session_state.chat_history:
+            if msg['role'] == 'user':
+                st.markdown(f'<div class="chat-message user">👤 {msg["content"]}</div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="chat-message bot">🤖 {msg["content"]}</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    col_input, col_button = st.columns([5, 1])
+    with col_input:
+        user_input = st.text_input(
+            "💬 Tanyakan sesuatu...",
+            placeholder="Contoh: Tanaman untuk demam",
+            key="chat_input",
+            label_visibility="collapsed"
+        )
+    with col_button:
+        send_button = st.button("📤 Kirim", width='stretch')
+    
+    if send_button and user_input:
+        st.session_state.chat_history.append({'role': 'user', 'content': user_input})
+        response = generate_chatbot_response_herbal(user_input, df_herbal)
+        st.session_state.chat_history.append({'role': 'bot', 'content': response})
+        st.rerun()
+    
+    if st.button("🗑️ Hapus Riwayat Chat"):
+        st.session_state.chat_history = []
+        st.session_state.recommended_plants = []
+        st.rerun()
+    
+    if st.session_state.recommended_plants:
+        st.markdown("---")
+        st.markdown("### 🗺️ Peta Sebaran Tanaman yang Direkomendasikan")
+        st.markdown("""
+        <div style="background: #FFF3E0; border-left: 4px solid #D32F2F; padding: 12px 16px; border-radius: 8px; margin-bottom: 12px;">
+            <span style="font-weight: bold; color: #D32F2F;">⭐ Titik berwarna MERAH dengan BINTANG</span>
+            <span style="color: #555;"> adalah tanaman yang direkomendasikan berdasarkan pertanyaan Anda.</span>
+            <br>
+            <span style="color: #888; font-size: 13px;">
+                Hanya menampilkan <b>{len(st.session_state.recommended_plants)}</b> jenis tanaman yang direkomendasikan.
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        df_recommended = df_herbal[df_herbal['Nama'].isin(st.session_state.recommended_plants)]
+        
+        if not df_recommended.empty:
+            try:
+                m = create_tnbts_map(
+                    show_desa_geojson=show_desa_geojson,
+                    show_kabupaten=show_kabupaten,
+                    show_batas_tnbts=show_batas_tnbts,
+                    show_tanaman=show_tanaman,
+                    gdf_desa=gdf_desa,
+                    gdf_kabupaten=gdf_kabupaten,
+                    gdf_batas=gdf_batas,
+                    df_tanaman_filtered=df_recommended,
+                    highlight_points=st.session_state.recommended_plants,
+                    show_only_highlighted=True
+                )
+                st_folium(m, width=1200, height=500, returned_objects=[])
+                
+                with st.expander("📋 Daftar Tanaman yang Direkomendasikan"):
+                    for plant in st.session_state.recommended_plants:
+                        detail = get_plant_detail(plant)
+                        plant_data = df_recommended[df_recommended['Nama'] == plant]
+                        st.markdown(f"""
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 12px 16px; 
+                                    margin: 6px 0; border-left: 4px solid #D32F2F;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-weight: bold; font-size: 15px; color: #1B5E20;">⭐ {plant}</span>
+                                    <span style="font-size: 12px; color: #666; margin-left: 8px;">
+                                        ({len(plant_data)} titik sebaran)
+                                    </span>
+                                </div>
+                                <span style="font-size: 11px; color: #D32F2F; background: #FFEBEE; padding: 2px 10px; border-radius: 12px;">
+                                    REKOMENDASI
+                                </span>
+                            </div>
+                            {f'<div style="font-size: 13px; color: #555; margin-top: 4px;">💊 {detail["fungsi"][:150]}{"..." if len(detail["fungsi"]) > 150 else ""}</div>' if detail and detail.get('fungsi') else ''}
+                            <div style="font-size: 11px; color: #888; margin-top: 4px;">
+                                Koordinat: {plant_data.iloc[0]['Y']:.6f}, {plant_data.iloc[0]['X']:.6f}
+                                {f" (+{len(plant_data)-1} lokasi lainnya)" if len(plant_data) > 1 else ""}
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+            except Exception as e:
+                st.error(f"Error membuat peta: {e}")
+        else:
+            st.info("Tidak ada data lokasi untuk tanaman yang direkomendasikan.")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: PETA SEBARAN
+# ─────────────────────────────────────────────────────────────────────────────
+elif selected == "Peta Sebaran":
+    st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
+    
+    st.markdown(
+        f"Visualisasi sebaran **{len(df_herbal_filtered)} titik tanaman herbal** "
+        f"dari **{df_herbal['Nama'].nunique()} spesies** di kawasan TNBTS."
+    )
+
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        st.markdown(f"""<div class="metric-card"><h3>{len(df_herbal)}</h3>
+            <p>🌿 Total Titik</p></div>""", unsafe_allow_html=True)
+    with c2:
+        st.markdown(f"""<div class="metric-card"><h3>{df_herbal['Nama'].nunique()}</h3>
+            <p>🌱 Spesies Unik</p></div>""", unsafe_allow_html=True)
+    with c3:
+        st.markdown(f"""<div class="metric-card"><h3>{len(df_herbal_filtered)}</h3>
+            <p>📌 Ditampilkan</p></div>""", unsafe_allow_html=True)
+    with c4:
+        st.markdown(f"""<div class="metric-card"><h3>{len(gdf_desa)}</h3>
+            <p>🏘️ Desa</p></div>""", unsafe_allow_html=True)
+
+    st.info(
+        "🏔️ **Layer Batas TNBTS** dan **🏘️ Batas Desa** ditampilkan sebagai outline. "
+        "🌿 **Titik hijau** adalah sebaran tanaman herbal. "
+        "Klik titik untuk melihat **detail lengkap** tanaman termasuk fungsi, syarat hidup, dan cara memanfaatkan.\n\n"
+        "Gunakan **Layer Control** di pojok kanan atas peta untuk mengatur tampilan."
+    )
+
+    try:
+        m = create_tnbts_map(
+            show_desa_geojson=show_desa_geojson,
+            show_kabupaten=show_kabupaten,
+            show_batas_tnbts=show_batas_tnbts,
+            show_tanaman=show_tanaman,
+            gdf_desa=gdf_desa,
+            gdf_kabupaten=gdf_kabupaten,
+            gdf_batas=gdf_batas,
+            df_tanaman_filtered=df_herbal_filtered,
+            highlight_points=None,
+            show_only_highlighted=False
+        )
+        st_folium(m, width="100%", height=640, returned_objects=[], key="main_map")
+    except Exception as e:
+        st.error(f"Error membuat peta: {e}")
+
+    detail_cols = [c for c in ['NamaLatin', 'Fungsi', 'PotensiSebaran',
+                                'SyaratHidup', 'CaraMemanfaatkan', 'BagianDimanfaatkan']
+                   if c in df_herbal_filtered.columns]
+
+    if not df_herbal_filtered.empty:
+        agg_dict = {'X': 'count'}
+        for c in detail_cols:
+            agg_dict[c] = 'first'
+
+        df_spesies_filtered = (
+            df_herbal_filtered
+            .groupby('Nama', as_index=False)
+            .agg(agg_dict)
+            .rename(columns={'X': 'Jumlah Titik'})
+            .sort_values('Nama')
+            .reset_index(drop=True)
+        )
+        cols_order = ['Nama', 'Jumlah Titik'] + detail_cols
+        df_spesies_filtered = df_spesies_filtered[cols_order]
+    else:
+        df_spesies_filtered = df_herbal_filtered
+
+    with st.expander(f"📋 Daftar {len(df_spesies_filtered)} Spesies Tanaman yang Ditampilkan"):
+        st.dataframe(
+            df_spesies_filtered,
+            use_container_width=True, height=350, hide_index=True
+        )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: PETA 3D
+# ─────────────────────────────────────────────────────────────────────────────
+elif selected == "Peta 3D Pegunungan":
+    st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS")
+    st.markdown("Visualisasi 3D interaktif — putar 360° dengan mouse/touch")
+
+    st.markdown(f"""
+    <div style="border-radius:10px;overflow:hidden;
+                box-shadow:0 4px 8px rgba(0,0,0,.2);height:{map_height_3d}px;">
+        <iframe
+            title="Mount Bromo / Bromo Tengger Semeru National Park"
+            frameborder="0" allowfullscreen
+            src="https://sketchfab.com/models/72f1c983ba4040eab89d75eb2b0d3e32/embed"
+            style="width:100%;height:{map_height_3d}px;border:none;border-radius:10px;">
+        </iframe>
+    </div>""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: DATA TANAMAN
+# ─────────────────────────────────────────────────────────────────────────────
+elif selected == "Data Tanaman":
+    st.markdown("## 📋 Data Tanaman Herbal TNBTS")
+    
+    tab1, tab2 = st.tabs(["🌿 Semua Data Tanaman", "📊 Statistik Singkat"])
+
+    with tab1:
+        search = st.text_input(
+            "🔍 Cari (nama tanaman):",
+            placeholder="Contoh: adas / jahe / jarak ..."
+        )
+        df_show = df_herbal_filtered.copy()
+        if search:
+            mask = df_show['Nama'].str.contains(search, case=False, na=False)
+            df_show = df_show[mask]
+            st.info(f"Ditemukan **{len(df_show)}** hasil")
+        
+        st.markdown("### 📋 Data Tanaman dengan Detail Lengkap")
+        st.markdown("Klik nama tanaman untuk melihat detail fungsi, syarat hidup, dan cara memanfaatkan.")
+        
+        unique_plants = sorted(df_show['Nama'].unique())
+        
+        if len(unique_plants) > 0:
+            cols_per_row = 2
+            for i in range(0, len(unique_plants), cols_per_row):
+                cols = st.columns(cols_per_row)
+                for j, col in enumerate(cols):
+                    idx = i + j
+                    if idx < len(unique_plants):
+                        plant_name = unique_plants[idx]
+                        with col:
+                            with st.expander(f"🌿 {plant_name}", expanded=False):
+                                detail = get_plant_detail(plant_name)
+                                
+                                if detail:
+                                    st.markdown(f"""
+                                    <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; 
+                                                border: 1px solid #e0e0e0; margin-bottom: 10px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; 
+                                                    border-bottom: 2px solid #2E7D32; padding-bottom: 8px; margin-bottom: 12px;">
+                                            <h4 style="margin: 0; color: #1B5E20; font-size: 16px;">🌿 {plant_name}</h4>
+                                            <span style="font-style: italic; color: #666; font-size: 13px;">{detail.get('nama_latin', '')}</span>
+                                        </div>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                    
+                                    if detail.get('fungsi'):
+                                        st.markdown(f"""
+                                        <div style="background: #E8F5E9; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #2E7D32;">
+                                            <span style="font-weight: bold; color: #1B5E20; font-size: 14px;">💊 Fungsi:</span><br>
+                                            <span style="font-size: 13px; color: #333; line-height: 1.6;">{detail['fungsi']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    if detail.get('syarat_hidup'):
+                                        st.markdown(f"""
+                                        <div style="background: #FFF8E1; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #F57F17;">
+                                            <span style="font-weight: bold; color: #E65100; font-size: 14px;">🌱 Syarat Hidup:</span><br>
+                                            <span style="font-size: 12px; color: #555; line-height: 1.6;">{detail['syarat_hidup']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    if detail.get('cara_memanfaatkan'):
+                                        st.markdown(f"""
+                                        <div style="background: #E3F2FD; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #0D47A1;">
+                                            <span style="font-weight: bold; color: #0D47A1; font-size: 14px;">🔬 Cara Memanfaatkan:</span><br>
+                                            <span style="font-size: 12px; color: #555; line-height: 1.6;">{detail['cara_memanfaatkan']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    col_info1, col_info2 = st.columns(2)
+                                    
+                                    with col_info1:
+                                        if detail.get('yang_dimanfaatkan'):
+                                            st.markdown(f"""
+                                            <div style="background: #F3E5F5; border-radius: 8px; padding: 10px 14px; 
+                                                        margin: 6px 0; border-left: 4px solid #6A1B9A;">
+                                                <span style="font-weight: bold; color: #4A148C; font-size: 13px;">✂️ Yang Dimanfaatkan:</span><br>
+                                                <span style="font-size: 13px; color: #555;">{detail['yang_dimanfaatkan']}</span>
+                                            </div>
+                                            """, unsafe_allow_html=True)
+                                    
+                                    with col_info2:
+                                        if detail.get('foto'):
+                                            st.markdown(f"""
+                                            <div style="background: #ECEFF1; border-radius: 8px; padding: 10px 14px; 
+                                                        margin: 6px 0; border-left: 4px solid #455A64;">
+                                                <span style="font-weight: bold; color: #37474F; font-size: 13px;">📷 Foto:</span><br>
+                                                <span style="font-size: 12px; color: #666; word-break: break-all;">{detail['foto']}</span>
+                                            </div>
+                                            """, unsafe_allow_html=True)
+                                    
+                                    if detail.get('potensi_sebaran'):
+                                        st.markdown(f"""
+                                        <div style="background: #E0F7FA; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border-left: 4px solid #00695C;">
+                                            <span style="font-weight: bold; color: #00695C; font-size: 13px;">📍 Potensi Sebaran:</span><br>
+                                            <span style="font-size: 12px; color: #555; line-height: 1.5;">{detail['potensi_sebaran']}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    
+                                    plant_points = df_show[df_show['Nama'] == plant_name]
+                                    if len(plant_points) > 0:
+                                        st.markdown(f"""
+                                        <div style="background: #F5F5F5; border-radius: 8px; padding: 10px 14px; 
+                                                    margin: 6px 0; border: 1px solid #ddd;">
+                                            <span style="font-weight: bold; color: #555; font-size: 13px;">📍 Jumlah titik sebaran: {len(plant_points)}</span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                        st.dataframe(
+                                            plant_points[['No', 'X', 'Y']],
+                                            use_container_width=True,
+                                            hide_index=True,
+                                            height=150
+                                        )
+                                else:
+                                    st.warning(f"⚠️ Data detail untuk '{plant_name}' tidak tersedia")
+                                    
+                                    plant_points = df_show[df_show['Nama'] == plant_name]
+                                    if len(plant_points) > 0:
+                                        st.markdown(f"**📍 Jumlah titik sebaran:** {len(plant_points)}")
+                                        st.dataframe(
+                                            plant_points[['No', 'X', 'Y']],
+                                            use_container_width=True,
+                                            hide_index=True,
+                                            height=150
+                                        )
+        else:
+            st.info("Tidak ada data tanaman yang ditemukan")
+        
+        col_download1, col_download2, col_download3 = st.columns([1, 2, 1])
+        with col_download2:
+            st.download_button(
+                "📥 Download CSV Data Tanaman",
+                data=df_herbal.to_csv(index=False),
+                file_name="data_tanaman_herbal_tnbts.csv",
+                mime="text/csv",
+                width='stretch'
+            )
+
+    with tab2:
+        st.markdown("### 📊 Statistik Tanaman")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("#### Top 10 Tanaman Terbanyak")
+            top_plants = df_herbal['Nama'].value_counts().head(10)
+            st.dataframe(
+                pd.DataFrame({'Tanaman': top_plants.index, 'Jumlah': top_plants.values}),
+                use_container_width=True, hide_index=True
+            )
+        
+        with col2:
+            st.markdown("#### Ringkasan")
+            st.metric("Total Spesies Unik", df_herbal['Nama'].nunique())
+            st.metric("Total Titik Data", len(df_herbal))
+            detailed_count = len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None])
+            st.metric("Tanaman dengan Data Detail", detailed_count)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: STATISTIK
+# ─────────────────────────────────────────────────────────────────────────────
+elif selected == "Statistik":
+    st.markdown("## 📊 Statistik Tanaman Herbal TNBTS")
+    
+    st.markdown("### 🌿 Sebaran Spesies Tanaman")
+    
+    top_counts = df_herbal['Nama'].value_counts().head(15)
+    st.bar_chart(top_counts, use_container_width=True)
+    
+    st.markdown("### 📋 Detail Tanaman Teratas")
+    
+    top_plants_list = top_counts.head(10).index.tolist()
+    
+    for plant_name in top_plants_list:
+        with st.expander(f"🌿 {plant_name} ({top_counts[plant_name]} titik)", expanded=False):
+            detail = get_plant_detail(plant_name)
+            if detail:
+                st.markdown(f"""
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 12px; margin: 4px 0;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div style="grid-column: 1 / -1;">
+                            <span style="font-weight: bold;">💊 Fungsi:</span>
+                            <span style="font-size: 13px;">{detail.get('fungsi', '-')}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">🌱 Syarat Hidup:</span><br>
+                            <span style="font-size: 12px; color: #555;">{detail.get('syarat_hidup', '-')[:150]}{'...' if len(detail.get('syarat_hidup', '')) > 150 else ''}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">🔬 Cara Memanfaatkan:</span><br>
+                            <span style="font-size: 12px; color: #555;">{detail.get('cara_memanfaatkan', '-')[:150]}{'...' if len(detail.get('cara_memanfaatkan', '')) > 150 else ''}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">✂️ Yang Dimanfaatkan:</span>
+                            <span style="font-size: 13px;">{detail.get('yang_dimanfaatkan', '-')}</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold;">📍 Potensi Sebaran:</span><br>
+                            <span style="font-size: 11px; color: #555;">{detail.get('potensi_sebaran', '-')}</span>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.info("Data detail tidak tersedia untuk tanaman ini")
+    
+    st.markdown("### 📋 Detail Statistik")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Spesies", df_herbal['Nama'].nunique())
+    with col2:
+        st.metric("Total Titik Data", len(df_herbal))
+    with col3:
+        avg = len(df_herbal) / df_herbal['Nama'].nunique()
+        st.metric("Rata-rata per Spesies", f"{avg:.1f}")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: INFORMASI
+# ─────────────────────────────────────────────────────────────────────────────
+elif selected == "Informasi":
     st.markdown("## ℹ️ Informasi TNBTS")
 
     total_penduduk = gdf_desa['jumlah_pen'].sum() if not gdf_desa.empty and 'jumlah_pen' in gdf_desa.columns else 0
@@ -24,67 +1474,65 @@ else:
     # ── KATEGORISASI PENYAKIT ──────────────────────────────────────────────
     st.markdown("### 💊 Kategorisasi Tanaman Herbal Berdasarkan Ragam Penyakit")
     
-    # Definisikan 12 kategori penyakit dan kata kunci pencariannya
+    # Definisikan 12 kategori penyakit
     disease_categories = {
         "🫀 Penyakit Jantung & Pembuluh Darah": {
-            "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah", "pembuluh darah", "kardiovaskular"],
+            "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah", "pembuluh darah"],
             "plants": []
         },
         "🫁 Pernapasan & Batuk": {
-            "keywords": ["batuk", "pilek", "flu", "influenza", "radang tenggorokan", "bronkitis", "asma", "pernapasan", "dahak", "tenggorokan", "sesak", "nafas", "amandel"],
+            "keywords": ["batuk", "pilek", "flu", "influenza", "radang tenggorokan", "bronkitis", "asma", "pernapasan", "dahak", "tenggorokan", "sesak"],
             "plants": []
         },
         "🌡️ Demam & Infeksi": {
-            "keywords": ["demam", "panas", "meriang", "malaria", "infeksi", "antibakteri", "antiseptik", "antimikroba", "antijamur", "anti bakteri", "anti jamur"],
+            "keywords": ["demam", "panas", "meriang", "malaria", "infeksi", "antibakteri", "antiseptik", "antimikroba", "antijamur"],
             "plants": []
         },
         "🧬 Pencernaan & Lambung": {
-            "keywords": ["pencernaan", "perut", "kembung", "diare", "mual", "muntah", "sembelit", "maag", "asam lambung", "magh", "konstipasi", "cacing", "cacingan", "disentri"],
+            "keywords": ["pencernaan", "perut", "kembung", "diare", "mual", "muntah", "sembelit", "maag", "asam lambung", "magh", "cacing"],
             "plants": []
         },
         "🦴 Sendi, Otot & Nyeri": {
-            "keywords": ["nyeri", "pegal", "linu", "rematik", "asam urat", "sendi", "otot", "keseleo", "memar", "bengkak", "rematik", "nyeri otot", "pegal linu", "kram"],
+            "keywords": ["nyeri", "pegal", "linu", "rematik", "asam urat", "sendi", "otot", "keseleo", "memar", "bengkak", "nyeri otot"],
             "plants": []
         },
         "🩸 Gula Darah & Metabolisme": {
-            "keywords": ["gula darah", "diabetes", "kolesterol", "metabolisme", "obesitas", "berat badan", "trigliserida", "gula", "glukosa"],
+            "keywords": ["gula darah", "diabetes", "kolesterol", "metabolisme", "obesitas", "berat badan", "trigliserida"],
             "plants": []
         },
         "🧴 Kulit & Luka": {
-            "keywords": ["luka", "kulit", "bisul", "borok", "gatal", "jerawat", "eksim", "kurap", "herpes", "bakar", "luka bakar", "memar", "ruam", "kudis", "infeksi kulit"],
+            "keywords": ["luka", "kulit", "bisul", "borok", "gatal", "jerawat", "eksim", "kurap", "herpes", "luka bakar", "ruam"],
             "plants": []
         },
         "🧠 Saraf & Stres": {
-            "keywords": ["saraf", "stres", "insomnia", "susah tidur", "kejang", "epilepsi", "menenangkan", "cemas", "tidur", "nyenyak", "gelisah"],
+            "keywords": ["saraf", "stres", "insomnia", "susah tidur", "kejang", "epilepsi", "menenangkan", "cemas"],
             "plants": []
         },
         "🤰 Kesehatan Wanita & Kesuburan": {
-            "keywords": ["haid", "menstruasi", "keputihan", "kesuburan", "hamil", "pasca persalinan", "ASI", "menopause", "kewanitaan", "persalinan", "kandungan", "kehamilan"],
+            "keywords": ["haid", "menstruasi", "keputihan", "kesuburan", "hamil", "persalinan", "ASI", "menopause", "kewanitaan"],
             "plants": []
         },
         "🧪 Ginjal & Saluran Kemih": {
-            "keywords": ["ginjal", "kencing", "urine", "batu ginjal", "diuretik", "saluran kemih", "kencing batu", "buang air kecil", "kemih"],
+            "keywords": ["ginjal", "kencing", "urine", "batu ginjal", "diuretik", "saluran kemih", "buang air kecil"],
             "plants": []
         },
         "🛡️ Imunitas & Antioksidan": {
-            "keywords": ["imun", "daya tahan", "antioksidan", "kanker", "tumor", "radikal bebas", "vitamin", "kekebalan", "imunitas", "penuaan", "antioksidan"],
+            "keywords": ["imun", "daya tahan", "antioksidan", "kanker", "tumor", "radikal bebas", "vitamin", "kekebalan"],
             "plants": []
         },
         "🌿 Antiradang & Detoksifikasi": {
-            "keywords": ["antiradang", "anti inflamasi", "detoksifikasi", "pembersih darah", "tonik", "stamina", "anti-inflamasi", "radang", "peradangan", "detoks", "antiinflamasi"],
+            "keywords": ["antiradang", "anti inflamasi", "detoksifikasi", "pembersih darah", "tonik", "stamina", "radang"],
             "plants": []
         }
     }
     
-    # Ambil semua tanaman unik dari df_herbal (bukan dari HERBAL_DETAIL_DATA)
+    # Ambil semua tanaman unik dari df_herbal
     all_plants = sorted(df_herbal['Nama'].unique())
     
-    # Kategorikan setiap tanaman dari df_herbal
+    # Kategorikan setiap tanaman
     for plant_name in all_plants:
-        # Dapatkan detail dari df_herbal melalui get_plant_detail
         detail = get_plant_detail(plant_name)
         if not detail:
-            # Jika tidak ada detail di HERBAL_DETAIL_DATA, coba cari di df_herbal langsung
             plant_row = df_herbal[df_herbal['Nama'] == plant_name]
             if not plant_row.empty:
                 row = plant_row.iloc[0]
@@ -98,8 +1546,7 @@ else:
         
         fungsi_lower = fungsi.lower()
         
-        # Periksa kecocokan dengan setiap kategori
-        matched_categories = []
+        matched = False
         for category, info in disease_categories.items():
             for keyword in info["keywords"]:
                 if keyword.lower() in fungsi_lower:
@@ -108,24 +1555,25 @@ else:
                         "fungsi": fungsi,
                         "bagian": bagian
                     })
-                    matched_categories.append(category)
+                    matched = True
                     break
+            if matched:
+                break
         
-        # Jika tidak masuk kategori manapun, masukkan ke "Antiradang & Detoksifikasi"
-        if not matched_categories and fungsi:
+        if not matched and fungsi:
             disease_categories["🌿 Antiradang & Detoksifikasi"]["plants"].append({
                 "name": plant_name,
                 "fungsi": fungsi,
                 "bagian": bagian
             })
     
-    # Hapus kategori yang tidak memiliki tanaman
+    # Hapus kategori kosong
     disease_categories = {
         k: v for k, v in disease_categories.items() 
         if v["plants"]
     }
     
-    # Tampilkan statistik kategorisasi
+    # Tampilkan statistik
     st.markdown("#### 📊 Statistik Kategorisasi")
     
     total_spesies = len(all_plants)
@@ -143,10 +1591,9 @@ else:
     with col_stat4:
         st.metric("Rata-rata per Kategori", f"{avg_per_category:.1f}")
     
-    # Tampilkan jumlah per kategori dalam bar
+    # Bar chart jumlah per kategori
     st.markdown("#### 📈 Jumlah Tanaman per Kategori")
     category_counts = {cat: len(info["plants"]) for cat, info in disease_categories.items()}
-    # Buat DataFrame untuk bar chart
     df_categories = pd.DataFrame({
         'Kategori': list(category_counts.keys()),
         'Jumlah': list(category_counts.values())
@@ -159,21 +1606,18 @@ else:
     st.markdown("#### 🌿 Daftar Tanaman Berdasarkan Kategori Penyakit")
     st.markdown("Klik setiap kategori untuk melihat daftar tanaman yang dapat membantu mengatasinya.")
     
-    # Sortir kategori berdasarkan jumlah tanaman terbanyak
     sorted_categories = sorted(
         disease_categories.items(),
         key=lambda x: len(x[1]["plants"]),
         reverse=True
     )
     
-    # Tampilkan setiap kategori sebagai expander
     for category_name, info in sorted_categories:
         plants = info["plants"]
         if not plants:
             continue
             
         with st.expander(f"{category_name} ({len(plants)} spesies)", expanded=False):
-            # Tampilkan dalam grid 2 kolom
             cols_per_row = 2
             for i in range(0, len(plants), cols_per_row):
                 cols = st.columns(cols_per_row)
@@ -200,14 +1644,12 @@ else:
                             </div>
                             """, unsafe_allow_html=True)
                             
-                            # Tombol Lihat di Peta
                             if st.button(
                                 f"📍 Lihat di Peta", 
                                 key=f"view_inf_{plant['name']}_{idx}_{category_name[:5]}"
                             ):
                                 st.session_state.menu_selected = "Peta Sebaran"
                                 st.session_state.highlighted_plants = [plant['name']]
-                                st.session_state.show_highlighted = True
                                 st.rerun()
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
@@ -250,3 +1692,19 @@ else:
     - **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
     - **Model 3D:** Sketchfab — smartmAPPS
     """)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FOOTER
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+st.markdown("""
+<div class="footer">
+    <p style="font-size:1.1rem;margin-bottom:.5rem;">
+        🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
+        Bromo – Kaldera Tengger – Semeru Melalui Konsumsi Tanaman Herbal di TNBTS
+    </p>
+    <p style="margin-bottom:.3rem;">© Ekspedisi Tanaman Herbal TNBTS untuk Health Security — 2026</p>
+    <p style="font-size:.9rem;opacity:.9;">86 Spesies • 8 Kawasan Ekologi • 41 Desa Penyangga</p>
+    <p style="font-size:.7rem;opacity:.5;">© WebGIS Developer: Adipandang Yudono (2026)</p>
+</div>
+""", unsafe_allow_html=True)
