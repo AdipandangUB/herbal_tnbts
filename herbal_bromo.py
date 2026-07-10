@@ -1622,12 +1622,12 @@ elif selected == "Statistik":
         st.metric("Rata-rata per Spesies", f"{avg:.1f}")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# HALAMAN: INFORMASI
+# HALAMAN: INFORMASI - DENGAN KATEGORISASI PENYAKIT
 # ─────────────────────────────────────────────────────────────────────────────
 else:
     st.markdown("## ℹ️ Informasi TNBTS")
 
-    total_penduduk  = gdf_desa['jumlah_pen'].sum()    if not gdf_desa.empty and 'jumlah_pen'  in gdf_desa.columns else 0
+    total_penduduk = gdf_desa['jumlah_pen'].sum() if not gdf_desa.empty and 'jumlah_pen' in gdf_desa.columns else 0
     total_kecamatan = gdf_desa['nama_kecam'].nunique() if not gdf_desa.empty and 'nama_kecam' in gdf_desa.columns else 0
     total_kabupaten = gdf_desa['nama_kabko'].nunique() if not gdf_desa.empty and 'nama_kabko' in gdf_desa.columns else 0
     total_detailed = len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None])
@@ -1644,32 +1644,168 @@ else:
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
-    st.markdown("### 💊 Kelompok Fungsi Tanaman")
+    # ── KATEGORISASI PENYAKIT ──────────────────────────────────────────────
+    st.markdown("### 💊 Kategorisasi Tanaman Herbal Berdasarkan Ragam Penyakit")
     
-    st.markdown("""
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin: 12px 0;">
-    """, unsafe_allow_html=True)
+    # Definisikan kategori penyakit dan kata kunci pencariannya
+    disease_categories = {
+        "🫀 Penyakit Jantung & Pembuluh Darah": {
+            "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah"],
+            "plants": []
+        },
+        "🫁 Pernapasan & Batuk": {
+            "keywords": ["batuk", "pilek", "flu", "influenza", "radang tenggorokan", "bronkitis", "asma", "pernapasan", "dahak"],
+            "plants": []
+        },
+        "🌡️ Demam & Infeksi": {
+            "keywords": ["demam", "panas", "meriang", "malaria", "infeksi", "antibakteri", "antiseptik", "antimikroba"],
+            "plants": []
+        },
+        "🧬 Pencernaan & Lambung": {
+            "keywords": ["pencernaan", "perut", "kembung", "diare", "mual", "muntah", "sembelit", "maag", "asam lambung", "magh"],
+            "plants": []
+        },
+        "🦴 Sendi, Otot & Nyeri": {
+            "keywords": ["nyeri", "pegal", "linu", "rematik", "asam urat", "sendi", "otot", "keseleo", "memar", "bengkak"],
+            "plants": []
+        },
+        "🩸 Gula Darah & Metabolisme": {
+            "keywords": ["gula darah", "diabetes", "kolesterol", "metabolisme", "obesitas", "berat badan"],
+            "plants": []
+        },
+        "🧴 Kulit & Luka": {
+            "keywords": ["luka", "kulit", "bisul", "borok", "gatal", "jerawat", "eksim", "kurap", "herpes", "bakar"],
+            "plants": []
+        },
+        "🧠 Saraf & Stres": {
+            "keywords": ["saraf", "stres", "insomnia", "susah tidur", "kejang", "epilepsi", "menenangkan", "cemas"],
+            "plants": []
+        },
+        "🤰 Kesehatan Wanita & Kesuburan": {
+            "keywords": ["haid", "menstruasi", "keputihan", "kesuburan", "hamil", "pasca persalinan", "ASI", "menopause"],
+            "plants": []
+        },
+        "🧪 Ginjal & Saluran Kemih": {
+            "keywords": ["ginjal", "kencing", "urine", "batu ginjal", "diuretik", "saluran kemih"],
+            "plants": []
+        },
+        "🛡️ Imunitas & Antioksidan": {
+            "keywords": ["imun", "daya tahan", "antioksidan", "kanker", "tumor", "radikal bebas", "vitamin"],
+            "plants": []
+        },
+        "🌿 Lainnya (Antiradang & Detoksifikasi)": {
+            "keywords": ["antiradang", "anti inflamasi", "detoksifikasi", "pembersih darah", "tonik", "stamina"],
+            "plants": []
+        }
+    }
     
-    shown = 0
-    for name, detail in HERBAL_DETAIL_DATA.items():
-        if shown >= 16:
-            break
-        if detail.get('fungsi'):
-            fungsi_short = detail['fungsi'][:80] + ('...' if len(detail['fungsi']) > 80 else '')
-            st.markdown(f"""
-            <div style="background: #f8f9fa; border-radius: 8px; padding: 12px 16px; 
-                        border-left: 4px solid #2E7D32; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                <div style="font-weight: bold; color: #2E7D32; font-size: 14px;">🌿 {name}</div>
-                <div style="font-size: 12px; color: #555; margin-top: 4px;">{fungsi_short}</div>
-                <div style="font-size: 11px; color: #888; margin-top: 2px; font-style: italic;">{detail.get('yang_dimanfaatkan', '')}</div>
-            </div>
-            """, unsafe_allow_html=True)
-            shown += 1
+    # Kumpulkan semua tanaman unik dari HERBAL_DETAIL_DATA
+    all_plants = list(HERBAL_DETAIL_DATA.keys())
     
-    st.markdown("</div>", unsafe_allow_html=True)
+    # Kategorikan setiap tanaman
+    for plant_name in all_plants:
+        detail = HERBAL_DETAIL_DATA.get(plant_name, {})
+        fungsi = detail.get('fungsi', '').lower()
+        bagian = detail.get('yang_dimanfaatkan', '')
+        
+        # Periksa kecocokan dengan setiap kategori
+        matched = False
+        for category, info in disease_categories.items():
+            for keyword in info["keywords"]:
+                if keyword.lower() in fungsi:
+                    info["plants"].append({
+                        "name": plant_name,
+                        "fungsi": detail.get('fungsi', ''),
+                        "bagian": bagian
+                    })
+                    matched = True
+                    break
+            if matched:
+                break
+        
+        # Jika tidak masuk kategori manapun, masukkan ke "Lainnya"
+        if not matched:
+            disease_categories["🌿 Lainnya (Antiradang & Detoksifikasi)"]["plants"].append({
+                "name": plant_name,
+                "fungsi": detail.get('fungsi', ''),
+                "bagian": bagian
+            })
+    
+    # Tampilkan statistik kategorisasi
+    st.markdown("#### 📊 Statistik Kategorisasi")
+    col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
+    with col_stat1:
+        st.metric("Total Spesies", len(all_plants))
+    with col_stat2:
+        total_mapped = sum(len(info["plants"]) for info in disease_categories.values())
+        st.metric("Total Kategorisasi", f"{total_mapped}")
+    with col_stat3:
+        active_categories = len([c for c in disease_categories if disease_categories[c]["plants"]])
+        st.metric("Kategori Aktif", active_categories)
+    with col_stat4:
+        avg_per_category = total_mapped / active_categories if active_categories > 0 else 0
+        st.metric("Rata-rata per Kategori", f"{avg_per_category:.1f}")
+    
+    st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
+    
+    # Tampilkan semua kategori dalam accordion
+    st.markdown("#### 🌿 Daftar Tanaman Berdasarkan Kategori Penyakit")
+    st.markdown("Klik setiap kategori untuk melihat daftar tanaman yang dapat membantu mengatasinya.")
+    
+    # Sortir kategori berdasarkan jumlah tanaman terbanyak
+    sorted_categories = sorted(
+        disease_categories.items(),
+        key=lambda x: len(x[1]["plants"]),
+        reverse=True
+    )
+    
+    for category_name, info in sorted_categories:
+        plants = info["plants"]
+        if not plants:
+            continue
+            
+        with st.expander(f"{category_name} ({len(plants)} spesies)", expanded=False):
+            # Tampilkan dalam grid
+            cols_per_row = 3
+            for i in range(0, len(plants), cols_per_row):
+                cols = st.columns(cols_per_row)
+                for j, col in enumerate(cols):
+                    idx = i + j
+                    if idx < len(plants):
+                        plant = plants[idx]
+                        with col:
+                            # Card tanaman
+                            fungsi_short = plant['fungsi'][:100] + ('...' if len(plant['fungsi']) > 100 else '')
+                            st.markdown(f"""
+                            <div style="background: #f8f9fa; border-radius: 8px; padding: 12px 14px; 
+                                        border-left: 4px solid #2E7D32; 
+                                        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+                                        margin-bottom: 8px; height: 100%;">
+                                <div style="font-weight: bold; color: #1B5E20; font-size: 14px;">
+                                    🌿 {plant['name']}
+                                </div>
+                                <div style="font-size: 12px; color: #555; margin: 4px 0; line-height: 1.4;">
+                                    {fungsi_short}
+                                </div>
+                                <div style="font-size: 11px; color: #888; margin-top: 4px;">
+                                    ✂️ {plant['bagian'] if plant['bagian'] else 'Tidak tersedia'}
+                                </div>
+                                <div style="font-size: 11px; color: #2E7D32; margin-top: 4px; cursor: pointer;"
+                                     onclick="document.querySelector('[data-testid=\'stSidebar\']').scrollIntoView();">
+                                    🔍 Lihat di peta
+                                </div>
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
+                            # Tombol untuk melihat di peta
+                            if st.button(f"📍 Lihat {plant['name']} di Peta", key=f"view_{plant['name']}_{idx}"):
+                                st.session_state.menu_selected = "Peta Sebaran"
+                                st.session_state.highlighted_plants = [plant['name']]
+                                st.rerun()
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
+    # ── Tim peneliti ──────────────────────────────────────────────────────────
     st.markdown("### 👥 Tim Peneliti")
     tm_cols = st.columns(4)
     team = [
@@ -1697,28 +1833,13 @@ else:
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
+    # ── Sumber Data ──────────────────────────────────────────────────────────
     st.markdown("""
     ### 📍 Sumber Data
-    - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 86 spesies, 8 kawasan ekologi
+    - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 133 spesies, 8 kawasan ekologi
     - **Data Detail Tanaman:** Dokumentasi lengkap fungsi, syarat hidup, dan cara pemanfaatan
     - **Koordinat Kawasan:** Batas ekologi TNBTS berdasarkan survei GPS lapangan & interpretasi citra satelit
     - **Data Desa:** GeoJSON BIG/BPS (41 desa penyangga TNBTS)
     - **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
     - **Model 3D:** Sketchfab — smartmAPPS
     """)
-
-# ─────────────────────────────────────────────────────────────────────────────
-# FOOTER
-# ─────────────────────────────────────────────────────────────────────────────
-st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
-st.markdown("""
-<div class="footer">
-    <p style="font-size:1.1rem;margin-bottom:.5rem;">
-        🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
-        Bromo – Kaldera Tengger – Semeru Melalui Konsumsi Tanaman Herbal di TNBTS
-    </p>
-    <p style="margin-bottom:.3rem;">© Ekspedisi Tanaman Herbal TNBTS untuk Health Security — 2026</p>
-    <p style="font-size:.9rem;opacity:.9;">86 Spesies • 8 Kawasan Ekologi • 41 Desa Penyangga</p>
-    <p style="font-size:.7rem;opacity:.5;">© WebGIS Developer: Adipandang Yudono (2026)</p>
-</div>
-""", unsafe_allow_html=True)
