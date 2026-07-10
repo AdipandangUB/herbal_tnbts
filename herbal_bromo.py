@@ -11,6 +11,7 @@ import re
 from datetime import datetime
 import warnings
 import base64
+import urllib.parse
 warnings.filterwarnings('ignore')
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -39,37 +40,27 @@ if 'highlighted_plants' not in st.session_state:
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Perbaiki z-index untuk layer control */
     .folium-map {
         position: relative !important;
         z-index: 1 !important;
     }
-    
-    /* Pastikan layer control terlihat penuh */
     .leaflet-control-container .leaflet-top.leaflet-right {
         z-index: 1000 !important;
         position: relative !important;
     }
-    
     .leaflet-control-container .leaflet-top.leaflet-right .leaflet-control {
         margin-right: 10px !important;
         margin-top: 10px !important;
     }
-    
-    /* Perbaiki ukuran container peta */
     .stFoliumContainer {
         position: relative !important;
         overflow: visible !important;
     }
-    
-    /* Pastikan iframe peta tidak terpotong */
     .stFoliumContainer iframe {
         width: 100% !important;
         height: 100% !important;
         min-height: 500px !important;
     }
-    
-    /* Perbaiki tampilan legend di sidebar */
     .leaflet-control-layers {
         background: white !important;
         border-radius: 8px !important;
@@ -79,7 +70,6 @@ st.markdown("""
         max-height: 80vh !important;
         overflow-y: auto !important;
     }
-    
     .leaflet-control-layers label {
         font-size: 13px !important;
         padding: 2px 0 !important;
@@ -87,30 +77,24 @@ st.markdown("""
         align-items: center !important;
         gap: 6px !important;
     }
-    
     .leaflet-control-layers label input[type="checkbox"] {
         margin-right: 6px !important;
         width: 16px !important;
         height: 16px !important;
     }
-    
     .leaflet-control-layers-base,
     .leaflet-control-layers-overlays {
         padding: 4px 0 !important;
     }
-    
     .leaflet-control-layers-separator {
         border-top: 1px solid #ddd !important;
         margin: 6px 0 !important;
     }
-    
-    /* Perbaiki posisi layer control di mobile */
     @media (max-width: 768px) {
         .leaflet-control-container .leaflet-top.leaflet-right {
             top: 10px !important;
             right: 10px !important;
         }
-        
         .leaflet-control-layers {
             min-width: 140px !important;
             font-size: 12px !important;
@@ -120,7 +104,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DATA TANAMAN HERBAL LENGKAP (LANJUTAN DARI SEBELUMNYA)
+# DATA TANAMAN HERBAL LENGKAP
 # ─────────────────────────────────────────────────────────────────────────────
 HERBAL_DETAIL_DATA = {
     "AJERAN PUTIH": {
@@ -167,7 +151,6 @@ HERBAL_DATA_EMBEDDED = [
 # HELPER FUNGSI GEOSPATIAL
 # ─────────────────────────────────────────────────────────────────────────────
 def _find_file(filename):
-    """Mencari file di beberapa direktori kandidat."""
     script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     candidates = [
         filename,
@@ -183,7 +166,6 @@ def _find_file(filename):
     return None
 
 def _find_geojson(filename):
-    """Mencari file GeoJSON di beberapa direktori kandidat."""
     script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     candidates = [
         filename,
@@ -199,7 +181,6 @@ def _find_geojson(filename):
     return None
 
 def _load_geojson(filename):
-    """Membaca file GeoJSON ke dalam GeoDataFrame dengan penanganan encoding."""
     path = _find_geojson(filename)
     if path is None:
         return gpd.GeoDataFrame()
@@ -255,7 +236,6 @@ def load_batas_geojson():
 
 @st.cache_data
 def load_herbal_geojson():
-    """Membaca data sebaran tanaman herbal dari GeoJSON."""
     gdf = _load_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
     if gdf.empty:
         return pd.DataFrame()
@@ -280,7 +260,6 @@ def load_herbal_geojson():
             continue
         lon, lat = geom.x, geom.y
         
-        # Coba berbagai kemungkinan nama kolom
         nama = _clean_str(row.get('nama_tanaman', ''))
         if not nama:
             nama = _clean_str(row.get('nama', ''))
@@ -291,7 +270,6 @@ def load_herbal_geojson():
         
         nama = nama.upper()
         
-        # Coba berbagai kemungkinan nama kolom untuk detail
         nama_latin = _clean_str(row.get('nama_ilmiah', ''))
         if not nama_latin:
             nama_latin = _clean_str(row.get('nama_latin', ''))
@@ -333,12 +311,10 @@ def load_herbal_geojson():
 
 @st.cache_data
 def load_herbal_data():
-    """Membaca data sebaran tanaman herbal."""
     df_geojson = load_herbal_geojson()
     if not df_geojson.empty:
         return df_geojson
 
-    # Coba baca dari file Excel
     filenames = ['Titik Rapihin.xlsx', 'Titik Rapihin.xls', 'Titik Rapihin.csv']
     
     for filename in filenames:
@@ -394,7 +370,6 @@ def load_herbal_data():
     return df
 
 def get_plant_detail(plant_name, row=None):
-    """Mendapatkan detail tanaman berdasarkan nama."""
     plant_name_clean = plant_name.upper().strip()
 
     if row is None and 'df_herbal' in globals() and not df_herbal.empty and 'NamaLatin' in df_herbal.columns:
@@ -416,7 +391,6 @@ def get_plant_detail(plant_name, row=None):
         if candidate:
             detail_from_row = candidate
 
-    # Detail dari dictionary embedded
     detail_embedded = None
     for key in HERBAL_DETAIL_DATA:
         if key == plant_name_clean or plant_name_clean in key or key in plant_name_clean:
@@ -432,7 +406,6 @@ def get_plant_detail(plant_name, row=None):
     return detail_from_row or detail_embedded
 
 def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=None):
-    """Membuat HTML popup untuk peta dengan detail lengkap tanaman."""
     detail = get_plant_detail(plant_name, row=row)
     
     border_color = '#D32F2F' if is_highlighted else '#2E7D32'
@@ -553,45 +526,24 @@ def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=
     return html
 
 # ─────────────────────────────────────────────────────────────────────────────
-# FUNGSI UNTUK MEMBUAT LINK GeoJSON Viewer DARI DATA
+# FUNGSI UNTUK MEMBUAT LINK GeoJSON Viewer
 # ─────────────────────────────────────────────────────────────────────────────
 def create_geojson_viewer_link(geojson_file):
-    """
-    Membuat link untuk membuka GeoJSON di geojson.io dari file
-    """
     import urllib.parse
-    
-    # Baca file GeoJSON
     with open(geojson_file, 'r', encoding='utf-8') as f:
         geojson_data = json.load(f)
-    
-    # Konversi ke string JSON
     json_str = json.dumps(geojson_data)
-    
-    # Encode untuk URL
     encoded_json = urllib.parse.quote(json_str)
-    
-    # Buat URL geojson.io dengan parameter
     url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
-    
     return url
 
 def create_geojson_viewer_link_from_data(geojson_data):
-    """
-    Membuat link untuk membuka GeoJSON di geojson.io dari data dictionary
-    """
     import urllib.parse
-    
-    # Konversi ke string JSON
     json_str = json.dumps(geojson_data, ensure_ascii=False)
-    
-    # Encode untuk URL
     encoded_json = urllib.parse.quote(json_str)
-    
-    # Buat URL geojson.io dengan parameter
     url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
-    
     return url
+
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS UTAMA
 # ─────────────────────────────────────────────────────────────────────────────
@@ -719,22 +671,17 @@ st.markdown("""
         margin-left: 8px;
     }
 
-    /* Perbaiki container peta agar layer control terlihat penuh */
     .stFoliumContainer {
         position: relative;
         z-index: 1;
     }
-    
     .stFoliumContainer iframe {
         width: 100% !important;
         min-height: 600px !important;
     }
-    
-    /* Layer control di pojok kanan atas */
     .leaflet-control-container .leaflet-top.leaflet-right {
         z-index: 9999 !important;
     }
-    
     .leaflet-control-layers {
         background: white !important;
         border-radius: 8px !important;
@@ -744,14 +691,12 @@ st.markdown("""
         overflow-y: auto !important;
         min-width: 200px !important;
     }
-    
     .leaflet-control-layers label {
         font-size: 13px !important;
         padding: 3px 0 !important;
         display: flex !important;
         align-items: center !important;
     }
-    
     .leaflet-control-layers input[type="checkbox"],
     .leaflet-control-layers input[type="radio"] {
         margin-right: 8px !important;
@@ -759,12 +704,9 @@ st.markdown("""
         height: 16px !important;
         flex-shrink: 0 !important;
     }
-    
     .leaflet-control-layers-selector {
         margin-right: 8px !important;
     }
-    
-    /* Responsif untuk mobile */
     @media (max-width: 768px) {
         .leaflet-control-layers {
             min-width: 150px !important;
@@ -773,7 +715,6 @@ st.markdown("""
         }
     }
     
-    /* Styling untuk GeoJSON Viewer section */
     .geojson-viewer-box {
         background: #f0f8ff;
         border: 2px solid #2196F3;
@@ -782,12 +723,10 @@ st.markdown("""
         margin: 15px 0;
         box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
     }
-    
     .geojson-viewer-box h3 {
         color: #0D47A1;
         margin-top: 0;
     }
-    
     .geojson-viewer-box .btn-primary {
         background: #2196F3;
         color: white;
@@ -801,20 +740,17 @@ st.markdown("""
         cursor: pointer;
         box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
     }
-    
     .geojson-viewer-box .btn-primary:hover {
         background: #1976D2;
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
     }
-    
     .geojson-stats {
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
         margin: 10px 0;
     }
-    
     .geojson-stats .stat-item {
         background: white;
         padding: 8px 16px;
@@ -822,7 +758,6 @@ st.markdown("""
         border: 1px solid #e0e0e0;
         font-size: 14px;
     }
-    
     .geojson-stats .stat-item strong {
         color: #1565C0;
     }
@@ -905,7 +840,6 @@ with st.sidebar:
     )
     st.markdown("---")
 
-    # Filter data
     st.markdown("### 🔍 Filter Data")
     semua_tanaman = sorted(df_herbal['Nama'].unique())
     selected_tanaman = st.multiselect(
@@ -946,7 +880,7 @@ else:
     df_herbal_filtered = df_herbal.copy()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# FUNGSI CHATBOT AI (SINGKAT)
+# FUNGSI CHATBOT AI
 # ─────────────────────────────────────────────────────────────────────────────
 def extract_symptoms_from_text(text):
     symptom_keywords = {
@@ -1087,9 +1021,6 @@ def create_tnbts_map(
     gdf_desa, gdf_kabupaten, gdf_batas, df_tanaman_filtered, 
     highlight_points=None, show_only_highlighted=False
 ):
-    """
-    Membuat peta interaktif TNBTS dengan Layer Control yang terlihat penuh.
-    """
     m = folium.Map(
         location=[-7.955, 112.953],
         zoom_start=11,
@@ -1241,8 +1172,10 @@ def create_tnbts_map(
     return m
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MENU: WEBGIS SDM POTENSI HERBAL (LINK EKSTERNAL)
+# MENU UTAMA
 # ─────────────────────────────────────────────────────────────────────────────
+
+# MENU: WebGIS Analytics Potensi Tanaman Herbal
 if selected == "WebGIS Analytics Potensi Tanaman Herbal":
     st.markdown("## 🌐 WebGIS Analytics — Potensi Tumbuh Tanaman Herbal TNBTS")
     st.markdown(
@@ -1268,9 +1201,7 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
         type="primary",
     )
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: CHATBOT HERBAL
-# ─────────────────────────────────────────────────────────────────────────────
+# MENU: Chatbot Herbal
 elif selected == "Tanya Mbah Dukun Herbal Digital":
     st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
     
@@ -1387,9 +1318,7 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
         else:
             st.info("Tidak ada data lokasi untuk tanaman yang direkomendasikan.")
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: PETA SEBARAN
-# ─────────────────────────────────────────────────────────────────────────────
+# MENU: Peta Sebaran
 elif selected == "Peta Sebaran":
     st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
     
@@ -1442,58 +1371,11 @@ elif selected == "Peta Sebaran":
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
 
-# ─────────────────────────────────────────────────────────────────────────────
-# FUNGSI UNTUK MEMBUAT LINK GeoJSON Viewer DARI DATA
-# ─────────────────────────────────────────────────────────────────────────────
-def create_geojson_viewer_link(geojson_file):
-    """
-    Membuat link untuk membuka GeoJSON di geojson.io dari file
-    """
-    import urllib.parse
-    
-    # Baca file GeoJSON
-    with open(geojson_file, 'r', encoding='utf-8') as f:
-        geojson_data = json.load(f)
-    
-    # Konversi ke string JSON
-    json_str = json.dumps(geojson_data)
-    
-    # Encode untuk URL
-    encoded_json = urllib.parse.quote(json_str)
-    
-    # Buat URL geojson.io dengan parameter
-    url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
-    
-    return url
-
-def create_geojson_viewer_link_from_data(geojson_data):
-    """
-    Membuat link untuk membuka GeoJSON di geojson.io dari data dictionary
-    """
-    import urllib.parse
-    
-    # Konversi ke string JSON
-    json_str = json.dumps(geojson_data, ensure_ascii=False)
-    
-    # Encode untuk URL
-    encoded_json = urllib.parse.quote(json_str)
-    
-    # Buat URL geojson.io dengan parameter
-    url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
-    
-    return url
-
-# ─────────────────────────────────────────────────────────────────────────────
-# CSS UTAMA
-# ─────────────────────────────────────────────────────────────────────────────
-# ... (kode CSS tetap sama) ...
-
-# ======================== VISUALISASI GEOJSON TERINTEGRASI ========================
+    # ======================== VISUALISASI GEOJSON TERINTEGRASI ========================
     st.markdown("---")
     st.markdown("## 📊 Visualisasi Data GeoJSON Terintegrasi")
     st.markdown("Lihat data sebaran tanaman herbal dan batas kawasan TNBTS dalam satu tampilan GeoJSON menggunakan GeoJSON Viewer online.")
     
-    # Cari file GeoJSON
     geojson_file = _find_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
     batas_geojson_file = _find_geojson('Batas_TNBTS.geojson')
     
@@ -1505,7 +1387,6 @@ def create_geojson_viewer_link_from_data(geojson_data):
             with open(batas_geojson_file, 'r', encoding='utf-8') as f:
                 batas_geojson_data = json.load(f)
             
-            # Gabungkan kedua GeoJSON
             combined_geojson = {
                 "type": "FeatureCollection",
                 "name": "TNBTS_Combined_Data",
@@ -1518,12 +1399,10 @@ def create_geojson_viewer_link_from_data(geojson_data):
                 "features": []
             }
             
-            # Tambahkan fitur tanaman herbal
             for feature in geojson_data.get('features', []):
                 feature['properties']['layer_type'] = 'tanaman_herbal'
                 combined_geojson['features'].append(feature)
             
-            # Tambahkan fitur batas TNBTS
             for feature in batas_geojson_data.get('features', []):
                 feature['properties']['layer_type'] = 'batas_tnbts'
                 combined_geojson['features'].append(feature)
@@ -1759,9 +1638,8 @@ def create_geojson_viewer_link_from_data(geojson_data):
             df_spesies_filtered,
             use_container_width=True, height=350, hide_index=True
         )
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: PETA 3D
-# ─────────────────────────────────────────────────────────────────────────────
+
+# MENU: Peta 3D
 elif selected == "Peta 3D Pegunungan":
     st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS")
     st.markdown("Visualisasi 3D interaktif — putar 360° dengan mouse/touch")
@@ -1777,9 +1655,7 @@ elif selected == "Peta 3D Pegunungan":
         </iframe>
     </div>""", unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: DATA TANAMAN
-# ─────────────────────────────────────────────────────────────────────────────
+# MENU: Data Tanaman
 elif selected == "Data Tanaman":
     st.markdown("## 📋 Data Tanaman Herbal TNBTS")
     
@@ -1941,9 +1817,7 @@ elif selected == "Data Tanaman":
             detailed_count = len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None])
             st.metric("Tanaman dengan Data Detail", detailed_count)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: STATISTIK
-# ─────────────────────────────────────────────────────────────────────────────
+# MENU: Statistik
 elif selected == "Statistik":
     st.markdown("## 📊 Statistik Tanaman Herbal TNBTS")
     
@@ -2000,9 +1874,7 @@ elif selected == "Statistik":
         avg = len(df_herbal) / df_herbal['Nama'].nunique()
         st.metric("Rata-rata per Spesies", f"{avg:.1f}")
 
-# ─────────────────────────────────────────────────────────────────────────────
-# HALAMAN: INFORMASI - DENGAN KATEGORISASI PENYAKIT (MENGGUNAKAN df_herbal)
-# ─────────────────────────────────────────────────────────────────────────────
+# MENU: Informasi
 else:
     st.markdown("## ℹ️ Informasi TNBTS")
 
@@ -2023,10 +1895,9 @@ else:
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
-    # ── KATEGORISASI PENYAKIT ──────────────────────────────────────────────
+    # KATEGORISASI PENYAKIT
     st.markdown("### 💊 Kategorisasi Tanaman Herbal Berdasarkan Ragam Penyakit")
     
-    # Definisikan 12 kategori penyakit dan kata kunci pencariannya
     disease_categories = {
         "🫀 Penyakit Jantung & Pembuluh Darah": {
             "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah", "pembuluh darah", "kardiovaskular"],
@@ -2078,15 +1949,11 @@ else:
         }
     }
     
-    # Ambil semua tanaman unik dari df_herbal (bukan dari HERBAL_DETAIL_DATA)
     all_plants = sorted(df_herbal['Nama'].unique())
     
-    # Kategorikan setiap tanaman dari df_herbal
     for plant_name in all_plants:
-        # Dapatkan detail dari df_herbal melalui get_plant_detail
         detail = get_plant_detail(plant_name)
         if not detail:
-            # Jika tidak ada detail di HERBAL_DETAIL_DATA, coba cari di df_herbal langsung
             plant_row = df_herbal[df_herbal['Nama'] == plant_name]
             if not plant_row.empty:
                 row = plant_row.iloc[0]
@@ -2100,7 +1967,6 @@ else:
         
         fungsi_lower = fungsi.lower()
         
-        # Periksa kecocokan dengan setiap kategori
         matched_categories = []
         for category, info in disease_categories.items():
             for keyword in info["keywords"]:
@@ -2113,7 +1979,6 @@ else:
                     matched_categories.append(category)
                     break
         
-        # Jika tidak masuk kategori manapun, masukkan ke "Antiradang & Detoksifikasi"
         if not matched_categories and fungsi:
             disease_categories["🌿 Antiradang & Detoksifikasi"]["plants"].append({
                 "name": plant_name,
@@ -2121,13 +1986,11 @@ else:
                 "bagian": bagian
             })
     
-    # Hapus kategori yang tidak memiliki tanaman
     disease_categories = {
         k: v for k, v in disease_categories.items() 
         if v["plants"]
     }
     
-    # Tampilkan statistik kategorisasi
     st.markdown("#### 📊 Statistik Kategorisasi")
     
     total_spesies = len(all_plants)
@@ -2145,10 +2008,8 @@ else:
     with col_stat4:
         st.metric("Rata-rata per Kategori", f"{avg_per_category:.1f}")
     
-    # Tampilkan jumlah per kategori dalam bar
     st.markdown("#### 📈 Jumlah Tanaman per Kategori")
     category_counts = {cat: len(info["plants"]) for cat, info in disease_categories.items()}
-    # Buat DataFrame untuk bar chart
     df_categories = pd.DataFrame({
         'Kategori': list(category_counts.keys()),
         'Jumlah': list(category_counts.values())
@@ -2157,25 +2018,21 @@ else:
     
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    # ── TAMPILAN KATEGORI ──────────────────────────────────────────────────
     st.markdown("#### 🌿 Daftar Tanaman Berdasarkan Kategori Penyakit")
     st.markdown("Klik setiap kategori untuk melihat daftar tanaman yang dapat membantu mengatasinya.")
     
-    # Sortir kategori berdasarkan jumlah tanaman terbanyak
     sorted_categories = sorted(
         disease_categories.items(),
         key=lambda x: len(x[1]["plants"]),
         reverse=True
     )
     
-    # Tampilkan setiap kategori sebagai expander
     for category_name, info in sorted_categories:
         plants = info["plants"]
         if not plants:
             continue
             
         with st.expander(f"{category_name} ({len(plants)} spesies)", expanded=False):
-            # Tampilkan dalam grid 2 kolom
             cols_per_row = 2
             for i in range(0, len(plants), cols_per_row):
                 cols = st.columns(cols_per_row)
@@ -2202,7 +2059,6 @@ else:
                             </div>
                             """, unsafe_allow_html=True)
                             
-                            # Tombol Lihat di Peta
                             if st.button(
                                 f"📍 Lihat di Peta", 
                                 key=f"view_inf_{plant['name']}_{idx}_{category_name[:5]}"
@@ -2214,7 +2070,7 @@ else:
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
-    # ── Tim peneliti ──────────────────────────────────────────────────────────
+    # Tim peneliti
     st.markdown("### 👥 Tim Peneliti")
     tm_cols = st.columns(4)
     team = [
@@ -2242,7 +2098,7 @@ else:
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
     
-    # ── Sumber Data ──────────────────────────────────────────────────────────
+    # Sumber Data
     st.markdown("""
     ### 📍 Sumber Data
     - **Data Tanaman:** Hasil survei lapangan Tim Peneliti UB (2026) — 133 spesies, 246 titik temuan sebaran tanaman herbal di TNBTS
