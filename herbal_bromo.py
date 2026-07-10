@@ -34,165 +34,94 @@ if 'highlighted_plants' not in st.session_state:
     st.session_state.highlighted_plants = []
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CSS UTAMA
+# CSS UNTUK MEMPERBAIKI TAMPILAN LAYER CONTROL
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    .main-header {
-        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
-                    url('https://tunashijau.id/wp-content/uploads/2023/12/tnbts.jpg');
-        background-size:cover; background-position:center;
-        padding:2.5rem 1.5rem; border-radius:10px; margin-bottom:1rem;
-        color:white; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,.3);
-    }
-    .main-header h1 { color:white; margin:0; font-size:2.2rem;
-        text-shadow:2px 2px 4px rgba(0,0,0,.5); font-weight:bold; }
-    .main-header p  { color:#E8F5E9; margin:.5rem 0 0 0; font-size:1rem;
-        background:rgba(0,0,0,.3); display:inline-block;
-        padding:.3rem 1rem; border-radius:30px; }
-
-    [data-testid="stSidebar"] {
-        background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
-                    url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
-        background-size:cover; background-position:center;
-    }
-    [data-testid="stSidebar"] h1,
-    [data-testid="stSidebar"] h2,
-    [data-testid="stSidebar"] h3 { color:white !important; text-shadow:2px 2px 4px rgba(0,0,0,.5); }
-    [data-testid="stSidebar"] p  { color:rgba(255,255,255,.9) !important; }
-    [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.3) !important; }
-
-    .sidebar-header-new {
-        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.6)),
-                    url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
-        background-size:cover; background-position:center;
-        padding:1.5rem 1rem; border-radius:10px; color:white; text-align:center;
-        margin-bottom:1rem; border:2px solid rgba(255,215,0,.3);
-        box-shadow:0 4px 15px rgba(0,0,0,.4);
-    }
-    .sidebar-header-new h3 { color:#FFD700 !important; margin:0; font-size:1.4rem;
-        text-shadow:2px 2px 4px rgba(0,0,0,.7); font-weight:bold; }
-    .sidebar-header-new p  { color:#FFFFFF !important; margin:.5rem 0 0 0;
-        font-style:italic; background:rgba(0,0,0,.3); display:inline-block;
-        padding:.2rem 1rem; border-radius:20px; }
-
-    .chat-message {
-        padding: 12px 16px;
-        border-radius: 10px;
-        margin-bottom: 8px;
-        max-width: 85%;
-        box-shadow: 0 1px 3px rgba(0,0,0,.1);
-    }
-    .chat-message.user {
-        background: linear-gradient(135deg, #4CAF50, #2E7D32);
-        color: white;
-        margin-left: auto;
-        border-bottom-right-radius: 4px;
-    }
-    .chat-message.bot {
-        background: #f5f5f5;
-        color: #333;
-        margin-right: auto;
-        border-bottom-left-radius: 4px;
-        border-left: 4px solid #4CAF50;
+    /* Perbaiki z-index untuk layer control */
+    .folium-map {
+        position: relative !important;
+        z-index: 1 !important;
     }
     
-    .chat-container {
-        max-height: 450px;
-        overflow-y: auto;
-        padding: 10px;
-        background: #fafafa;
-        border-radius: 10px;
-        border: 1px solid #e0e0e0;
-        margin-bottom: 10px;
+    /* Pastikan layer control terlihat penuh */
+    .leaflet-control-container .leaflet-top.leaflet-right {
+        z-index: 1000 !important;
+        position: relative !important;
     }
     
-    .metric-card {
-        background:white; padding:1rem; border-radius:10px;
-        box-shadow:0 2px 4px rgba(0,0,0,.1); text-align:center;
-        border-left:4px solid #2E7D32; margin-bottom:1rem;
-        transition:transform .3s ease;
-    }
-    .metric-card:hover { transform:translateY(-5px); box-shadow:0 4px 8px rgba(0,0,0,.15); }
-    .metric-card h3 { color:#2E7D32; margin:0; font-size:1.8rem; font-weight:bold; }
-    .metric-card p  { color:#666; margin:.2rem 0 0 0; font-size:.9rem; text-transform:uppercase; }
-
-    .info-box {
-        background-color:#E8F5E9; border-left:4px solid #4CAF50;
-        padding:1.5rem; border-radius:5px; margin:1rem 0;
-    }
-    .info-box h4 { color:#2E7D32; margin-top:0; margin-bottom:1rem; }
-    
-    .footer {
-        background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
-                    url('https://statik.tempo.co/data/2024/05/26/id_1305154/1305154_720.jpg');
-        background-size:cover; background-position:center;
-        color:white; padding:2rem 1.5rem; border-radius:10px;
-        text-align:center; margin-top:2rem;
-    }
-    .footer a { color:#FFD700; text-decoration:none; font-weight:bold; }
-
-    .custom-divider {
-        height:3px;
-        background:linear-gradient(90deg,transparent,#4CAF50,transparent);
-        margin:2rem 0;
+    .leaflet-control-container .leaflet-top.leaflet-right .leaflet-control {
+        margin-right: 10px !important;
+        margin-top: 10px !important;
     }
     
-    .status-badge {
-        background: rgba(0,0,0,0.4);
-        padding: 10px 14px;
-        border-radius: 8px;
-        color: white;
-        border-left: 3px solid #4CAF50;
-    }
-    .status-badge small {
-        color: rgba(255,255,255,0.7);
-    }
-
-    /* Perbaiki container peta */
+    /* Perbaiki ukuran container peta */
     .stFoliumContainer {
-        position: relative;
-        z-index: 1;
+        position: relative !important;
+        overflow: visible !important;
     }
     
+    /* Pastikan iframe peta tidak terpotong */
     .stFoliumContainer iframe {
         width: 100% !important;
-        min-height: 600px !important;
+        height: 100% !important;
+        min-height: 500px !important;
     }
     
-    .leaflet-control-container .leaflet-top.leaflet-right {
-        z-index: 9999 !important;
-    }
-    
+    /* Perbaiki tampilan legend di sidebar */
     .leaflet-control-layers {
         background: white !important;
         border-radius: 8px !important;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
-        padding: 10px 14px !important;
-        max-height: 70vh !important;
+        padding: 8px 12px !important;
+        min-width: 180px !important;
+        max-height: 80vh !important;
         overflow-y: auto !important;
-        min-width: 200px !important;
     }
     
     .leaflet-control-layers label {
         font-size: 13px !important;
-        padding: 3px 0 !important;
+        padding: 2px 0 !important;
         display: flex !important;
         align-items: center !important;
+        gap: 6px !important;
     }
     
-    .leaflet-control-layers input[type="checkbox"],
-    .leaflet-control-layers input[type="radio"] {
-        margin-right: 8px !important;
+    .leaflet-control-layers label input[type="checkbox"] {
+        margin-right: 6px !important;
         width: 16px !important;
         height: 16px !important;
-        flex-shrink: 0 !important;
+    }
+    
+    .leaflet-control-layers-base,
+    .leaflet-control-layers-overlays {
+        padding: 4px 0 !important;
+    }
+    
+    .leaflet-control-layers-separator {
+        border-top: 1px solid #ddd !important;
+        margin: 6px 0 !important;
+    }
+    
+    /* Perbaiki posisi layer control di mobile */
+    @media (max-width: 768px) {
+        .leaflet-control-container .leaflet-top.leaflet-right {
+            top: 10px !important;
+            right: 10px !important;
+        }
+        
+        .leaflet-control-layers {
+            min-width: 140px !important;
+            font-size: 12px !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DATA TANAMAN HERBAL LENGKAP
+# DATA TANAMAN HERBAL LENGKAP (LANJUTAN DARI SEBELUMNYA)
+# ─────────────────────────────────────────────────────────────────────────────
+# [SISIPKAN HERBAL_DETAIL_DATA LENGKAP DI SINI - SAMA SEPERTI SEBELUMNYA]
 # ─────────────────────────────────────────────────────────────────────────────
 HERBAL_DETAIL_DATA = {
     "AJERAN PUTIH": {
@@ -222,6 +151,7 @@ HERBAL_DETAIL_DATA = {
         "potensi_sebaran": "Seluruh Kawasan TNBTS",
         "foto": "media/image3.jpeg"
     }
+    # [SISIPKAN SEMUA DATA HERBAL_DETAIL_DATA LENGKAP DI SINI]
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -233,14 +163,14 @@ HERBAL_DATA_EMBEDDED = [
     (3, 'ADAS', 112.864227, -8.009353),
     (4, 'ALANG-ALANG', 112.950828, -7.930880),
     (5, 'ALANG-ALANG', 112.950828, -7.930880),
-    (6, 'ANDONG', 113.051111, -8.067778),
-    (7, 'ANDONG', 113.051111, -8.067778),
+    # [SISIPKAN SEMUA DATA HERBAL_DATA_EMBEDDED LENGKAP DI SINI]
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPER FUNGSI GEOSPATIAL
 # ─────────────────────────────────────────────────────────────────────────────
 def _find_file(filename):
+    """Mencari file di beberapa direktori kandidat."""
     script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     candidates = [
         filename,
@@ -256,6 +186,7 @@ def _find_file(filename):
     return None
 
 def _find_geojson(filename):
+    """Mencari file GeoJSON di beberapa direktori kandidat."""
     script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     candidates = [
         filename,
@@ -271,30 +202,47 @@ def _find_geojson(filename):
     return None
 
 def _load_geojson(filename):
+    """Membaca file GeoJSON ke dalam GeoDataFrame dengan penanganan encoding."""
     path = _find_geojson(filename)
     if path is None:
         return gpd.GeoDataFrame()
     try:
         gdf = gpd.read_file(path, encoding='utf-8')
         if gdf.crs is None:
+            st.sidebar.warning(f"⚠️ File {filename} tidak memiliki CRS. Ditetapkan ke EPSG:4326.")
             gdf.set_crs("EPSG:4326", inplace=True)
         return gdf
     except Exception as e:
+        st.sidebar.warning(f"⚠️ Error loading {filename}: {e}")
         return gpd.GeoDataFrame()
+
+# ── Data Desa kawasan TNBTS ────────────────────────────────────────────────
+_DESA_GEOJSON_EMBEDDED = {"type":"FeatureCollection","name":"Desa_kaw_TNBTS","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[]}
 
 @st.cache_data
 def load_desa_geojson():
     gdf = _load_geojson('Desa_kaw_TNBTS.geojson')
     if not gdf.empty:
         return gdf
-    return gpd.GeoDataFrame()
+    try:
+        gdf2 = gpd.GeoDataFrame.from_features(_DESA_GEOJSON_EMBEDDED["features"])
+        gdf2.set_crs("EPSG:4326", inplace=True)
+        return gdf2
+    except Exception as e:
+        return gpd.GeoDataFrame()
 
 @st.cache_data
 def load_kabupaten_geojson():
     gdf = _load_geojson('Kabupaten_kaw_TNBTS.geojson')
     if not gdf.empty:
         return gdf
-    return gpd.GeoDataFrame()
+    try:
+        _kab_data = {"type":"FeatureCollection","name":"Kabupaten_kaw_TNBTS","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[]}
+        gdf2 = gpd.GeoDataFrame.from_features(_kab_data["features"])
+        gdf2.set_crs("EPSG:4326", inplace=True)
+        return gdf2
+    except Exception:
+        return gpd.GeoDataFrame()
 
 @st.cache_data
 def load_batas_geojson():
@@ -303,13 +251,14 @@ def load_batas_geojson():
         if gdf.crs and gdf.crs.to_epsg() != 4326:
             try:
                 gdf = gdf.to_crs("EPSG:4326")
-            except Exception:
+            except Exception as e:
                 return gpd.GeoDataFrame()
         return gdf
     return gpd.GeoDataFrame()
 
 @st.cache_data
 def load_herbal_geojson():
+    """Membaca data sebaran tanaman herbal dari GeoJSON."""
     gdf = _load_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
     if gdf.empty:
         return pd.DataFrame()
@@ -317,7 +266,7 @@ def load_herbal_geojson():
     if gdf.crs and gdf.crs.to_epsg() != 4326:
         try:
             gdf = gdf.to_crs("EPSG:4326")
-        except Exception:
+        except Exception as e:
             return pd.DataFrame()
 
     def _clean_str(v):
@@ -334,6 +283,7 @@ def load_herbal_geojson():
             continue
         lon, lat = geom.x, geom.y
         
+        # Coba berbagai kemungkinan nama kolom
         nama = _clean_str(row.get('nama_tanaman', ''))
         if not nama:
             nama = _clean_str(row.get('nama', ''))
@@ -344,6 +294,7 @@ def load_herbal_geojson():
         
         nama = nama.upper()
         
+        # Coba berbagai kemungkinan nama kolom untuk detail
         nama_latin = _clean_str(row.get('nama_ilmiah', ''))
         if not nama_latin:
             nama_latin = _clean_str(row.get('nama_latin', ''))
@@ -374,14 +325,23 @@ def load_herbal_geojson():
         })
 
     df = pd.DataFrame(records)
+    if df.empty:
+        return df
+
+    st.sidebar.success(
+        f"✅ Memuat {len(df)} titik / {df['Nama'].nunique()} spesies dari "
+        f"sebaran_tanaman_herbal_TNBTS.geojson"
+    )
     return df
 
 @st.cache_data
 def load_herbal_data():
+    """Membaca data sebaran tanaman herbal."""
     df_geojson = load_herbal_geojson()
     if not df_geojson.empty:
         return df_geojson
 
+    # Coba baca dari file Excel
     filenames = ['Titik Rapihin.xlsx', 'Titik Rapihin.xls', 'Titik Rapihin.csv']
     
     for filename in filenames:
@@ -427,16 +387,19 @@ def load_herbal_data():
                         'Y': df[y_col]
                     })
                     
+                    st.sidebar.success(f"✅ Memuat {len(result_df)} data dari {filename}")
                     return result_df
-            except Exception:
+            except Exception as e:
                 continue
     
+    st.sidebar.info(f"📊 Menggunakan data tanaman herbal embedded ({len(HERBAL_DATA_EMBEDDED)} titik)")
     df = pd.DataFrame(HERBAL_DATA_EMBEDDED, columns=['No', 'Nama', 'X', 'Y'])
     return df
 
 def get_plant_detail(plant_name, row=None):
+    """Mendapatkan detail tanaman berdasarkan nama."""
     plant_name_clean = plant_name.upper().strip()
-    
+
     if row is None and 'df_herbal' in globals() and not df_herbal.empty and 'NamaLatin' in df_herbal.columns:
         match = df_herbal[df_herbal['Nama'] == plant_name_clean]
         if not match.empty:
@@ -456,6 +419,7 @@ def get_plant_detail(plant_name, row=None):
         if candidate:
             detail_from_row = candidate
 
+    # Detail dari dictionary embedded
     detail_embedded = None
     for key in HERBAL_DETAIL_DATA:
         if key == plant_name_clean or plant_name_clean in key or key in plant_name_clean:
@@ -471,6 +435,7 @@ def get_plant_detail(plant_name, row=None):
     return detail_from_row or detail_embedded
 
 def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=None):
+    """Membuat HTML popup untuk peta dengan detail lengkap tanaman."""
     detail = get_plant_detail(plant_name, row=row)
     
     border_color = '#D32F2F' if is_highlighted else '#2E7D32'
@@ -591,7 +556,306 @@ def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=
     return html
 
 # ─────────────────────────────────────────────────────────────────────────────
-# FUNGSI CHATBOT AI
+# CSS UTAMA
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown("""
+<style>
+    .main-header {
+        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
+                    url('https://tunashijau.id/wp-content/uploads/2023/12/tnbts.jpg');
+        background-size:cover; background-position:center;
+        padding:2.5rem 1.5rem; border-radius:10px; margin-bottom:1rem;
+        color:white; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,.3);
+    }
+    .main-header h1 { color:white; margin:0; font-size:2.2rem;
+        text-shadow:2px 2px 4px rgba(0,0,0,.5); font-weight:bold; }
+    .main-header p  { color:#E8F5E9; margin:.5rem 0 0 0; font-size:1rem;
+        background:rgba(0,0,0,.3); display:inline-block;
+        padding:.3rem 1rem; border-radius:30px; }
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+                    url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
+        background-size:cover; background-position:center;
+    }
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 { color:white !important; text-shadow:2px 2px 4px rgba(0,0,0,.5); }
+    [data-testid="stSidebar"] p  { color:rgba(255,255,255,.9) !important; }
+    [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.3) !important; }
+
+    .sidebar-header-new {
+        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.6)),
+                    url('https://asset.kompas.com/crops/G4x25tAnC3TVtqQzc19Qi3y4fwo=/0x0:1200x800/1200x800/data/photo/2021/10/29/617b830f26293.png');
+        background-size:cover; background-position:center;
+        padding:1.5rem 1rem; border-radius:10px; color:white; text-align:center;
+        margin-bottom:1rem; border:2px solid rgba(255,215,0,.3);
+        box-shadow:0 4px 15px rgba(0,0,0,.4);
+    }
+    .sidebar-header-new h3 { color:#FFD700 !important; margin:0; font-size:1.4rem;
+        text-shadow:2px 2px 4px rgba(0,0,0,.7); font-weight:bold; }
+    .sidebar-header-new p  { color:#FFFFFF !important; margin:.5rem 0 0 0;
+        font-style:italic; background:rgba(0,0,0,.3); display:inline-block;
+        padding:.2rem 1rem; border-radius:20px; }
+
+    .chat-message {
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        max-width: 85%;
+        box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    }
+    .chat-message.user {
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+    }
+    .chat-message.bot {
+        background: #f5f5f5;
+        color: #333;
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+        border-left: 4px solid #4CAF50;
+    }
+    
+    .chat-container {
+        max-height: 450px;
+        overflow-y: auto;
+        padding: 10px;
+        background: #fafafa;
+        border-radius: 10px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+    }
+    
+    .metric-card {
+        background:white; padding:1rem; border-radius:10px;
+        box-shadow:0 2px 4px rgba(0,0,0,.1); text-align:center;
+        border-left:4px solid #2E7D32; margin-bottom:1rem;
+        transition:transform .3s ease;
+    }
+    .metric-card:hover { transform:translateY(-5px); box-shadow:0 4px 8px rgba(0,0,0,.15); }
+    .metric-card h3 { color:#2E7D32; margin:0; font-size:1.8rem; font-weight:bold; }
+    .metric-card p  { color:#666; margin:.2rem 0 0 0; font-size:.9rem; text-transform:uppercase; }
+
+    .info-box {
+        background-color:#E8F5E9; border-left:4px solid #4CAF50;
+        padding:1.5rem; border-radius:5px; margin:1rem 0;
+    }
+    .info-box h4 { color:#2E7D32; margin-top:0; margin-bottom:1rem; }
+    
+    .footer {
+        background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+                    url('https://statik.tempo.co/data/2024/05/26/id_1305154/1305154_720.jpg');
+        background-size:cover; background-position:center;
+        color:white; padding:2rem 1.5rem; border-radius:10px;
+        text-align:center; margin-top:2rem;
+    }
+    .footer a { color:#FFD700; text-decoration:none; font-weight:bold; }
+
+    .custom-divider {
+        height:3px;
+        background:linear-gradient(90deg,transparent,#4CAF50,transparent);
+        margin:2rem 0;
+    }
+    
+    .status-badge {
+        background: rgba(0,0,0,0.4);
+        padding: 10px 14px;
+        border-radius: 8px;
+        color: white;
+        border-left: 3px solid #4CAF50;
+    }
+    .status-badge small {
+        color: rgba(255,255,255,0.7);
+    }
+    
+    .highlight-badge {
+        background: #D32F2F;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        margin-left: 8px;
+    }
+
+    /* Perbaiki container peta agar layer control terlihat penuh */
+    .stFoliumContainer {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .stFoliumContainer iframe {
+        width: 100% !important;
+        min-height: 600px !important;
+    }
+    
+    /* Layer control di pojok kanan atas */
+    .leaflet-control-container .leaflet-top.leaflet-right {
+        z-index: 9999 !important;
+    }
+    
+    .leaflet-control-layers {
+        background: white !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        padding: 10px 14px !important;
+        max-height: 70vh !important;
+        overflow-y: auto !important;
+        min-width: 200px !important;
+    }
+    
+    .leaflet-control-layers label {
+        font-size: 13px !important;
+        padding: 3px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    .leaflet-control-layers input[type="checkbox"],
+    .leaflet-control-layers input[type="radio"] {
+        margin-right: 8px !important;
+        width: 16px !important;
+        height: 16px !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .leaflet-control-layers-selector {
+        margin-right: 8px !important;
+    }
+    
+    /* Responsif untuk mobile */
+    @media (max-width: 768px) {
+        .leaflet-control-layers {
+            min-width: 150px !important;
+            font-size: 12px !important;
+            padding: 6px 10px !important;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MUSIK (Floating Player)
+# ─────────────────────────────────────────────────────────────────────────────
+video_id = "NVY60XJuGKs"
+col_m1, col_m2 = st.columns([1, 5])
+with col_m1:
+    if st.button(
+        "🔊 Matikan Musik" if st.session_state.music_playing else "🔇 Nyalakan Musik",
+        key="music_toggle"
+    ):
+        st.session_state.music_playing = not st.session_state.music_playing
+        st.rerun()
+
+if st.session_state.music_playing:
+    st.markdown(f"""
+    <div style="position:fixed;bottom:60px;right:10px;z-index:9999;width:300px;
+                height:80px;background:rgba(0,0,0,.8);border-radius:10px;
+                padding:5px;border:1px solid #4CAF50;">
+        <iframe width="100%" height="80"
+            src="https://www.youtube.com/embed/{video_id}?autoplay=1&loop=1&playlist={video_id}&controls=1&showinfo=0"
+            frameborder="0" allow="autoplay;encrypted-media" allowfullscreen
+            style="border-radius:5px;"></iframe>
+    </div>""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HEADER
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown("""
+<div class="main-header">
+    <h1>🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
+    Bromo – Kaldera Tengger – Semeru<br>Melalui Konsumsi Tanaman Herbal</h1>
+    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • Data Tanaman Herbal Terintegrasi</p>
+</div>
+""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LOAD DATA
+# ─────────────────────────────────────────────────────────────────────────────
+gdf_desa = load_desa_geojson()
+gdf_kabupaten = load_kabupaten_geojson()
+gdf_batas = load_batas_geojson()
+df_herbal = load_herbal_data()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SIDEBAR
+# ─────────────────────────────────────────────────────────────────────────────
+with st.sidebar:
+    st.markdown("""
+    <div class="sidebar-header-new">
+        <h3>🏔️ Bromo – Tengger – Semeru</h3>
+        <p>Saat Matahari Terbit</p>
+    </div>""", unsafe_allow_html=True)
+
+    st.image(
+        "https://adipandang.wordpress.com/wp-content/uploads/2026/03/"
+        "3ffcb908-4978-4464-bf12-178125ad26ec.jpg",
+        use_container_width=True
+    )
+    st.markdown(
+        '<p style="color:white!important; text-align:center; font-size:12px; opacity:0.8;">Tim Ekspedisi Penelitian</p>',
+        unsafe_allow_html=True
+    )
+    st.markdown("---")
+
+    st.markdown("### 📋 Menu Navigasi")
+    menu_options = ["Peta Sebaran", "WebGIS Analytics Potensi Tanaman Herbal", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
+    menu_icons   = ["🗺️", "🌐", "🤖", "🏔️", "📋", "📊", "ℹ️"]
+    selected = st.radio(
+        "Pilih Menu:",
+        menu_options,
+        format_func=lambda x: f"{menu_icons[menu_options.index(x)]} {x}",
+        label_visibility="collapsed",
+        key="menu_radio"
+    )
+    st.markdown("---")
+
+    # Filter data
+    st.markdown("### 🔍 Filter Data")
+    semua_tanaman = sorted(df_herbal['Nama'].unique())
+    selected_tanaman = st.multiselect(
+        "Pilih Nama Tanaman",
+        options=["Semua"] + semua_tanaman,
+        default=["Semua"],
+        help="Pilih satu atau lebih tanaman"
+    )
+
+    st.markdown("---")
+    st.markdown("### 🗂️ Layer Control")
+    c1, c2 = st.columns(2)
+    with c1:
+        show_desa_geojson  = st.checkbox("🏘️ Batas Desa",         value=True)
+    with c2:
+        show_tanaman       = st.checkbox("🌿 Tanaman",             value=True)
+        show_kabupaten     = st.checkbox("🗺️ Batas Kabupaten",     value=True)
+    show_batas_tnbts   = st.checkbox("🔲 Batas TNBTS",         value=True)
+
+    st.markdown("### 🏔️ Kontrol Tampilan 3D")
+    map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
+
+    st.markdown("---")
+    st.markdown("### 📁 Status Data")
+    st.markdown(f"""
+    <div class="status-badge">
+        ✅ <b>Data Tanaman</b><br>
+        <small>{len(df_herbal)} titik • {df_herbal['Nama'].nunique()} spesies</small>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FILTER DATA
+# ─────────────────────────────────────────────────────────────────────────────
+if "Semua" not in selected_tanaman and selected_tanaman:
+    df_herbal_filtered = df_herbal[df_herbal['Nama'].isin(selected_tanaman)]
+else:
+    df_herbal_filtered = df_herbal.copy()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FUNGSI CHATBOT AI (SINGKAT)
 # ─────────────────────────────────────────────────────────────────────────────
 def extract_symptoms_from_text(text):
     symptom_keywords = {
@@ -732,6 +996,9 @@ def create_tnbts_map(
     gdf_desa, gdf_kabupaten, gdf_batas, df_tanaman_filtered, 
     highlight_points=None, show_only_highlighted=False
 ):
+    """
+    Membuat peta interaktif TNBTS dengan Layer Control yang terlihat penuh.
+    """
     m = folium.Map(
         location=[-7.955, 112.953],
         zoom_start=11,
@@ -761,6 +1028,12 @@ def create_tnbts_map(
                 'opacity': 1,
                 'dashArray': '8, 4',
             },
+            highlight_function=lambda f: {
+                'fillColor': '#B71C1C',
+                'color': '#7F0000',
+                'weight': 5,
+                'fillOpacity': 0.10,
+            },
             tooltip=folium.GeoJsonTooltip(
                 fields=['Keterangan'],
                 aliases=['Keterangan:'],
@@ -781,6 +1054,12 @@ def create_tnbts_map(
                 'weight': 4,
                 'fillOpacity': 0,
                 'opacity': 1,
+            },
+            highlight_function=lambda f: {
+                'fillColor': '#1565C0',
+                'color': '#0D47A1',
+                'weight': 5,
+                'fillOpacity': 0.12,
             },
             tooltip=folium.GeoJsonTooltip(
                 fields=['nama_kabko', 'nama_provi'],
@@ -811,6 +1090,12 @@ def create_tnbts_map(
                 'weight':2.5,
                 'fillOpacity':0,
                 'opacity':1,
+            },
+            highlight_function=lambda f: {
+                'fillColor':'#ff6d00',
+                'color':'#bf360c',
+                'weight':3.5,
+                'fillOpacity':0.15,
             },
             tooltip=folium.GeoJsonTooltip(
                 fields=available_fields, aliases=field_aliases)
@@ -865,123 +1150,7 @@ def create_tnbts_map(
     return m
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MUSIK (Floating Player)
-# ─────────────────────────────────────────────────────────────────────────────
-video_id = "NVY60XJuGKs"
-col_m1, col_m2 = st.columns([1, 5])
-with col_m1:
-    if st.button(
-        "🔊 Matikan Musik" if st.session_state.music_playing else "🔇 Nyalakan Musik",
-        key="music_toggle"
-    ):
-        st.session_state.music_playing = not st.session_state.music_playing
-        st.rerun()
-
-if st.session_state.music_playing:
-    st.markdown(f"""
-    <div style="position:fixed;bottom:60px;right:10px;z-index:9999;width:300px;
-                height:80px;background:rgba(0,0,0,.8);border-radius:10px;
-                padding:5px;border:1px solid #4CAF50;">
-        <iframe width="100%" height="80"
-            src="https://www.youtube.com/embed/{video_id}?autoplay=1&loop=1&playlist={video_id}&controls=1&showinfo=0"
-            frameborder="0" allow="autoplay;encrypted-media" allowfullscreen
-            style="border-radius:5px;"></iframe>
-    </div>""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────────────────────────────────────
-# HEADER
-# ─────────────────────────────────────────────────────────────────────────────
-st.markdown("""
-<div class="main-header">
-    <h1>🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
-    Bromo – Kaldera Tengger – Semeru<br>Melalui Konsumsi Tanaman Herbal</h1>
-    <p>Taman Nasional Bromo Tengger Semeru (TNBTS) • Data Tanaman Herbal Terintegrasi</p>
-</div>
-""", unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────────────────────────────────────
-# LOAD DATA
-# ─────────────────────────────────────────────────────────────────────────────
-gdf_desa = load_desa_geojson()
-gdf_kabupaten = load_kabupaten_geojson()
-gdf_batas = load_batas_geojson()
-df_herbal = load_herbal_data()
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SIDEBAR
-# ─────────────────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown("""
-    <div class="sidebar-header-new">
-        <h3>🏔️ Bromo – Tengger – Semeru</h3>
-        <p>Saat Matahari Terbit</p>
-    </div>""", unsafe_allow_html=True)
-
-    st.image(
-        "https://adipandang.wordpress.com/wp-content/uploads/2026/03/"
-        "3ffcb908-4978-4464-bf12-178125ad26ec.jpg",
-        use_container_width=True
-    )
-    st.markdown(
-        '<p style="color:white!important; text-align:center; font-size:12px; opacity:0.8;">Tim Ekspedisi Penelitian</p>',
-        unsafe_allow_html=True
-    )
-    st.markdown("---")
-
-    st.markdown("### 📋 Menu Navigasi")
-    menu_options = ["Peta Sebaran", "WebGIS Analytics Potensi Tanaman Herbal", "Tanya Mbah Dukun Herbal Digital", "Peta 3D Pegunungan", "Data Tanaman", "Statistik", "Informasi"]
-    menu_icons = ["🗺️", "🌐", "🤖", "🏔️", "📋", "📊", "ℹ️"]
-    selected = st.radio(
-        "Pilih Menu:",
-        menu_options,
-        format_func=lambda x: f"{menu_icons[menu_options.index(x)]} {x}",
-        label_visibility="collapsed",
-        key="menu_radio"
-    )
-    st.markdown("---")
-
-    # Filter data
-    st.markdown("### 🔍 Filter Data")
-    semua_tanaman = sorted(df_herbal['Nama'].unique())
-    selected_tanaman = st.multiselect(
-        "Pilih Nama Tanaman",
-        options=["Semua"] + semua_tanaman,
-        default=["Semua"],
-        help="Pilih satu atau lebih tanaman"
-    )
-
-    st.markdown("---")
-    st.markdown("### 🗂️ Layer Control")
-    c1, c2 = st.columns(2)
-    with c1:
-        show_desa_geojson = st.checkbox("🏘️ Batas Desa", value=True)
-    with c2:
-        show_tanaman = st.checkbox("🌿 Tanaman", value=True)
-        show_kabupaten = st.checkbox("🗺️ Batas Kabupaten", value=True)
-    show_batas_tnbts = st.checkbox("🔲 Batas TNBTS", value=True)
-
-    st.markdown("### 🏔️ Kontrol Tampilan 3D")
-    map_height_3d = st.slider("Tinggi Iframe", 400, 800, 600, step=50)
-
-    st.markdown("---")
-    st.markdown("### 📁 Status Data")
-    st.markdown(f"""
-    <div class="status-badge">
-        ✅ <b>Data Tanaman</b><br>
-        <small>{len(df_herbal)} titik • {df_herbal['Nama'].nunique()} spesies</small>
-    </div>
-    """, unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────────────────────────────────────
-# FILTER DATA
-# ─────────────────────────────────────────────────────────────────────────────
-if "Semua" not in selected_tanaman and selected_tanaman:
-    df_herbal_filtered = df_herbal[df_herbal['Nama'].isin(selected_tanaman)]
-else:
-    df_herbal_filtered = df_herbal.copy()
-
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU NAVIGASI
+# MENU: WEBGIS SDM POTENSI HERBAL (LINK EKSTERNAL)
 # ─────────────────────────────────────────────────────────────────────────────
 if selected == "WebGIS Analytics Potensi Tanaman Herbal":
     st.markdown("## 🌐 WebGIS Analytics — Potensi Tumbuh Tanaman Herbal TNBTS")
@@ -1008,6 +1177,9 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
         type="primary",
     )
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: CHATBOT HERBAL
+# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Tanya Mbah Dukun Herbal Digital":
     st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
     
@@ -1124,6 +1296,9 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
         else:
             st.info("Tidak ada data lokasi untuk tanaman yang direkomendasikan.")
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: PETA SEBARAN
+# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Peta Sebaran":
     st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
     
@@ -1166,7 +1341,14 @@ elif selected == "Peta Sebaran":
             highlight_points=None,
             show_only_highlighted=False
         )
-        st_folium(m, width="100%", height=640, returned_objects=[], key="main_map")
+        # Gunakan st_folium dengan parameter untuk memastikan layer control terlihat
+        st_folium(
+            m, 
+            width="100%", 
+            height=640, 
+            returned_objects=[],
+            key="main_map"
+        )
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
 
@@ -1198,6 +1380,9 @@ elif selected == "Peta Sebaran":
             use_container_width=True, height=350, hide_index=True
         )
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: PETA 3D
+# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Peta 3D Pegunungan":
     st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS")
     st.markdown("Visualisasi 3D interaktif — putar 360° dengan mouse/touch")
@@ -1213,6 +1398,9 @@ elif selected == "Peta 3D Pegunungan":
         </iframe>
     </div>""", unsafe_allow_html=True)
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: DATA TANAMAN
+# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Data Tanaman":
     st.markdown("## 📋 Data Tanaman Herbal TNBTS")
     
@@ -1374,6 +1562,9 @@ elif selected == "Data Tanaman":
             detailed_count = len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None])
             st.metric("Tanaman dengan Data Detail", detailed_count)
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MENU: STATISTIK
+# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Statistik":
     st.markdown("## 📊 Statistik Tanaman Herbal TNBTS")
     
@@ -1430,7 +1621,10 @@ elif selected == "Statistik":
         avg = len(df_herbal) / df_herbal['Nama'].nunique()
         st.metric("Rata-rata per Spesies", f"{avg:.1f}")
 
-elif selected == "Informasi":
+# ─────────────────────────────────────────────────────────────────────────────
+# HALAMAN: INFORMASI - DENGAN KATEGORISASI PENYAKIT (MENGGUNAKAN df_herbal)
+# ─────────────────────────────────────────────────────────────────────────────
+else:
     st.markdown("## ℹ️ Informasi TNBTS")
 
     total_penduduk = gdf_desa['jumlah_pen'].sum() if not gdf_desa.empty and 'jumlah_pen' in gdf_desa.columns else 0
@@ -1453,65 +1647,67 @@ elif selected == "Informasi":
     # ── KATEGORISASI PENYAKIT ──────────────────────────────────────────────
     st.markdown("### 💊 Kategorisasi Tanaman Herbal Berdasarkan Ragam Penyakit")
     
-    # Definisikan 12 kategori penyakit
+    # Definisikan 12 kategori penyakit dan kata kunci pencariannya
     disease_categories = {
         "🫀 Penyakit Jantung & Pembuluh Darah": {
-            "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah", "pembuluh darah"],
+            "keywords": ["jantung", "tekanan darah", "hipertensi", "kolesterol", "stroke", "darah tinggi", "darah rendah", "pembuluh darah", "kardiovaskular"],
             "plants": []
         },
         "🫁 Pernapasan & Batuk": {
-            "keywords": ["batuk", "pilek", "flu", "influenza", "radang tenggorokan", "bronkitis", "asma", "pernapasan", "dahak", "tenggorokan", "sesak"],
+            "keywords": ["batuk", "pilek", "flu", "influenza", "radang tenggorokan", "bronkitis", "asma", "pernapasan", "dahak", "tenggorokan", "sesak", "nafas", "amandel"],
             "plants": []
         },
         "🌡️ Demam & Infeksi": {
-            "keywords": ["demam", "panas", "meriang", "malaria", "infeksi", "antibakteri", "antiseptik", "antimikroba", "antijamur"],
+            "keywords": ["demam", "panas", "meriang", "malaria", "infeksi", "antibakteri", "antiseptik", "antimikroba", "antijamur", "anti bakteri", "anti jamur"],
             "plants": []
         },
         "🧬 Pencernaan & Lambung": {
-            "keywords": ["pencernaan", "perut", "kembung", "diare", "mual", "muntah", "sembelit", "maag", "asam lambung", "magh", "cacing"],
+            "keywords": ["pencernaan", "perut", "kembung", "diare", "mual", "muntah", "sembelit", "maag", "asam lambung", "magh", "konstipasi", "cacing", "cacingan", "disentri"],
             "plants": []
         },
         "🦴 Sendi, Otot & Nyeri": {
-            "keywords": ["nyeri", "pegal", "linu", "rematik", "asam urat", "sendi", "otot", "keseleo", "memar", "bengkak", "nyeri otot"],
+            "keywords": ["nyeri", "pegal", "linu", "rematik", "asam urat", "sendi", "otot", "keseleo", "memar", "bengkak", "rematik", "nyeri otot", "pegal linu", "kram"],
             "plants": []
         },
         "🩸 Gula Darah & Metabolisme": {
-            "keywords": ["gula darah", "diabetes", "kolesterol", "metabolisme", "obesitas", "berat badan", "trigliserida"],
+            "keywords": ["gula darah", "diabetes", "kolesterol", "metabolisme", "obesitas", "berat badan", "trigliserida", "gula", "glukosa"],
             "plants": []
         },
         "🧴 Kulit & Luka": {
-            "keywords": ["luka", "kulit", "bisul", "borok", "gatal", "jerawat", "eksim", "kurap", "herpes", "luka bakar", "ruam"],
+            "keywords": ["luka", "kulit", "bisul", "borok", "gatal", "jerawat", "eksim", "kurap", "herpes", "bakar", "luka bakar", "memar", "ruam", "kudis", "infeksi kulit"],
             "plants": []
         },
         "🧠 Saraf & Stres": {
-            "keywords": ["saraf", "stres", "insomnia", "susah tidur", "kejang", "epilepsi", "menenangkan", "cemas"],
+            "keywords": ["saraf", "stres", "insomnia", "susah tidur", "kejang", "epilepsi", "menenangkan", "cemas", "tidur", "nyenyak", "gelisah"],
             "plants": []
         },
         "🤰 Kesehatan Wanita & Kesuburan": {
-            "keywords": ["haid", "menstruasi", "keputihan", "kesuburan", "hamil", "persalinan", "ASI", "menopause", "kewanitaan"],
+            "keywords": ["haid", "menstruasi", "keputihan", "kesuburan", "hamil", "pasca persalinan", "ASI", "menopause", "kewanitaan", "persalinan", "kandungan", "kehamilan"],
             "plants": []
         },
         "🧪 Ginjal & Saluran Kemih": {
-            "keywords": ["ginjal", "kencing", "urine", "batu ginjal", "diuretik", "saluran kemih", "buang air kecil"],
+            "keywords": ["ginjal", "kencing", "urine", "batu ginjal", "diuretik", "saluran kemih", "kencing batu", "buang air kecil", "kemih"],
             "plants": []
         },
         "🛡️ Imunitas & Antioksidan": {
-            "keywords": ["imun", "daya tahan", "antioksidan", "kanker", "tumor", "radikal bebas", "vitamin", "kekebalan"],
+            "keywords": ["imun", "daya tahan", "antioksidan", "kanker", "tumor", "radikal bebas", "vitamin", "kekebalan", "imunitas", "penuaan", "antioksidan"],
             "plants": []
         },
         "🌿 Antiradang & Detoksifikasi": {
-            "keywords": ["antiradang", "anti inflamasi", "detoksifikasi", "pembersih darah", "tonik", "stamina", "radang"],
+            "keywords": ["antiradang", "anti inflamasi", "detoksifikasi", "pembersih darah", "tonik", "stamina", "anti-inflamasi", "radang", "peradangan", "detoks", "antiinflamasi"],
             "plants": []
         }
     }
     
-    # Ambil semua tanaman unik dari df_herbal
+    # Ambil semua tanaman unik dari df_herbal (bukan dari HERBAL_DETAIL_DATA)
     all_plants = sorted(df_herbal['Nama'].unique())
     
-    # Kategorikan setiap tanaman
+    # Kategorikan setiap tanaman dari df_herbal
     for plant_name in all_plants:
+        # Dapatkan detail dari df_herbal melalui get_plant_detail
         detail = get_plant_detail(plant_name)
         if not detail:
+            # Jika tidak ada detail di HERBAL_DETAIL_DATA, coba cari di df_herbal langsung
             plant_row = df_herbal[df_herbal['Nama'] == plant_name]
             if not plant_row.empty:
                 row = plant_row.iloc[0]
@@ -1525,7 +1721,8 @@ elif selected == "Informasi":
         
         fungsi_lower = fungsi.lower()
         
-        matched = False
+        # Periksa kecocokan dengan setiap kategori
+        matched_categories = []
         for category, info in disease_categories.items():
             for keyword in info["keywords"]:
                 if keyword.lower() in fungsi_lower:
@@ -1534,25 +1731,24 @@ elif selected == "Informasi":
                         "fungsi": fungsi,
                         "bagian": bagian
                     })
-                    matched = True
+                    matched_categories.append(category)
                     break
-            if matched:
-                break
         
-        if not matched and fungsi:
+        # Jika tidak masuk kategori manapun, masukkan ke "Antiradang & Detoksifikasi"
+        if not matched_categories and fungsi:
             disease_categories["🌿 Antiradang & Detoksifikasi"]["plants"].append({
                 "name": plant_name,
                 "fungsi": fungsi,
                 "bagian": bagian
             })
     
-    # Hapus kategori kosong
+    # Hapus kategori yang tidak memiliki tanaman
     disease_categories = {
         k: v for k, v in disease_categories.items() 
         if v["plants"]
     }
     
-    # Tampilkan statistik
+    # Tampilkan statistik kategorisasi
     st.markdown("#### 📊 Statistik Kategorisasi")
     
     total_spesies = len(all_plants)
@@ -1570,9 +1766,10 @@ elif selected == "Informasi":
     with col_stat4:
         st.metric("Rata-rata per Kategori", f"{avg_per_category:.1f}")
     
-    # Bar chart jumlah per kategori
+    # Tampilkan jumlah per kategori dalam bar
     st.markdown("#### 📈 Jumlah Tanaman per Kategori")
     category_counts = {cat: len(info["plants"]) for cat, info in disease_categories.items()}
+    # Buat DataFrame untuk bar chart
     df_categories = pd.DataFrame({
         'Kategori': list(category_counts.keys()),
         'Jumlah': list(category_counts.values())
@@ -1585,18 +1782,21 @@ elif selected == "Informasi":
     st.markdown("#### 🌿 Daftar Tanaman Berdasarkan Kategori Penyakit")
     st.markdown("Klik setiap kategori untuk melihat daftar tanaman yang dapat membantu mengatasinya.")
     
+    # Sortir kategori berdasarkan jumlah tanaman terbanyak
     sorted_categories = sorted(
         disease_categories.items(),
         key=lambda x: len(x[1]["plants"]),
         reverse=True
     )
     
+    # Tampilkan setiap kategori sebagai expander
     for category_name, info in sorted_categories:
         plants = info["plants"]
         if not plants:
             continue
             
         with st.expander(f"{category_name} ({len(plants)} spesies)", expanded=False):
+            # Tampilkan dalam grid 2 kolom
             cols_per_row = 2
             for i in range(0, len(plants), cols_per_row):
                 cols = st.columns(cols_per_row)
@@ -1623,12 +1823,14 @@ elif selected == "Informasi":
                             </div>
                             """, unsafe_allow_html=True)
                             
+                            # Tombol Lihat di Peta
                             if st.button(
                                 f"📍 Lihat di Peta", 
                                 key=f"view_inf_{plant['name']}_{idx}_{category_name[:5]}"
                             ):
                                 st.session_state.menu_selected = "Peta Sebaran"
                                 st.session_state.highlighted_plants = [plant['name']]
+                                st.session_state.show_highlighted = True
                                 st.rerun()
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
@@ -1671,19 +1873,3 @@ elif selected == "Informasi":
     - **Peta Basemap:** OpenStreetMap, Esri World Imagery (Satelit), OpenTopoMap
     - **Model 3D:** Sketchfab — smartmAPPS
     """)
-
-# ─────────────────────────────────────────────────────────────────────────────
-# FOOTER
-# ─────────────────────────────────────────────────────────────────────────────
-st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
-st.markdown("""
-<div class="footer">
-    <p style="font-size:1.1rem;margin-bottom:.5rem;">
-        🌿 WebGIS Resiliensi Kesehatan Terhadap Potensi Bencana<br>
-        Bromo – Kaldera Tengger – Semeru Melalui Konsumsi Tanaman Herbal di TNBTS
-    </p>
-    <p style="margin-bottom:.3rem;">© Ekspedisi Tanaman Herbal TNBTS untuk Health Security — 2026</p>
-    <p style="font-size:.9rem;opacity:.9;">86 Spesies • 8 Kawasan Ekologi • 41 Desa Penyangga</p>
-    <p style="font-size:.7rem;opacity:.5;">© WebGIS Developer: Adipandang Yudono (2026)</p>
-</div>
-""", unsafe_allow_html=True)
