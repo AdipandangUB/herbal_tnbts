@@ -221,9 +221,7 @@ HERBAL_DETAIL_DATA = {
         "yang_dimanfaatkan": "Akar",
         "potensi_sebaran": "Seluruh Kawasan TNBTS",
         "foto": "media/image3.jpeg"
-    },
-    # [Tambahkan semua data tanaman lainnya di sini - karena terlalu panjang, 
-    #  pastikan HERBAL_DETAIL_DATA berisi semua 46+ spesies]
+    }
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -237,7 +235,6 @@ HERBAL_DATA_EMBEDDED = [
     (5, 'ALANG-ALANG', 112.950828, -7.930880),
     (6, 'ANDONG', 113.051111, -8.067778),
     (7, 'ANDONG', 113.051111, -8.067778),
-    # [Tambahkan semua data titik lainnya]
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -984,7 +981,7 @@ else:
     df_herbal_filtered = df_herbal.copy()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MENU: WEBGIS SDM POTENSI HERBAL
+# MENU NAVIGASI
 # ─────────────────────────────────────────────────────────────────────────────
 if selected == "WebGIS Analytics Potensi Tanaman Herbal":
     st.markdown("## 🌐 WebGIS Analytics — Potensi Tumbuh Tanaman Herbal TNBTS")
@@ -1011,9 +1008,6 @@ if selected == "WebGIS Analytics Potensi Tanaman Herbal":
         type="primary",
     )
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: CHATBOT HERBAL
-# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Tanya Mbah Dukun Herbal Digital":
     st.markdown("## 🤖 Mbah Dukun Herbal Digital TNBTS")
     
@@ -1130,9 +1124,6 @@ elif selected == "Tanya Mbah Dukun Herbal Digital":
         else:
             st.info("Tidak ada data lokasi untuk tanaman yang direkomendasikan.")
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: PETA SEBARAN
-# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Peta Sebaran":
     st.markdown("## 🗺️ Peta Interaktif Tanaman Herbal TNBTS")
     
@@ -1207,9 +1198,6 @@ elif selected == "Peta Sebaran":
             use_container_width=True, height=350, hide_index=True
         )
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: PETA 3D
-# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Peta 3D Pegunungan":
     st.markdown("## 🏔️ Peta 3D Pegunungan TNBTS")
     st.markdown("Visualisasi 3D interaktif — putar 360° dengan mouse/touch")
@@ -1225,9 +1213,6 @@ elif selected == "Peta 3D Pegunungan":
         </iframe>
     </div>""", unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: DATA TANAMAN
-# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Data Tanaman":
     st.markdown("## 📋 Data Tanaman Herbal TNBTS")
     
@@ -1389,9 +1374,6 @@ elif selected == "Data Tanaman":
             detailed_count = len([n for n in df_herbal['Nama'].unique() if get_plant_detail(n) is not None])
             st.metric("Tanaman dengan Data Detail", detailed_count)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: STATISTIK
-# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Statistik":
     st.markdown("## 📊 Statistik Tanaman Herbal TNBTS")
     
@@ -1448,9 +1430,6 @@ elif selected == "Statistik":
         avg = len(df_herbal) / df_herbal['Nama'].nunique()
         st.metric("Rata-rata per Spesies", f"{avg:.1f}")
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MENU: INFORMASI
-# ─────────────────────────────────────────────────────────────────────────────
 elif selected == "Informasi":
     st.markdown("## ℹ️ Informasi TNBTS")
 
