@@ -553,11 +553,11 @@ def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=
     return html
 
 # ─────────────────────────────────────────────────────────────────────────────
-# FUNGSI UNTUK MEMBUAT LINK GeoJSON Viewer
+# FUNGSI UNTUK MEMBUAT LINK GeoJSON Viewer DARI DATA
 # ─────────────────────────────────────────────────────────────────────────────
 def create_geojson_viewer_link(geojson_file):
     """
-    Membuat link untuk membuka GeoJSON di geojson.io
+    Membuat link untuk membuka GeoJSON di geojson.io dari file
     """
     import urllib.parse
     
@@ -576,6 +576,22 @@ def create_geojson_viewer_link(geojson_file):
     
     return url
 
+def create_geojson_viewer_link_from_data(geojson_data):
+    """
+    Membuat link untuk membuka GeoJSON di geojson.io dari data dictionary
+    """
+    import urllib.parse
+    
+    # Konversi ke string JSON
+    json_str = json.dumps(geojson_data, ensure_ascii=False)
+    
+    # Encode untuk URL
+    encoded_json = urllib.parse.quote(json_str)
+    
+    # Buat URL geojson.io dengan parameter
+    url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
+    
+    return url
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS UTAMA
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1427,6 +1443,52 @@ elif selected == "Peta Sebaran":
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
 
+# ─────────────────────────────────────────────────────────────────────────────
+# FUNGSI UNTUK MEMBUAT LINK GeoJSON Viewer DARI DATA
+# ─────────────────────────────────────────────────────────────────────────────
+def create_geojson_viewer_link(geojson_file):
+    """
+    Membuat link untuk membuka GeoJSON di geojson.io dari file
+    """
+    import urllib.parse
+    
+    # Baca file GeoJSON
+    with open(geojson_file, 'r', encoding='utf-8') as f:
+        geojson_data = json.load(f)
+    
+    # Konversi ke string JSON
+    json_str = json.dumps(geojson_data)
+    
+    # Encode untuk URL
+    encoded_json = urllib.parse.quote(json_str)
+    
+    # Buat URL geojson.io dengan parameter
+    url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
+    
+    return url
+
+def create_geojson_viewer_link_from_data(geojson_data):
+    """
+    Membuat link untuk membuka GeoJSON di geojson.io dari data dictionary
+    """
+    import urllib.parse
+    
+    # Konversi ke string JSON
+    json_str = json.dumps(geojson_data, ensure_ascii=False)
+    
+    # Encode untuk URL
+    encoded_json = urllib.parse.quote(json_str)
+    
+    # Buat URL geojson.io dengan parameter
+    url = f"https://geojson.io/#data=data:application/json,{encoded_json}"
+    
+    return url
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CSS UTAMA
+# ─────────────────────────────────────────────────────────────────────────────
+# ... (kode CSS tetap sama) ...
+
 # ======================== TAMBAHAN: VISUALISASI GEOJSON ========================
     st.markdown("---")
     st.markdown("## 📊 Visualisasi Data GeoJSON Terintegrasi")
@@ -1518,17 +1580,17 @@ elif selected == "Peta Sebaran":
             <div class="geojson-viewer-box" style="border: 2px solid #2E7D32;">
                 <h3>🗺️ Data Terintegrasi TNBTS</h3>
                 <div style="display: flex; flex-wrap: wrap; gap: 15px; margin: 10px 0;">
-                    <div class="geojson-stats" style="border-left: 4px solid #2196F3;">
-                        <div class="stat-item"><strong>🌿 Tanaman Herbal</strong></div>
-                        <div class="stat-item"><strong>📁 File:</strong> sebaran_tanaman_herbal_TNBTS.geojson</div>
-                        <div class="stat-item"><strong>📍 Total Titik:</strong> {total_features_herbal}</div>
-                        <div class="stat-item"><strong>🌱 Spesies Unik:</strong> {len(unique_plants)}</div>
+                    <div style="background: #f0f8ff; border-radius: 8px; padding: 12px 16px; border-left: 4px solid #2196F3; flex: 1; min-width: 200px;">
+                        <div style="font-weight: bold; color: #1565C0;">🌿 Tanaman Herbal</div>
+                        <div style="font-size: 13px; color: #555;"><strong>📁 File:</strong> sebaran_tanaman_herbal_TNBTS.geojson</div>
+                        <div style="font-size: 13px; color: #555;"><strong>📍 Total Titik:</strong> {total_features_herbal}</div>
+                        <div style="font-size: 13px; color: #555;"><strong>🌱 Spesies Unik:</strong> {len(unique_plants)}</div>
                     </div>
-                    <div class="geojson-stats" style="border-left: 4px solid #B71C1C;">
-                        <div class="stat-item"><strong>🏔️ Batas TNBTS</strong></div>
-                        <div class="stat-item"><strong>📁 File:</strong> Batas_TNBTS.geojson</div>
-                        <div class="stat-item"><strong>📐 Total Fitur:</strong> {total_features_batas}</div>
-                        <div class="stat-item"><strong>🔷 Total Polygon:</strong> {total_polygons}</div>
+                    <div style="background: #FFF5F5; border-radius: 8px; padding: 12px 16px; border-left: 4px solid #B71C1C; flex: 1; min-width: 200px;">
+                        <div style="font-weight: bold; color: #B71C1C;">🏔️ Batas TNBTS</div>
+                        <div style="font-size: 13px; color: #555;"><strong>📁 File:</strong> Batas_TNBTS.geojson</div>
+                        <div style="font-size: 13px; color: #555;"><strong>📐 Total Fitur:</strong> {total_features_batas}</div>
+                        <div style="font-size: 13px; color: #555;"><strong>🔷 Total Polygon:</strong> {total_polygons}</div>
                     </div>
                 </div>
                 <div style="background: #E8F5E9; border-radius: 8px; padding: 12px 16px; margin: 10px 0; border-left: 4px solid #2E7D32;">
@@ -1597,8 +1659,8 @@ elif selected == "Peta Sebaran":
                         'No': i + 1,
                         'Nama': props.get('nama_tanaman', '-'),
                         'Tipe': '🌿 Tanaman',
-                        'Keterangan': props.get('fungsi_manfaat', '-')[:30] + '...' if len((props.get('fungsi_manfaat', '-') or '-')) > 30 else (props.get('fungsi_manfaat', '-') or '-'),
-                        'Koordinat': f"{coords[1]:.6f}, {coords[0]:.6f}"
+                        'Keterangan': (props.get('fungsi_manfaat', '-') or '-')[:30] + '...' if len((props.get('fungsi_manfaat', '-') or '-')) > 30 else (props.get('fungsi_manfaat', '-') or '-'),
+                        'Koordinat': f"{coords[1]:.6f}, {coords[0]:.6f}" if coords else '-'
                     })
                 
                 # Preview batas TNBTS
