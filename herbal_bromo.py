@@ -652,11 +652,78 @@ def load_batas_geojson():
 
 
 @st.cache_data
+def load_herbal_geojson():
+    """
+    Membaca data sebaran tanaman herbal (titik + atribut lengkap) dari
+    sebaran_tanaman_herbal_TNBTS.geojson (246 titik / 133 spesies).
+
+    File ini merupakan hasil merge seluruh koordinat & data botani tanaman
+    herbal TNBTS, dan menjadi sumber data utama peta. Mengembalikan
+    DataFrame dengan skema yang sama seperti load_herbal_data() lama
+    (No, Nama, X, Y) ditambah kolom detail (NamaLatin, Fungsi,
+    PotensiSebaran, SyaratHidup, CaraMemanfaatkan, BagianDimanfaatkan)
+    yang diambil langsung dari properti GeoJSON, sehingga tidak lagi
+    bergantung sepenuhnya pada dictionary HERBAL_DETAIL_DATA.
+    """
+    gdf = _load_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
+    if gdf.empty:
+        return pd.DataFrame()
+
+    if gdf.crs and gdf.crs.to_epsg() != 4326:
+        try:
+            gdf = gdf.to_crs("EPSG:4326")
+        except Exception as e:
+            st.sidebar.error(f"❌ Gagal memproyeksikan GeoJSON tanaman herbal: {e}")
+            return pd.DataFrame()
+
+    records = []
+    for i, row in gdf.iterrows():
+        geom = row.geometry
+        if geom is None or geom.is_empty:
+            continue
+        lon, lat = geom.x, geom.y
+        nama = str(row.get('nama_tanaman', '')).strip().upper()
+        if not nama or nama == 'NONE':
+            continue
+        records.append({
+            'No': i + 1,
+            'Nama': nama,
+            'X': lon,
+            'Y': lat,
+            'NamaLatin': row.get('nama_ilmiah', '') or '',
+            'Fungsi': row.get('fungsi_manfaat', '') or '',
+            'PotensiSebaran': row.get('potensi_sebaran', '') or '',
+            'SyaratHidup': row.get('syarat_hidup', '') or '',
+            'CaraMemanfaatkan': row.get('cara_memanfaatkan', '') or '',
+            'BagianDimanfaatkan': row.get('bagian_dimanfaatkan', '') or '',
+        })
+
+    df = pd.DataFrame(records)
+    if df.empty:
+        return df
+
+    st.sidebar.success(
+        f"✅ Memuat {len(df)} titik / {df['Nama'].nunique()} spesies dari "
+        f"sebaran_tanaman_herbal_TNBTS.geojson"
+    )
+    return df
+
+
+@st.cache_data
 def load_herbal_data():
     """
-    Membaca data sebaran tanaman herbal dari berkas Excel.
-    Jika file tidak ditemukan, gunakan data embedded.
+    Membaca data sebaran tanaman herbal.
+
+    Urutan prioritas sumber data:
+      1. sebaran_tanaman_herbal_TNBTS.geojson — 246 titik / 133 spesies,
+         atribut botani lengkap (sumber utama & paling mutakhir).
+      2. Titik Rapihin.xlsx / .xls / .csv — berkas Excel/CSV lama.
+      3. Data embedded HERBAL_DATA_EMBEDDED — fallback terakhir.
     """
+    df_geojson = load_herbal_geojson()
+    if not df_geojson.empty:
+        return df_geojson
+
     # Coba baca dari file Excel
     filenames = ['Titik Rapihin.xlsx', 'Titik Rapihin.xls', 'Titik Rapihin.csv']
     
@@ -728,25 +795,60 @@ def load_herbal_data():
     return df
 
 
-def get_plant_detail(plant_name):
-    """Mendapatkan detail tanaman berdasarkan nama."""
-    # Normalisasi nama untuk pencarian
+def get_plant_detail(plant_name, row=None):
+    """
+    Mendapatkan detail tanaman berdasarkan nama.
+
+    Jika `row` (baris df_herbal hasil sebaran_tanaman_herbal_TNBTS.geojson)
+    disediakan dan berisi kolom detail, atribut tersebut diprioritaskan
+    karena bersumber langsung dari data botani terbaru. Jika `row` tidak
+    diberikan, fungsi ini otomatis mencari baris pertama yang cocok di
+    df_herbal (global) sehingga semua pemanggil tetap mendapat data
+    terlengkap tanpa perlu diubah satu per satu. Dictionary
+    HERBAL_DETAIL_DATA (embedded) dipakai sebagai pelengkap/fallback,
+    misalnya untuk field 'foto' yang tidak ada di GeoJSON.
+    """
     plant_name_clean = plant_name.upper().strip()
-    
-    # Coba cari di data detail
+
+    if row is None and 'df_herbal' in globals() and not df_herbal.empty and 'NamaLatin' in df_herbal.columns:
+        match = df_herbal[df_herbal['Nama'] == plant_name_clean]
+        if not match.empty:
+            row = match.iloc[0]
+
+    # Detail dari baris GeoJSON (df_herbal)
+    detail_from_row = None
+    if row is not None and 'NamaLatin' in getattr(row, 'index', []):
+        candidate = {
+            'nama_latin': row.get('NamaLatin', ''),
+            'fungsi': row.get('Fungsi', ''),
+            'syarat_hidup': row.get('SyaratHidup', ''),
+            'cara_memanfaatkan': row.get('CaraMemanfaatkan', ''),
+            'yang_dimanfaatkan': row.get('BagianDimanfaatkan', ''),
+            'potensi_sebaran': row.get('PotensiSebaran', ''),
+        }
+        candidate = {k: v for k, v in candidate.items() if v}
+        if candidate:
+            detail_from_row = candidate
+
+    # Detail dari dictionary embedded (fallback / pelengkap foto)
+    detail_embedded = None
     for key in HERBAL_DETAIL_DATA:
-        if key == plant_name_clean:
-            return HERBAL_DETAIL_DATA[key]
-        # Coba matching parsial
-        if plant_name_clean in key or key in plant_name_clean:
-            return HERBAL_DETAIL_DATA[key]
-    
-    return None
+        if key == plant_name_clean or plant_name_clean in key or key in plant_name_clean:
+            detail_embedded = HERBAL_DETAIL_DATA[key]
+            break
+
+    if detail_from_row and detail_embedded:
+        merged = dict(detail_from_row)
+        if detail_embedded.get('foto'):
+            merged['foto'] = detail_embedded['foto']
+        return merged
+
+    return detail_from_row or detail_embedded
 
 
-def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False):
+def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=None):
     """Membuat HTML popup untuk peta dengan detail lengkap tanaman."""
-    detail = get_plant_detail(plant_name)
+    detail = get_plant_detail(plant_name, row=row)
     
     # Warna border berdasarkan highlight
     border_color = '#D32F2F' if is_highlighted else '#2E7D32'
@@ -1531,8 +1633,8 @@ def create_tnbts_map(
                     icon_color = 'green'
                     icon_icon = 'leaf'
                 
-                # Gunakan popup dengan detail lengkap
-                popup_html = create_plant_popup_html(nama, lat, lon, no, is_highlighted)
+                # Gunakan popup dengan detail lengkap (row = data dari GeoJSON)
+                popup_html = create_plant_popup_html(nama, lat, lon, no, is_highlighted, row=row)
                 
                 folium.Marker(
                     location=[lat, lon],
