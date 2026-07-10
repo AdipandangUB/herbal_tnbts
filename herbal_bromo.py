@@ -1427,7 +1427,7 @@ elif selected == "Peta Sebaran":
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
 
-    # ======================== TAMBAHAN: VISUALISASI GEOJSON ========================
+# ======================== TAMBAHAN: VISUALISASI GEOJSON ========================
     st.markdown("---")
     st.markdown("## 📊 Visualisasi Data GeoJSON Tanaman Herbal")
     st.markdown("Lihat data sebaran tanaman herbal dalam format GeoJSON menggunakan GeoJSON Viewer online.")
@@ -1521,7 +1521,7 @@ elif selected == "Peta Sebaran":
                 geojson_content = f.read()
             
             st.download_button(
-                label="📥 Download GeoJSON",
+                label="📥 Download GeoJSON Tanaman Herbal",
                 data=geojson_content,
                 file_name="sebaran_tanaman_herbal_TNBTS.geojson",
                 mime="application/json",
@@ -1534,6 +1534,134 @@ elif selected == "Peta Sebaran":
     else:
         st.warning("⚠️ File 'sebaran_tanaman_herbal_TNBTS.geojson' tidak ditemukan.")
         st.info("Pastikan file GeoJSON berada di direktori yang sama dengan aplikasi.")
+
+    # ======================== VISUALISASI BATAS TNBTS ========================
+    st.markdown("---")
+    st.markdown("## 🗺️ Visualisasi Batas TNBTS (GeoJSON)")
+    st.markdown("Lihat data batas kawasan Taman Nasional Bromo Tengger Semeru dalam format GeoJSON.")
+
+    # Cari file Batas TNBTS GeoJSON
+    batas_geojson_file = _find_geojson('Batas_TNBTS.geojson')
+    
+    if batas_geojson_file:
+        try:
+            with open(batas_geojson_file, 'r', encoding='utf-8') as f:
+                batas_geojson_data = json.load(f)
+            
+            # Hitung statistik
+            total_features_batas = len(batas_geojson_data.get('features', []))
+            
+            # Hitung total area (approximasi dari jumlah polygon)
+            total_polygons = 0
+            for feature in batas_geojson_data.get('features', []):
+                geom = feature.get('geometry', {})
+                if geom.get('type') == 'MultiPolygon':
+                    total_polygons += len(geom.get('coordinates', []))
+                elif geom.get('type') == 'Polygon':
+                    total_polygons += 1
+            
+            # Dapatkan keterangan dari properti
+            keterangan = ""
+            for feature in batas_geojson_data.get('features', []):
+                props = feature.get('properties', {})
+                if props.get('Keterangan'):
+                    keterangan = props.get('Keterangan')
+                    break
+            
+            st.markdown(f"""
+            <div class="geojson-viewer-box" style="border-color: #B71C1C;">
+                <h3 style="color: #B71C1C;">🏔️ Batas TNBTS</h3>
+                <div class="geojson-stats">
+                    <div class="stat-item"><strong>📁 File:</strong> Batas_TNBTS.geojson</div>
+                    <div class="stat-item"><strong>📐 Total Fitur:</strong> {total_features_batas}</div>
+                    <div class="stat-item"><strong>🔷 Total Polygon:</strong> {total_polygons}</div>
+                </div>
+                <p style="margin: 12px 0; color: #555;">
+                    <strong>Keterangan:</strong> {keterangan if keterangan else 'Batas Taman Nasional Bromo Tengger Semeru'}
+                </p>
+                <p style="margin: 12px 0; color: #555;">
+                    Klik tombol di bawah untuk membuka data batas TNBTS di <strong>geojson.io</strong> 
+                    — platform interaktif untuk melihat, mengedit, dan menganalisis data geospasial.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Buat tombol untuk membuka Batas TNBTS di GeoJSON Viewer
+            url_batas = create_geojson_viewer_link(batas_geojson_file)
+            
+            col1_b, col2_b, col3_b = st.columns([1, 2, 1])
+            with col2_b:
+                st.markdown(f'''
+                <div style="text-align: center;">
+                    <a href="{url_batas}" target="_blank" style="text-decoration: none;">
+                        <button style="
+                            background: linear-gradient(135deg, #B71C1C, #D32F2F);
+                            color: white;
+                            padding: 16px 40px;
+                            border: none;
+                            border-radius: 10px;
+                            font-size: 18px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            box-shadow: 0 4px 15px rgba(183, 28, 28, 0.4);
+                            transition: all 0.3s ease;
+                            width: 100%;
+                        "
+                        onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(183, 28, 28, 0.5)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(183, 28, 28, 0.4)';">
+                            🗺️ Buka Batas TNBTS di GeoJSON Viewer
+                        </button>
+                    </a>
+                    <p style="margin-top: 8px; font-size: 12px; color: #888;">
+                        🔗 Akan terbuka di tab baru • geojson.io
+                    </p>
+                </div>
+                ''', unsafe_allow_html=True)
+            
+            # Tampilkan preview data batas
+            with st.expander("📋 Preview Data Batas TNBTS"):
+                preview_batas_data = []
+                for i, feature in enumerate(batas_geojson_data.get('features', [])[:3]):
+                    props = feature.get('properties', {})
+                    geom = feature.get('geometry', {})
+                    geom_type = geom.get('type', '-')
+                    
+                    # Hitung jumlah koordinat
+                    coords_count = 0
+                    if geom_type == 'MultiPolygon':
+                        for polygon in geom.get('coordinates', []):
+                            for ring in polygon:
+                                coords_count += len(ring)
+                    elif geom_type == 'Polygon':
+                        for ring in geom.get('coordinates', []):
+                            coords_count += len(ring)
+                    
+                    preview_batas_data.append({
+                        'No': i + 1,
+                        'Keterangan': props.get('Keterangan', '-'),
+                        'Tipe Geometri': geom_type,
+                        'Jumlah Koordinat': coords_count,
+                    })
+                st.dataframe(pd.DataFrame(preview_batas_data), use_container_width=True, hide_index=True)
+            
+            # Tombol download Batas TNBTS GeoJSON
+            with open(batas_geojson_file, 'r', encoding='utf-8') as f:
+                batas_geojson_content = f.read()
+            
+            st.download_button(
+                label="📥 Download Batas TNBTS GeoJSON",
+                data=batas_geojson_content,
+                file_name="Batas_TNBTS.geojson",
+                mime="application/json",
+                key="download_batas_geojson"
+            )
+            
+        except Exception as e:
+            st.warning(f"⚠️ Gagal membaca file Batas TNBTS GeoJSON: {e}")
+            st.info("Pastikan file 'Batas_TNBTS.geojson' berada di direktori yang benar.")
+    else:
+        st.warning("⚠️ File 'Batas_TNBTS.geojson' tidak ditemukan.")
+        st.info("Pastikan file GeoJSON batas TNBTS berada di direktori yang sama dengan aplikasi.")
 
     detail_cols = [c for c in ['NamaLatin', 'Fungsi', 'PotensiSebaran',
                                 'SyaratHidup', 'CaraMemanfaatkan', 'BagianDimanfaatkan']
@@ -1562,7 +1690,6 @@ elif selected == "Peta Sebaran":
             df_spesies_filtered,
             use_container_width=True, height=350, hide_index=True
         )
-
 # ─────────────────────────────────────────────────────────────────────────────
 # MENU: PETA 3D
 # ─────────────────────────────────────────────────────────────────────────────
