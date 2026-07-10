@@ -676,13 +676,21 @@ def load_herbal_geojson():
             st.sidebar.error(f"❌ Gagal memproyeksikan GeoJSON tanaman herbal: {e}")
             return pd.DataFrame()
 
+    def _clean_str(v):
+        """Ubah nilai properti GeoJSON (bisa None/NaN/angka) menjadi string aman."""
+        if v is None:
+            return ''
+        if isinstance(v, float) and pd.isna(v):
+            return ''
+        return str(v).strip()
+
     records = []
     for i, row in gdf.iterrows():
         geom = row.geometry
         if geom is None or geom.is_empty:
             continue
         lon, lat = geom.x, geom.y
-        nama = str(row.get('nama_tanaman', '')).strip().upper()
+        nama = _clean_str(row.get('nama_tanaman', '')).upper()
         if not nama or nama == 'NONE':
             continue
         records.append({
@@ -690,12 +698,12 @@ def load_herbal_geojson():
             'Nama': nama,
             'X': lon,
             'Y': lat,
-            'NamaLatin': row.get('nama_ilmiah', '') or '',
-            'Fungsi': row.get('fungsi_manfaat', '') or '',
-            'PotensiSebaran': row.get('potensi_sebaran', '') or '',
-            'SyaratHidup': row.get('syarat_hidup', '') or '',
-            'CaraMemanfaatkan': row.get('cara_memanfaatkan', '') or '',
-            'BagianDimanfaatkan': row.get('bagian_dimanfaatkan', '') or '',
+            'NamaLatin': _clean_str(row.get('nama_ilmiah', '')),
+            'Fungsi': _clean_str(row.get('fungsi_manfaat', '')),
+            'PotensiSebaran': _clean_str(row.get('potensi_sebaran', '')),
+            'SyaratHidup': _clean_str(row.get('syarat_hidup', '')),
+            'CaraMemanfaatkan': _clean_str(row.get('cara_memanfaatkan', '')),
+            'BagianDimanfaatkan': _clean_str(row.get('bagian_dimanfaatkan', '')),
         })
 
     df = pd.DataFrame(records)
@@ -1852,10 +1860,33 @@ elif selected == "Peta Sebaran":
     except Exception as e:
         st.error(f"Error membuat peta: {e}")
 
-    # Tabel ringkas
-    with st.expander(f"📋 Daftar {len(df_herbal_filtered)} Tanaman yang Ditampilkan"):
+    # Tabel ringkas — dikelompokkan per SPESIES (bukan per titik koordinat)
+    detail_cols = [c for c in ['NamaLatin', 'Fungsi', 'PotensiSebaran',
+                                'SyaratHidup', 'CaraMemanfaatkan', 'BagianDimanfaatkan']
+                   if c in df_herbal_filtered.columns]
+
+    if not df_herbal_filtered.empty:
+        agg_dict = {'X': 'count'}
+        for c in detail_cols:
+            agg_dict[c] = 'first'
+
+        df_spesies_filtered = (
+            df_herbal_filtered
+            .groupby('Nama', as_index=False)
+            .agg(agg_dict)
+            .rename(columns={'X': 'Jumlah Titik'})
+            .sort_values('Nama')
+            .reset_index(drop=True)
+        )
+        # Susun ulang kolom: Nama, Jumlah Titik, lalu detail lainnya
+        cols_order = ['Nama', 'Jumlah Titik'] + detail_cols
+        df_spesies_filtered = df_spesies_filtered[cols_order]
+    else:
+        df_spesies_filtered = df_herbal_filtered
+
+    with st.expander(f"📋 Daftar {len(df_spesies_filtered)} Spesies Tanaman yang Ditampilkan"):
         st.dataframe(
-            df_herbal_filtered,
+            df_spesies_filtered,
             use_container_width=True, height=350, hide_index=True
         )
 
