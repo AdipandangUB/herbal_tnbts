@@ -1494,7 +1494,7 @@ def create_geojson_viewer_link_from_data(geojson_data):
     st.markdown("## 📊 Visualisasi Data GeoJSON Terintegrasi")
     st.markdown("Lihat data sebaran tanaman herbal dan batas kawasan TNBTS dalam satu tampilan GeoJSON menggunakan GeoJSON Viewer online.")
     
-    # ======================== GABUNGAN VISUALISASI ========================
+# ======================== GABUNGAN VISUALISASI ========================
     # Cari file GeoJSON Tanaman Herbal
     geojson_file = _find_geojson('sebaran_tanaman_herbal_TNBTS.geojson')
     batas_geojson_file = _find_geojson('Batas_TNBTS.geojson')
@@ -1523,27 +1523,12 @@ def create_geojson_viewer_link_from_data(geojson_data):
             
             # Tambahkan fitur dari tanaman herbal
             for feature in geojson_data.get('features', []):
-                # Tambahkan properti untuk membedakan layer
                 feature['properties']['layer_type'] = 'tanaman_herbal'
-                if 'style' not in feature['properties']:
-                    feature['properties']['style'] = {
-                        'color': '#2196F3',
-                        'weight': 3,
-                        'opacity': 0.8
-                    }
                 combined_geojson['features'].append(feature)
             
             # Tambahkan fitur dari batas TNBTS
             for feature in batas_geojson_data.get('features', []):
-                # Tambahkan properti untuk membedakan layer
                 feature['properties']['layer_type'] = 'batas_tnbts'
-                if 'style' not in feature['properties']:
-                    feature['properties']['style'] = {
-                        'color': '#B71C1C',
-                        'weight': 4,
-                        'opacity': 1,
-                        'fillOpacity': 0.1
-                    }
                 combined_geojson['features'].append(feature)
             
             # Hitung statistik gabungan
@@ -1769,7 +1754,6 @@ def create_geojson_viewer_link_from_data(geojson_data):
         st.warning("⚠️ File GeoJSON tidak ditemukan.")
         st.info("Pastikan file 'sebaran_tanaman_herbal_TNBTS.geojson' dan 'Batas_TNBTS.geojson' berada di direktori yang sama dengan aplikasi.")
 
-    # ======================== DAFTAR SPESIES TANAMAN ========================
     detail_cols = [c for c in ['NamaLatin', 'Fungsi', 'PotensiSebaran',
                                 'SyaratHidup', 'CaraMemanfaatkan', 'BagianDimanfaatkan']
                    if c in df_herbal_filtered.columns]
