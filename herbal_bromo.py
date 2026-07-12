@@ -465,6 +465,67 @@ def load_herbal_data():
     df = pd.DataFrame(HERBAL_DATA_EMBEDDED, columns=['No', 'Nama', 'X', 'Y'])
     return df
 
+def _sanitize_plant_filename(name):
+    name = (name or '').strip().upper()
+    name = re.sub(r'[\/\\]', '-', name)
+    name = re.sub(r'\s+', '_', name)
+    name = re.sub(r'[^A-Z0-9_\-]', '', name)
+    return name
+
+def _find_photo_dir():
+    script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
+    candidates = [
+        'foto_tanaman',
+        os.path.join(script_dir, 'foto_tanaman'),
+        os.path.join(os.getcwd(), 'foto_tanaman'),
+        os.path.join(script_dir, 'data', 'foto_tanaman'),
+        os.path.join(os.getcwd(), 'data', 'foto_tanaman'),
+    ]
+    for p in candidates:
+        if os.path.isdir(p):
+            return p
+    return None
+
+@st.cache_data(show_spinner=False)
+def get_plant_photo_base64(plant_name):
+    """Ambil 1 foto representatif tiap jenis tanaman (mis. ADAS.jpg mewakili
+    ADAS, ADAS_2, ADAS_3, dst). Mengembalikan (base64_str, mime) atau (None, None)."""
+    photo_dir = _find_photo_dir()
+    if not photo_dir:
+        return None, None
+    target = _sanitize_plant_filename(plant_name)
+    try:
+        files = [f for f in os.listdir(photo_dir)
+                 if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+    except Exception:
+        return None, None
+
+    def base_key(fname):
+        stem = os.path.splitext(fname)[0].upper()
+        stem = re.sub(r'(_\d+)$', '', stem)  # buang suffix _2, _3, dst -> jadi nama file dasar
+        return stem
+
+    # 1) cocok persis nama file dasar (tanpa suffix urutan)
+    exact = [f for f in files if base_key(f) == target]
+    if exact:
+        chosen = sorted(exact)[0]
+    else:
+        # 2) cocok sebagian (jaga-jaga beda kecil penamaan)
+        partial = [f for f in files if target in base_key(f) or base_key(f) in target]
+        if not partial:
+            return None, None
+        chosen = sorted(partial)[0]
+
+    fpath = os.path.join(photo_dir, chosen)
+    try:
+        with open(fpath, 'rb') as f:
+            data = f.read()
+        ext = os.path.splitext(fpath)[1].lower().lstrip('.')
+        mime = 'jpeg' if ext in ('jpg', 'jpeg') else ext
+        return base64.b64encode(data).decode('utf-8'), mime
+    except Exception:
+        return None, None
+
 def get_plant_detail(plant_name, row=None):
     plant_name_clean = plant_name.upper().strip()
 
@@ -524,6 +585,19 @@ def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=
         </div>
         
         <div style="padding: 12px 16px;">
+    """
+
+    photo_b64, photo_mime = get_plant_photo_base64(plant_name)
+    if photo_b64:
+        html += f"""
+            <div style="margin: -12px -16px 12px -16px;">
+                <img src="data:image/{photo_mime};base64,{photo_b64}"
+                     style="width: 100%; max-height: 220px; object-fit: cover; display: block;"
+                     alt="Foto {plant_name}"/>
+            </div>
+        """
+
+    html += f"""
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;">
                 <tr style="border-bottom: 1px solid #E0E0E0;">
                     <td style="padding: 4px 0; font-weight: bold; color: #555; width: 35%;">No. Urut:</td>
@@ -590,14 +664,6 @@ def create_plant_popup_html(plant_name, lat, lon, no, is_highlighted=False, row=
                         <div style="margin-bottom: 4px;">
                             <span style="font-weight: bold;">📍 Potensi Sebaran:</span><br>
                             <span style="color: #444; font-size: 11px;">{detail['potensi_sebaran']}</span>
-                        </div>
-            """
-        
-        if detail.get('foto'):
-            html += f"""
-                        <div style="margin-top: 6px;">
-                            <span style="font-weight: bold;">📷 Foto:</span><br>
-                            <span style="color: #888; font-size: 11px;">{detail['foto']}</span>
                         </div>
             """
         
@@ -1818,12 +1884,13 @@ elif selected == "Data Tanaman":
                                             """, unsafe_allow_html=True)
                                     
                                     with col_info2:
-                                        if detail.get('foto'):
+                                        _photo_b64, _photo_mime = get_plant_photo_base64(plant_name)
+                                        if _photo_b64:
                                             st.markdown(f"""
-                                            <div style="background: #ECEFF1; border-radius: 8px; padding: 10px 14px; 
-                                                        margin: 6px 0; border-left: 4px solid #455A64;">
-                                                <span style="font-weight: bold; color: #37474F; font-size: 13px;">📷 Foto:</span><br>
-                                                <span style="font-size: 12px; color: #666; word-break: break-all;">{detail['foto']}</span>
+                                            <div style="border-radius: 8px; overflow: hidden; margin: 6px 0;">
+                                                <img src="data:image/{_photo_mime};base64,{_photo_b64}"
+                                                     style="width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px;"
+                                                     alt="Foto {plant_name}"/>
                                             </div>
                                             """, unsafe_allow_html=True)
                                     
