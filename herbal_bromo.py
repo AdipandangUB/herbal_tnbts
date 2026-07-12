@@ -474,16 +474,42 @@ def _sanitize_plant_filename(name):
 
 def _find_photo_dir():
     script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
-    candidates = [
+    dir_candidates = [
         'foto_tanaman',
         os.path.join(script_dir, 'foto_tanaman'),
         os.path.join(os.getcwd(), 'foto_tanaman'),
         os.path.join(script_dir, 'data', 'foto_tanaman'),
         os.path.join(os.getcwd(), 'data', 'foto_tanaman'),
     ]
-    for p in candidates:
-        if os.path.isdir(p):
+    for p in dir_candidates:
+        if os.path.isdir(p) and any(
+            f.lower().endswith(('.jpg', '.jpeg', '.png')) for f in os.listdir(p)
+        ):
             return p
+
+    # Folder belum ada -> coba cari foto_tanaman.zip dan ekstrak otomatis sekali saja
+    # (menangani kasus zip diunggah apa adanya ke GitHub, belum di-extract manual)
+    zip_candidates = [
+        'foto_tanaman.zip',
+        os.path.join(script_dir, 'foto_tanaman.zip'),
+        os.path.join(os.getcwd(), 'foto_tanaman.zip'),
+        os.path.join(script_dir, 'data', 'foto_tanaman.zip'),
+    ]
+    for zpath in zip_candidates:
+        if os.path.isfile(zpath):
+            try:
+                import zipfile
+                extract_to = os.path.join(os.path.dirname(zpath), 'foto_tanaman')
+                with zipfile.ZipFile(zpath, 'r') as zf:
+                    zf.extractall(os.path.dirname(zpath))
+                if os.path.isdir(extract_to):
+                    return extract_to
+                # jika struktur zip tanpa folder pembungkus, cek langsung di lokasi ekstrak
+                for p in dir_candidates:
+                    if os.path.isdir(p):
+                        return p
+            except Exception:
+                continue
     return None
 
 @st.cache_data(show_spinner=False)
