@@ -472,7 +472,12 @@ def _sanitize_plant_filename(name):
     name = re.sub(r'[^A-Z0-9_\-]', '', name)
     return name
 
-def _find_photo_dir():
+def _photo_base_key(fname):
+    stem = os.path.splitext(fname)[0].upper()
+    stem = re.sub(r'(_\d+)$', '', stem)  # buang suffix _2, _3, dst -> jadi nama file dasar
+    return stem
+
+def _find_existing_photo_dir():
     script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     dir_candidates = [
         'foto_tanaman',
@@ -486,71 +491,96 @@ def _find_photo_dir():
             f.lower().endswith(('.jpg', '.jpeg', '.png')) for f in os.listdir(p)
         ):
             return p
+    return None
 
-    # Folder belum ada -> coba cari foto_tanaman.zip dan ekstrak otomatis sekali saja
-    # (menangani kasus zip diunggah apa adanya ke GitHub, belum di-extract manual)
+def _find_photo_zip():
+    script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in locals() else os.getcwd()
     zip_candidates = [
         'foto_tanaman.zip',
         os.path.join(script_dir, 'foto_tanaman.zip'),
         os.path.join(os.getcwd(), 'foto_tanaman.zip'),
         os.path.join(script_dir, 'data', 'foto_tanaman.zip'),
+        os.path.join(os.getcwd(), 'data', 'foto_tanaman.zip'),
     ]
     for zpath in zip_candidates:
         if os.path.isfile(zpath):
-            try:
-                import zipfile
-                extract_to = os.path.join(os.path.dirname(zpath), 'foto_tanaman')
-                with zipfile.ZipFile(zpath, 'r') as zf:
-                    zf.extractall(os.path.dirname(zpath))
-                if os.path.isdir(extract_to):
-                    return extract_to
-                # jika struktur zip tanpa folder pembungkus, cek langsung di lokasi ekstrak
-                for p in dir_candidates:
-                    if os.path.isdir(p):
-                        return p
-            except Exception:
-                continue
+            return zpath
     return None
 
-@st.cache_data(show_spinner=False)
+@st.cache_resource(show_spinner=False)
+def _load_photo_index():
+    """Bangun indeks SPECIES_KEY -> bytes foto, dibaca sekali lalu di-cache untuk
+    seluruh sesi. Coba folder sudah ter-extract dulu; kalau tidak ada, baca
+    langsung dari dalam foto_tanaman.zip TANPA menulis apapun ke disk
+    (aman untuk lingkungan read-only seperti Streamlit Cloud)."""
+    index = {}   # base_key -> (bytes, mime)
+    source = None
+
+    photo_dir = _find_existing_photo_dir()
+    if photo_dir:
+        source = f"folder:{photo_dir}"
+        for f in sorted(os.listdir(photo_dir)):
+            if not f.lower().endswith(('.jpg', '.jpeg', '.png')):
+                continue
+            key = _photo_base_key(f)
+            if key in index:
+                continue
+            try:
+                with open(os.path.join(photo_dir, f), 'rb') as fh:
+                    data = fh.read()
+                ext = os.path.splitext(f)[1].lower().lstrip('.')
+                mime = 'jpeg' if ext in ('jpg', 'jpeg') else ext
+                index[key] = (data, mime)
+            except Exception:
+                pass
+
+    if not index:
+        zpath = _find_photo_zip()
+        if zpath:
+            source = f"zip:{zpath}"
+            try:
+                import zipfile
+                with zipfile.ZipFile(zpath, 'r') as zf:
+                    for name in sorted(zf.namelist()):
+                        base = os.path.basename(name)
+                        if not base or not base.lower().endswith(('.jpg', '.jpeg', '.png')):
+                            continue
+                        key = _photo_base_key(base)
+                        if key in index:
+                            continue
+                        try:
+                            data = zf.read(name)
+                            ext = os.path.splitext(base)[1].lower().lstrip('.')
+                            mime = 'jpeg' if ext in ('jpg', 'jpeg') else ext
+                            index[key] = (data, mime)
+                        except Exception:
+                            pass
+            except Exception:
+                pass
+
+    return {'index': index, 'count': len(index), 'source': source}
+
 def get_plant_photo_base64(plant_name):
     """Ambil 1 foto representatif tiap jenis tanaman (mis. ADAS.jpg mewakili
     ADAS, ADAS_2, ADAS_3, dst). Mengembalikan (base64_str, mime) atau (None, None)."""
-    photo_dir = _find_photo_dir()
-    if not photo_dir:
+    idx_info = _load_photo_index()
+    index = idx_info['index']
+    if not index:
         return None, None
     target = _sanitize_plant_filename(plant_name)
-    try:
-        files = [f for f in os.listdir(photo_dir)
-                 if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
-    except Exception:
-        return None, None
 
-    def base_key(fname):
-        stem = os.path.splitext(fname)[0].upper()
-        stem = re.sub(r'(_\d+)$', '', stem)  # buang suffix _2, _3, dst -> jadi nama file dasar
-        return stem
-
-    # 1) cocok persis nama file dasar (tanpa suffix urutan)
-    exact = [f for f in files if base_key(f) == target]
-    if exact:
-        chosen = sorted(exact)[0]
+    if target in index:
+        data, mime = index[target]
     else:
-        # 2) cocok sebagian (jaga-jaga beda kecil penamaan)
-        partial = [f for f in files if target in base_key(f) or base_key(f) in target]
-        if not partial:
+        # cocok sebagian, jaga-jaga beda kecil penamaan
+        match_key = next(
+            (k for k in index if target in k or k in target), None
+        )
+        if not match_key:
             return None, None
-        chosen = sorted(partial)[0]
+        data, mime = index[match_key]
 
-    fpath = os.path.join(photo_dir, chosen)
-    try:
-        with open(fpath, 'rb') as f:
-            data = f.read()
-        ext = os.path.splitext(fpath)[1].lower().lstrip('.')
-        mime = 'jpeg' if ext in ('jpg', 'jpeg') else ext
-        return base64.b64encode(data).decode('utf-8'), mime
-    except Exception:
-        return None, None
+    return base64.b64encode(data).decode('utf-8'), mime
 
 def get_plant_detail(plant_name, row=None):
     plant_name_clean = plant_name.upper().strip()
@@ -957,6 +987,12 @@ gdf_desa = load_desa_geojson()
 gdf_kabupaten = load_kabupaten_geojson()
 gdf_batas = load_batas_geojson()
 df_herbal = load_herbal_data()
+
+_photo_idx_info = _load_photo_index()
+if _photo_idx_info['count'] > 0:
+    st.sidebar.success(f"🖼️ {_photo_idx_info['count']} foto tanaman siap ({_photo_idx_info['source']})")
+else:
+    st.sidebar.warning("🖼️ Foto tanaman tidak ditemukan (cek folder/zip `foto_tanaman` di repo)")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SIDEBAR
