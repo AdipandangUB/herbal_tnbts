@@ -2265,14 +2265,22 @@ else:
                             </div>
                             """, unsafe_allow_html=True)
                             
-                            if st.button(
-                                f"📍 Lihat di Peta", 
-                                key=f"view_inf_{plant['name']}_{idx}_{category_name[:5]}"
-                            ):
-                                st.session_state.menu_selected = "Peta Sebaran"
-                                st.session_state.highlighted_plants = [plant['name']]
-                                st.session_state.show_highlighted = True
-                                st.rerun()
+                            _cat_photo_b64, _cat_photo_mime = get_plant_photo_base64(plant['name'])
+                            if _cat_photo_b64:
+                                st.markdown(f"""
+                                <div style="border-radius: 8px; overflow: hidden; margin-top: -4px; margin-bottom: 8px;">
+                                    <img src="data:image/{_cat_photo_mime};base64,{_cat_photo_b64}"
+                                         style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; display: block;"
+                                         alt="Foto {plant['name']}"/>
+                                </div>
+                                """, unsafe_allow_html=True)
+                            else:
+                                st.markdown("""
+                                <div style="background: #EEEEEE; border-radius: 8px; padding: 10px;
+                                            text-align: center; color: #999; font-size: 11px; margin-bottom: 8px;">
+                                    🖼️ Foto tidak tersedia
+                                </div>
+                                """, unsafe_allow_html=True)
 
     st.markdown('<div class="custom-divider"></div>', unsafe_allow_html=True)
 
